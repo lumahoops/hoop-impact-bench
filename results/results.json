@@ -19,8 +19,8 @@
   "confidence": 0.9,
   "resamples": 2000,
   "seed": 7,
-  "harness": "7d08d63dde18098286a89154d1d85aa6160f4da151e125185c7ff687690ef6c3",
-  "git_commit": "678cad1ec75a22f0bf308ef1328ca307cf0909d8",
+  "harness": "3f06e501c939fd4a07d07dc54038bc37f4307e96dde3e037d02f8d19f6ef82ef",
+  "git_commit": "6c0e82f97a40a9f44af2a440bd9092569b174b76",
   "environment": {
    "python": "3.12.10",
    "numpy": "2.4.6",

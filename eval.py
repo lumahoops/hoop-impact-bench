@@ -49,7 +49,7 @@ STANDARD = {"min_minutes": 250, "replacement": -2.0}
 SEED = 7
 TESTS = [("margin_r2", "game margin R2", True), ("winpct_r", "team win % r", True), ("net_rmse", "team net RMSE", False)]
 BASELINES = {
-    "baseline_zero": "every player 0, so only the -2.0 rule separates teams",
+    "baseline_zero": "every player 0 (under the default rule, only the -2.0 for low-minute players separates teams)",
     "baseline_last_team": "each player = his main team's opponent-adjusted margin last season / 5",
     "ceiling_rapm_same_season": "RAPM fit on the season being scored: it has seen those games",
 }
