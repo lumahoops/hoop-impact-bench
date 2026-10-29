@@ -164,7 +164,7 @@ minutes they actually played. Every metric gets the same minutes, so playing tim
 | Test | Question | Score | Credit |
 |---|---|---|---|
 | Game margins | How much of each game's final margin do the ratings explain? | R² | |
-| Team win % | Do better-rated teams win more often? | r | Krishna Narsu (2024) |
+| Team win % | Do better-rated teams win more often? | r | [Krishna Narsu (2024)](https://x.com/knarsu3/status/1763321501766627328) |
 | Team net rating | How far is each team's rating, taken at face value, from its opponent-adjusted margin? | RMSE in points | [Taylor Snarr (2020)](https://dunksandthrees.com/blog/metric-comparison) |
 | Rebuilt rosters | The same three tests on the third of games and teams that kept the least of last season's minutes | | Snarr (2020) |
 
@@ -268,7 +268,7 @@ Each table becomes the ratings for the season after it.
 ## Credit, citation and license
 
 The rules and the team net rating test come from [Taylor Snarr's 2020 study](https://dunksandthrees.com/blog/metric-comparison).
-The team win % test is Krishna Narsu's (2024), and the 250-minute cutoff is
+The team win % test is [Krishna Narsu's (2024)](https://x.com/knarsu3/status/1763321501766627328), and the 250-minute cutoff is
 [Neil Paine's](https://www.apbr.org/metrics/viewtopic.php?f=2&t=8196&start=15#p15334). Game and minutes data are from
 NBA.com.
 
