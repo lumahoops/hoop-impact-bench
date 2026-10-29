@@ -81,6 +81,7 @@ Each file holds, for every season, a value known before that season started.
 | `ratings/loki.csv` | LOKI preseason ratings from LUMA's current model |
 | `ratings/loki_bpm.csv` | LOKI with a BPM prior in place of its counted box-score prior (research variant) |
 | `ratings/arc_1yr.csv`, `arc_2yr.csv`, `arc_3yr.csv` | ARC, LUMA's published boards: 1, 2 or 3 seasons ending the season before |
+| `ratings/openrapm.csv` | OpenRAPM by Nathan Walker (github.com/bbstats/openrapm, MIT license in `ratings/OPENRAPM_LICENSE.txt`): its published ratings, snapshot built 2026-10-29, each player's previous-season value. Its box-score prior is trained on RAPM from every other season, later ones included, so these are not the values known before each season |
 | `ratings/rapm_1yr.csv`, `rapm_3yr.csv` | Plain RAPM (ridge, alpha 3000, no prior) on the previous season, or the previous three weighted 1 / 0.7 / 0.49. Rebuild with `python build/rapm.py` |
 | `reference/rapm_same_season.csv` | RAPM on the season itself, for `--baselines` |
 
