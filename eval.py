@@ -212,7 +212,9 @@ def player_values(rows, ratings, min_minutes, replacement):
 def correlations(A, b):
     """Correlation of every row of A with b."""
     Ac, bc = A - A.mean(axis=1, keepdims=True), b - b.mean()
-    return (Ac @ bc) / np.sqrt((Ac * Ac).sum(axis=1) * (bc @ bc))
+    with np.errstate(invalid="ignore", divide="ignore"):
+        r = (Ac @ bc) / np.sqrt((Ac * Ac).sum(axis=1) * (bc @ bc))
+    return np.nan_to_num(r)                       # a constant rating (every team equal) explains nothing: 0
 
 
 def evaluate(systems, seasons, G, M, S, T, min_minutes, replacement, confidence, resamples):
