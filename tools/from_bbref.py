@@ -13,6 +13,7 @@ Players are matched to NBA.com ids by name within the season (data/players.csv);
 """
 import argparse
 import re
+import sys
 import unicodedata
 from pathlib import Path
 
@@ -23,12 +24,24 @@ MULTI_TEAM = {"TOT", "2TM", "3TM", "4TM", "5TM"}
 ALIASES = {  # Basketball-Reference spelling -> NBA.com spelling, after normalising
     "nicolasclaxton": "nicclaxton", "cameronthomas": "camthomas", "herbertjones": "herbjones",
     "moritzwagner": "moewagner", "nahshonhyland": "boneshyland", "kenyonmartin": "kjmartin",
+    "cameronreynolds": "camreynolds", "trescott": "trevonscott", "rjnembhard": "rubennembhard",
+    "matthewhurt": "matthurt", "cuiyongxi": "cuicui", "ronholland": "ronaldholland",
 }
+
+
+def repair(name):
+    """Undo UTF-8 text that was saved as Latin-1 / cp1252 ('JokiÄ\x87' -> 'Jokić')."""
+    for enc in ("latin-1", "cp1252"):
+        try:
+            return name.encode(enc).decode("utf-8")
+        except UnicodeError:
+            continue
+    return name
 
 
 def key(name):
     """lower-case letters only, accents and Jr./Sr./II-IV dropped"""
-    s = "".join(c for c in unicodedata.normalize("NFKD", str(name)) if not unicodedata.combining(c)).lower()
+    s = "".join(c for c in unicodedata.normalize("NFKD", repair(str(name))) if not unicodedata.combining(c)).lower()
     s = re.sub(r"[^a-z]", "", s.replace("*", ""))
     s = re.sub(r"(jr|sr|ii|iii|iv)$", "", s)
     return ALIASES.get(s, s)
@@ -54,6 +67,7 @@ def read_table(path, column):
 
 
 def main():
+    sys.stdout.reconfigure(errors="replace")
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("tables", nargs="+", help="SEASON=FILE, the season the table is from, e.g. 2024-25=bbref.csv")
     ap.add_argument("--column", default="BPM")
@@ -74,7 +88,7 @@ def main():
             if len(match) == 1:
                 rows.append((season_after(season), int(match[0]), float(value)))
             else:
-                missed.append(f"{season} {name}")
+                missed.append(f"{season} {repair(str(name))}")
         print(f"{season}: {len(t)} players in the table")
     out = pd.DataFrame(rows, columns=["season", "nba_id", "rating"]).drop_duplicates(["season", "nba_id"])
     out.to_csv(a.out, index=False)
