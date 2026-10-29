@@ -7,6 +7,7 @@ license:
   - MIT
   - CC-BY-4.0
 url: "https://lumahoops.org"
+repository-code: "https://github.com/lumahoops/hoop-impact-bench"
 abstract: >
   Hoop Impact Bench scores NBA player impact metrics on one question: do the values known before a season predict
   that season? Every metric is scored on the same regular-season games (2020-21 to 2025-26) under the same rules
