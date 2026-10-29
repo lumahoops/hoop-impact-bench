@@ -1,5 +1,5 @@
 <!-- Assistant draft (2026-10-29), for Aayo to edit before publishing. -->
-# Hoop Impact Bench
+# Hoop Impact Bench (HIB)
 
 **Do last season's impact-metric values predict this season?** If you build an NBA impact metric (a rating of a
 player's effect on his team's point margin), run it here. Every metric is scored on the same games with the same
@@ -12,7 +12,11 @@ python eval.py --ratings my_metric.csv  # add yours
 python check.py                         # confirm this copy reproduces the published results
 ```
 
-A run takes a few seconds, prints a report, and saves `runs/<date_time>/results.json`.
+A run takes a few seconds, prints a report, and saves a folder `runs/<date_time>/` with:
+
+- `results.json`: every score, its interval and rank range, and a sha256 fingerprint of each input file;
+- `games.csv`: every game's actual margin and each metric's predicted margin;
+- `teams.csv`: every team-season's win %, opponent-adjusted margin and each metric's team rating.
 
 ## Your file
 
@@ -51,7 +55,7 @@ Regular seasons 2020-21 to 2025-26: 7,230 games, 180 team-seasons.
 | Rebuilt rosters | The same tests on the third of games and teams that kept the least of last season's minutes | | Snarr (2020), roster continuity |
 
 Every score has a bootstrap interval: team-seasons are resampled, and every metric is scored on the same resamples.
-The ranked tests also show a rank range from those resamples. Nothing is combined into one overall score.
+Rank ranges come from the same resamples. Nothing is combined into one overall score.
 
 ## Options
 
@@ -59,28 +63,40 @@ The ranked tests also show a rank range from those resamples. Nothing is combine
 |---|---|
 | `--ratings PATH ...` | Add metrics: CSV files or folders of CSVs |
 | `--no-bundled` | Leave out the metrics in `ratings/` |
+| `--baselines` | Add three reference rows, not ranked: every player 0 (only the -2.0 rule separates teams), each player = his main team's opponent-adjusted margin last season / 5, and RAPM fit on the season being scored (it has seen those games, so it shows a ceiling) |
 | `--by-season` | Also print every score season by season |
 | `--confidence 0.95` | Interval level (default 0.90) |
 | `--min-minutes 0` | Score every file as-is: only players missing from a file get the replacement value. Default 250 |
 | `--replacement -1.0` | The value those players get. Default -2.0 |
-| `--out FOLDER` | Where to save `results.json` (default `runs/<date_time>`) |
+| `--out FOLDER` | Where to save the run (default `runs/<date_time>`) |
 
 Runs with `--min-minutes` or `--replacement` changed are marked **custom rules** in the report and in `results.json`.
 
-## What is here
+## Bundled metrics
+
+Each file holds, for every season, a value known before that season started.
+
+| File | What it is |
+|---|---|
+| `ratings/loki.csv` | LOKI preseason ratings from LUMA's current model |
+| `ratings/loki_bpm.csv` | LOKI with a BPM prior in place of its counted box-score prior (research variant) |
+| `ratings/arc_1yr.csv`, `arc_2yr.csv`, `arc_3yr.csv` | ARC, LUMA's published boards: 1, 2 or 3 seasons ending the season before |
+| `ratings/bpm_rebuild.csv` | LUMA's rebuild of the BPM 2.0 formula (Myers, Basketball-Reference) from play-by-play counts, previous season. It tracks Basketball-Reference's BPM at r ≈ .95 but is not their numbers; for those, download their table and bring it as your own file |
+| `ratings/rapm_1yr.csv`, `rapm_3yr.csv` | Plain RAPM (ridge, alpha 3000, no prior) on the previous season, or the previous three weighted 1 / 0.7 / 0.49. Rebuild with `python build/rapm.py` |
+| `reference/rapm_same_season.csv` | RAPM on the season itself, for `--baselines` |
+
+Other people's ratings (EPM, DARKO, LEBRON, Basketball-Reference's BPM, ...) belong to their authors and are not in
+this repository. Bring your own copy. The sha256 fingerprints in `results.json` let two people confirm they scored the
+same file.
+
+## Data
 
 | Path | Contents |
 |---|---|
-| `ratings/` | Metrics we can publish (LUMA's own outputs) |
-| `data/games.csv` | Regular-season scores, 2019-20 to 2025-26 (`neutral` = 1 for neutral-site games) |
+| `data/games.csv` | Regular-season scores, 2019-20 to 2025-26 (`neutral` = 1 for neutral-site games, including the 2020 Orlando restart) |
 | `data/minutes.csv` | Minutes per player per game, same seasons (2019-20 only supplies last-season minutes) |
-| `eval.py` | The harness |
-| `results/results.json` | The published run of the bundled metrics |
-| `check.py` | Reruns it and compares with `results/results.json` |
-
-Other people's ratings (EPM, DARKO, LEBRON, ...) belong to their authors and are not in this repository. Bring your
-own copy. `results.json` lists a sha256 fingerprint for every input file, so two people can confirm they scored
-the same file.
+| `data/stints.csv.gz` | Lineup stints from play-by-play, 2017-18 to 2025-26 (the RAPM build input) |
+| `results/` | The published run of the bundled metrics; `check.py` compares against it |
 
 ## Credit and license
 

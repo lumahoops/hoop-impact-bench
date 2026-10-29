@@ -1,5 +1,5 @@
 """
-Hoop Impact Bench v1: do last season's impact-metric values predict this season?
+Hoop Impact Bench (HIB) v1: do last season's impact-metric values predict this season?
 
 Bring one CSV per metric with columns season,nba_id,rating. `rating` is the value that was known before that
 season's opening night (last season's value, or a preseason projection), in points per 100 possessions; nba_id is the
@@ -17,16 +17,20 @@ Tests
                    opponents and home court (Snarr's 2020 test)
   rebuilt rosters  the same scores on the third of games / teams that kept the least of last season's minutes
 Every score gets a bootstrap interval and a rank range (team-seasons resampled, the same resamples for every metric).
-Each run is saved to runs/<date_time>/results.json.
 
 Usage
   python eval.py                         the bundled metrics (ratings/)
   python eval.py --ratings mine.csv      add yours: CSV files or folders of CSVs
+  python eval.py --baselines             add reference rows: every player 0, last season's team, same-season RAPM
   python eval.py --by-season             also print every score season by season
   python eval.py --confidence 0.95       interval level (default 0.90)
   python eval.py --min-minutes 0         score every file as-is: only players missing from a file get --replacement
   python eval.py --replacement -1.0      the value those players get (default -2.0)
-  python eval.py --out my_run            save the results somewhere else
+  python eval.py --out my_run            save the run somewhere else (default runs/<date_time>)
+
+Each run folder holds results.json (every score, interval and rank range, plus a sha256 fingerprint of each input
+file), games.csv (every game's actual margin and each metric's predicted margin) and teams.csv (every team-season's
+results and each metric's team rating).
 """
 import argparse
 import datetime
@@ -41,12 +45,22 @@ HERE = Path(__file__).parent
 VERSION = "1.0.0-dev"
 STANDARD = {"min_minutes": 250, "replacement": -2.0}
 SEED = 7
+TESTS = [("margin_r2", "game margin R2", True), ("winpct_r", "team win % r", True), ("net_rmse", "team net RMSE", False)]
+BASELINES = {
+    "baseline_zero": "every player 0, so only the -2.0 rule separates teams",
+    "baseline_last_team": "each player = his main team's opponent-adjusted margin last season / 5",
+    "ceiling_rapm_same_season": "RAPM fit on the season being scored: it has seen those games",
+}
+
+
+def season_after(season, k=1):
+    """'2024-25' -> '2025-26' (k=1); k=-1 goes back a season"""
+    y = int(season[:4]) + k
+    return f"{y}-{str(y + 1)[2:]}"
 
 
 def prev(season):
-    """'2024-25' -> '2023-24'"""
-    y = int(season[:4]) - 1
-    return f"{y}-{str(y + 1)[2:]}"
+    return season_after(season, -1)
 
 
 def sha256(path):
@@ -87,13 +101,13 @@ def csv_files(paths):
         else:
             raise SystemExit(f"{p}: not a CSV file or a folder")
     names = [f.stem for f in files]
-    clash = sorted({n for n in names if names.count(n) > 1})
+    clash = sorted({n for n in names if names.count(n) > 1} | (set(names) & set(BASELINES)))
     if clash:
-        raise SystemExit(f"two files share the name {clash}; every metric needs its own file name")
+        raise SystemExit(f"these names are taken twice: {clash}; every metric needs its own file name")
     return files
 
 
-# ---------------------------------------------------------------- the season data
+# ---------------------------------------------------------------- season data
 
 def opponent_adjusted(G):
     """Each team-season's average margin adjusted for opponents and home court (least squares, as in SRS)."""
@@ -109,6 +123,18 @@ def opponent_adjusted(G):
         team = np.linalg.lstsq(X, g.margin.values, rcond=None)[0][:-1]
         out.update({(s, t): team[ix[t]] - team.mean() for t in teams})
     return pd.Series(out)
+
+
+def baselines(games, minutes):
+    """Reference rows built from the game data (plus the same-season RAPM file in reference/)."""
+    adj = opponent_adjusted(games)
+    season_min = minutes.groupby(["season", "team", "nba_id"], as_index=False)["min"].sum()
+    main_team = season_min.sort_values("min").drop_duplicates(["season", "nba_id"], keep="last")
+    last = pd.DataFrame({"season": main_team.season.map(season_after), "nba_id": main_team.nba_id,
+                         "rating": [adj[(s, t)] / 5 for s, t in zip(main_team.season, main_team.team)]})
+    zero = season_min[["season", "nba_id"]].drop_duplicates().assign(rating=0.0)
+    return {"baseline_zero": zero, "baseline_last_team": last,
+            "ceiling_rapm_same_season": read_ratings(HERE / "reference" / "rapm_same_season.csv")}
 
 
 def prepare(systems, games, minutes):
@@ -136,7 +162,6 @@ def prepare(systems, games, minutes):
             continuity[(s, t)] = d["min"][[(t, p) in kept for p in d.nba_id]].sum() / d["min"].sum()
 
     G = games[games.season.isin(seasons)].sort_values(["date", "game_id"]).reset_index(drop=True)
-    G["margin"] = (G.home_pts - G.away_pts).astype(float)
     cont = np.minimum([continuity[(s, t)] for s, t in zip(G.season, G.home)],
                       [continuity[(s, t)] for s, t in zip(G.season, G.away)])
     G["low"] = cont <= np.quantile(cont, 1 / 3)
@@ -152,7 +177,9 @@ def prepare(systems, games, minutes):
     side = lambda team, margin: pd.DataFrame({"season": G.season, "team": team, "margin": margin})
     by_team = pd.concat([side(G.home, G.margin), side(G.away, -G.margin)]).groupby(["season", "team"]).margin
     T = pd.DataFrame({"winpct": by_team.apply(lambda m: (m > 0).mean()), "net": opponent_adjusted(G)})
-    T["low"] = [continuity[i] <= np.quantile(list(continuity.values()), 1 / 3) for i in T.index]
+    T.index.names = ["season", "team"]
+    T["continuity"] = [continuity[i] for i in T.index]
+    T["low"] = T.continuity <= np.quantile(T.continuity, 1 / 3)
 
     S = season_min[season_min.season.isin(seasons)].reset_index(drop=True)  # one row per player per team-season
     S["last_min"] = minutes_last_season(S)
@@ -171,73 +198,84 @@ def player_values(rows, ratings, min_minutes, replacement):
     return np.where(eligible & rated, r, replacement), eligible, rated
 
 
-def game_scores(x, y):
-    """R2 of a straight-line fit = squared correlation."""
-    return {"margin_r2": float(np.corrcoef(x, y)[0, 1] ** 2)}
-
-
-def team_scores(rating, winpct, net):
-    return {"winpct_r": float(np.corrcoef(rating, winpct)[0, 1]), "net_rmse": float(np.sqrt(((rating - net) ** 2).mean()))}
-
-
-TESTS = [  # key, label, higher is better
-    ("margin_r2", "game margin R2", True), ("winpct_r", "team win % r", True),
-    ("net_rmse", "team net RMSE", False)]
+def correlations(A, b):
+    """Correlation of every row of A with b."""
+    Ac, bc = A - A.mean(axis=1, keepdims=True), b - b.mean()
+    return (Ac @ bc) / np.sqrt((Ac * Ac).sum(axis=1) * (bc @ bc))
 
 
 def evaluate(systems, seasons, G, M, S, T, min_minutes, replacement, confidence, resamples):
-    y, winpct, net = G.margin.values, T.winpct.values, T.net.values
-    low_g, low_t = G.low.values, T.low.values
-    X, R, coverage = {}, {}, {}
-    for k, d in systems.items():
-        d = d[d.season.isin(seasons)]
+    names = list(systems)
+    X = np.zeros((len(names), len(G)))                                      # home minus away team rating per game
+    R = np.zeros((len(names), len(T)))                                      # team-season rating
+    coverage = {}
+    team_minutes = np.bincount(S.team_row, weights=S["min"], minlength=len(T))
+    for i, k in enumerate(names):
+        d = systems[k][systems[k].season.isin(seasons)]
         v, eligible, rated = player_values(M, d, min_minutes, replacement)
-        X[k] = np.bincount(M.game, weights=M.weight * v, minlength=len(G))      # home minus away rating per game
+        X[i] = np.bincount(M.game, weights=M.weight * v, minlength=len(G))
         coverage[k] = float(M["min"][eligible & rated].sum() / M["min"][eligible].sum())
         v, _, _ = player_values(S, d, min_minutes, replacement)
-        R[k] = 5 * np.bincount(S.team_row, weights=v * S["min"], minlength=len(T)) / np.bincount(
-            S.team_row, weights=S["min"], minlength=len(T))                     # team-season rating
+        R[i] = 5 * np.bincount(S.team_row, weights=v * S["min"], minlength=len(T)) / team_minutes
+    y, winpct, net = G.margin.values, T.winpct.values, T.net.values
 
-    def scores(k, gi, ti):
-        return {**game_scores(X[k][gi], y[gi]), **team_scores(R[k][ti], winpct[ti], net[ti])}
+    def scores(gi, ti):
+        """tests x metrics, on game rows gi and team rows ti"""
+        return np.vstack([correlations(X[:, gi], y[gi]) ** 2, correlations(R[:, ti], winpct[ti]),
+                          np.sqrt(((R[:, ti] - net[ti]) ** 2).mean(axis=1))])
 
     every_g, every_t = np.arange(len(G)), np.arange(len(T))
-    point = {k: {"all": scores(k, every_g, every_t), "rebuilt": scores(k, every_g[low_g], every_t[low_t])} for k in systems}
-    by_season = {k: {s: scores(k, np.flatnonzero(G.season == s), np.flatnonzero(T.index.get_level_values(0) == s))
-                     for s in seasons} for k in systems}
+    parts = {"all": (every_g, every_t), "rebuilt": (every_g[G.low.values], every_t[T.low.values])}
+    point = {p: scores(*rows) for p, rows in parts.items()}
+    season_of = T.index.get_level_values(0)
+    by_season = {s: scores(np.flatnonzero(G.season == s), np.flatnonzero(season_of == s)) for s in seasons}
 
     # bootstrap: resample team-seasons; a game goes with its home team-season; every metric sees the same resamples
-    clusters = list(T.index)
-    games_of = {c: [] for c in clusters}
+    games_of = {c: [] for c in T.index}
     for i, c in enumerate(G.cluster):
         games_of[c].append(i)
-    games_of = [np.array(games_of[c], dtype=int) for c in clusters]
+    games_of = [np.array(games_of[c], dtype=int) for c in T.index]
+    low_g, low_t = G.low.values, T.low.values
     rng = np.random.default_rng(SEED)
-    boot = {k: {part: {t: [] for t, _, _ in TESTS} for part in ("all", "rebuilt")} for k in systems}
-    for _ in range(resamples):
-        pick = rng.integers(0, len(clusters), len(clusters))
+    boot = {p: np.zeros((resamples, len(TESTS), len(names))) for p in parts}
+    for b in range(resamples):
+        pick = rng.integers(0, len(T), len(T))
         gi = np.concatenate([games_of[c] for c in pick])
-        for k in systems:
-            for part, g_, t_ in (("all", gi, pick), ("rebuilt", gi[low_g[gi]], pick[low_t[pick]])):
-                for t, v in scores(k, g_, t_).items():
-                    boot[k][part][t].append(v)
+        boot["all"][b] = scores(gi, pick)
+        boot["rebuilt"][b] = scores(gi[low_g[gi]], pick[low_t[pick]])
 
-    lo_q, hi_q = (1 - confidence) / 2, (1 + confidence) / 2
-    out = {}
-    for k in systems:
-        out[k] = {"coverage": coverage[k], "by_season": by_season[k]}
-        for part in ("all", "rebuilt"):
-            out[k][part] = {t: {"value": float(point[k][part][t]),
-                                "interval": [float(q) for q in np.quantile(boot[k][part][t], [lo_q, hi_q])]}
-                            for t, _, _ in TESTS}
-    for part in ("all", "rebuilt"):                                          # rank ranges from the same resamples
-        for t, _, higher in TESTS:
-            draws = np.array([boot[k][part][t] for k in systems])            # metrics x resamples
-            ranks = (-draws if higher else draws).argsort(axis=0).argsort(axis=0) + 1
-            for i, k in enumerate(systems):
-                out[k][part][t]["rank"] = [int(np.quantile(ranks[i], lo_q, method="lower")),
-                                           int(np.quantile(ranks[i], hi_q, method="higher"))]
-    return out
+    q = [(1 - confidence) / 2, (1 + confidence) / 2]
+    ranked = [i for i, k in enumerate(names) if k not in BASELINES]          # reference rows get no rank
+    out = {k: {"baseline": k in BASELINES, "coverage": coverage[k],
+               "by_season": {s: {t: float(by_season[s][j, i]) for j, (t, _, _) in enumerate(TESTS)} for s in seasons}}
+           for i, k in enumerate(names)}
+    for p in parts:
+        for j, (t, _, higher) in enumerate(TESTS):
+            draws = boot[p][:, j, ranked]
+            ranks = (-draws if higher else draws).argsort(axis=1).argsort(axis=1) + 1
+            for i, k in enumerate(names):
+                s = {"value": float(point[p][j, i]), "interval": [float(v) for v in np.quantile(boot[p][:, j, i], q)]}
+                if i in ranked:
+                    r = ranks[:, ranked.index(i)]
+                    s["rank"] = [int(np.quantile(r, q[0], method="lower")), int(np.quantile(r, q[1], method="higher"))]
+                out[k].setdefault(p, {})[t] = s
+    return out, X, R
+
+
+def write_logs(out, G, T, X, R, names):
+    """games.csv and teams.csv: the per-game and per-team-season numbers behind every score."""
+    g = G[["season", "game_id", "date", "home", "away", "home_pts", "away_pts", "margin"]].copy()
+    g["rebuilt"] = G.low.astype(int)
+    for i, k in enumerate(names):                                           # predicted margin from the run's line
+        slope, edge = np.polyfit(X[i], G.margin.values, 1)
+        g[k] = (edge + slope * X[i]).round(2)
+    g.to_csv(out / "games.csv", index=False)
+    t = T.reset_index().rename(columns={"winpct": "win_pct", "net": "adjusted_margin", "low": "rebuilt"})
+    t["rebuilt"] = t.rebuilt.astype(int)
+    t["win_pct"], t["adjusted_margin"], t["continuity"] = t.win_pct.round(3), t.adjusted_margin.round(2), t.continuity.round(3)
+    for i, k in enumerate(names):
+        t[k] = R[i].round(3)
+    t.to_csv(out / "teams.csv", index=False)
 
 
 # ---------------------------------------------------------------- report
@@ -261,22 +299,25 @@ def report(meta, res, by_season, saved):
     else:
         rule = f"every file as-is; not in a file = {rules['replacement']:.1f}"
     rule += "   [v1 standard]" if rules == STANDARD else "   [custom rules]"
-    L = [f"Hoop Impact Bench v{meta['version']}",
+    L = [f"Hoop Impact Bench (HIB) v{meta['version']}",
          "Do last season's impact-metric values predict this season?", "",
          f"  seasons    {meta['seasons'][0]} to {meta['seasons'][-1]}: {meta['games']:,} games, "
          f"{meta['team_seasons']} team-seasons",
          f"  rules      {rule}",
-         f"  intervals  {c}%, {meta['resamples']:,} resamples of team-seasons, the same for every metric", ""]
+         f"  intervals  {c}%, {meta['resamples']:,} resamples of team-seasons, the same for every metric"]
+    refs = [k for k in res if res[k]["baseline"]]
+    if refs:
+        L += ["  baselines  not ranked:"] + [f"             {k}: {BASELINES[k]}" for k in refs]
+    L += [""]
     w = max(len(k) for k in res) + 2
 
     def ranked(part, t, title, note, higher):
-        rows = sorted(res, key=lambda k: res[k][part][t]["value"], reverse=higher)
         out = [title, f"  {note}", f"  {'rank':<7}{'metric':<{w}}{'score':>7}   {c}% interval"]
-        for k in rows:
+        for k in sorted(res, key=lambda k: res[k][part][t]["value"], reverse=higher):
             s = res[k][part][t]
-            lo, hi = s["rank"]
-            out.append(f"  {(str(lo) if lo == hi else f'{lo}-{hi}'):<7}{k:<{w}}{fmt(t, s['value']):>7}   "
-                       f"{fmt(t, s['interval'][0])} to {fmt(t, s['interval'][1])}")
+            lo, hi = s.get("rank", (None, None))
+            rank = "-" if lo is None else str(lo) if lo == hi else f"{lo}-{hi}"
+            out.append(f"  {rank:<7}{k:<{w}}{fmt(t, s['value']):>7}   {fmt(t, s['interval'][0])} to {fmt(t, s['interval'][1])}")
         return out + [""]
 
     L += ranked("all", "margin_r2", "GAME MARGINS", "share of each game's final margin the ratings explain, R2 "
@@ -285,24 +326,24 @@ def report(meta, res, by_season, saved):
     L += ranked("all", "net_rmse", "TEAM NET RATING", "ratings at face value vs opponent-adjusted margin, error in "
                 "points (lower is better; Snarr 2020)", False)
 
-    order = sorted(res, key=lambda k: res[k]["all"]["margin_r2"]["value"], reverse=True)
-    L += ["REBUILT ROSTERS",
-          "  the same tests on the third of games and teams that kept the least of last season's minutes",
+    L += ["REBUILT ROSTERS", "  the same tests on the third of games and teams that kept the least of last season's minutes",
           f"  {'':<7}{'metric':<{w}}{'game R2':<20}{'win % r':<20}{'net RMSE':<20}"]
     cell = lambda t, s: f"{fmt(t, s['value'])} ({fmt(t, s['interval'][0])}-{fmt(t, s['interval'][1])})"
     for k in sorted(res, key=lambda k: res[k]["rebuilt"]["margin_r2"]["value"], reverse=True):
-        s = res[k]["rebuilt"]
-        L.append(f"  {'':<7}{k:<{w}}" + "".join(f"{cell(t, s[t]):<20}" for t in ("margin_r2", "winpct_r", "net_rmse")))
-    L += ["", "COVERAGE",
-          "  share of the minutes left to each file (players over the minutes cutoff) that the file rates",
-          "  " + "   ".join(f"{k} {res[k]['coverage']:.0%}" for k in order), ""]
+        L.append(f"  {'':<7}{k:<{w}}" + "".join(f"{cell(t, res[k]['rebuilt'][t]):<20}" for t, _, _ in TESTS))
+
+    order = sorted(res, key=lambda k: res[k]["all"]["margin_r2"]["value"], reverse=True)
+    metrics = [k for k in order if not res[k]["baseline"]]
+    L += ["", "COVERAGE", "  share of the minutes left to each file (players over the minutes cutoff) that the file rates"]
+    L += ["  " + "   ".join(f"{k} {res[k]['coverage']:.0%}" for k in metrics[i:i + 5]) for i in range(0, len(metrics), 5)]
+    L += [""]
     if by_season:
         for t, label, _ in TESTS:
             L += [f"BY SEASON: {label}", f"  {'':<7}{'metric':<{w}}" + "".join(f"{s:>9}" for s in meta["seasons"])]
-            for k in order:
-                L.append(f"  {'':<7}{k:<{w}}" + "".join(f"{fmt(t, v[t]):>9}" for v in res[k]["by_season"].values()))
+            L += [f"  {'':<7}{k:<{w}}" + "".join(f"{fmt(t, v[t]):>9}" for v in res[k]["by_season"].values()) for k in order]
             L += [""]
-    L.append(f"Saved {saved} (every score, interval and rank range, plus a sha256 fingerprint of each input file)")
+    L.append(f"Saved {saved}")
+    L.append("  results.json (scores, intervals, rank ranges, input fingerprints), games.csv (per game), teams.csv (per team)")
     return "\n".join(L)
 
 
@@ -312,35 +353,40 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--ratings", nargs="+", default=[], help="CSV files or folders of CSVs (season,nba_id,rating)")
     ap.add_argument("--no-bundled", action="store_true", help="leave out the metrics in ratings/")
+    ap.add_argument("--baselines", action="store_true", help="add the reference rows (not ranked)")
     ap.add_argument("--by-season", action="store_true", help="also print every score season by season")
     ap.add_argument("--confidence", type=float, default=0.90, help="interval level, e.g. 0.90 or 0.95")
     ap.add_argument("--min-minutes", type=float, default=STANDARD["min_minutes"],
                     help="players under this many minutes last season get --replacement (0 = use every file as-is)")
     ap.add_argument("--replacement", type=float, default=STANDARD["replacement"])
     ap.add_argument("--resamples", type=int, default=2000)
-    ap.add_argument("--out", help="folder for results.json (default: runs/<date_time>)")
+    ap.add_argument("--out", help="folder for the run (default: runs/<date_time>)")
     a = ap.parse_args()
     if not 0 < a.confidence < 1:
         raise SystemExit("--confidence must be between 0 and 1, e.g. 0.90")
 
     files = csv_files(([] if a.no_bundled else [HERE / "ratings"]) + a.ratings)
-    if not files:
-        raise SystemExit("no ratings to score: add --ratings or drop --no-bundled")
-    systems = {f.stem: read_ratings(f) for f in files}
     games = pd.read_csv(HERE / "data" / "games.csv", dtype={"game_id": str})
+    games["margin"] = (games.home_pts - games.away_pts).astype(float)
     minutes = pd.read_csv(HERE / "data" / "minutes.csv", dtype={"game_id": str})
+    systems = {f.stem: read_ratings(f) for f in files}
+    if a.baselines:
+        systems.update(baselines(games, minutes))
+        files.append(HERE / "reference" / "rapm_same_season.csv")
+    if not systems:
+        raise SystemExit("nothing to score: add --ratings or --baselines, or drop --no-bundled")
     seasons, G, M, S, T = prepare(systems, games, minutes)
-    res = evaluate(systems, seasons, G, M, S, T, a.min_minutes, a.replacement, a.confidence, a.resamples)
+    res, X, R = evaluate(systems, seasons, G, M, S, T, a.min_minutes, a.replacement, a.confidence, a.resamples)
 
     out = Path(a.out) if a.out else HERE / "runs" / datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
     out.mkdir(parents=True, exist_ok=True)
-    meta = {"benchmark": "Hoop Impact Bench", "version": VERSION, "seasons": seasons, "games": len(G),
+    meta = {"benchmark": "Hoop Impact Bench (HIB)", "version": VERSION, "seasons": seasons, "games": len(G),
             "team_seasons": len(T), "rules": {"min_minutes": a.min_minutes, "replacement": a.replacement},
             "confidence": a.confidence, "resamples": a.resamples, "seed": SEED,
             "inputs": {f.name: sha256(f) for f in [HERE / "data" / "games.csv", HERE / "data" / "minutes.csv"] + files}}
-    saved = out / "results.json"
-    saved.write_text(json.dumps({"meta": meta, "metrics": res}, indent=1), encoding="utf-8")
-    print(report(meta, res, a.by_season, saved))
+    (out / "results.json").write_text(json.dumps({"meta": meta, "metrics": res}, indent=1), encoding="utf-8")
+    write_logs(out, G, T, X, R, list(systems))
+    print(report(meta, res, a.by_season, out))
 
 
 if __name__ == "__main__":
