@@ -36,6 +36,8 @@ import argparse
 import datetime
 import hashlib
 import json
+import platform
+import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -65,6 +67,15 @@ def prev(season):
 
 def sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def git_commit():
+    """The repo commit this copy was run from, if it is a git checkout."""
+    try:
+        r = subprocess.run(["git", "rev-parse", "HEAD"], cwd=HERE, capture_output=True, text=True, timeout=10)
+        return r.stdout.strip() or None
+    except (OSError, subprocess.SubprocessError):
+        return None
 
 
 # ---------------------------------------------------------------- inputs
@@ -383,7 +394,8 @@ def main():
     meta = {"benchmark": "Hoop Impact Bench (HIB)", "version": VERSION, "seasons": seasons, "games": len(G),
             "team_seasons": len(T), "rules": {"min_minutes": a.min_minutes, "replacement": a.replacement},
             "confidence": a.confidence, "resamples": a.resamples, "seed": SEED,
-            "harness": sha256(Path(__file__)),
+            "harness": sha256(Path(__file__)), "git_commit": git_commit(),
+            "environment": {"python": platform.python_version(), "numpy": np.__version__, "pandas": pd.__version__},
             "inputs": {f.name: sha256(f) for f in [HERE / "data" / "games.csv", HERE / "data" / "minutes.csv"] + files}}
     (out / "results.json").write_text(json.dumps({"meta": meta, "metrics": res}, indent=1), encoding="utf-8")
     write_logs(out, G, T, X, R, list(systems))

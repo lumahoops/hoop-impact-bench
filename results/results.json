@@ -19,7 +19,13 @@
   "confidence": 0.9,
   "resamples": 2000,
   "seed": 7,
-  "harness": "9084256baa5074cb8dfd083f3e38c621d65630d9e17fd41530bc3741bd1a37d3",
+  "harness": "d644a074dd6d4406d767229cfb99cb51c5055bede127d9aaf5f23636b43d86e5",
+  "git_commit": "e0e74c10c3a40bda04efde477560439a32acb70f",
+  "environment": {
+   "python": "3.12.10",
+   "numpy": "2.4.6",
+   "pandas": "2.3.3"
+  },
   "inputs": {
    "games.csv": "a9fa8a2d6974b9dcff7b4b0c70278b9890cd6bd429e44f0f983c6af27a1de33d",
    "minutes.csv": "071882adf99bffb53364141369b739cc582348d695f3272723df7019adf94879",

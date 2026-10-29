@@ -26,7 +26,9 @@ with tempfile.TemporaryDirectory() as tmp:
 
 if rerun["meta"]["inputs"] != published["meta"]["inputs"]:
     sys.exit("FAIL: the input files differ from the ones the published results were made from")
-if rounded(rerun) != rounded(published):
+if rerun["meta"]["harness"] != published["meta"]["harness"]:
+    sys.exit("FAIL: eval.py differs from the version that made the published results")
+if rounded(rerun["metrics"]) != rounded(published["metrics"]):
     sys.exit("FAIL: same input files, different results")
 meta = published["meta"]
 print(f"OK: {len(published['metrics'])} metrics, {meta['games']:,} games, {meta['seasons'][0]} to "
