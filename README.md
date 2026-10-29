@@ -81,7 +81,6 @@ Each file holds, for every season, a value known before that season started.
 | `ratings/loki.csv` | LOKI preseason ratings from LUMA's current model |
 | `ratings/loki_bpm.csv` | LOKI with a BPM prior in place of its counted box-score prior (research variant) |
 | `ratings/arc_1yr.csv`, `arc_2yr.csv`, `arc_3yr.csv` | ARC, LUMA's published boards: 1, 2 or 3 seasons ending the season before |
-| `ratings/bpm_rebuild.csv` | LUMA's rebuild of the BPM 2.0 formula (Myers, Basketball-Reference) from play-by-play counts, previous season. It tracks Basketball-Reference's BPM at r ≈ .95 but is not their numbers; for those, download their table and bring it as your own file |
 | `ratings/rapm_1yr.csv`, `rapm_3yr.csv` | Plain RAPM (ridge, alpha 3000, no prior) on the previous season, or the previous three weighted 1 / 0.7 / 0.49. Rebuild with `python build/rapm.py` |
 | `reference/rapm_same_season.csv` | RAPM on the season itself, for `--baselines` |
 
