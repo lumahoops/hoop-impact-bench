@@ -27,7 +27,7 @@ under [Plain English](#plain-english).
 
 ### Established players
 
-Under the v1 rule, from [Taylor Snarr's 2020 study](https://dunksandthrees.com/blog/metric-comparison), a player who
+Under the v1 rule, a player who
 played under 250 minutes the season before, rookies included, counts as -2.0 for every metric.
 
 | Rank | Metric | Game margins R² (90% interval) | Team win % r | Team net error (points) |
@@ -150,9 +150,6 @@ to be converted first: for PER, subtract 15 (the league average) and rescale.
 
 ### The rules
 
-These come from [Taylor Snarr's 2020 retrodiction study](https://dunksandthrees.com/blog/metric-comparison). The
-250-minute cutoff is [Neil Paine's](https://www.apbr.org/metrics/viewtopic.php?f=2&t=8196&start=15#p15334).
-
 - A player who played under 250 minutes the season before, rookies included, counts as -2.0 (replacement level).
 - A player missing from your file counts as -2.0.
 
@@ -161,12 +158,12 @@ minutes they actually played. Every metric gets the same minutes, so playing tim
 
 ### The tests
 
-| Test | Question | Score | Credit |
-|---|---|---|---|
-| Game margins | How much of each game's final margin do the ratings explain? | R² | |
-| Team win % | Do better-rated teams win more often? | r | [Krishna Narsu (2024)](https://x.com/knarsu3/status/1763321501766627328) |
-| Team net rating | How far is each team's rating, taken at face value, from its opponent-adjusted margin? | RMSE in points | [Taylor Snarr (2020)](https://dunksandthrees.com/blog/metric-comparison) |
-| Rebuilt rosters | The same three tests on the third of games and teams that kept the least of last season's minutes | | Snarr (2020) |
+| Test | Question | Score |
+|---|---|---|
+| Game margins | How much of each game's final margin do the ratings explain? | R² |
+| Team win % | Do better-rated teams win more often? | r |
+| Team net rating | How far is each team's rating, taken at face value, from its opponent-adjusted margin? | RMSE in points |
+| Rebuilt rosters | The same three tests on the third of games and teams that kept the least of last season's minutes | |
 
 Every score has a bootstrap interval. The 180 team-seasons are resampled 2,000 times, and every metric is scored on the
 same resamples, which also give the rank ranges and the paired differences. The tests are reported side by side and are
@@ -182,7 +179,7 @@ The definitions start from the sources in the last column, in our own words.
 | Possession | One trip down the floor that ends in a shot, a turnover or free throws. A team has about 100 a game, so points per 100 possessions is close to points per game. | [Basketball-Reference glossary (Poss, Pace)](https://www.basketball-reference.com/about/glossary.html) |
 | Replacement level | About the level of a player any team can sign off the street. Basketball-Reference puts it at -2.0 points per 100 possessions, the value HIB gives players without a usable rating. | [Basketball-Reference glossary (VORP)](https://www.basketball-reference.com/about/glossary.html) |
 | RAPM | Regularized adjusted plus-minus. For every stretch of play it records which ten players were on the court and how the score changed, then solves for each player's share. "Regularized" means every player is pulled toward zero until the data moves him. | [Jeremias Engelmann, how to build it](https://jeremiasengelmann.substack.com/p/nba-adjusted-plus-minus-how-to-build) |
-| Retrodiction | Predicting a season that has already been played, using only what was known before it. The ratings are weighted by the minutes actually played in that season. | [Snarr (2020)](https://dunksandthrees.com/blog/metric-comparison) |
+| Retrodiction | Predicting a season that has already been played, using only what was known before it. The ratings are weighted by the minutes actually played in that season. | |
 | Opponent-adjusted margin | A team's average margin after accounting for who it played and where. Zero is average. Basketball-Reference calls this the Simple Rating System (SRS); HIB fits it the same way, with a home-court term. | [Basketball-Reference glossary (SRS)](https://www.basketball-reference.com/about/glossary.html) |
 | R² | The share of the game-to-game differences in final margin that the ratings account for, from 0 (none) to 1 (all). One game has a lot of luck in it, so even ratings that have seen the season reach only about .27. | [Coefficient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) |
 | r (correlation) | How closely two lists move together, from -1 to 1. Here: whether teams with higher ratings had higher win percentages. | [Pearson correlation](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) |
