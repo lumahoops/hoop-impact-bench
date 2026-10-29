@@ -31,7 +31,7 @@ Usage
   python eval.py --confidence 0.95       interval level (default 0.90)
   python eval.py --min-minutes 0         score every file as-is: only players missing from a file get --replacement
   python eval.py --replacement -1.0      the value those players get (default -2.0)
-  python eval.py --resamples 5000        bootstrap resamples (default 2000)
+  python eval.py --resamples 5000        bootstrap resamples (default 2000, at least 100)
   python eval.py --out my_run            save the run somewhere else (default runs/<date_time>)
 
 Each run folder holds results.json (every score, interval and rank range, paired differences between every two
@@ -243,13 +243,15 @@ def evaluate(systems, seasons, G, M, S, T, min_minutes, replacement, confidence,
     names = list(systems)
     X = np.zeros((len(names), len(G)))                                      # home minus away team rating per game
     R = np.zeros((len(names), len(T)))                                      # team-season rating
-    coverage = {}
+    coverage, established = {}, {}
+    est = M.last_min.values >= STANDARD["min_minutes"]                      # played 250+ minutes last season
     team_minutes = np.bincount(S.team_row, weights=S["min"], minlength=len(T))
     for i, k in enumerate(names):
         d = systems[k][systems[k].season.isin(seasons)]
         v, eligible, rated = player_values(M, d, min_minutes, replacement)
         X[i] = np.bincount(M.game, weights=M.weight * v, minlength=len(G))
         coverage[k] = float(M["min"][eligible & rated].sum() / M["min"][eligible].sum())
+        established[k] = float(M["min"][est & rated].sum() / M["min"][est].sum())
         v, _, _ = player_values(S, d, min_minutes, replacement)
         R[i] = 5 * np.bincount(S.team_row, weights=v * S["min"], minlength=len(T)) / team_minutes
     y, winpct, net = G.margin.values, T.winpct.values, T.net.values
@@ -285,7 +287,7 @@ def evaluate(systems, seasons, G, M, S, T, min_minutes, replacement, confidence,
              for p in parts for j, (t, _, _) in enumerate(TESTS)
              for i in range(len(names)) for k in range(i + 1, len(names))]  # paired: the same resamples for a and b
     ranked = [i for i, k in enumerate(names) if k not in BASELINES]          # reference rows get no rank
-    out = {k: {"baseline": k in BASELINES, "coverage": coverage[k],
+    out = {k: {"baseline": k in BASELINES, "coverage": coverage[k], "coverage_established": established[k],
                "by_season": {s: {t: float(by_season[s][j, i]) for j, (t, _, _) in enumerate(TESTS)} for s in seasons}}
            for i, k in enumerate(names)}
     for p in parts:
@@ -345,6 +347,8 @@ def paired(meta, res, pairs):
             look[(x["test"], x["a"], x["b"])] = (x["diff"], lo, hi)
             look[(x["test"], x["b"], x["a"])] = (-x["diff"], -hi, -lo)
     ranked = [k for k in res if not res[k]["baseline"]]
+    if not ranked:
+        return []
     floors = [k for k in ("baseline_zero", "baseline_last_team") if k in res]
     c = int(round(meta["confidence"] * 100))
     w = max(len(k) for k in res) + 2
@@ -387,6 +391,10 @@ def report(meta, res, pairs, by_season, show_pairs, saved):
           f"  intervals  {c}%, {meta['resamples']:,} resamples of team-seasons, the same for every metric"]
     if not (std["rules"] and std["window"]):
         L += ["  custom run: compare it only with runs under the same rules and seasons, not with the v1 results"]
+    for k in res:
+        if not res[k]["baseline"] and res[k]["coverage_established"] < 0.9:
+            L += [f"  WARNING    {k} rates only {res[k]['coverage_established']:.0%} of the minutes of players with 250+ "
+                  "minutes last season: check that nba_id is the NBA.com person id"]
     refs = [k for k in res if res[k]["baseline"]]
     if refs:
         L += ["  baselines  not ranked:"] + [f"             {k}: {BASELINES[k]}" for k in refs]
@@ -446,11 +454,13 @@ def main():
                     help="players under this many minutes last season get --replacement (0 = use every file as-is)")
     ap.add_argument("--replacement", type=float, default=STANDARD["replacement"],
                     help="the value those players, and players missing from a file, get (default -2.0)")
-    ap.add_argument("--resamples", type=int, default=2000, help="bootstrap resamples (default 2000)")
+    ap.add_argument("--resamples", type=int, default=2000, help="bootstrap resamples (default 2000, at least 100)")
     ap.add_argument("--out", help="folder for the run (default: runs/<date_time>)")
     a = ap.parse_args()
     if not 0 < a.confidence < 1:
         raise SystemExit("--confidence must be between 0 and 1, e.g. 0.90")
+    if a.resamples < 100:
+        raise SystemExit("--resamples must be at least 100 (default 2000)")
 
     files = csv_files(([] if a.no_bundled else [HERE / "ratings"]) + a.ratings)
     games = pd.read_csv(HERE / "data" / "games.csv", dtype={"game_id": str})
@@ -465,8 +475,18 @@ def main():
     seasons, G, M, S, T = prepare(systems, games, minutes)
     res, pairs, X, R = evaluate(systems, seasons, G, M, S, T, a.min_minutes, a.replacement, a.confidence, a.resamples)
 
-    out = Path(a.out) if a.out else HERE / "runs" / datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    out.mkdir(parents=True, exist_ok=True)
+    if a.out:
+        out = Path(a.out)
+        out.mkdir(parents=True, exist_ok=True)
+    else:                                          # runs started in the same second get _2, _3, ...
+        stamp, n = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S"), 1
+        while True:
+            out = HERE / "runs" / (stamp if n == 1 else f"{stamp}_{n}")
+            try:
+                out.mkdir(parents=True)
+                break
+            except FileExistsError:
+                n += 1
     meta = {"benchmark": "Hoop Impact Bench (HIB)", "version": VERSION, "seasons": seasons, "games": len(G),
             "team_seasons": len(T), "rules": {"min_minutes": a.min_minutes, "replacement": a.replacement},
             "standard": {"rules": {"min_minutes": a.min_minutes, "replacement": a.replacement} == STANDARD,

@@ -24,8 +24,8 @@
   "confidence": 0.9,
   "resamples": 2000,
   "seed": 7,
-  "harness": "44177bf257204eae03e719b6854065ba991c558df718706e272a14dac31af117",
-  "git_commit": "c435efa3dd15c38e0ba1dddf178249d20e750695",
+  "harness": "5b5888857eded3438a619c3e40d9fdc65e2c60ddd66030a2d139a740ded8f2ed",
+  "git_commit": "51972e552fafadb6a02013c9fdc386df886e6c88",
   "environment": {
    "python": "3.12.10",
    "numpy": "2.4.6",
@@ -46,6 +46,7 @@
   "arc_1yr": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.1246543050332392,
@@ -152,6 +153,7 @@
   "arc_2yr": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.12948707581019883,
@@ -258,6 +260,7 @@
   "arc_3yr": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.12437152144429153,
@@ -364,6 +367,7 @@
   "loki": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.13513591247896464,
@@ -470,6 +474,7 @@
   "loki_bpm": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.1381712288119254,
@@ -576,6 +581,7 @@
   "openrapm": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.1259777289761657,

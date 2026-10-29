@@ -24,8 +24,8 @@
   "confidence": 0.9,
   "resamples": 2000,
   "seed": 7,
-  "harness": "44177bf257204eae03e719b6854065ba991c558df718706e272a14dac31af117",
-  "git_commit": "c435efa3dd15c38e0ba1dddf178249d20e750695",
+  "harness": "5b5888857eded3438a619c3e40d9fdc65e2c60ddd66030a2d139a740ded8f2ed",
+  "git_commit": "51972e552fafadb6a02013c9fdc386df886e6c88",
   "environment": {
    "python": "3.12.10",
    "numpy": "2.4.6",
@@ -50,6 +50,7 @@
   "loki": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.13513591247896464,
@@ -156,6 +157,7 @@
   "openrapm": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.12597772897616552,
@@ -262,6 +264,7 @@
   "arc_2yr": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.12948707581019883,
@@ -368,6 +371,7 @@
   "epm_before": {
    "baseline": false,
    "coverage": 0.9992198827645048,
+   "coverage_established": 0.9992198827645048,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.14174608306807873,
@@ -474,6 +478,7 @@
   "epm_current": {
    "baseline": false,
    "coverage": 0.9923607514201855,
+   "coverage_established": 0.9923607514201855,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.13026270055979752,
@@ -580,6 +585,7 @@
   "darko": {
    "baseline": false,
    "coverage": 0.99851720733451,
+   "coverage_established": 0.99851720733451,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.1365213639245658,
@@ -686,6 +692,7 @@
   "lebron": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.13713169538894573,
@@ -792,6 +799,7 @@
   "bpm_bbref": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.13076613764409492,
@@ -898,6 +906,7 @@
   "pulse": {
    "baseline": false,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.15347498636505408,
@@ -1004,6 +1013,7 @@
   "baseline_zero": {
    "baseline": true,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.14392108174715504,
@@ -1086,6 +1096,7 @@
   "baseline_last_team": {
    "baseline": true,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.0867376113708529,
@@ -1168,6 +1179,7 @@
   "ceiling_rapm_same_season": {
    "baseline": true,
    "coverage": 1.0,
+   "coverage_established": 1.0,
    "by_season": {
     "2020-21": {
      "margin_r2": 0.22731914938333325,

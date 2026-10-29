@@ -10,6 +10,7 @@ pip install -r requirements.txt       # numpy and pandas
 python eval.py                          # the bundled metrics
 python eval.py --ratings my_metric.csv  # add yours
 python check.py                         # confirm this copy reproduces the published results
+python tests/test_hib.py                # small tests of the file reader and fingerprints
 ```
 
 A run takes a few seconds, prints a report, and saves a folder `runs/<date_time>/` with:
@@ -33,6 +34,10 @@ season,nba_id,rating
 - `nba_id`: NBA.com person id.
 - `rating`: points per 100 possessions, **known before that season's opening night**: last season's value, or a
   preseason projection. A value computed after opening night has seen the games it is predicting.
+
+A file with a missing column, a bad season, a non-numeric id or rating, or two ratings for one player-season is refused
+with the row number. A file that rates under 90% of the minutes of players with 250+ minutes last season gets a warning
+at the top of the report: usually its ids are not NBA.com ids.
 
 ## Rules (the same for every metric)
 
@@ -73,7 +78,7 @@ Nothing is combined into one overall score.
 | `--confidence 0.95` | Interval level (default 0.90) |
 | `--min-minutes 0` | No low-minute rule: every file is scored as-is (rookie projections count), and only players missing from a file get the replacement value. Default 250 |
 | `--replacement -1.0` | The value those players get. Default -2.0 |
-| `--resamples 5000` | Bootstrap resamples. Default 2000 |
+| `--resamples 5000` | Bootstrap resamples. Default 2000, at least 100 |
 | `--out FOLDER` | Where to save the run (default `runs/<date_time>`) |
 
 Runs with `--min-minutes` or `--replacement` changed, or with a file that covers fewer seasons than the v1 window, are
@@ -124,8 +129,8 @@ Get your own copy of a file (`provenance.csv` says where), then check the publis
 python check.py launch/established-players.json --ratings FOLDER_WITH_YOUR_COPIES
 ```
 
-A copy counts only if its sha256 matches. Each metric you hold is checked on its own; rank ranges are checked when you
-hold every file.
+Your copies can have any file names: a copy counts only if its sha256 matches. Each metric you hold is checked on its
+own; rank ranges are checked when you hold every file.
 
 ## Data
 
