@@ -388,6 +388,8 @@ def main():
     systems = {f.stem: read_ratings(f) for f in files}
     if a.baselines:
         systems.update(baselines(games, minutes))
+        if a.min_minutes <= 0:                     # with no cutoff every team rates 0: a constant, nothing to show
+            systems.pop("baseline_zero")
         files.append(HERE / "reference" / "rapm_same_season.csv")
     if not systems:
         raise SystemExit("nothing to score: add --ratings or --baselines, or drop --no-bundled")
