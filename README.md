@@ -9,8 +9,9 @@ rules, so the numbers are comparable with anyone else's.
 pip install -r requirements.txt       # numpy and pandas
 python eval.py                          # the bundled metrics
 python eval.py --ratings my_metric.csv  # add yours
-python check.py                         # confirm this copy reproduces the published results
-python tests/test_hib.py                # small tests of the file reader and fingerprints
+python check.py                         # rerun every published result and compare (OK / PARTIAL / FAIL)
+python tests/test_hib.py                # tests of the file reader and fingerprints
+python tests/test_scoring.py            # tests of the scoring: known answers, the rookie rule, reference rows
 ```
 
 A run takes a few seconds, prints a report, and saves a folder `runs/<date_time>/` with:
@@ -128,11 +129,13 @@ column) scores that column instead; a column on another scale, like PER, has to 
 Get your own copy of a file (`provenance.csv` says where), then check the published numbers:
 
 ```
-python check.py launch/established-players.json --ratings FOLDER_WITH_YOUR_COPIES
+python check.py --ratings FOLDER_WITH_YOUR_COPIES
 ```
 
-Your copies can have any file names: a copy counts only if its sha256 matches. Each metric you hold is checked on its
-own; rank ranges are checked when you hold every file.
+Your copies can have any file names: a copy counts only if its sha256 matches. Each run is reported as OK (every row
+reproduced), PARTIAL (every row you hold the files for is reproduced; the rest are listed as not checked) or FAIL.
+Each metric you hold is checked on its own; rank ranges are checked when you hold every file. `--strict` fails unless
+every row of every run is reproduced.
 
 ## Data
 
