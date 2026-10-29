@@ -74,8 +74,8 @@ Rank ranges come from the same resamples. Nothing is combined into one overall s
 | `--out FOLDER` | Where to save the run (default `runs/<date_time>`) |
 
 Runs with `--min-minutes` or `--replacement` changed, or with a file that covers fewer seasons than the v1 window, are
-marked **custom** in the report and in `results.json` (`meta.standard`), and are not comparable with the published
-results.
+marked **custom** in the report and in `results.json` (`meta.standard`): compare them only with runs under the same
+rules and seasons.
 
 ## Bundled metrics
 

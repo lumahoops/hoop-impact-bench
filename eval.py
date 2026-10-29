@@ -20,7 +20,7 @@ Every score gets a bootstrap interval and a rank range (team-seasons resampled, 
 
 The v1 window is the regular seasons 2020-21 to 2025-26. Every metric in a run is scored on the seasons all of them
 cover, so a file that covers fewer seasons shrinks the window for the whole run; such runs, and runs with other rules,
-are marked custom and are not comparable with the published results.
+are marked custom: compare them only with runs under the same rules and seasons.
 
 Usage
   python eval.py                         the bundled metrics (ratings/)
@@ -344,7 +344,7 @@ def report(meta, res, by_season, saved):
     L += [f"  rules      {rule}",
           f"  intervals  {c}%, {meta['resamples']:,} resamples of team-seasons, the same for every metric"]
     if not (std["rules"] and std["window"]):
-        L += ["  CUSTOM RUN: not comparable with the published v1 results"]
+        L += ["  custom run: compare it only with runs under the same rules and seasons, not with the v1 results"]
     refs = [k for k in res if res[k]["baseline"]]
     if refs:
         L += ["  baselines  not ranked:"] + [f"             {k}: {BASELINES[k]}" for k in refs]
