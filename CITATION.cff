@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use Hoop Impact Bench, please cite it as below."
+type: software
+title: "Hoop Impact Bench (HIB): an open benchmark for NBA impact metrics"
+version: "1.0.0"
+license:
+  - MIT
+  - CC-BY-4.0
+url: "https://lumahoops.org"
+abstract: >
+  Hoop Impact Bench scores NBA player impact metrics on one question: do the values known before a season predict
+  that season? Every metric is scored on the same regular-season games (2020-21 to 2025-26) under the same rules
+  (Taylor Snarr's 2020 retrodiction rules): game-margin R-squared, correlation with team win % (Krishna Narsu, 2024)
+  and face-value error against opponent-adjusted team margin (Snarr, 2020), each also on rebuilt rosters, with
+  bootstrap intervals and rank ranges. Bring a CSV of ratings and run one command.
+authors:
+  - name: "LUMA Basketball Research"
+    website: "https://lumahoops.org"
+  - family-names: Awoyemi
+    given-names: Ayo
+keywords:
+  - NBA
+  - basketball
+  - sports analytics
+  - benchmark
+  - player impact metric
+  - plus-minus
+  - RAPM
+  - retrodiction
+contact:
+  - name: Ayo Awoyemi
+    email: aayoawoyemi@gmail.com

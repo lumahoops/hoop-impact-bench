@@ -18,6 +18,10 @@ Tests
   rebuilt rosters  the same scores on the third of games / teams that kept the least of last season's minutes
 Every score gets a bootstrap interval and a rank range (team-seasons resampled, the same resamples for every metric).
 
+The v1 window is the regular seasons 2020-21 to 2025-26. Every metric in a run is scored on the seasons all of them
+cover, so a file that covers fewer seasons shrinks the window for the whole run; such runs, and runs with other rules,
+are marked custom and are not comparable with the published results.
+
 Usage
   python eval.py                         the bundled metrics (ratings/)
   python eval.py --ratings mine.csv      add yours: CSV files or folders of CSVs
@@ -26,6 +30,7 @@ Usage
   python eval.py --confidence 0.95       interval level (default 0.90)
   python eval.py --min-minutes 0         score every file as-is: only players missing from a file get --replacement
   python eval.py --replacement -1.0      the value those players get (default -2.0)
+  python eval.py --resamples 5000        bootstrap resamples (default 2000)
   python eval.py --out my_run            save the run somewhere else (default runs/<date_time>)
 
 Each run folder holds results.json (every score, interval and rank range, plus a sha256 fingerprint of each input
@@ -44,8 +49,9 @@ import numpy as np
 import pandas as pd
 
 HERE = Path(__file__).parent
-VERSION = "1.0.0-dev"
+VERSION = "1.0.0"
 STANDARD = {"min_minutes": 250, "replacement": -2.0}
+STANDARD_SEASONS = ["2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 SEED = 7
 TESTS = [("margin_r2", "game margin R2", True), ("winpct_r", "team win % r", True), ("net_rmse", "team net RMSE", False)]
 BASELINES = {
@@ -65,8 +71,21 @@ def prev(season):
     return season_after(season, -1)
 
 
+def season_span(seasons):
+    """['2020-21', '2021-22', '2023-24'] -> '2020-21 to 2021-22, 2023-24'"""
+    runs = []
+    for s in sorted(seasons):
+        if runs and s == season_after(runs[-1][1]):
+            runs[-1][1] = s
+        else:
+            runs.append([s, s])
+    return ", ".join(a if a == b else f"{a} to {b}" for a, b in runs)
+
+
 def sha256(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    """Fingerprint of a text file. Windows line endings (CRLF) count as LF, so a Windows copy and a Mac/Linux copy
+    of the same file get the same fingerprint (equal to sha256sum of the LF copy)."""
+    return hashlib.sha256(Path(path).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def git_commit():
@@ -314,13 +333,18 @@ def report(meta, res, by_season, saved):
                 f"not in a file = {rules['replacement']:.1f}")
     else:
         rule = f"every file as-is; not in a file = {rules['replacement']:.1f}"
-    rule += "   [v1 standard]" if rules == STANDARD else "   [custom rules]"
+    std = meta["standard"]
+    rule += "   [v1 rules]" if std["rules"] else "   [custom rules]"
     L = [f"Hoop Impact Bench (HIB) v{meta['version']}",
          "Do last season's impact-metric values predict this season?", "",
-         f"  seasons    {meta['seasons'][0]} to {meta['seasons'][-1]}: {meta['games']:,} games, "
-         f"{meta['team_seasons']} team-seasons",
-         f"  rules      {rule}",
-         f"  intervals  {c}%, {meta['resamples']:,} resamples of team-seasons, the same for every metric"]
+         f"  seasons    {season_span(meta['seasons'])}: {meta['games']:,} games, {meta['team_seasons']} team-seasons"
+         + ("   [v1 window]" if std["window"] else "   [custom window]")]
+    if not std["window"]:
+        L += [f"             shortened by {k} (covers {v})" for k, v in meta["window_limited_by"].items()]
+    L += [f"  rules      {rule}",
+          f"  intervals  {c}%, {meta['resamples']:,} resamples of team-seasons, the same for every metric"]
+    if not (std["rules"] and std["window"]):
+        L += ["  CUSTOM RUN: not comparable with the published v1 results"]
     refs = [k for k in res if res[k]["baseline"]]
     if refs:
         L += ["  baselines  not ranked:"] + [f"             {k}: {BASELINES[k]}" for k in refs]
@@ -374,8 +398,9 @@ def main():
     ap.add_argument("--confidence", type=float, default=0.90, help="interval level, e.g. 0.90 or 0.95")
     ap.add_argument("--min-minutes", type=float, default=STANDARD["min_minutes"],
                     help="players under this many minutes last season get --replacement (0 = use every file as-is)")
-    ap.add_argument("--replacement", type=float, default=STANDARD["replacement"])
-    ap.add_argument("--resamples", type=int, default=2000)
+    ap.add_argument("--replacement", type=float, default=STANDARD["replacement"],
+                    help="the value those players, and players missing from a file, get (default -2.0)")
+    ap.add_argument("--resamples", type=int, default=2000, help="bootstrap resamples (default 2000)")
     ap.add_argument("--out", help="folder for the run (default: runs/<date_time>)")
     a = ap.parse_args()
     if not 0 < a.confidence < 1:
@@ -400,6 +425,10 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     meta = {"benchmark": "Hoop Impact Bench (HIB)", "version": VERSION, "seasons": seasons, "games": len(G),
             "team_seasons": len(T), "rules": {"min_minutes": a.min_minutes, "replacement": a.replacement},
+            "standard": {"rules": {"min_minutes": a.min_minutes, "replacement": a.replacement} == STANDARD,
+                         "window": seasons == STANDARD_SEASONS},
+            "window_limited_by": {k: season_span(set(d.season) & set(STANDARD_SEASONS)) for k, d in systems.items()
+                                  if not set(STANDARD_SEASONS) <= set(d.season)},
             "confidence": a.confidence, "resamples": a.resamples, "seed": SEED,
             "harness": sha256(Path(__file__)), "git_commit": git_commit(),
             "environment": {"python": platform.python_version(), "numpy": np.__version__, "pandas": pd.__version__},

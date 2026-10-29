@@ -14,7 +14,8 @@ python check.py                         # confirm this copy reproduces the publi
 
 A run takes a few seconds, prints a report, and saves a folder `runs/<date_time>/` with:
 
-- `results.json`: every score, its interval and rank range, and a sha256 fingerprint of each input file;
+- `results.json`: every score, its interval and rank range, and a sha256 fingerprint of each input file (Windows
+  line endings count as Mac/Linux ones, so both copies of a file match);
 - `games.csv`: every game's actual margin and each metric's predicted margin;
 - `teams.csv`: every team-season's win %, opponent-adjusted margin and each metric's team rating.
 
@@ -45,7 +46,8 @@ they actually played.
 
 ## The tests
 
-Regular seasons 2020-21 to 2025-26: 7,230 games, 180 team-seasons.
+The v1 window: regular seasons 2020-21 to 2025-26, 7,230 games, 180 team-seasons. Every metric in a run is scored on
+the seasons all of them cover, so cover the whole window to be comparable with the published results.
 
 | Test | Question | Score | Credit |
 |---|---|---|---|
@@ -68,9 +70,12 @@ Rank ranges come from the same resamples. Nothing is combined into one overall s
 | `--confidence 0.95` | Interval level (default 0.90) |
 | `--min-minutes 0` | Score every file as-is: only players missing from a file get the replacement value. Default 250 |
 | `--replacement -1.0` | The value those players get. Default -2.0 |
+| `--resamples 5000` | Bootstrap resamples. Default 2000 |
 | `--out FOLDER` | Where to save the run (default `runs/<date_time>`) |
 
-Runs with `--min-minutes` or `--replacement` changed are marked **custom rules** in the report and in `results.json`.
+Runs with `--min-minutes` or `--replacement` changed, or with a file that covers fewer seasons than the v1 window, are
+marked **custom** in the report and in `results.json` (`meta.standard`), and are not comparable with the published
+results.
 
 ## Bundled metrics
 
@@ -82,11 +87,10 @@ Each file holds, for every season, a value known before that season started.
 | `ratings/loki_bpm.csv` | LOKI with a BPM prior in place of its counted box-score prior (research variant) |
 | `ratings/arc_1yr.csv`, `arc_2yr.csv`, `arc_3yr.csv` | ARC, LUMA's published boards: 1, 2 or 3 seasons ending the season before |
 | `ratings/openrapm.csv` | OpenRAPM by Nathan Walker (github.com/bbstats/openrapm, MIT license in `ratings/OPENRAPM_LICENSE.txt`): its published ratings, snapshot built 2026-10-29, each player's previous-season value. Its box-score prior is trained on RAPM from every other season, later ones included, so these are not the values known before each season |
-| `ratings/rapm_1yr.csv`, `rapm_3yr.csv` | Plain RAPM (ridge, alpha 3000, no prior) on the previous season, or the previous three weighted 1 / 0.7 / 0.49. Rebuild with `python build/rapm.py` |
-| `reference/rapm_same_season.csv` | RAPM on the season itself, for `--baselines` |
+| `reference/rapm_same_season.csv` | Plain RAPM (ridge regression on lineup stints, no prior) fit on the season itself, for `--baselines`. It has seen the games it is scored on, so it is a ceiling, not an entry |
 
-Other people's ratings (EPM, DARKO, LEBRON, Basketball-Reference's BPM, ...) belong to their authors and are not in
-this repository. Bring your own copy. The sha256 fingerprints in `results.json` let two people confirm they scored the
+Other people's ratings (EPM, DARKO, LEBRON, Basketball-Reference's BPM, your own RAPM, ...) belong to their authors and
+are not in this repository. Bring your own copy. The sha256 fingerprints in `results.json` let two people confirm they scored the
 same file.
 
 ### Basketball-Reference BPM
@@ -107,10 +111,12 @@ column) scores that column instead.
 | `data/games.csv` | Regular-season scores, 2019-20 to 2025-26 (`neutral` = 1 for neutral-site games, including the 2020 Orlando restart) |
 | `data/minutes.csv` | Minutes per player per game, same seasons (2019-20 only supplies last-season minutes) |
 | `data/players.csv` | NBA.com id and name for every player-season, 2019-20 to 2025-26 |
-| `data/stints.csv.gz` | Lineup stints from play-by-play, 2017-18 to 2025-26 (the RAPM build input) |
 | `results/` | The published run of the bundled metrics; `check.py` compares against it |
 
 ## Credit and license
 
-Data: CC BY 4.0 (`LICENSE-DATA`). Credit: LUMA Basketball Research (https://lumahoops.org). Code: MIT (`LICENSE`).
-Questions, results and holes found: open an issue or email us.
+Copyright 2026 Court Share LLC. Code: MIT (`LICENSE`). Data and ratings: CC BY 4.0 (`LICENSE-DATA`), except
+`ratings/openrapm.csv` (Nathan Walker, MIT, `ratings/OPENRAPM_LICENSE.txt`). Credit: LUMA Basketball Research
+(https://lumahoops.org). How to cite: `CITATION.cff`.
+
+Questions, results and holes found: open an issue.
