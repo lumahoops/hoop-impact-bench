@@ -6,7 +6,7 @@ player's effect on his team's point margin), run it here. Every metric is scored
 rules, so the numbers are comparable with anyone else's.
 
 ```
-pip install numpy pandas
+pip install -r requirements.txt       # numpy and pandas
 python eval.py                          # the bundled metrics
 python eval.py --ratings my_metric.csv  # add yours
 python check.py                         # confirm this copy reproduces the published results
@@ -14,8 +14,8 @@ python check.py                         # confirm this copy reproduces the publi
 
 A run takes a few seconds, prints a report, and saves a folder `runs/<date_time>/` with:
 
-- `results.json`: every score, its interval and rank range, and a sha256 fingerprint of each input file (Windows
-  line endings count as Mac/Linux ones, so both copies of a file match);
+- `results.json`: every score, its interval and rank range, the paired difference between every two metrics, and a
+  sha256 fingerprint of each input file (Windows line endings count as Mac/Linux ones, so both copies of a file match);
 - `games.csv`: every game's actual margin and each metric's predicted margin;
 - `teams.csv`: every team-season's win %, opponent-adjusted margin and each metric's team rating.
 
@@ -42,7 +42,7 @@ From Taylor Snarr's 2020 retrodiction study (the 250-minute cutoff is Neil Paine
 - players missing from your file count as -2.0.
 
 A team's rating, in a game or over a season, is 5 x the minutes-weighted mean of its players' values, using the minutes
-they actually played.
+they actually played. So HIB tests the ratings, not a minutes forecast: every metric gets the same, real minutes.
 
 ## The tests
 
@@ -57,7 +57,9 @@ the seasons all of them cover, so cover the whole window to be comparable with t
 | Rebuilt rosters | The same tests on the third of games and teams that kept the least of last season's minutes | | Snarr (2020), roster continuity |
 
 Every score has a bootstrap interval: team-seasons are resampled, and every metric is scored on the same resamples.
-Rank ranges come from the same resamples. Nothing is combined into one overall score.
+Rank ranges come from the same resamples, and so do paired differences (metric A minus metric B on each resample),
+which say whether two close metrics are really apart: `--pairs` prints each metric against the leader and the floors.
+Nothing is combined into one overall score.
 
 ## Options
 
@@ -65,10 +67,11 @@ Rank ranges come from the same resamples. Nothing is combined into one overall s
 |---|---|
 | `--ratings PATH ...` | Add metrics: CSV files or folders of CSVs |
 | `--no-bundled` | Leave out the metrics in `ratings/` |
-| `--baselines` | Add three reference rows, not ranked: every player 0 (only the -2.0 rule separates teams), each player = his main team's opponent-adjusted margin last season / 5, and RAPM fit on the season being scored (it has seen those games, so it shows a ceiling) |
+| `--baselines` | Add three reference rows, not ranked: every player 0 (only the -2.0 rule separates teams; with `--min-minutes 0` every team is 0, so its net error is the error of calling every team average), each player = his main team's opponent-adjusted margin last season / 5, and RAPM fit on the season being scored (it has seen those games, so it shows a ceiling) |
 | `--by-season` | Also print every score season by season |
+| `--pairs` | Also print each metric minus the leader with paired intervals (a tie when the interval holds 0), the noise level, and which metrics beat the floors |
 | `--confidence 0.95` | Interval level (default 0.90) |
-| `--min-minutes 0` | Score every file as-is: only players missing from a file get the replacement value. Default 250 |
+| `--min-minutes 0` | No low-minute rule: every file is scored as-is (rookie projections count), and only players missing from a file get the replacement value. Default 250 |
 | `--replacement -1.0` | The value those players get. Default -2.0 |
 | `--resamples 5000` | Bootstrap resamples. Default 2000 |
 | `--out FOLDER` | Where to save the run (default `runs/<date_time>`) |
@@ -103,6 +106,26 @@ same file.
 Each table becomes the preseason ratings for the next season. Traded players use their season-total row, players are
 matched to NBA.com ids by name (`data/players.csv`), and anyone not matched is listed. `--column OBPM` (or any other
 column) scores that column instead.
+
+## Launch results (third-party metrics)
+
+`launch/` holds the two runs behind the launch table. They also scored metrics whose files are not in this repository
+(EPM, DARKO, LEBRON, Pulse, Basketball-Reference's BPM):
+
+| File | Run |
+|---|---|
+| `launch/established-players.json` | v1 rules: players under 250 minutes last season count as -2.0 |
+| `launch/full-forecast.json` | the same files with no low-minute rule (`--min-minutes 0`), so rookie projections count |
+| `launch/provenance.csv` | every scored file: metric, author, what the value is, as of when, where it came from, when it was retrieved, seasons, rows, sha256 |
+
+Get your own copy of a file (`provenance.csv` says where), then check the published numbers:
+
+```
+python check.py launch/established-players.json --ratings FOLDER_WITH_YOUR_COPIES
+```
+
+A copy counts only if its sha256 matches. Each metric you hold is checked on its own; rank ranges are checked when you
+hold every file.
 
 ## Data
 

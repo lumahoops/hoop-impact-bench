@@ -27,14 +27,15 @@ Usage
   python eval.py --ratings mine.csv      add yours: CSV files or folders of CSVs
   python eval.py --baselines             add reference rows: every player 0, last season's team, same-season RAPM
   python eval.py --by-season             also print every score season by season
+  python eval.py --pairs                 also print each metric minus the leader, with paired intervals
   python eval.py --confidence 0.95       interval level (default 0.90)
   python eval.py --min-minutes 0         score every file as-is: only players missing from a file get --replacement
   python eval.py --replacement -1.0      the value those players get (default -2.0)
   python eval.py --resamples 5000        bootstrap resamples (default 2000)
   python eval.py --out my_run            save the run somewhere else (default runs/<date_time>)
 
-Each run folder holds results.json (every score, interval and rank range, plus a sha256 fingerprint of each input
-file), games.csv (every game's actual margin and each metric's predicted margin) and teams.csv (every team-season's
+Each run folder holds results.json (every score, interval and rank range, paired differences between every two
+metrics, plus a sha256 fingerprint of each input file), games.csv (every game's actual margin and each metric's predicted margin) and teams.csv (every team-season's
 results and each metric's team rating).
 """
 import argparse
@@ -55,7 +56,9 @@ STANDARD_SEASONS = ["2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025
 SEED = 7
 TESTS = [("margin_r2", "game margin R2", True), ("winpct_r", "team win % r", True), ("net_rmse", "team net RMSE", False)]
 BASELINES = {
-    "baseline_zero": "every player 0 (under the default rule, only the -2.0 for low-minute players separates teams)",
+    "baseline_zero": "every player 0 (under the default rule, only the -2.0 for low-minute players separates teams; "
+                     "with --min-minutes 0 every team is 0: R2 and r are 0, and its net error is the error of calling "
+                     "every team average)",
     "baseline_last_team": "each player = his main team's opponent-adjusted margin last season / 5",
     "ceiling_rapm_same_season": "RAPM fit on the season being scored: it has seen those games",
 }
@@ -277,6 +280,10 @@ def evaluate(systems, seasons, G, M, S, T, min_minutes, replacement, confidence,
         boot["rebuilt"][b] = scores(gi[low_g[gi]], pick[low_t[pick]])
 
     q = [(1 - confidence) / 2, (1 + confidence) / 2]
+    pairs = [{"part": p, "test": t, "a": names[i], "b": names[k], "diff": float(point[p][j, i] - point[p][j, k]),
+              "interval": [float(v) for v in np.quantile(boot[p][:, j, i] - boot[p][:, j, k], q)]}
+             for p in parts for j, (t, _, _) in enumerate(TESTS)
+             for i in range(len(names)) for k in range(i + 1, len(names))]  # paired: the same resamples for a and b
     ranked = [i for i, k in enumerate(names) if k not in BASELINES]          # reference rows get no rank
     out = {k: {"baseline": k in BASELINES, "coverage": coverage[k],
                "by_season": {s: {t: float(by_season[s][j, i]) for j, (t, _, _) in enumerate(TESTS)} for s in seasons}}
@@ -291,7 +298,7 @@ def evaluate(systems, seasons, G, M, S, T, min_minutes, replacement, confidence,
                     r = ranks[:, ranked.index(i)]
                     s["rank"] = [int(np.quantile(r, q[0], method="lower")), int(np.quantile(r, q[1], method="higher"))]
                 out[k].setdefault(p, {})[t] = s
-    return out, X, R
+    return out, pairs, X, R
 
 
 def write_logs(out, G, T, X, R, names):
@@ -325,14 +332,49 @@ def fmt(test, v):
     return f"{v:.2f}" if test == "net_rmse" else num(v)
 
 
-def report(meta, res, by_season, saved):
+def signed(test, v):
+    return ("-" if v < 0 else "+") + fmt(test, abs(v))
+
+
+def paired(meta, res, pairs):
+    """Each metric minus the leader on every test, the noise level, and which metrics clear the floors."""
+    look = {}
+    for x in pairs:
+        if x["part"] == "all":
+            lo, hi = x["interval"]
+            look[(x["test"], x["a"], x["b"])] = (x["diff"], lo, hi)
+            look[(x["test"], x["b"], x["a"])] = (-x["diff"], -hi, -lo)
+    ranked = [k for k in res if not res[k]["baseline"]]
+    floors = [k for k in ("baseline_zero", "baseline_last_team") if k in res]
+    c = int(round(meta["confidence"] * 100))
+    w = max(len(k) for k in res) + 2
+    L = ["PAIRED DIFFERENCES", f"  each metric minus the leader, scored on the same resamples ({c}% interval); an interval "
+         "that holds 0 is a tie"]
+    for t, label, higher in TESTS:
+        order = sorted(ranked, key=lambda k: res[k]["all"][t]["value"], reverse=higher)
+        L.append(f"  {label}: leader {order[0]}")
+        for k in order[1:]:
+            d, lo, hi = look[(t, k, order[0])]
+            L.append(f"    {k:<{w}}{signed(t, d):>7}   {signed(t, lo)} to {signed(t, hi)}" + ("   tie" if lo <= 0 <= hi else ""))
+        if len(ranked) > 1:
+            hw = np.median([(look[(t, a, b)][2] - look[(t, a, b)][1]) / 2 for i, a in enumerate(ranked) for b in ranked[i + 1:]])
+            L.append(f"    differences smaller than about {fmt(t, hw)} are within the noise (median half-width of the "
+                     "paired intervals)")
+        for f in floors:
+            clear = [k for k in ranked if (look[(t, k, f)][1] > 0 if higher else look[(t, k, f)][2] < 0)]
+            rest = [k for k in ranked if k not in clear]
+            L.append(f"    better than {f}: {len(clear)} of {len(ranked)}" + (f" (not: {', '.join(rest)})" if rest else ""))
+    return L + [""]
+
+
+def report(meta, res, pairs, by_season, show_pairs, saved):
     c = int(round(meta["confidence"] * 100))
     rules = meta["rules"]
     if rules["min_minutes"] > 0:
         rule = (f"under {rules['min_minutes']:g} minutes last season (rookies included) = {rules['replacement']:.1f}; "
                 f"not in a file = {rules['replacement']:.1f}")
     else:
-        rule = f"every file as-is; not in a file = {rules['replacement']:.1f}"
+        rule = f"no low-minute rule (every file as-is); not in a file = {rules['replacement']:.1f}"
     std = meta["standard"]
     rule += "   [v1 rules]" if std["rules"] else "   [custom rules]"
     L = [f"Hoop Impact Bench (HIB) v{meta['version']}",
@@ -377,6 +419,8 @@ def report(meta, res, by_season, saved):
     L += ["", "COVERAGE", "  share of the minutes left to each file (players over the minutes cutoff) that the file rates"]
     L += ["  " + "   ".join(f"{k} {res[k]['coverage']:.0%}" for k in metrics[i:i + 5]) for i in range(0, len(metrics), 5)]
     L += [""]
+    if show_pairs:
+        L += paired(meta, res, pairs)
     if by_season:
         for t, label, _ in TESTS:
             L += [f"BY SEASON: {label}", f"  {'':<7}{'metric':<{w}}" + "".join(f"{s:>9}" for s in meta["seasons"])]
@@ -395,6 +439,8 @@ def main():
     ap.add_argument("--no-bundled", action="store_true", help="leave out the metrics in ratings/")
     ap.add_argument("--baselines", action="store_true", help="add the reference rows (not ranked)")
     ap.add_argument("--by-season", action="store_true", help="also print every score season by season")
+    ap.add_argument("--pairs", action="store_true",
+                    help="also print each metric minus the leader with paired intervals, and who clears the floors")
     ap.add_argument("--confidence", type=float, default=0.90, help="interval level, e.g. 0.90 or 0.95")
     ap.add_argument("--min-minutes", type=float, default=STANDARD["min_minutes"],
                     help="players under this many minutes last season get --replacement (0 = use every file as-is)")
@@ -413,13 +459,11 @@ def main():
     systems = {f.stem: read_ratings(f) for f in files}
     if a.baselines:
         systems.update(baselines(games, minutes))
-        if a.min_minutes <= 0:                     # with no cutoff every team rates 0: a constant, nothing to show
-            systems.pop("baseline_zero")
         files.append(HERE / "reference" / "rapm_same_season.csv")
     if not systems:
         raise SystemExit("nothing to score: add --ratings or --baselines, or drop --no-bundled")
     seasons, G, M, S, T = prepare(systems, games, minutes)
-    res, X, R = evaluate(systems, seasons, G, M, S, T, a.min_minutes, a.replacement, a.confidence, a.resamples)
+    res, pairs, X, R = evaluate(systems, seasons, G, M, S, T, a.min_minutes, a.replacement, a.confidence, a.resamples)
 
     out = Path(a.out) if a.out else HERE / "runs" / datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
     out.mkdir(parents=True, exist_ok=True)
@@ -433,9 +477,9 @@ def main():
             "harness": sha256(Path(__file__)), "git_commit": git_commit(),
             "environment": {"python": platform.python_version(), "numpy": np.__version__, "pandas": pd.__version__},
             "inputs": {f.name: sha256(f) for f in [HERE / "data" / "games.csv", HERE / "data" / "minutes.csv"] + files}}
-    (out / "results.json").write_text(json.dumps({"meta": meta, "metrics": res}, indent=1), encoding="utf-8")
+    (out / "results.json").write_text(json.dumps({"meta": meta, "metrics": res, "pairs": pairs}, indent=1), encoding="utf-8")
     write_logs(out, G, T, X, R, list(systems))
-    print(report(meta, res, a.by_season, out))
+    print(report(meta, res, pairs, a.by_season, a.pairs, out))
 
 
 if __name__ == "__main__":
