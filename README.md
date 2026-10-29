@@ -97,7 +97,7 @@ Each file holds, for every season, a value known before that season started.
 | `ratings/openrapm.csv` | OpenRAPM by Nathan Walker (github.com/bbstats/openrapm, MIT license in `ratings/OPENRAPM_LICENSE.txt`): its published ratings, snapshot built 2026-10-29, each player's previous-season value. Its box-score prior is trained on RAPM from every other season, later ones included, so these are not the values known before each season |
 | `reference/rapm_same_season.csv` | Plain RAPM (ridge regression on lineup stints, no prior) fit on the season itself, for `--baselines`. It has seen the games it is scored on, so it is a ceiling, not an entry |
 
-Other people's ratings (EPM, DARKO, LEBRON, Basketball-Reference's BPM, your own RAPM, ...) belong to their authors and
+Other people's ratings (EPM, DARKO, LEBRON, Pulse, xRAPM, Basketball-Reference's BPM, your own RAPM, ...) belong to their authors and
 are not in this repository. Bring your own copy. The sha256 fingerprints in `results.json` let two people confirm they scored the
 same file.
 
@@ -115,7 +115,7 @@ column) scores that column instead.
 ## Launch results (third-party metrics)
 
 `launch/` holds the two runs behind the launch table. They also scored metrics whose files are not in this repository
-(EPM, DARKO, LEBRON, Pulse, Basketball-Reference's BPM):
+(EPM, DARKO, LEBRON, Pulse, xRAPM, Basketball-Reference's BPM):
 
 | File | Run |
 |---|---|
