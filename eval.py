@@ -280,6 +280,9 @@ def write_logs(out, G, T, X, R, names):
     g = G[["season", "game_id", "date", "home", "away", "home_pts", "away_pts", "margin"]].copy()
     g["rebuilt"] = G.low.astype(int)
     for i, k in enumerate(names):                                           # predicted margin from the run's line
+        if np.ptp(X[i]) == 0:                                               # a constant rating: home edge only
+            g[k] = round(float(G.margin.mean()), 2)
+            continue
         slope, edge = np.polyfit(X[i], G.margin.values, 1)
         g[k] = (edge + slope * X[i]).round(2)
     g.to_csv(out / "games.csv", index=False)
