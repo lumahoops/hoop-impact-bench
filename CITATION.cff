@@ -3,6 +3,7 @@ message: "If you use Hoop Impact Bench, please cite it as below."
 type: software
 title: "Hoop Impact Bench (HIB): an open benchmark for NBA impact metrics"
 version: "1.0.0"
+date-released: "2026-10-29"
 license:
   - MIT
   - CC-BY-4.0

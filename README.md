@@ -17,13 +17,15 @@ anyone can rerun every published number.
 
 ## News
 
-- 2026-10-30: version 1.0.0 and the first results, nine public metrics over the 2020-21 to 2025-26 seasons.
+- 2026-10-29: version 1.0.0 and the first results, nine public metrics over the 2020-21 to 2025-26 seasons.
 
 ## Results
 
 The tables score each metric's ratings from before each season on the regular seasons 2020-21 to 2025-26 (7,230 games,
 180 team-seasons), sorted by the first test. The tests are explained under [How it works](#how-it-works) and the terms
 under [Plain English](#plain-english).
+
+![HIB v1 results: game margins R² with 90% intervals](launch/hib-launch.png)
 
 ### Established players
 
@@ -259,7 +261,7 @@ records the version and the sha256 of the `eval.py` that made it.
 | `ratings/` | Bundled metrics: LOKI, a LOKI research variant with a BPM prior (`loki_bpm`), ARC over 1, 2 and 3 seasons, and OpenRAPM (MIT license, snapshot of 2026-10-29) |
 | `reference/rapm_same_season.csv` | Plain RAPM (ridge regression on lineup stints, no prior) fit on each season itself: the ceiling row |
 | `results/` | The published run of the bundled metrics |
-| `launch/` | The two runs behind the results tables (scores only) and `provenance.csv` |
+| `launch/` | The two runs behind the results tables (scores only), `provenance.csv` and the chart |
 
 To score Basketball-Reference's BPM yourself, export each season's Advanced table (Share & Export > Get table as CSV),
 then run `python tools/from_bbref.py 2019-20=bbref_2019-20.csv ... 2024-25=bbref_2024-25.csv --out bpm_bbref.csv`.
