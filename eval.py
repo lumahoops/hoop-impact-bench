@@ -383,6 +383,7 @@ def main():
     meta = {"benchmark": "Hoop Impact Bench (HIB)", "version": VERSION, "seasons": seasons, "games": len(G),
             "team_seasons": len(T), "rules": {"min_minutes": a.min_minutes, "replacement": a.replacement},
             "confidence": a.confidence, "resamples": a.resamples, "seed": SEED,
+            "harness": sha256(Path(__file__)),
             "inputs": {f.name: sha256(f) for f in [HERE / "data" / "games.csv", HERE / "data" / "minutes.csv"] + files}}
     (out / "results.json").write_text(json.dumps({"meta": meta, "metrics": res}, indent=1), encoding="utf-8")
     write_logs(out, G, T, X, R, list(systems))
