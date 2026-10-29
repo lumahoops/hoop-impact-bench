@@ -1,5 +1,5 @@
 """
-HoopBench v1 (working name): do last season's impact-metric values predict this season?
+Hoop Impact Bench v1: do last season's impact-metric values predict this season?
 
 Bring one CSV per metric with columns season,nba_id,rating. `rating` is the value that was known before that
 season's opening night (last season's value, or a preseason projection), in points per 100 possessions; nba_id is the
@@ -15,10 +15,9 @@ Tests
   team win %       correlation between team-season rating and win % (Krishna Narsu's 2024 test)
   team net rating  RMSE between team-season rating, taken at face value, and the team's average margin adjusted for
                    opponents and home court (Snarr's 2020 test)
-  calibration      slope of the game-margin line: actual points per rating point (1.00 = face value)
   rebuilt rosters  the same scores on the third of games / teams that kept the least of last season's minutes
-Every score gets a bootstrap interval (team-seasons resampled, the same resamples for every metric); the three ranked
-tests also get a rank range from the same resamples.
+Every score gets a bootstrap interval and a rank range (team-seasons resampled, the same resamples for every metric).
+Each run is saved to runs/<date_time>/results.json.
 
 Usage
   python eval.py                         the bundled metrics (ratings/)
@@ -27,8 +26,10 @@ Usage
   python eval.py --confidence 0.95       interval level (default 0.90)
   python eval.py --min-minutes 0         score every file as-is: only players missing from a file get --replacement
   python eval.py --replacement -1.0      the value those players get (default -2.0)
+  python eval.py --out my_run            save the results somewhere else
 """
 import argparse
+import datetime
 import hashlib
 import json
 from pathlib import Path
@@ -171,9 +172,8 @@ def player_values(rows, ratings, min_minutes, replacement):
 
 
 def game_scores(x, y):
-    xm, ym = x - x.mean(), y - y.mean()
-    sxx, syy, sxy = (xm * xm).sum(), (ym * ym).sum(), (xm * ym).sum()
-    return {"margin_r2": sxy * sxy / (sxx * syy), "slope": sxy / sxx}
+    """R2 of a straight-line fit = squared correlation."""
+    return {"margin_r2": float(np.corrcoef(x, y)[0, 1] ** 2)}
 
 
 def team_scores(rating, winpct, net):
@@ -182,7 +182,7 @@ def team_scores(rating, winpct, net):
 
 TESTS = [  # key, label, higher is better
     ("margin_r2", "game margin R2", True), ("winpct_r", "team win % r", True),
-    ("net_rmse", "team net RMSE", False), ("slope", "calibration slope", None)]
+    ("net_rmse", "team net RMSE", False)]
 
 
 def evaluate(systems, seasons, G, M, S, T, min_minutes, replacement, confidence, resamples):
@@ -232,8 +232,6 @@ def evaluate(systems, seasons, G, M, S, T, min_minutes, replacement, confidence,
                             for t, _, _ in TESTS}
     for part in ("all", "rebuilt"):                                          # rank ranges from the same resamples
         for t, _, higher in TESTS:
-            if higher is None:
-                continue
             draws = np.array([boot[k][part][t] for k in systems])            # metrics x resamples
             ranks = (-draws if higher else draws).argsort(axis=0).argsort(axis=0) + 1
             for i, k in enumerate(systems):
@@ -250,8 +248,8 @@ def num(v, digits=3):
 
 
 def fmt(test, v):
-    """Errors and slopes in points (2 decimals); R2 and r as .xxx"""
-    return f"{v:.2f}" if test in ("net_rmse", "slope") else num(v)
+    """Errors in points (2 decimals); R2 and r as .xxx"""
+    return f"{v:.2f}" if test == "net_rmse" else num(v)
 
 
 def report(meta, res, by_season, saved):
@@ -263,7 +261,7 @@ def report(meta, res, by_season, saved):
     else:
         rule = f"every file as-is; not in a file = {rules['replacement']:.1f}"
     rule += "   [v1 standard]" if rules == STANDARD else "   [custom rules]"
-    L = [f"HoopBench v{meta['version']}  (working name)",
+    L = [f"Hoop Impact Bench v{meta['version']}",
          "Do last season's impact-metric values predict this season?", "",
          f"  seasons    {meta['seasons'][0]} to {meta['seasons'][-1]}: {meta['games']:,} games, "
          f"{meta['team_seasons']} team-seasons",
@@ -288,12 +286,7 @@ def report(meta, res, by_season, saved):
                 "points (lower is better; Snarr 2020)", False)
 
     order = sorted(res, key=lambda k: res[k]["all"]["margin_r2"]["value"], reverse=True)
-    L += ["CALIBRATION", "  actual points per rating point in the game-margin line (1.00 = the ratings work at face value)",
-          f"  {'':<7}{'metric':<{w}}{'slope':>7}   {c}% interval"]
-    for k in order:
-        s = res[k]["all"]["slope"]
-        L.append(f"  {'':<7}{k:<{w}}{s['value']:>7.2f}   {s['interval'][0]:.2f} to {s['interval'][1]:.2f}")
-    L += ["", "REBUILT ROSTERS",
+    L += ["REBUILT ROSTERS",
           "  the same tests on the third of games and teams that kept the least of last season's minutes",
           f"  {'':<7}{'metric':<{w}}{'game R2':<20}{'win % r':<20}{'net RMSE':<20}"]
     cell = lambda t, s: f"{fmt(t, s['value'])} ({fmt(t, s['interval'][0])}-{fmt(t, s['interval'][1])})"
@@ -325,7 +318,7 @@ def main():
                     help="players under this many minutes last season get --replacement (0 = use every file as-is)")
     ap.add_argument("--replacement", type=float, default=STANDARD["replacement"])
     ap.add_argument("--resamples", type=int, default=2000)
-    ap.add_argument("--out", default=str(HERE / "results"))
+    ap.add_argument("--out", help="folder for results.json (default: runs/<date_time>)")
     a = ap.parse_args()
     if not 0 < a.confidence < 1:
         raise SystemExit("--confidence must be between 0 and 1, e.g. 0.90")
@@ -339,9 +332,9 @@ def main():
     seasons, G, M, S, T = prepare(systems, games, minutes)
     res = evaluate(systems, seasons, G, M, S, T, a.min_minutes, a.replacement, a.confidence, a.resamples)
 
-    out = Path(a.out)
+    out = Path(a.out) if a.out else HERE / "runs" / datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
     out.mkdir(parents=True, exist_ok=True)
-    meta = {"benchmark": "HoopBench (working name)", "version": VERSION, "seasons": seasons, "games": len(G),
+    meta = {"benchmark": "Hoop Impact Bench", "version": VERSION, "seasons": seasons, "games": len(G),
             "team_seasons": len(T), "rules": {"min_minutes": a.min_minutes, "replacement": a.replacement},
             "confidence": a.confidence, "resamples": a.resamples, "seed": SEED,
             "inputs": {f.name: sha256(f) for f in [HERE / "data" / "games.csv", HERE / "data" / "minutes.csv"] + files}}

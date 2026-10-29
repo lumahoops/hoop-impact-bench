@@ -1,5 +1,5 @@
-<!-- Assistant draft (2026-10-29), for Aayo to edit before publishing. "HoopBench" is a working name. -->
-# HoopBench
+<!-- Assistant draft (2026-10-29), for Aayo to edit before publishing. -->
+# Hoop Impact Bench
 
 **Do last season's impact-metric values predict this season?** If you build an NBA impact metric (a rating of a
 player's effect on his team's point margin), run it here. Every metric is scored on the same games with the same
@@ -12,7 +12,7 @@ python eval.py --ratings my_metric.csv  # add yours
 python check.py                         # confirm this copy reproduces the published results
 ```
 
-A run takes a few seconds, prints a report, and writes `results/results.json`.
+A run takes a few seconds, prints a report, and saves `runs/<date_time>/results.json`.
 
 ## Your file
 
@@ -48,7 +48,6 @@ Regular seasons 2020-21 to 2025-26: 7,230 games, 180 team-seasons.
 | Game margins | How much of each game's final margin do the ratings explain? | R² | |
 | Team win % | Do better-rated teams win more? | r | Krishna Narsu (2024) |
 | Team net rating | How far is the team rating, taken at face value, from the team's opponent-adjusted margin? | RMSE (points) | Taylor Snarr (2020) |
-| Calibration | How many actual points is one rating point worth? | slope (1.00 = face value) | |
 | Rebuilt rosters | The same tests on the third of games and teams that kept the least of last season's minutes | | Snarr (2020), roster continuity |
 
 Every score has a bootstrap interval: team-seasons are resampled, and every metric is scored on the same resamples.
@@ -64,6 +63,7 @@ The ranked tests also show a rank range from those resamples. Nothing is combine
 | `--confidence 0.95` | Interval level (default 0.90) |
 | `--min-minutes 0` | Score every file as-is: only players missing from a file get the replacement value. Default 250 |
 | `--replacement -1.0` | The value those players get. Default -2.0 |
+| `--out FOLDER` | Where to save `results.json` (default `runs/<date_time>`) |
 
 Runs with `--min-minutes` or `--replacement` changed are marked **custom rules** in the report and in `results.json`.
 
@@ -75,6 +75,7 @@ Runs with `--min-minutes` or `--replacement` changed are marked **custom rules**
 | `data/games.csv` | Regular-season scores, 2019-20 to 2025-26 (`neutral` = 1 for neutral-site games) |
 | `data/minutes.csv` | Minutes per player per game, same seasons (2019-20 only supplies last-season minutes) |
 | `eval.py` | The harness |
+| `results/results.json` | The published run of the bundled metrics |
 | `check.py` | Reruns it and compares with `results/results.json` |
 
 Other people's ratings (EPM, DARKO, LEBRON, ...) belong to their authors and are not in this repository. Bring your
