@@ -89,12 +89,24 @@ Other people's ratings (EPM, DARKO, LEBRON, Basketball-Reference's BPM, ...) bel
 this repository. Bring your own copy. The sha256 fingerprints in `results.json` let two people confirm they scored the
 same file.
 
+### Basketball-Reference BPM
+
+1. On basketball-reference.com open each season's Advanced table (Seasons > 2024-25 > Advanced), then
+   Share & Export > Get table as CSV, and save the text as a file, e.g. `bbref_2024-25.csv`.
+2. `python tools/from_bbref.py 2019-20=bbref_2019-20.csv 2020-21=bbref_2020-21.csv ... --out bpm_bbref.csv`
+3. `python eval.py --ratings bpm_bbref.csv`
+
+Each table becomes the preseason ratings for the next season. Traded players use their season-total row, players are
+matched to NBA.com ids by name (`data/players.csv`), and anyone not matched is listed. `--column OBPM` (or any other
+column) scores that column instead.
+
 ## Data
 
 | Path | Contents |
 |---|---|
 | `data/games.csv` | Regular-season scores, 2019-20 to 2025-26 (`neutral` = 1 for neutral-site games, including the 2020 Orlando restart) |
 | `data/minutes.csv` | Minutes per player per game, same seasons (2019-20 only supplies last-season minutes) |
+| `data/players.csv` | NBA.com id and name for every player-season, 2019-20 to 2025-26 |
 | `data/stints.csv.gz` | Lineup stints from play-by-play, 2017-18 to 2025-26 (the RAPM build input) |
 | `results/` | The published run of the bundled metrics; `check.py` compares against it |
 
