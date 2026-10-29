@@ -6,14 +6,10 @@ import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).parent
-published = json.loads((HERE / "results" / "results.json").read_text())
-with tempfile.TemporaryDirectory() as tmp:
-    subprocess.run([sys.executable, str(HERE / "eval.py"), "--out", tmp], check=True, capture_output=True)
-    rerun = json.loads((Path(tmp) / "results.json").read_text())
 
-if rerun["sha256"] != published["sha256"]:
-    sys.exit("FAIL: the input files differ from the ones the published results were made from")
-def rounded(x):   # 6 decimals: different machines' linear algebra can differ in the last bits
+
+def rounded(x):
+    """6 decimals: linear algebra on different machines can differ in the last bits."""
     if isinstance(x, float):
         return round(x, 6)
     if isinstance(x, dict):
@@ -23,6 +19,15 @@ def rounded(x):   # 6 decimals: different machines' linear algebra can differ in
     return x
 
 
+published = json.loads((HERE / "results" / "results.json").read_text(encoding="utf-8"))
+with tempfile.TemporaryDirectory() as tmp:
+    subprocess.run([sys.executable, str(HERE / "eval.py"), "--out", tmp], check=True, capture_output=True)
+    rerun = json.loads((Path(tmp) / "results.json").read_text(encoding="utf-8"))
+
+if rerun["meta"]["inputs"] != published["meta"]["inputs"]:
+    sys.exit("FAIL: the input files differ from the ones the published results were made from")
 if rounded(rerun) != rounded(published):
-    sys.exit("FAIL: same inputs, different results")
-print(f"OK: {len(published['meta']['systems'])} systems, {published['meta']['games']:,} games, results reproduced")
+    sys.exit("FAIL: same input files, different results")
+meta = published["meta"]
+print(f"OK: {len(published['metrics'])} metrics, {meta['games']:,} games, {meta['seasons'][0]} to "
+      f"{meta['seasons'][-1]}: results reproduced")
