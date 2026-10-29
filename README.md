@@ -36,8 +36,10 @@ season,nba_id,rating
   preseason projection. A value computed after opening night has seen the games it is predicting.
 
 A file with a missing column, a bad season, a non-numeric id or rating, or two ratings for one player-season is refused
-with the row number. A file that rates under 90% of the minutes of players with 250+ minutes last season gets a warning
-at the top of the report: usually its ids are not NBA.com ids.
+with the row number. Two warnings at the top of the report catch the usual mistakes: a file that rates under 90% of the
+minutes of players with 250+ minutes last season (its ids are usually not NBA.com ids), and a file whose average player
+with 250+ minutes is more than 1.5 points from 0 (it is not in points per 100 above average). PER, Win Shares and other
+stats on their own scale have to be converted first: for PER, subtract 15 (league average) and rescale.
 
 ## Rules (the same for every metric)
 
@@ -110,7 +112,7 @@ same file.
 
 Each table becomes the preseason ratings for the next season. Traded players use their season-total row, players are
 matched to NBA.com ids by name (`data/players.csv`), and anyone not matched is listed. `--column OBPM` (or any other
-column) scores that column instead.
+column) scores that column instead; a column on another scale, like PER, has to be converted first.
 
 ## Launch results (third-party metrics)
 

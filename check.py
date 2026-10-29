@@ -96,7 +96,8 @@ with tempfile.TemporaryDirectory() as tmp:
     cmd += ["--ratings", str(files)] if held else []
     run = subprocess.run(cmd + ["--out", str(Path(tmp) / "run")], capture_output=True, text=True)
     if run.returncode:
-        sys.exit(f"FAIL: eval.py stopped: {run.stderr.strip().splitlines()[-1] if run.stderr.strip() else run.returncode}")
+        reason = run.stderr.strip().splitlines()[-1] if run.stderr.strip() else f"exit code {run.returncode}"
+        sys.exit(f"FAIL: eval.py stopped: {reason}")
     rerun = json.loads((Path(tmp) / "run" / "results.json").read_text(encoding="utf-8"))
 
 if rerun["meta"]["seasons"] != meta["seasons"]:
@@ -112,9 +113,9 @@ if bad:
     sys.exit(f"FAIL: same files, different results for {', '.join(bad)}")
 
 n = len(pub["metrics"])
-print(f"OK: {len(names) if not complete else n} of {n} rows reproduced, {meta['games']:,} games, {meta['seasons'][0]} to "
-      f"{meta['seasons'][-1]}" + (": scores, intervals and rank ranges" if complete else
-                                   ": scores and intervals (rank ranges need every file)"))
+checked = ": scores, intervals and rank ranges" if complete else ": scores and intervals (rank ranges need every file)"
+print(f"OK: {n if complete else len(names)} of {n} rows reproduced, {meta['games']:,} games, "
+      f"{meta['seasons'][0]} to {meta['seasons'][-1]}{checked}")
 for name in other:
     print(f"  your copy of {name} is a different file (expected sha256 {meta['inputs'][name][:16]}...)")
 for name in missing:
