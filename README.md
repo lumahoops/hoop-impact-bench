@@ -51,6 +51,7 @@ scored, so the comparison is always on identical games. Bad files are refused wi
 |---|---|
 | `--minutes FILE` | Team tests use your minutes (`season,team,nba_id,min`) instead of the minutes actually played, e.g. a projected-minutes model. Game margins always use real game minutes. |
 | `--fill replacement` | Players a system does not rate count as -2.0. Default (`fitted`): newcomers get a value from draft pick and age, anyone else unrated gets one constant, both fitted from game results in the other seasons, separately for each system. |
+| `--seasons FIRST:LAST` | Score only these seasons, e.g. `2021-22:2024-25` (2 or more; each is predicted by a fit on the others). |
 | `--first NAME` | The system the bootstrap gaps are measured from. |
 
 ## Ratings we do not publish

@@ -20,6 +20,7 @@ Usage:
   python eval.py --extra my_ratings/      add your own systems (one CSV each, named after the system)
   python eval.py --minutes my_mins.csv    team tests on your minutes (season,team,nba_id,min) instead of actual
   python eval.py --fill replacement       unrated players = -2.0 instead of the fitted newcomer fill
+  python eval.py --seasons 2021-22:2024-25  score only these seasons (2 or more)
   python eval.py --first epm              measure the bootstrap gaps from this system (default: first by name)
 """
 import argparse
@@ -166,13 +167,18 @@ def load_inputs(extra):
     return files, systems, games, minutes, newcomers
 
 
-def prepare(systems, games, minutes):
-    """Seasons every system rates, the games and player-minutes in them, and each team's roster continuity."""
+def prepare(systems, games, minutes, window):
+    """Seasons every system rates (inside the window), the games and player-minutes in them, and roster continuity."""
     have = set(games.season)
+    first, last = window
     seasons = sorted(s for s in set.intersection(*(set(d.season) for d in systems.values()))
-                     if s in have and prev(s) in have)
+                     if s in have and prev(s) in have and first <= s <= last)
     if not seasons:
-        raise SystemExit("no season is rated by every system (and has the previous season's games)")
+        cover = ", ".join(f"{k} {d.season.min()} to {d.season.max()}" for k, d in systems.items())
+        raise SystemExit(f"no season in {first} to {last} is rated by every system ({cover}); data covers "
+                         f"{min(have)} to {max(have)}, and the first season only feeds continuity")
+    if len(seasons) < 2:
+        raise SystemExit(f"only {seasons[0]} is scorable; need 2+ seasons (each season is predicted by a fit on the others)")
 
     team_min = minutes.groupby(["season", "team", "nba_id"], as_index=False)["min"].sum()
     continuity = {}
@@ -230,12 +236,14 @@ def main():
     ap.add_argument("--extra", help="folder of more <system>.csv files (season,nba_id,rating)")
     ap.add_argument("--minutes", help="CSV season,team,nba_id,min to use for the team tests instead of actual minutes")
     ap.add_argument("--fill", choices=["fitted", "replacement"], default="fitted")
+    ap.add_argument("--seasons", default="0000-00:9999-99", help="FIRST:LAST (inclusive), e.g. 2021-22:2024-25")
     ap.add_argument("--first", help="system the bootstrap gaps are measured from (default: first by name)")
     ap.add_argument("--out", default=str(HERE / "results"))
     a = ap.parse_args()
 
     files, systems, games, minutes, newcomer_rows = load_inputs(a.extra)
-    seasons, G, M, team_min, results = prepare(systems, games, minutes)
+    window = (a.seasons.split(":") * 2)[:2] if ":" not in a.seasons else a.seasons.split(":")
+    seasons, G, M, team_min, results = prepare(systems, games, minutes, window)
     if a.minutes:
         team_min = read_checked(a.minutes, ["season", "team", "nba_id", "min"], ["nba_id", "min"])
         team_min = team_min[team_min.season.isin(seasons)]
