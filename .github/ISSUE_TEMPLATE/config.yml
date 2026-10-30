@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Send a ratings file privately
+    url: mailto:courtshare78@gmail.com
+    about: Email your ratings CSV for a verified run. Files are never published.

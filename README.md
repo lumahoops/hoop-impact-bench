@@ -203,9 +203,10 @@ in `results.json` (`meta.standard`). Compare them only with runs under the same 
 ## Add your metric
 
 1. Make your CSV (see [Your file](#your-file)) and run `python eval.py --ratings my_metric.csv`.
-2. To be added to the results, open an issue with your `results.json`. If you share the CSV as well, we rerun it and
-   the entry is marked verified. If you do not, it is marked self-reported, and the harness fingerprint in your
-   `results.json` must match this release. Say where the values come from and when they were made.
+2. To be added to the results, use the [submission form](https://github.com/lumahoops/hoop-impact-bench/issues/new?template=submit-metric.yml).
+   For a verified entry, email your CSV to courtshare78@gmail.com: we rerun it and publish only the scores and the
+   file's fingerprint, never the file. For a self-reported entry, attach your `results.json`; its harness fingerprint
+   must match this release. Say where the values come from and when they were made.
 
 ## Reproduce the results
 

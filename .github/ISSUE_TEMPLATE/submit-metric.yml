@@ -1,0 +1,66 @@
+name: Submit a metric
+description: Add your impact metric to the Hoop Impact Bench results
+title: "Submission: <metric name>"
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for submitting. Only scores and file fingerprints are ever published; your ratings file is never posted.
+        **Verified:** email your ratings CSV to courtshare78@gmail.com (subject: "HIB submission: <metric name>"). We rerun it and list it as verified.
+        **Self-reported:** attach the `results.json` from your own run below. It is listed as self-reported, and its harness fingerprint must match the current release.
+  - type: input
+    id: metric
+    attributes:
+      label: Metric name
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: Author(s) and how to credit them
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Link to the metric or its write-up
+  - type: dropdown
+    id: timing
+    attributes:
+      label: When were the values for each season made?
+      options:
+        - Before each season (preseason projection)
+        - End of the previous season
+        - As of a specific date (explain below)
+        - Other (explain below)
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Where the values come from
+      description: Model version, whether past seasons use the current model or values archived at the time, anything a reader should know.
+    validations:
+      required: true
+  - type: dropdown
+    id: route
+    attributes:
+      label: Submission type
+      options:
+        - Verified (I emailed the CSV to courtshare78@gmail.com)
+        - Self-reported (results.json attached below)
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: results.json (self-reported only)
+      description: Drag the file in, or paste its contents.
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Permission
+      options:
+        - label: I made this metric or have permission to submit it, and I agree to the scores and file fingerprint being published.
+          required: true
