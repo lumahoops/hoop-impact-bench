@@ -12,6 +12,11 @@ is scored on.
 - Weekly: every Monday, each metric's current rating is saved and scored on that week's games only. A metric that
   changes its model mid-season is scored on the version it had that week.
 
+Weekly means one information cutoff for everyone: a metric that updates daily (EPM, DARKO, Pulse) is scored on its
+Monday-morning ratings for the whole week, the same as a metric that updates weekly (LOKI). A possible later addition is
+a daily board, which would score each game with each metric's latest ratings from before tip-off that day and so
+reward models that update fastest.
+
 Both use the unchanged HIB harness and the v1 rules (under 250 minutes last season, rookies included, or missing
 from a file = -2.0). Early in the season the intervals are wide; read the rank ranges, not the order.
 
