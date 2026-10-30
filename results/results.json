@@ -1,7 +1,7 @@
 {
  "meta": {
   "benchmark": "Hoop Impact Bench (HIB)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "seasons": [
    "2020-21",
    "2021-22",
@@ -24,8 +24,8 @@
   "confidence": 0.9,
   "resamples": 2000,
   "seed": 7,
-  "harness": "0ab5226667289a799921b838cad5a5aac29d9c2bf2c779cd54082eb73520be2c",
-  "git_commit": "d2a27bfa1dd13766b43881acce60478d3abfa062",
+  "harness": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
+  "git_commit": "7034038d1d26f68f00bcd4a349c9f544810fda4e",
   "environment": {
    "python": "3.12.10",
    "numpy": "2.4.6",

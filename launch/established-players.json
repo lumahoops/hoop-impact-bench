@@ -1,7 +1,7 @@
 {
  "meta": {
   "benchmark": "Hoop Impact Bench (HIB)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "seasons": [
    "2020-21",
    "2021-22",
@@ -24,8 +24,8 @@
   "confidence": 0.9,
   "resamples": 2000,
   "seed": 7,
-  "harness": "0ab5226667289a799921b838cad5a5aac29d9c2bf2c779cd54082eb73520be2c",
-  "git_commit": "6a610f05b0a01a9e797e74d506319dd016ffc71d",
+  "harness": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
+  "git_commit": "7034038d1d26f68f00bcd4a349c9f544810fda4e",
   "environment": {
    "python": "3.12.10",
    "numpy": "2.4.6",
@@ -1187,6 +1187,90 @@
     }
    }
   },
+  "rapm_last_season": {
+   "baseline": true,
+   "coverage": 0.9997046483521825,
+   "coverage_established": 0.9997046483521825,
+   "average_established": 0.45872551176993726,
+   "by_season": {
+    "2020-21": {
+     "margin_r2": 0.10856501627462278,
+     "winpct_r": 0.6545958116778358,
+     "net_rmse": 3.3701354168630027
+    },
+    "2021-22": {
+     "margin_r2": 0.12232549552707694,
+     "winpct_r": 0.693828191826187,
+     "net_rmse": 3.449310772598215
+    },
+    "2022-23": {
+     "margin_r2": 0.11554257384963249,
+     "winpct_r": 0.791464721669619,
+     "net_rmse": 2.805509620933425
+    },
+    "2023-24": {
+     "margin_r2": 0.17276748991468913,
+     "winpct_r": 0.8237337304704075,
+     "net_rmse": 3.30745497980006
+    },
+    "2024-25": {
+     "margin_r2": 0.17033991439820811,
+     "winpct_r": 0.7797001878541029,
+     "net_rmse": 3.6586256524392984
+    },
+    "2025-26": {
+     "margin_r2": 0.14556724677503408,
+     "winpct_r": 0.6704412924852515,
+     "net_rmse": 4.4031479187286715
+    }
+   },
+   "all": {
+    "margin_r2": {
+     "value": 0.14062390302205272,
+     "interval": [
+      0.12287672454395192,
+      0.15675304429151354
+     ]
+    },
+    "winpct_r": {
+     "value": 0.7287775805382084,
+     "interval": [
+      0.6675985107483442,
+      0.7791195834120034
+     ]
+    },
+    "net_rmse": {
+     "value": 3.531735962889502,
+     "interval": [
+      3.2477003383043033,
+      3.8248301648121537
+     ]
+    }
+   },
+   "rebuilt": {
+    "margin_r2": {
+     "value": 0.18535998243455748,
+     "interval": [
+      0.153746865441211,
+      0.21470654325461888
+     ]
+    },
+    "winpct_r": {
+     "value": 0.7253075258191082,
+     "interval": [
+      0.6202299490627611,
+      0.8119491530644952
+     ]
+    },
+    "net_rmse": {
+     "value": 3.6824365432209945,
+     "interval": [
+      3.1897933706262958,
+      4.130688293352376
+     ]
+    }
+   }
+  },
   "ceiling_rapm_same_season": {
    "baseline": true,
    "coverage": 1.0,
@@ -1194,49 +1278,49 @@
    "average_established": 0.5794185136202032,
    "by_season": {
     "2020-21": {
-     "margin_r2": 0.22731914938333325,
-     "winpct_r": 0.9156712067064163,
+     "margin_r2": 0.22731914938333314,
+     "winpct_r": 0.9156712067064162,
      "net_rmse": 1.7862253598453113
     },
     "2021-22": {
-     "margin_r2": 0.2515362249584445,
+     "margin_r2": 0.25153622495844374,
      "winpct_r": 0.9436677831366194,
      "net_rmse": 1.757755919710316
     },
     "2022-23": {
-     "margin_r2": 0.20491983251680695,
+     "margin_r2": 0.20491983251680726,
      "winpct_r": 0.9202468760732397,
      "net_rmse": 1.6577787788495626
     },
     "2023-24": {
-     "margin_r2": 0.27817112072685507,
+     "margin_r2": 0.2781711207268556,
      "winpct_r": 0.9516389124605421,
      "net_rmse": 1.6932251099260975
     },
     "2024-25": {
-     "margin_r2": 0.3004741310281575,
-     "winpct_r": 0.9665052874311786,
+     "margin_r2": 0.30047413102815723,
+     "winpct_r": 0.9665052874311783,
      "net_rmse": 1.643626509993135
     },
     "2025-26": {
-     "margin_r2": 0.32027671089302956,
-     "winpct_r": 0.975234680030406,
+     "margin_r2": 0.32027671089303017,
+     "winpct_r": 0.9752346800304059,
      "net_rmse": 1.5039535150763823
     }
    },
    "all": {
     "margin_r2": {
-     "value": 0.2683275945109314,
+     "value": 0.2683275945109297,
      "interval": [
-      0.2509438803504351,
-      0.28573813930589637
+      0.2509438803504358,
+      0.28573813930589725
      ]
     },
     "winpct_r": {
-     "value": 0.9486562997731022,
+     "value": 0.9486562997731025,
      "interval": [
-      0.9358726895766406,
-      0.9599090826976856
+      0.9358726895766412,
+      0.9599090826976858
      ]
     },
     "net_rmse": {
@@ -1249,17 +1333,17 @@
    },
    "rebuilt": {
     "margin_r2": {
-     "value": 0.31428217117951857,
+     "value": 0.31428217117951907,
      "interval": [
-      0.28427411243329637,
-      0.3400195532406849
+      0.2842741124332969,
+      0.3400195532406856
      ]
     },
     "winpct_r": {
-     "value": 0.9410200075636532,
+     "value": 0.941020007563653,
      "interval": [
-      0.9173436552642125,
-      0.9625220193087749
+      0.9173436552642122,
+      0.962522019308775
      ]
     },
     "net_rmse": {
@@ -1387,11 +1471,22 @@
    "part": "all",
    "test": "margin_r2",
    "a": "loki",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.09862183667882032,
+   "b": "rapm_last_season",
+   "diff": 0.029081854810058372,
    "interval": [
-    -0.1086650997392134,
-    -0.0884805344149371
+    0.02047398823653876,
+    0.037898673507647355
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "loki",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.0986218366788186,
+   "interval": [
+    -0.10866509973921258,
+    -0.08848053441493428
    ]
   },
   {
@@ -1497,11 +1592,22 @@
    "part": "all",
    "test": "margin_r2",
    "a": "openrapm",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.1059018288333311,
+   "b": "rapm_last_season",
+   "diff": 0.021801862655547594,
    "interval": [
-    -0.11607068511051442,
-    -0.0956540858354232
+    0.01451532423718483,
+    0.029557908481934077
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "openrapm",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.10590182883332938,
+   "interval": [
+    -0.11607068511051444,
+    -0.09565408583542317
    ]
   },
   {
@@ -1596,11 +1702,22 @@
    "part": "all",
    "test": "margin_r2",
    "a": "arc_2yr",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.11599728619047917,
+   "b": "rapm_last_season",
+   "diff": 0.01170640529839953,
    "interval": [
-    -0.12712671597449302,
-    -0.10532770523791983
+    0.004018898223946703,
+    0.01950166807517737
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "arc_2yr",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.11599728619047744,
+   "interval": [
+    -0.1271267159744924,
+    -0.10532770523791629
    ]
   },
   {
@@ -1684,11 +1801,22 @@
    "part": "all",
    "test": "margin_r2",
    "a": "epm_current",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.1109054517742919,
+   "b": "rapm_last_season",
+   "diff": 0.0167982397145868,
    "interval": [
-    -0.12144504587397484,
-    -0.10034333148284616
+    0.008837693021355722,
+    0.025479722680228672
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "epm_current",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.11090545177429018,
+   "interval": [
+    -0.1214450458739739,
+    -0.1003433314828464
    ]
   },
   {
@@ -1761,11 +1889,22 @@
    "part": "all",
    "test": "margin_r2",
    "a": "darko",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.11326034877317653,
+   "b": "rapm_last_season",
+   "diff": 0.014443342715702162,
    "interval": [
-    -0.1243702478355685,
-    -0.10232659722409997
+    0.007230285450153943,
+    0.02245002349754854
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "darko",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.11326034877317481,
+   "interval": [
+    -0.12437024783556754,
+    -0.10232659722410041
    ]
   },
   {
@@ -1827,11 +1966,22 @@
    "part": "all",
    "test": "margin_r2",
    "a": "lebron",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.10916333564465025,
+   "b": "rapm_last_season",
+   "diff": 0.018540355844228446,
    "interval": [
-    -0.1200270012211455,
-    -0.0984582713183773
+    0.01029409421823822,
+    0.02734642933158339
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "lebron",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.10916333564464853,
+   "interval": [
+    -0.12002700122114557,
+    -0.0984582713183746
    ]
   },
   {
@@ -1882,11 +2032,22 @@
    "part": "all",
    "test": "margin_r2",
    "a": "bpm_bbref",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.11455554386102837,
+   "b": "rapm_last_season",
+   "diff": 0.013148147627850326,
    "interval": [
-    -0.12574214064214995,
-    -0.10359437307838412
+    0.004182835410654624,
+    0.022938487235893923
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.11455554386102665,
+   "interval": [
+    -0.12574214064215303,
+    -0.10359437307838541
    ]
   },
   {
@@ -1926,11 +2087,22 @@
    "part": "all",
    "test": "margin_r2",
    "a": "pulse",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.09704893394653191,
+   "b": "rapm_last_season",
+   "diff": 0.030654757542346783,
    "interval": [
-    -0.1073943504990378,
-    -0.08652053062730802
+    0.022740376764285124,
+    0.039166364339265236
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "pulse",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.09704893394653019,
+   "interval": [
+    -0.10739435049903719,
+    -0.08652053062730826
    ]
   },
   {
@@ -1959,11 +2131,22 @@
    "part": "all",
    "test": "margin_r2",
    "a": "xrapm",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.1069926906251708,
+   "b": "rapm_last_season",
+   "diff": 0.02071100086370789,
    "interval": [
-    -0.11728247786194802,
-    -0.09710927423499024
+    0.014233613038708466,
+    0.027521070047285778
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "xrapm",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.10699269062516908,
+   "interval": [
+    -0.1172824778619496,
+    -0.09710927423499037
    ]
   },
   {
@@ -1981,11 +2164,33 @@
    "part": "all",
    "test": "margin_r2",
    "a": "baseline_zero",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.14309134934511775,
+   "b": "rapm_last_season",
+   "diff": -0.015387657856239051,
    "interval": [
-    -0.15869852642814924,
-    -0.12715061021259244
+    -0.02789381883723754,
+    -0.0027904909542555336
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "baseline_zero",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.14309134934511603,
+   "interval": [
+    -0.15869852642814936,
+    -0.1271506102125945
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "baseline_last_team",
+   "b": "rapm_last_season",
+   "diff": -0.037197870911415507,
+   "interval": [
+    -0.04534286360496024,
+    -0.028802238441670756
    ]
   },
   {
@@ -1993,10 +2198,21 @@
    "test": "margin_r2",
    "a": "baseline_last_team",
    "b": "ceiling_rapm_same_season",
-   "diff": -0.1649015624002942,
+   "diff": -0.16490156240029247,
    "interval": [
-    -0.17866384612154274,
-    -0.15134427375384882
+    -0.17866384612154373,
+    -0.15134427375384912
+   ]
+  },
+  {
+   "part": "all",
+   "test": "margin_r2",
+   "a": "rapm_last_season",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.12770369148887697,
+   "interval": [
+    -0.13921767327568854,
+    -0.11669929445269066
    ]
   },
   {
@@ -2113,11 +2329,22 @@
    "part": "all",
    "test": "winpct_r",
    "a": "loki",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.1435416158250934,
+   "b": "rapm_last_season",
+   "diff": 0.07633710340980038,
    "interval": [
-    -0.1879050000978105,
-    -0.10712095178166596
+    0.04248681217720504,
+    0.11696054488924716
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "loki",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.14354161582509373,
+   "interval": [
+    -0.18790500009781008,
+    -0.10712095178166614
    ]
   },
   {
@@ -2223,11 +2450,22 @@
    "part": "all",
    "test": "winpct_r",
    "a": "openrapm",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.16299808452946474,
+   "b": "rapm_last_season",
+   "diff": 0.056880634705429034,
    "interval": [
-    -0.2069525116604009,
-    -0.12718797612003424
+    0.029104678534100457,
+    0.08858868874410186
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "openrapm",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.16299808452946507,
+   "interval": [
+    -0.20695251166040027,
+    -0.12718797612003382
    ]
   },
   {
@@ -2322,10 +2560,21 @@
    "part": "all",
    "test": "winpct_r",
    "a": "arc_2yr",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.17262255116595848,
+   "b": "rapm_last_season",
+   "diff": 0.04725616806893529,
    "interval": [
-    -0.2181216342015153,
+    0.015137035844165736,
+    0.0828551106220037
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "arc_2yr",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.17262255116595882,
+   "interval": [
+    -0.2181216342015149,
     -0.13462139593073144
    ]
   },
@@ -2410,11 +2659,22 @@
    "part": "all",
    "test": "winpct_r",
    "a": "epm_current",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.1703043008479712,
+   "b": "rapm_last_season",
+   "diff": 0.04957441838692256,
    "interval": [
-    -0.21906536226057022,
-    -0.1311098265709789
+    0.016829351301722226,
+    0.08460014123295752
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "epm_current",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.17030430084797155,
+   "interval": [
+    -0.21906536226057025,
+    -0.13110982657097964
    ]
   },
   {
@@ -2487,11 +2747,22 @@
    "part": "all",
    "test": "winpct_r",
    "a": "darko",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.18136154015899653,
+   "b": "rapm_last_season",
+   "diff": 0.038517179075897245,
    "interval": [
-    -0.23108018196810745,
-    -0.14008695703822888
+    0.007630154685463962,
+    0.07084691676987828
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.18136154015899686,
+   "interval": [
+    -0.2310801819681068,
+    -0.14008695703822865
    ]
   },
   {
@@ -2553,11 +2824,22 @@
    "part": "all",
    "test": "winpct_r",
    "a": "lebron",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.17818743858441866,
+   "b": "rapm_last_season",
+   "diff": 0.041691280650475115,
    "interval": [
-    -0.2243889373839548,
-    -0.13880680520802857
+    0.009571833442539639,
+    0.07587988872532904
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.178187438584419,
+   "interval": [
+    -0.22438893738395435,
+    -0.13880680520802868
    ]
   },
   {
@@ -2608,11 +2890,22 @@
    "part": "all",
    "test": "winpct_r",
    "a": "bpm_bbref",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.1761291634803851,
+   "b": "rapm_last_season",
+   "diff": 0.04374955575450867,
    "interval": [
-    -0.2232828144187093,
-    -0.1340518685607059
+    0.01027427245539866,
+    0.08140687822207351
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.17612916348038543,
+   "interval": [
+    -0.2232828144187094,
+    -0.1340518685607057
    ]
   },
   {
@@ -2652,11 +2945,22 @@
    "part": "all",
    "test": "winpct_r",
    "a": "pulse",
+   "b": "rapm_last_season",
+   "diff": 0.07142122464510892,
+   "interval": [
+    0.04194684068068303,
+    0.10524679489251801
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "pulse",
    "b": "ceiling_rapm_same_season",
-   "diff": -0.14845749458978486,
+   "diff": -0.1484574945897852,
    "interval": [
     -0.19008125338074194,
-    -0.11363412184392087
+    -0.11363412184392077
    ]
   },
   {
@@ -2685,11 +2989,22 @@
    "part": "all",
    "test": "winpct_r",
    "a": "xrapm",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.17621590924796926,
+   "b": "rapm_last_season",
+   "diff": 0.04366280998692451,
    "interval": [
-    -0.22451442702094057,
-    -0.1374979158652599
+    0.017433807364393015,
+    0.0733991879034946
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "xrapm",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.1762159092479696,
+   "interval": [
+    -0.22451442702094068,
+    -0.13749791586525925
    ]
   },
   {
@@ -2707,11 +3022,33 @@
    "part": "all",
    "test": "winpct_r",
    "a": "baseline_zero",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.27025533112141276,
+   "b": "rapm_last_season",
+   "diff": -0.050376611886518985,
    "interval": [
-    -0.3363563105959464,
-    -0.21399502420385513
+    -0.11177607668307979,
+    0.0078002390017695164
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "baseline_zero",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.2702553311214131,
+   "interval": [
+    -0.33635631059594634,
+    -0.2139950242038549
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "baseline_last_team",
+   "b": "rapm_last_season",
+   "diff": -0.09995804244664985,
+   "interval": [
+    -0.14072465766607198,
+    -0.06283001065866968
    ]
   },
   {
@@ -2719,10 +3056,21 @@
    "test": "winpct_r",
    "a": "baseline_last_team",
    "b": "ceiling_rapm_same_season",
-   "diff": -0.3198367616815436,
+   "diff": -0.31983676168154396,
    "interval": [
-    -0.39302625089732257,
-    -0.25861962093270546
+    -0.3930262508973227,
+    -0.2586196209327057
+   ]
+  },
+  {
+   "part": "all",
+   "test": "winpct_r",
+   "a": "rapm_last_season",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.2198787192348941,
+   "interval": [
+    -0.277433648114755,
+    -0.1733451404839015
    ]
   },
   {
@@ -2839,6 +3187,17 @@
    "part": "all",
    "test": "net_rmse",
    "a": "loki",
+   "b": "rapm_last_season",
+   "diff": -0.45245812569683785,
+   "interval": [
+    -0.7059666953926913,
+    -0.20368151458718486
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "loki",
    "b": "ceiling_rapm_same_season",
    "diff": 1.4030254227384158,
    "interval": [
@@ -2949,6 +3308,17 @@
    "part": "all",
    "test": "net_rmse",
    "a": "openrapm",
+   "b": "rapm_last_season",
+   "diff": -0.14469489567471294,
+   "interval": [
+    -0.38393598996825795,
+    0.10111337146285151
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "openrapm",
    "b": "ceiling_rapm_same_season",
    "diff": 1.7107886527605407,
    "interval": [
@@ -3048,6 +3418,17 @@
    "part": "all",
    "test": "net_rmse",
    "a": "arc_2yr",
+   "b": "rapm_last_season",
+   "diff": -0.15303362014396305,
+   "interval": [
+    -0.4050855446635199,
+    0.10066746923487761
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "arc_2yr",
    "b": "ceiling_rapm_same_season",
    "diff": 1.7024499282912906,
    "interval": [
@@ -3136,6 +3517,17 @@
    "part": "all",
    "test": "net_rmse",
    "a": "epm_current",
+   "b": "rapm_last_season",
+   "diff": 0.3359257266550295,
+   "interval": [
+    0.0001588640250909177,
+    0.6697112616729022
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "epm_current",
    "b": "ceiling_rapm_same_season",
    "diff": 2.191409275090283,
    "interval": [
@@ -3213,6 +3605,17 @@
    "part": "all",
    "test": "net_rmse",
    "a": "darko",
+   "b": "rapm_last_season",
+   "diff": -0.17519237937726073,
+   "interval": [
+    -0.39558388001078476,
+    0.03904639939301516
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "darko",
    "b": "ceiling_rapm_same_season",
    "diff": 1.680291169057993,
    "interval": [
@@ -3279,6 +3682,17 @@
    "part": "all",
    "test": "net_rmse",
    "a": "lebron",
+   "b": "rapm_last_season",
+   "diff": -0.1451903538983359,
+   "interval": [
+    -0.37746777643160667,
+    0.1042330412412902
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "lebron",
    "b": "ceiling_rapm_same_season",
    "diff": 1.7102931945369177,
    "interval": [
@@ -3334,6 +3748,17 @@
    "part": "all",
    "test": "net_rmse",
    "a": "bpm_bbref",
+   "b": "rapm_last_season",
+   "diff": -0.03569862536849033,
+   "interval": [
+    -0.36536901262263527,
+    0.2782398454168749
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "bpm_bbref",
    "b": "ceiling_rapm_same_season",
    "diff": 1.8197849230667633,
    "interval": [
@@ -3378,6 +3803,17 @@
    "part": "all",
    "test": "net_rmse",
    "a": "pulse",
+   "b": "rapm_last_season",
+   "diff": -0.39837011024344315,
+   "interval": [
+    -0.6214379904864599,
+    -0.1847702859574092
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "pulse",
    "b": "ceiling_rapm_same_season",
    "diff": 1.4571134381918105,
    "interval": [
@@ -3411,6 +3847,17 @@
    "part": "all",
    "test": "net_rmse",
    "a": "xrapm",
+   "b": "rapm_last_season",
+   "diff": -0.054649070500042196,
+   "interval": [
+    -0.28926126516133394,
+    0.1713169334526591
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "xrapm",
    "b": "ceiling_rapm_same_season",
    "diff": 1.8008344779352115,
    "interval": [
@@ -3433,6 +3880,17 @@
    "part": "all",
    "test": "net_rmse",
    "a": "baseline_zero",
+   "b": "rapm_last_season",
+   "diff": 1.1218637320351417,
+   "interval": [
+    0.7497122381945012,
+    1.5091396786487967
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "baseline_zero",
    "b": "ceiling_rapm_same_season",
    "diff": 2.9773472804703953,
    "interval": [
@@ -3444,11 +3902,33 @@
    "part": "all",
    "test": "net_rmse",
    "a": "baseline_last_team",
+   "b": "rapm_last_season",
+   "diff": 0.6559364136858954,
+   "interval": [
+    0.40821466692040786,
+    0.9113259287649232
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "baseline_last_team",
    "b": "ceiling_rapm_same_season",
    "diff": 2.511419962121149,
    "interval": [
     2.143368247458603,
     2.9110997810752983
+   ]
+  },
+  {
+   "part": "all",
+   "test": "net_rmse",
+   "a": "rapm_last_season",
+   "b": "ceiling_rapm_same_season",
+   "diff": 1.8554835484352536,
+   "interval": [
+    1.5805267766356184,
+    2.1499682374664864
    ]
   },
   {
@@ -3565,11 +4045,22 @@
    "part": "rebuilt",
    "test": "margin_r2",
    "a": "loki",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.10026991019656642,
+   "b": "rapm_last_season",
+   "diff": 0.028652278548394666,
    "interval": [
-    -0.1204455625921309,
-    -0.08088555620216811
+    0.013804276394514087,
+    0.04404331165268708
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "loki",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.10026991019656692,
+   "interval": [
+    -0.12044556259213061,
+    -0.08088555620216861
    ]
   },
   {
@@ -3675,11 +4166,22 @@
    "part": "rebuilt",
    "test": "margin_r2",
    "a": "openrapm",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.11077785500765217,
+   "b": "rapm_last_season",
+   "diff": 0.01814433373730892,
    "interval": [
-    -0.12986832855752828,
-    -0.0919507490803486
+    0.006435489360230094,
+    0.03034566431698884
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "openrapm",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.11077785500765266,
+   "interval": [
+    -0.12986832855752697,
+    -0.09195074908034814
    ]
   },
   {
@@ -3774,11 +4276,22 @@
    "part": "rebuilt",
    "test": "margin_r2",
    "a": "arc_2yr",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.11857944944482174,
+   "b": "rapm_last_season",
+   "diff": 0.010342739300139348,
    "interval": [
-    -0.14102572375993144,
-    -0.09743890746920501
+    -0.0037608960697953124,
+    0.0253930681616042
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "arc_2yr",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.11857944944482224,
+   "interval": [
+    -0.14102572375993283,
+    -0.09743890746920628
    ]
   },
   {
@@ -3862,11 +4375,22 @@
    "part": "rebuilt",
    "test": "margin_r2",
    "a": "epm_current",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.12092637352452243,
+   "b": "rapm_last_season",
+   "diff": 0.007995815220438657,
    "interval": [
-    -0.14060743043793394,
-    -0.1014158164822602
+    -0.005182569910603019,
+    0.022519930729587658
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "epm_current",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.12092637352452293,
+   "interval": [
+    -0.1406074304379344,
+    -0.10141581648226135
    ]
   },
   {
@@ -3939,11 +4463,22 @@
    "part": "rebuilt",
    "test": "margin_r2",
    "a": "darko",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.11535712593832739,
+   "b": "rapm_last_season",
+   "diff": 0.013565062806633693,
    "interval": [
-    -0.1348562085129718,
-    -0.09476681307740512
+    0.0008708454183802268,
+    0.027011202340937034
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "darko",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.11535712593832789,
+   "interval": [
+    -0.13485620851297256,
+    -0.09476681307740364
    ]
   },
   {
@@ -4005,11 +4540,22 @@
    "part": "rebuilt",
    "test": "margin_r2",
    "a": "lebron",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.11060493640799182,
+   "b": "rapm_last_season",
+   "diff": 0.018317252336969264,
    "interval": [
-    -0.12961750444320685,
-    -0.09194540896837944
+    0.006128399675741044,
+    0.03109797319199448
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "lebron",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.11060493640799232,
+   "interval": [
+    -0.1296175044432077,
+    -0.09194540896838108
    ]
   },
   {
@@ -4060,11 +4606,22 @@
    "part": "rebuilt",
    "test": "margin_r2",
    "a": "bpm_bbref",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.11884926239071006,
+   "b": "rapm_last_season",
+   "diff": 0.010072926354251027,
    "interval": [
-    -0.14216387360479463,
-    -0.09697165073964656
+    -0.006561983678644192,
+    0.027819690891234258
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.11884926239071056,
+   "interval": [
+    -0.14216387360479413,
+    -0.09697165073964502
    ]
   },
   {
@@ -4104,11 +4661,22 @@
    "part": "rebuilt",
    "test": "margin_r2",
    "a": "pulse",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.09720857300296298,
+   "b": "rapm_last_season",
+   "diff": 0.0317136157419981,
    "interval": [
-    -0.11578488988658778,
-    -0.07855433965042363
+    0.0161099731693426,
+    0.04760298667790188
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "pulse",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.09720857300296348,
+   "interval": [
+    -0.11578488988658851,
+    -0.0785543396504238
    ]
   },
   {
@@ -4137,11 +4705,22 @@
    "part": "rebuilt",
    "test": "margin_r2",
    "a": "xrapm",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.11364330580931067,
+   "b": "rapm_last_season",
+   "diff": 0.015278882935650412,
    "interval": [
-    -0.13277502286602788,
-    -0.09513519823798365
+    0.002894499889617065,
+    0.02829847951840199
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "xrapm",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.11364330580931117,
+   "interval": [
+    -0.13277502286602863,
+    -0.09513519823798394
    ]
   },
   {
@@ -4159,11 +4738,33 @@
    "part": "rebuilt",
    "test": "margin_r2",
    "a": "baseline_zero",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.12553898713337783,
+   "b": "rapm_last_season",
+   "diff": 0.0033832016115832586,
    "interval": [
-    -0.14766723244280794,
-    -0.10330584354382495
+    -0.01796015913440735,
+    0.024606256688460178
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "baseline_zero",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.12553898713337833,
+   "interval": [
+    -0.14766723244280636,
+    -0.10330584354382492
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "baseline_last_team",
+   "b": "rapm_last_season",
+   "diff": -0.061783339642212276,
+   "interval": [
+    -0.07884346740773743,
+    -0.04404182423811141
    ]
   },
   {
@@ -4171,10 +4772,21 @@
    "test": "margin_r2",
    "a": "baseline_last_team",
    "b": "ceiling_rapm_same_season",
-   "diff": -0.19070552838717336,
+   "diff": -0.19070552838717386,
    "interval": [
-    -0.21613956522438943,
-    -0.16319042946163012
+    -0.21613956522439068,
+    -0.16319042946163081
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "margin_r2",
+   "a": "rapm_last_season",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.12892218874496159,
+   "interval": [
+    -0.14936021794331006,
+    -0.10874355131271651
    ]
   },
   {
@@ -4291,11 +4903,22 @@
    "part": "rebuilt",
    "test": "winpct_r",
    "a": "loki",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.15929718210233412,
+   "b": "rapm_last_season",
+   "diff": 0.056415299642210925,
    "interval": [
-    -0.24283125791889532,
-    -0.09102580888105241
+    -0.00504929260491827,
+    0.11972977627257013
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "loki",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.1592971821023339,
+   "interval": [
+    -0.2428312579188953,
+    -0.0910258088810523
    ]
   },
   {
@@ -4401,11 +5024,22 @@
    "part": "rebuilt",
    "test": "winpct_r",
    "a": "openrapm",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.15713921553299703,
+   "b": "rapm_last_season",
+   "diff": 0.058573266211548014,
    "interval": [
-    -0.24445815975325008,
-    -0.08633475264403742
+    0.008798234796985901,
+    0.11077116720910785
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "openrapm",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.1571392155329968,
+   "interval": [
+    -0.24445815975324983,
+    -0.08633475264403782
    ]
   },
   {
@@ -4500,11 +5134,22 @@
    "part": "rebuilt",
    "test": "winpct_r",
    "a": "arc_2yr",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.17211542159828885,
+   "b": "rapm_last_season",
+   "diff": 0.043597060146256195,
    "interval": [
-    -0.25578553199803034,
-    -0.10407500540917825
+    -0.014066520959987752,
+    0.10025748584417021
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "arc_2yr",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.17211542159828863,
+   "interval": [
+    -0.2557855319980301,
+    -0.10407500540917845
    ]
   },
   {
@@ -4588,11 +5233,22 @@
    "part": "rebuilt",
    "test": "winpct_r",
    "a": "epm_current",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.16827112572672343,
+   "b": "rapm_last_season",
+   "diff": 0.04744135601782162,
    "interval": [
-    -0.2635160163479752,
-    -0.0926649429803907
+    -0.01083483999104974,
+    0.10868038457079691
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "epm_current",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.1682711257267232,
+   "interval": [
+    -0.2635160163479749,
+    -0.09266494298039038
    ]
   },
   {
@@ -4665,11 +5321,22 @@
    "part": "rebuilt",
    "test": "winpct_r",
    "a": "darko",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.18811690129467873,
+   "b": "rapm_last_season",
+   "diff": 0.02759558044986632,
    "interval": [
-    -0.2784192122842373,
-    -0.11090200296081063
+    -0.020181386905516945,
+    0.07741622115492937
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.1881169012946785,
+   "interval": [
+    -0.2784192122842368,
+    -0.11090200296081082
    ]
   },
   {
@@ -4731,11 +5398,22 @@
    "part": "rebuilt",
    "test": "winpct_r",
    "a": "lebron",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.14942384515427287,
+   "b": "rapm_last_season",
+   "diff": 0.06628863659027218,
    "interval": [
-    -0.22723352891812915,
-    -0.08905246872093592
+    0.004352124051056584,
+    0.1361963278567462
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.14942384515427265,
+   "interval": [
+    -0.22723352891812937,
+    -0.0890524687209357
    ]
   },
   {
@@ -4786,11 +5464,22 @@
    "part": "rebuilt",
    "test": "winpct_r",
    "a": "bpm_bbref",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.16989731607830538,
+   "b": "rapm_last_season",
+   "diff": 0.045815165666239666,
    "interval": [
-    -0.2744561065446109,
-    -0.09168676874875231
+    -0.03200126533003226,
+    0.12330964153929398
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.16989731607830516,
+   "interval": [
+    -0.2744561065446112,
+    -0.09168676874875233
    ]
   },
   {
@@ -4830,11 +5519,22 @@
    "part": "rebuilt",
    "test": "winpct_r",
    "a": "pulse",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.12823132258854897,
+   "b": "rapm_last_season",
+   "diff": 0.08748115915599608,
    "interval": [
-    -0.19697010008082794,
-    -0.07161462136169
+    0.02817274019335429,
+    0.15482597382037544
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "pulse",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.12823132258854875,
+   "interval": [
+    -0.1969701000808273,
+    -0.07161462136168978
    ]
   },
   {
@@ -4863,11 +5563,22 @@
    "part": "rebuilt",
    "test": "winpct_r",
    "a": "xrapm",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.1848468931570909,
+   "b": "rapm_last_season",
+   "diff": 0.03086558858745414,
    "interval": [
-    -0.27647800287837654,
-    -0.11232218918482902
+    -0.017378101405138267,
+    0.08152315550354806
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "xrapm",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.18484689315709069,
+   "interval": [
+    -0.2764780028783766,
+    -0.11232218918482934
    ]
   },
   {
@@ -4885,11 +5596,33 @@
    "part": "rebuilt",
    "test": "winpct_r",
    "a": "baseline_zero",
-   "b": "ceiling_rapm_same_season",
-   "diff": -0.1490627028113355,
+   "b": "rapm_last_season",
+   "diff": 0.06664977893320956,
    "interval": [
-    -0.23697189269843866,
-    -0.0726811319137953
+    -0.030939231130472505,
+    0.1743917034807721
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "baseline_zero",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.14906270281133527,
+   "interval": [
+    -0.23697189269843877,
+    -0.07268113191379541
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "baseline_last_team",
+   "b": "rapm_last_season",
+   "diff": -0.14137808906391724,
+   "interval": [
+    -0.2515293902563066,
+    -0.05149659512127949
    ]
   },
   {
@@ -4897,10 +5630,21 @@
    "test": "winpct_r",
    "a": "baseline_last_team",
    "b": "ceiling_rapm_same_season",
-   "diff": -0.3570905708084623,
+   "diff": -0.35709057080846207,
    "interval": [
     -0.5210736429795884,
-    -0.2234764851664886
+    -0.22347648516648888
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "winpct_r",
+   "a": "rapm_last_season",
+   "b": "ceiling_rapm_same_season",
+   "diff": -0.21571248174454483,
+   "interval": [
+    -0.31650901425168876,
+    -0.13007747393283112
    ]
   },
   {
@@ -5017,6 +5761,17 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "loki",
+   "b": "rapm_last_season",
+   "diff": -0.17950075704906832,
+   "interval": [
+    -0.5491108761235423,
+    0.2154528438136415
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "loki",
    "b": "ceiling_rapm_same_season",
    "diff": 1.4071792879766765,
    "interval": [
@@ -5127,6 +5882,17 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "openrapm",
+   "b": "rapm_last_season",
+   "diff": -0.5551135550822912,
+   "interval": [
+    -0.9310196436980345,
+    -0.17137773294311762
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "openrapm",
    "b": "ceiling_rapm_same_season",
    "diff": 1.0315664899434536,
    "interval": [
@@ -5226,6 +5992,17 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "arc_2yr",
+   "b": "rapm_last_season",
+   "diff": -0.3417999592635548,
+   "interval": [
+    -0.7672822947457241,
+    0.11087871417745263
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "arc_2yr",
    "b": "ceiling_rapm_same_season",
    "diff": 1.24488008576219,
    "interval": [
@@ -5314,6 +6091,17 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "epm_current",
+   "b": "rapm_last_season",
+   "diff": -0.2202277741762102,
+   "interval": [
+    -0.7775562166843605,
+    0.3261331704914256
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "epm_current",
    "b": "ceiling_rapm_same_season",
    "diff": 1.3664522708495346,
    "interval": [
@@ -5391,6 +6179,17 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "darko",
+   "b": "rapm_last_season",
+   "diff": -0.28397739208494377,
+   "interval": [
+    -0.5666125606513632,
+    0.009458385139996785
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "darko",
    "b": "ceiling_rapm_same_season",
    "diff": 1.302702652940801,
    "interval": [
@@ -5457,6 +6256,17 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "lebron",
+   "b": "rapm_last_season",
+   "diff": -0.6242578165147421,
+   "interval": [
+    -0.9302571538868831,
+    -0.30369608964682926
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "lebron",
    "b": "ceiling_rapm_same_season",
    "diff": 0.9624222285110027,
    "interval": [
@@ -5512,6 +6322,17 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "bpm_bbref",
+   "b": "rapm_last_season",
+   "diff": -0.22140307079230448,
+   "interval": [
+    -0.8576788620522722,
+    0.37767143487574234
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "bpm_bbref",
    "b": "ceiling_rapm_same_season",
    "diff": 1.3652769742334403,
    "interval": [
@@ -5556,6 +6377,17 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "pulse",
+   "b": "rapm_last_season",
+   "diff": -0.7970514637198023,
+   "interval": [
+    -1.137936973324121,
+    -0.445834680164552
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "pulse",
    "b": "ceiling_rapm_same_season",
    "diff": 0.7896285813059425,
    "interval": [
@@ -5589,6 +6421,17 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "xrapm",
+   "b": "rapm_last_season",
+   "diff": -0.30069629763860295,
+   "interval": [
+    -0.6603073316465017,
+    0.05469074117478663
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "xrapm",
    "b": "ceiling_rapm_same_season",
    "diff": 1.2859837473871418,
    "interval": [
@@ -5611,6 +6454,17 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "baseline_zero",
+   "b": "rapm_last_season",
+   "diff": 0.41788778357075973,
+   "interval": [
+    -0.12252348726685192,
+    0.9594450871216949
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "baseline_zero",
    "b": "ceiling_rapm_same_season",
    "diff": 2.0045678285965045,
    "interval": [
@@ -5622,11 +6476,33 @@
    "part": "rebuilt",
    "test": "net_rmse",
    "a": "baseline_last_team",
+   "b": "rapm_last_season",
+   "diff": 0.39528990204369396,
+   "interval": [
+    -0.07742282660530377,
+    0.9322271032748705
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "baseline_last_team",
    "b": "ceiling_rapm_same_season",
    "diff": 1.9819699470694387,
    "interval": [
     1.2859081798753447,
     2.7129345686074817
+   ]
+  },
+  {
+   "part": "rebuilt",
+   "test": "net_rmse",
+   "a": "rapm_last_season",
+   "b": "ceiling_rapm_same_season",
+   "diff": 1.5866800450257448,
+   "interval": [
+    1.0949131948381974,
+    2.050565567576224
    ]
   }
  ]

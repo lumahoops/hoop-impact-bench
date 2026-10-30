@@ -4,7 +4,7 @@ definitions are the assistant's wording. -->
 
 Do last season's impact-metric values predict this season?
 
-![version](https://img.shields.io/badge/version-1.0.0-blue)
+![version](https://img.shields.io/badge/version-1.1.0-blue)
 ![code](https://img.shields.io/badge/code-MIT-green)
 ![data](https://img.shields.io/badge/data-CC%20BY%204.0-green)
 ![python](https://img.shields.io/badge/tested%20on-Python%203.12-blue)
@@ -17,6 +17,8 @@ anyone can rerun every published number.
 
 ## News
 
+- 2026-10-30: version 1.1.0 adds a reference row, last season's plain RAPM (no prior), after a reader asked how raw
+  RAPM carries forward. No ranked score changed.
 - 2026-10-29: version 1.0.0 and the first results, nine public metrics over the 2020-21 to 2025-26 seasons.
 
 ## Results
@@ -27,8 +29,7 @@ under [Plain English](#plain-english).
 
 ### Established players
 
-Under the v1 rule, a player who
-played under 250 minutes the season before, rookies included, counts as -2.0 for every metric.
+Under the v1 rule, a player who played under 250 minutes the season before, rookies included, counts as -2.0 for every metric.
 
 | Rank | Metric | Game margins R² (90% interval) | Team win % r | Team net error (points) |
 |---|---|---|---|---|
@@ -42,6 +43,7 @@ played under 250 minutes the season before, rookies included, counts as -2.0 for
 | 5-9 | DARKO | .155 (.138-.172) | .767 | 3.36 |
 | 5-9 | BPM (Basketball-Reference) | .154 (.136-.170) | .773 | 3.50 |
 | 6-9 | ARC, 2-year † | .152 (.135-.169) | .776 | 3.38 |
+|  | *Last season's RAPM, no prior (reference)* | .141 (.123-.157) | .729 | 3.53 |
 |  | *Everyone 0 (floor)* | .125 (.109-.141) | .678 | 4.65 |
 |  | *Last season's team (floor)* | .103 (.087-.120) | .629 | 4.19 |
 
@@ -61,6 +63,7 @@ The same files with no low-minute rule, so each metric's own values for rookies 
 | 6-9 | ARC, 2-year † | .156 (.138-.172) | .782 | 3.34 |
 | 6-9 | BPM (Basketball-Reference) | .154 (.138-.170) | .768 | 3.59 |
 | 6-9 | LEBRON | .154 (.137-.169) | .766 | 3.38 |
+|  | *Last season's RAPM, no prior (reference)* | .133 (.116-.149) | .719 | 3.66 |
 |  | *Last season's team (floor)* | .092 (.077-.108) | .609 | 4.18 |
 |  | *Everyone 0 (floor)* | .000 (.000-.000) | .000 | 5.04 |
 
@@ -71,8 +74,16 @@ How to read the tables:
   --pairs` prints the paired difference between every two metrics.
 - Team net error takes each team's rating at face value, so it also grades a metric's scale. A metric can order players
   well and still score badly here if its ratings are spread too wide or too narrow.
-- Rows in italics are references and are not ranked. The floors know nothing about the players. The ceiling is RAPM fit
-  on the season being scored, so it has already seen the games.
+- Rows in italics are reference points and are not ranked:
+  - Ceiling: plain RAPM fit on the season being scored. It has already seen the games, so no preseason metric should
+    reach it.
+  - Last season's RAPM: the same plain RAPM fit on last season only, with no prior. It shows what raw RAPM is worth
+    carried forward, so the gap above it is what priors, box scores and longer windows add.
+  - Everyone 0 (floor): every player gets 0. Teams differ only by how many low-minute players (counted as -2.0)
+    they used, so a metric must beat this to show it knows anything about players. In the full forecast there is no
+    -2.0, so every team is 0 and the score is 0.
+  - Last season's team (floor): every player gets his team's opponent-adjusted margin from last season, divided by 5.
+    It knows teams, not players, so a metric must beat it to show it knows more than last year's standings.
 - † LOKI and ARC are made by LUMA Basketball Research, which maintains HIB.
 
 ### The metrics
@@ -189,7 +200,7 @@ The definitions start from the sources in the last column, in our own words.
 | 90% interval | The middle 90% of a score's 2,000 resampled values. | [Bootstrapping (statistics)](https://en.wikipedia.org/wiki/Bootstrapping_%28statistics%29) |
 | Rank range | The middle 90% of the places a metric took over the 2,000 resamples. | |
 | Paired difference | Metric A's score minus metric B's on the same resample. Both see the same games, so luck that helps both cancels out. When the middle 90% of the differences includes 0, the data cannot tell the two apart. | |
-| Floor and ceiling | Reference rows. The floors know nothing about the players (everyone at 0, or each player given his team's rating from last season). The ceiling is RAPM fit on the season being scored. | |
+| Floors, ceiling and last season's RAPM | Reference rows, not ranked. The floors know nothing about individual players (everyone at 0, or each player given his team's rating from last season). Last season's RAPM is plain RAPM with no prior, carried forward. The ceiling is RAPM fit on the season being scored. | |
 | sha256 fingerprint | A 64-character code computed from a file's exact contents. Change one character and the code changes, so two people whose files give the same code have the same file. Windows and Mac line endings count as the same. | [SHA-2](https://en.wikipedia.org/wiki/SHA-2) |
 
 ## Options
@@ -198,7 +209,7 @@ The definitions start from the sources in the last column, in our own words.
 |---|---|
 | `--ratings PATH ...` | Add metrics: CSV files or folders of CSVs |
 | `--no-bundled` | Leave out the metrics in `ratings/` |
-| `--baselines` | Add the reference rows (unranked): everyone 0, each player's team from last season, and the same-season RAPM ceiling |
+| `--baselines` | Add the reference rows (unranked): everyone 0, each player's team from last season, last season's plain RAPM, and the same-season RAPM ceiling |
 | `--by-season` | Also print every score season by season |
 | `--pairs` | Also print each metric minus the leader with paired intervals (a tie when the interval holds 0), the noise level, and which metrics beat the floors |
 | `--confidence 0.95` | Interval level (default 0.90) |
@@ -255,6 +266,7 @@ records the version and the sha256 of the `eval.py` that made it.
 | `data/players.csv` | NBA.com id and name for every player-season, 2019-20 to 2025-26 |
 | `ratings/` | Bundled metrics: LOKI, a LOKI research variant with a BPM prior (`loki_bpm`), ARC over 1, 2 and 3 seasons, and OpenRAPM (MIT license, snapshot of 2026-10-29) |
 | `reference/rapm_same_season.csv` | Plain RAPM (ridge regression on lineup stints, no prior) fit on each season itself: the ceiling row |
+| `reference/rapm_last_season.csv` | The same RAPM fit on the season before each one (2019-20 to 2024-25): the last-season RAPM row |
 | `results/` | The published run of the bundled metrics |
 | `launch/` | The two runs behind the results tables (scores only), and `provenance.csv` |
 

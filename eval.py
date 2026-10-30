@@ -51,7 +51,7 @@ import numpy as np
 import pandas as pd
 
 HERE = Path(__file__).parent
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 STANDARD = {"min_minutes": 250, "replacement": -2.0}
 STANDARD_SEASONS = ["2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 SEED = 7
@@ -64,6 +64,7 @@ BASELINES = {
                      "with --min-minutes 0 every team is 0: R2 and r are 0, and its net error is the error of calling "
                      "every team average)",
     "baseline_last_team": "each player = his main team's opponent-adjusted margin last season / 5",
+    "rapm_last_season": "plain RAPM fit on last season only (no prior): raw RAPM carried forward",
     "ceiling_rapm_same_season": "RAPM fit on the season being scored: it has seen those games",
 }
 WARN_COVERAGE = 0.9  # a file should rate at least 90% of the minutes of players with 250+ minutes last season
@@ -168,7 +169,7 @@ def opponent_adjusted(games):
 
 
 def baselines(games, minutes):
-    """Reference rows built from the game data (plus the same-season RAPM file in reference/)."""
+    """Reference rows built from the game data (plus the two RAPM files in reference/)."""
     adjusted = opponent_adjusted(games)
     season_minutes = minutes.groupby(["season", "team", "nba_id"], as_index=False)["min"].sum()
     main_team = season_minutes.sort_values("min").drop_duplicates(["season", "nba_id"], keep="last")
@@ -178,6 +179,7 @@ def baselines(games, minutes):
         "rating": [adjusted[(s, t)] / 5 for s, t in zip(main_team.season, main_team.team)]})
     zero = season_minutes[["season", "nba_id"]].drop_duplicates().assign(rating=0.0)
     return {"baseline_zero": zero, "baseline_last_team": last_team,
+            "rapm_last_season": read_ratings(HERE / "reference" / "rapm_last_season.csv"),
             "ceiling_rapm_same_season": read_ratings(HERE / "reference" / "rapm_same_season.csv")}
 
 
