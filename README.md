@@ -93,13 +93,13 @@ How to read the tables:
 | Metric | Made by | Where | Value used for each season |
 |---|---|---|---|
 | LOKI † | LUMA Basketball Research | [lumahoops.org](https://lumahoops.org) | Preseason rating. Past seasons were generated in 2026 by the current model. |
-| ARC, 2-year † | LUMA Basketball Research | [lumahoops.org](https://lumahoops.org), [open data](https://github.com/lumahoops/NBA) | ARC over the two seasons that end the season before |
 | OpenRAPM | Nathan Walker | [GitHub](https://github.com/bbstats/openrapm), [site](https://bbstats.github.io/openrapm/) | Previous season. Its box-score prior was trained on RAPM from every other season, later ones included. |
-| Pulse | CourtSignal | [courtsignal.net](https://courtsignal.net/ratings) | Previous season |
-| xRAPM | Jeremias Engelmann | [xrapm.com](https://xrapm.com/) | Previous season |
-| LEBRON | BBall Index | [bball-index.com](https://www.bball-index.com/lebron-application/) | Previous season |
 | EPM | Taylor Snarr, Dunks & Threes | [dunksandthrees.com](https://dunksandthrees.com/epm) | The site's value on each team's first game day, before that day's games |
 | DARKO | Kostya Medvedovsky | [darko.app](https://www.darko.app/) | The site's value on the day before each opening night |
+| Pulse | CourtSignal | [courtsignal.net](https://courtsignal.net/ratings) | Previous season |
+| xRAPM | Jeremias Engelmann | [xrapm.com](https://xrapm.com/) | Previous season |
+| ARC, 2-year † | LUMA Basketball Research | [lumahoops.org](https://lumahoops.org), [open data](https://github.com/lumahoops/NBA) | ARC over the two seasons that end the season before |
+| LEBRON | BBall Index | [bball-index.com](https://www.bball-index.com/lebron-application/) | Previous season |
 | BPM | Basketball-Reference (BPM 2.0 by Daniel Myers) | [basketball-reference.com](https://www.basketball-reference.com/about/bpm2.html) | Previous season. Traded players use their season-total row. |
 
 Apart from LOKI's, these are the values each site shows today for past seasons, made by each metric's current version.
