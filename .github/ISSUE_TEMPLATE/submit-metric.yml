@@ -7,6 +7,7 @@ body:
     attributes:
       value: |
         Thanks for submitting. Only scores and file fingerprints are ever published; your ratings file is never posted.
+        **Live 2026-27 board:** we save your current ratings every Monday before that week's games. Tell us where to pull them (a public URL or file) or email a fresh CSV before Monday's first game.
         **Verified:** email your ratings CSV to courtshare78@gmail.com (subject: "HIB submission: <metric name>"). We rerun it and list it as verified.
         **Self-reported:** attach the `results.json` from your own run below. It is listed as self-reported, and its harness fingerprint must match the current release.
   - type: input
@@ -25,6 +26,16 @@ body:
     id: link
     attributes:
       label: Link to the metric or its write-up
+  - type: dropdown
+    id: board
+    attributes:
+      label: Which board?
+      options:
+        - Historical (2020-21 to 2025-26)
+        - Live 2026-27 (weekly snapshots; ratings saved before the games they are scored on)
+        - Both
+    validations:
+      required: true
   - type: dropdown
     id: timing
     attributes:
