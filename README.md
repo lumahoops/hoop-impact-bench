@@ -1,5 +1,7 @@
 <!-- Assistant draft (2026-10-29), for Aayo to edit before release. Headings, captions, table notes and the plain-English
 definitions are the assistant's wording. -->
+<img src="assets/hib-logo.png" alt="Hoop Impact Bench" width="96" align="right">
+
 # Hoop Impact Bench (HIB)
 
 Do last season's impact-metric values predict this season?
