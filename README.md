@@ -83,6 +83,9 @@ How to read the tables:
   --pairs` prints the paired difference between every two metrics.
 - Team net error takes each team's rating at face value, so it also grades a metric's scale. A metric can order players
   well and still score badly here if its ratings are spread too wide or too narrow.
+  EPM is the clearest case: its team ratings run about 1.9 points per 100 below the actual adjusted margins in every
+  season (established players), which puts it last on net error (3.87); with that offset and scale fitted away its error
+  is 3.23, in the middle of the pack (range 3.01 to 3.32). Game margins and win % are not affected by an offset.
 - Rows in italics are reference points and are not ranked; see the key under the first table.
 - The team win % test reproduces Krishna Narsu's (2024) published out-of-sample results for 2020-21 to 2022-23 (his R²
   is r squared): LEBRON .555 (his .555), BPM .514 (his .514), DARKO .530 (his .523).
