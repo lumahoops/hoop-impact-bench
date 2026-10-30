@@ -23,8 +23,7 @@ games under the same rules and tests.
 ## Results
 
 The tables score each metric's ratings from before each season on the regular seasons 2020-21 to 2025-26 (7,230 games,
-180 team-seasons), sorted by the first test. The tests are explained under [How it works](#how-it-works) and the terms
-under [Plain English](#plain-english).
+180 team-seasons), sorted by the first test. The tests are explained under [How it works](#how-it-works).
 
 ### Established players
 
@@ -180,29 +179,6 @@ minutes they actually played. Every metric gets the same minutes, so playing tim
 Every score has a bootstrap interval. The 180 team-seasons are resampled 2,000 times, and every metric is scored on the
 same resamples, which also give the rank ranges and the paired differences. The tests are reported side by side and are
 never combined into one score.
-
-## Plain English
-
-The definitions start from the sources in the last column, in our own words.
-
-| Term | What it means here | Source |
-|---|---|---|
-| Impact metric | A rating of how much a player adds to his team's point margin, in points per 100 possessions compared with an average player. | [Basketball-Reference glossary (BPM)](https://www.basketball-reference.com/about/glossary.html) |
-| Possession | One trip down the floor that ends in a shot, a turnover or free throws. A team has about 100 a game, so points per 100 possessions is close to points per game. | [Basketball-Reference glossary (Poss, Pace)](https://www.basketball-reference.com/about/glossary.html) |
-| Replacement level | About the level of a player any team can sign off the street. Basketball-Reference puts it at -2.0 points per 100 possessions, the value HIB gives players without a usable rating. | [Basketball-Reference glossary (VORP)](https://www.basketball-reference.com/about/glossary.html) |
-| RAPM | Regularized adjusted plus-minus. For every stretch of play it records which ten players were on the court and how the score changed, then solves for each player's share. "Regularized" means every player is pulled toward zero until the data moves him. | [Jeremias Engelmann, how to build it](https://jeremiasengelmann.substack.com/p/nba-adjusted-plus-minus-how-to-build) |
-| Retrodiction | Predicting a season that has already been played, using only what was known before it. The ratings are weighted by the minutes actually played in that season. | |
-| Opponent-adjusted margin | A team's average margin after accounting for who it played and where. Zero is average. Basketball-Reference calls this the Simple Rating System (SRS); HIB fits it the same way, with a home-court term. | [Basketball-Reference glossary (SRS)](https://www.basketball-reference.com/about/glossary.html) |
-| R² | The share of the game-to-game differences in final margin that the ratings account for, from 0 (none) to 1 (all). One game has a lot of luck in it, so even ratings that have seen the season reach only about .27. | [Coefficient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) |
-| r (correlation) | How closely two lists move together, from -1 to 1. Here: whether teams with higher ratings had higher win percentages. | [Pearson correlation](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) |
-| RMSE (net error) | The typical size of a miss, in points. Square each team's miss, average the squares, then take the square root, so big misses count more. | [Root-mean-square deviation](https://en.wikipedia.org/wiki/Root_mean_square_deviation) |
-| Roster continuity | The share of a team's minutes played by players who were on the same team the season before. The third of teams and games with the lowest share are the rebuilt rosters. | [Basketball-Reference, Roster Continuity](https://www.basketball-reference.com/friv/continuity.html) |
-| Bootstrap resample | Draw 180 team-seasons at random from the 180, repeats allowed, and score every metric again. How much a score moves over 2,000 draws shows how sure the data can be about it. | [Bootstrapping (statistics)](https://en.wikipedia.org/wiki/Bootstrapping_%28statistics%29) |
-| 90% interval | The middle 90% of a score's 2,000 resampled values. | [Bootstrapping (statistics)](https://en.wikipedia.org/wiki/Bootstrapping_%28statistics%29) |
-| Rank range | The middle 90% of the places a metric took over the 2,000 resamples. | |
-| Paired difference | Metric A's score minus metric B's on the same resample. Both see the same games, so luck that helps both cancels out. When the middle 90% of the differences includes 0, the data cannot tell the two apart. | |
-| Floors, ceiling and last season's RAPM | Reference rows, not ranked. The floors know nothing about individual players (everyone at 0, or each player given his team's rating from last season). Last season's RAPM is plain RAPM with no prior, carried forward. The ceiling is RAPM fit on the season being scored. | |
-| sha256 fingerprint | A 64-character code computed from a file's exact contents. Change one character and the code changes, so two people whose files give the same code have the same file. Windows and Mac line endings count as the same. | [SHA-2](https://en.wikipedia.org/wiki/SHA-2) |
 
 ## Options
 
