@@ -215,6 +215,11 @@ in `results.json` (`meta.standard`). Compare them only with runs under the same 
 ## Add your metric
 
 1. Make your CSV (see [Your file](#your-file)) and run `python eval.py --ratings my_metric.csv`.
+Submission rules (from 2026-10-30): the historical table is frozen with its launch entries, because a metric built
+after launch could be tuned to those seasons. New metrics compete on the live 2026-27 board (`live/PROTOCOL.md`).
+A metric can join the historical table only with values that were published before 2026-10-30, with proof (Wayback
+Machine snapshots, dated releases or git history); it is listed as archived.
+
 2. To be added to the results, use the [submission form](https://github.com/lumahoops/hoop-impact-bench/issues/new?template=submit-metric.yml).
    For a verified entry, email your CSV to courtshare78@gmail.com: we rerun it and publish only the scores and the
    file's fingerprint, never the file. For a self-reported entry, attach your `results.json`; its harness fingerprint
