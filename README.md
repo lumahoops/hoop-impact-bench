@@ -9,8 +9,9 @@ Do last season's impact-metric values predict this season?
 ![data](https://img.shields.io/badge/data-CC%20BY%204.0-green)
 ![python](https://img.shields.io/badge/tested%20on-Python%203.12-blue)
 
-HIB is an open benchmark for NBA player impact metrics such as RAPM, EPM, DARKO, LEBRON and BPM. An impact metric
-says how many points per 100 possessions a player adds to his team. HIB tests that number without having to trust
+HIB is an open benchmark for NBA player impact metrics such as RAPM, EPM, DARKO, LEBRON and BPM. Every impact metric
+attempts to measure how many points per 100 possessions a player is worth, but there is no shared, neutral,
+standardized way to check that claim. HIB tests that number without having to trust
 whoever made it: it takes each metric's values from before a season started and measures how well they predict that
 season's games. Every metric is scored on the same 7,230 games under the same rules. Each score has an interval, and
 anyone can rerun every published number.
