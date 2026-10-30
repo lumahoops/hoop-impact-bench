@@ -227,6 +227,19 @@ python tests/test_hib.py                     # the file reader and fingerprints
 python tests/test_scoring.py                 # the scoring: known answers, the rookie rule, reference rows
 ```
 
+### Check the Narsu (2024) reproduction
+
+Krishna Narsu reported R² (r squared) of team win % for 2020-21 to 2022-23. BPM is free to check:
+
+```
+python tools/from_bbref.py 2019-20=bbref_2019-20.csv 2020-21=bbref_2020-21.csv 2021-22=bbref_2021-22.csv --out bpm_narsu.csv
+python eval.py --no-bundled --ratings bpm_narsu.csv
+```
+
+A file that covers only those three seasons shortens the window to them (the run is labelled custom window). The team
+win % r it prints is .717, and .717² = .514, his published BPM number. LEBRON (.745² = .555) and DARKO (.728² = .530,
+his .523) are checked the same way with your own copies of those files, cut to the same three seasons.
+
 ## Versions
 
 A version fixes the rules, tests and seasons, and scores are comparable only within a version. A change to any of them
