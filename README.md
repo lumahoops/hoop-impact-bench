@@ -47,6 +47,17 @@ Under the v1 rule, a player who played under 250 minutes the season before, rook
 |  | *Everyone 0 (floor)* | .125 (.109-.141) | .678 | 4.65 |
 |  | *Last season's team (floor)* | .103 (.087-.120) | .629 | 4.19 |
 
+Reference rows (in italics, not ranked):
+
+- Same-season RAPM (ceiling): plain RAPM (ridge regression on lineup stints, no prior, no box score) fit on the full
+  regular season being scored. It is estimated from the same games it is scored on, so it serves as an in-sample upper
+  reference.
+- Last season's RAPM: the same plain RAPM fit on the previous season only and carried forward as the forecast.
+- Everyone 0 (floor): every player is rated 0, so teams differ only by the number of low-minute players (rated -2.0)
+  they used. In the full forecast there is no -2.0, so every team is 0 and the score is 0.
+- Last season's team (floor): each player is assigned his main team's opponent-adjusted margin from the previous
+  season, divided by 5, so the forecast uses only team strength from the previous season.
+
 ### Full forecast
 
 The same files with no low-minute rule, so each metric's own values for rookies and low-minute players count.
@@ -74,16 +85,7 @@ How to read the tables:
   --pairs` prints the paired difference between every two metrics.
 - Team net error takes each team's rating at face value, so it also grades a metric's scale. A metric can order players
   well and still score badly here if its ratings are spread too wide or too narrow.
-- Rows in italics are reference points and are not ranked:
-  - Ceiling: plain RAPM fit on the season being scored. It has already seen the games, so no preseason metric should
-    reach it.
-  - Last season's RAPM: the same plain RAPM fit on last season only, with no prior. It shows what raw RAPM is worth
-    carried forward, so the gap above it is what priors, box scores and longer windows add.
-  - Everyone 0 (floor): every player gets 0. Teams differ only by how many low-minute players (counted as -2.0)
-    they used, so a metric must beat this to show it knows anything about players. In the full forecast there is no
-    -2.0, so every team is 0 and the score is 0.
-  - Last season's team (floor): every player gets his team's opponent-adjusted margin from last season, divided by 5.
-    It knows teams, not players, so a metric must beat it to show it knows more than last year's standings.
+- Rows in italics are reference points and are not ranked; see the key under the first table.
 - † LOKI and ARC are made by LUMA Basketball Research, which maintains HIB.
 
 ### The metrics
