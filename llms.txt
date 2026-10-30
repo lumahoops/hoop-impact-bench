@@ -1,0 +1,26 @@
+# Hoop Impact Bench (HIB)
+
+> Open, reproducible benchmark for NBA player impact metrics (RAPM, EPM, DARKO, LEBRON, BPM, xRAPM, Pulse, LOKI, ARC
+> and your own). It scores each metric's preseason player ratings on the same 7,230 regular-season games (2020-21 to
+> 2025-26) under the same rules, with 90% intervals and rank ranges from 2,000 resamples of team-seasons.
+> Maintained by LUMA Basketball Research (lumahoops.org). Code MIT, data CC BY 4.0, copyright Court Share LLC.
+
+## Use it
+- Install: `pip install hoop-impact-bench`
+- Score a metric: `hib --ratings my_metric.csv` (CSV columns: season, nba_id, rating; rating = points per 100 possessions vs average; season = the season the rating predicts)
+- Verify published results: `hib-check`
+- From source: `git clone https://github.com/lumahoops/hoop-impact-bench && python eval.py --ratings my_metric.csv`
+
+## Tests
+- Game margins (R²): share of each game's final margin explained by minutes-weighted team ratings
+- Team win % (r): correlation of team-season ratings with win percentage (Narsu 2024)
+- Team net error (RMSE): team rating at face value vs opponent-adjusted margin (Snarr 2020)
+- Rebuilt rosters: the same tests on the third of games with the least returning minutes
+- Rules: players under 250 minutes the season before (rookies included) and players missing from a file count as -2.0
+
+## Links
+- Repository and README: https://github.com/lumahoops/hoop-impact-bench
+- PyPI: https://pypi.org/project/hoop-impact-bench/
+- Submit a metric: https://github.com/lumahoops/hoop-impact-bench/issues/new?template=submit-metric.yml
+- Results files: launch/established-players.json, launch/full-forecast.json, launch/provenance.csv
+- Discussion: https://apbr.org/metrics/viewtopic.php?t=10292

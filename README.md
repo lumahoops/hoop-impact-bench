@@ -102,9 +102,10 @@ How to read the tables:
 | LEBRON | BBall Index | [bball-index.com](https://www.bball-index.com/lebron-application/) | Previous season |
 | BPM | Basketball-Reference (BPM 2.0 by Daniel Myers) | [basketball-reference.com](https://www.basketball-reference.com/about/bpm2.html) | Previous season. Traded players use their season-total row. |
 
-Apart from LOKI's, these are the values each site shows today for past seasons, made by each metric's current version.
-Models change over time, so a past season is scored with the version a metric has now, which may differ from the one it
-had then. The files for Pulse, xRAPM, LEBRON, EPM, DARKO and BPM belong to their makers and are not in this repository.
+Each past season uses that season's preseason ratings, but the historical ratings come from each metric's current model,
+not the version published at the time: they are the values each site shows today (LOKI's were generated in 2026 by its
+current model). A model built or recalibrated after those seasons may fit them better than its earlier versions did, so
+the live 2026-27 track, scored on games played after the ratings were saved, is the stricter test. The files for Pulse, xRAPM, LEBRON, EPM, DARKO and BPM belong to their makers and are not in this repository.
 Their scores are in `launch/`, and `launch/provenance.csv` gives each file's source, the date it was pulled and its
 sha256 fingerprint, so anyone who gets the same file can check our numbers.
 
