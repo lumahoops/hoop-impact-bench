@@ -24,7 +24,8 @@ sys.path.insert(0, str(HERE))
 from eval import sha256  # noqa: E402  (the same fingerprint eval.py records)
 
 REPO_FILES = {"games.csv": HERE / "data" / "games.csv", "minutes.csv": HERE / "data" / "minutes.csv",
-              "rapm_same_season.csv": HERE / "reference" / "rapm_same_season.csv"}
+              "rapm_same_season.csv": HERE / "reference" / "rapm_same_season.csv",
+              "rapm_last_season.csv": HERE / "reference" / "rapm_last_season.csv"}
 
 
 def same(x, y, ranks=True):

@@ -118,6 +118,14 @@ python eval.py --ratings my_metric.csv  # add yours
 python check.py                         # rerun every published result and compare
 ```
 
+Or install it from PyPI and run it from any folder:
+
+```
+pip install hoop-impact-bench
+hib --ratings my_metric.csv             # same as python eval.py; runs are saved under ./runs/
+hib-check                               # same as python check.py
+```
+
 A run takes a few seconds, prints a report, and saves a folder `runs/<date_time>/` with:
 
 - `results.json`: every score with its interval and rank range, the paired difference between every two metrics, and
