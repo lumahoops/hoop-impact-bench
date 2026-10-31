@@ -1,0 +1,74 @@
+{
+ "track": "preseason",
+ "name": "preseason",
+ "season": "2026-27",
+ "saved_at_utc": "2026-10-31T20:40:22+00:00",
+ "metrics": {
+  "loki": {
+   "label": "archived",
+   "source": "LOKI v3.3 2026-27 preseason board, frozen 2026-10-12, release sha256 a1f9bad8...",
+   "rows": 687,
+   "sha256": "c78ec0deb99f547e460e00bde98e867623ecf14c3f6d8ffaac599595fd5395d7"
+  },
+  "epm": {
+   "label": "backfill",
+   "source": "dunksandthrees.com date view as of each team's first game (pulled 2026-10-29)",
+   "rows": 520,
+   "sha256": "8d24ecda23832b5a148d11521bcd428a93d8dd572639ff53ee2ceaf60a66efe8"
+  },
+  "darko": {
+   "label": "backfill",
+   "source": "darko.app date view as of 2026-10-19 (day before opening night), pulled 2026-10-31; DARKO revises past dates",
+   "rows": 547,
+   "sha256": "38d09f71a9d93a9293ac876aa1c1947b757dac7581b22c894c7f340c7e43d257"
+  },
+  "pulse": {
+   "label": "backfill",
+   "source": "CourtSignal Season PULSE 2025-26 (courtshare.net/data/leaderboard-2026.json, pulse_net); our copy saved 2026-10-25, identical on 2026-10-31",
+   "rows": 582,
+   "sha256": "0500492433e1a6b0bd677963affe5f4bba4befe34d3925cdfba1c3b721b494f2"
+  },
+  "openrapm": {
+   "label": "archived",
+   "source": "bbstats/openrapm docs/data/ratings.json at commit 8dc207b (2026-10-19 18:50 UTC, last before opening night), 2025-26 total",
+   "rows": 582,
+   "sha256": "f85762fa4716f9b97cd4a43eebaca11c1d0ac335dc5275319b988d73a74f843b"
+  },
+  "xrapm": {
+   "label": "archived",
+   "source": "xrapm.com 2025-26 final (metrics updated 2026-04-12), Wayback capture web.archive.org/web/20260925005234/https://xrapm.com/",
+   "rows": 582,
+   "sha256": "1af65024cd22eccad3379d60c349c8aaec123cef227173c3cbe3e4a73307c328"
+  },
+  "danny": {
+   "label": "archived",
+   "source": "Danny Harlan's EPM projection model (github.com/dannyharlan05/nba-epm-projections), pred_epm_1y from artifacts/predictions.parquet at commit 97c0817, pushed 2026-10-20 17:03 UTC (GitHub push event), before opening night",
+   "rows": 679,
+   "sha256": "23b7d01a01dabe11f3d36560fb2826bdd06b10c5c3d126413d04ab15503d8623"
+  },
+  "xpm": {
+   "label": "archived",
+   "source": "VORP.app xPM v1.2 preseason forecast, made 2026-10-12, published 2026-10-13 (georgeberry.substack.com/p/the-big-vorpapp-2026-27-nba-player); file from George Berry 2026-10-31, shifted by him to above average (xpm - 2.166)",
+   "rows": 608,
+   "sha256": "5e62034575eab2348844508199e232e9709cd4051d607289ef15a8f175a6344a"
+  },
+  "lebron": {
+   "label": "saved",
+   "source": "BBall Index LEBRON database export saved by us 2026-10-03 (before opening night), 2025-26 final; no Wayback copy of the data",
+   "rows": 582,
+   "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1"
+  },
+  "bpm_bbref": {
+   "label": "archived",
+   "source": "Basketball-Reference 2025-26 Advanced table, Wayback capture 2026-10-08 (web.archive.org/web/20261008065049/https://www.basketball-reference.com/leagues/NBA_2026_advanced.html), via tools/from_bbref.py",
+   "rows": 581,
+   "sha256": "8fec8554831ace7c0d623022f9d7b7835f90699e663d9f5d4e2ed2d478bed2c8"
+  },
+  "arc_2yr": {
+   "label": "backfill",
+   "source": "LUMA ARC 2-year board ending 2025-26 (boards/arc-season/2026-2y.json, net), file regenerated 2026-10-30",
+   "rows": 582,
+   "sha256": "0c9baadfc59e0c4dbf4f925ef48b07dd132cf9e8736f3292e2b0d88ec6696780"
+  }
+ }
+}

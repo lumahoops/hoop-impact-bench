@@ -25,6 +25,7 @@ from a file = -2.0). Early in the season the intervals are wide; read the rank r
 | Label | Meaning |
 |---|---|
 | archived | Published before the games, with proof (a release fingerprint or a dated public record) |
+| saved | Saved by us before the games, but with no public record of the date (our own copy) |
 | pulled_now | Saved by us at the time of the snapshot (every weekly snapshot) |
 | backfill | Taken later from a site's date view, which shows the current model for a past date |
 
