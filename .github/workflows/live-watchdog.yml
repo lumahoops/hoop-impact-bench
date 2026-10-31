@@ -1,0 +1,21 @@
+name: Live board watchdog
+
+# Checks the live track every afternoon from GitHub's side: today's snapshot saved and complete (no empty metric),
+# saved early enough, results fresh. A failed run emails the repo owner, every day the problem lasts.
+on:
+  schedule:
+    - cron: "45 15 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python live/code/watchdog.py

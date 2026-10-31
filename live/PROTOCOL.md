@@ -29,10 +29,22 @@ from a file = -2.0). Early in the season the intervals are wide; read the rank r
 |---|---|
 | archived | Published before the games, with proof (a release fingerprint or a dated public record) |
 | saved | Saved by us before the games, but with no public record of the date (our own copy) |
-| pulled_now | Saved by us at the time of the snapshot (every daily snapshot) |
+| pulled | Daily board: fetched from the maker's site that morning, fingerprinted and pushed before the games |
+| carried | Daily board: the metric published nothing newer, so its latest saved value is reused unchanged |
+| empty | Daily board: the pull failed all morning (tried at 09:30, 12:00 and 15:00 UTC). No value that day, and that day's games are left off the daily board for every metric, so all metrics are always scored on the same games |
 | backfill | Taken later from a site's date view, which shows the current model for a past date |
 
 ## Files
+
+Everything needed to rebuild any day's boards is in the repo, except the ratings files themselves:
+
+- `live/code/`: the scoring code (`score.py` frozen board, `daily_score.py` daily board, `publish.py`, `rapm_site.py`
+  for the RAPM reference rows, `from_box.py` for the game data) and `reproduce.py`, which rebuilds both boards from a
+  checkout and checks every published number. Run `HIB_RATINGS=<folder> python live/code/reproduce.py` on any commit.
+- `live/data/`: 2026-27 games (with tip-off times) and player minutes, updated daily from NBA.com box scores.
+- `live/reference/`: the 2026-27 RAPM reference rows.
+- A GitHub Action (`.github/workflows/live-watchdog.yml`) checks every afternoon that the day's snapshot is complete and
+  saved early enough, and that the results are fresh; a failed check emails the maintainer, every day it lasts.
 
 - `live/snapshots/<name>.json`: for each metric, the label, the source and the sha256 fingerprint of the ratings
   file, plus the time it was saved. These are committed before the games they are scored on; the git history is the
