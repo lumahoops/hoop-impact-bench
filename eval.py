@@ -51,7 +51,7 @@ import numpy as np
 import pandas as pd
 
 HERE = Path(__file__).parent
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 STANDARD = {"min_minutes": 250, "replacement": -2.0}
 STANDARD_SEASONS = ["2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 SEED = 7

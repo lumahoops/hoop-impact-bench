@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hoop-impact-bench"
-version = "1.1.0"
+version = "1.2.0"
 description = "Hoop Impact Bench (HIB): an open, reproducible benchmark for NBA player impact metrics (RAPM, EPM, DARKO, LEBRON, BPM and your own)"
 readme = "README.md"
 requires-python = ">=3.9"

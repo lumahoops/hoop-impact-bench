@@ -4,7 +4,7 @@
 
 Inputs   live/snapshots/preseason.json (fingerprints), <HIB_RATINGS>/preseason/<metric>.csv (the ratings; each must match
          its fingerprint), live/data/ (2026-27 games and minutes), live/reference/ (2026-27 RAPM reference rows)
-Runs     the release harness, eval.py, unchanged (its sha256 is checked), twice on a scratch copy of the repo's data:
+Runs     the HIB v1.1.0 harness (live/code/eval_v1.1.0.py, eval.py of that release byte for byte; sha256 checked), twice on a scratch copy of the repo's data:
            <HIB_WORK>/runs/frozen/                   every metric (ranked) + the reference rows (--baselines)
            <HIB_WORK>/runs/frozen_with_consensus/    every metric + the consensus (only the consensus row is used, so it
                                                      never changes anyone's rank range)
@@ -17,7 +17,7 @@ import sys
 
 import pandas as pd
 
-from paths import FROZEN_DROPPED, PRESEASON_RULES, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
+from paths import FROZEN_DROPPED, HARNESS, PRESEASON_RULES, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
 
 FIRST_GAME = "2026-10-20"
 
@@ -31,7 +31,7 @@ def scratch(work):
     """eval.py + the release's data and reference files, with this season's games and RAPM rows appended."""
     shutil.rmtree(work, ignore_errors=True)
     (work / "data").mkdir(parents=True)
-    shutil.copy(REPO / "eval.py", work / "eval.py")
+    shutil.copy(HARNESS, work / "eval.py")
     if sha256(work / "eval.py") != RELEASE_HARNESS:
         sys.exit("eval.py is not the release harness")
     shutil.copytree(REPO / "reference", work / "reference")

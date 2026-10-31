@@ -3,7 +3,7 @@
   git checkout <any commit>                  # any day's state of the repo
   HIB_RATINGS=/path/to/ratings python live/code/reproduce.py
 
-Uses only what is in the repo (live/data, live/reference, live/snapshots, eval.py) plus the ratings files, which are
+Uses only what is in the repo (live/data, live/reference, live/snapshots, live/code/eval_v1.1.0.py) plus the ratings files, which are
 not published (each must match its fingerprint in live/snapshots/, or the run stops):
   <HIB_RATINGS>/preseason/<metric>.csv        the frozen board
   <HIB_RATINGS>/daily/<date>/<metric>.csv     the daily board (one folder per snapshot day)

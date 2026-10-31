@@ -27,4 +27,6 @@ PRESEASON_RULES = {"min_minutes": 250, "replacement": -2.0}
 DYNAMIC_RULES = {"min_minutes": 0.0, "replacement": -2.0}
 # Metrics kept in the frozen snapshot (fingerprint committed) but not scored on the frozen board (owner, 2026-11-01).
 FROZEN_DROPPED = {"arc_2yr": "a 2-year window ending 2025-26, not a forecast, with no rookies; ARC Live stays on the daily board"}
+HARNESS = Path(__file__).resolve().parent / "eval_v1.1.0.py"   # eval.py of release v1.1.0, byte for byte: the live
+# track keeps the harness it was registered with, whatever later releases change
 RELEASE_HARNESS = "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a"   # eval.py v1.1.0

@@ -4,7 +4,7 @@ definitions are the assistant's wording. -->
 
 Do last season's impact-metric values predict this season?
 
-![version](https://img.shields.io/badge/version-1.1.0-blue)
+![version](https://img.shields.io/badge/version-1.2.0-blue)
 ![code](https://img.shields.io/badge/code-MIT-green)
 ![data](https://img.shields.io/badge/data-CC%20BY%204.0-green)
 ![python](https://img.shields.io/badge/tested%20on-Python%203.12-blue)

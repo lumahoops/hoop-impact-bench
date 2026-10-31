@@ -42,7 +42,10 @@ margin R² and net error was hidden until every team had played 20 games; net er
 with an "early" note until then, because the rank ranges and the floor rows already show how little a few games
 separate.
 
-Early in the season the intervals are wide; read the rank ranges, not the order.
+
+Both boards use the HIB v1.1.0 harness, unchanged for the whole season (`live/code/eval_v1.1.0.py` is that release's
+`eval.py` byte for byte; later releases of the historical benchmark do not change it). Early in the season the
+intervals are wide; read the rank ranges, not the order.
 
 ## Labels
 

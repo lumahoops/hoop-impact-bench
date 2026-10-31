@@ -22,7 +22,7 @@ import sys
 import numpy as np
 import pandas as pd
 
-from paths import DYNAMIC_RULES, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
+from paths import DYNAMIC_RULES, HARNESS, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
 
 
 def sha256(path):
@@ -32,7 +32,7 @@ def sha256(path):
 def harness(work):
     shutil.rmtree(work, ignore_errors=True)
     (work / "data").mkdir(parents=True)
-    shutil.copy(REPO / "eval.py", work / "eval.py")
+    shutil.copy(HARNESS, work / "eval.py")
     shutil.copytree(REPO / "reference", work / "reference")
     for f in ("rapm_same_season", "rapm_last_season"):
         pd.concat([pd.read_csv(work / "reference" / f"{f}.csv"), pd.read_csv(REFERENCE / f"{f}_{SEASON}.csv")]) \
