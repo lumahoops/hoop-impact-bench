@@ -1,0 +1,85 @@
+{
+ "board": "daily",
+ "date": "2026-10-31",
+ "season": "2026-27",
+ "saved_at_utc": "2026-10-31T21:50:10+00:00",
+ "metrics": {
+  "loki": {
+   "status": "carried",
+   "source": "LOKI R1 (frozen preseason board); no weekly solve yet",
+   "as_of": "preseason",
+   "rows": 687,
+   "sha256": "c78ec0deb99f547e460e00bde98e867623ecf14c3f6d8ffaac599595fd5395d7"
+  },
+  "epm": {
+   "status": "pulled",
+   "source": "dunksandthrees.com/epm (current expected EPM, Aayo's subscription)",
+   "as_of": "2026-10-31",
+   "rows": 528,
+   "sha256": "c258e20154ad9739d85ed38b935fcff3880edc4f492b41e7ed62b2ee7f28edf0"
+  },
+  "darko": {
+   "status": "pulled",
+   "source": "darko.app as of 2026-10-31 (data through 2026-10-30)",
+   "as_of": "2026-10-30",
+   "rows": 525,
+   "sha256": "9fec0b77c8c2f1a3a54f2757f0817ed949044b9be227b9712b1df869901792f1"
+  },
+  "pulse": {
+   "status": "pulled",
+   "source": "courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-10-30",
+   "as_of": "2026-10-30",
+   "rows": 660,
+   "sha256": "373de1f3fdb613519f5a0c9c8ac880886d1ff6393afc2cc578ed550372615c6b"
+  },
+  "openrapm": {
+   "status": "pulled",
+   "source": "bbstats/openrapm ratings.json at 651fe8d (Daily update: 2027 through the games of 2026-10-30); 2026-27 value, else 2025-26",
+   "as_of": "2026-10-31",
+   "rows": 590,
+   "sha256": "35ca7fff58cc82565b0e5771a6587aa28b790a9c01a302a6c0832710ed645bcd"
+  },
+  "xrapm": {
+   "status": "carried",
+   "source": "xrapm.com still shows the 2025-26 final (metrics updated 2026-04-12)",
+   "as_of": "2026-04-12",
+   "rows": 582,
+   "sha256": "1af65024cd22eccad3379d60c349c8aaec123cef227173c3cbe3e4a73307c328"
+  },
+  "xpm": {
+   "status": "carried",
+   "source": "preseason value (VORP.app publishes a preseason forecast only)",
+   "as_of": "preseason",
+   "rows": 608,
+   "sha256": "5e62034575eab2348844508199e232e9709cd4051d607289ef15a8f175a6344a"
+  },
+  "danny": {
+   "status": "carried",
+   "source": "preseason value (Danny's preseason projection; in-season updates not yet included)",
+   "as_of": "preseason",
+   "rows": 679,
+   "sha256": "23b7d01a01dabe11f3d36560fb2826bdd06b10c5c3d126413d04ab15503d8623"
+  },
+  "lebron": {
+   "status": "carried",
+   "source": "no 2026-27 LEBRON published yet; 2025-26 final (export saved 2026-10-03)",
+   "as_of": "2026-04-12",
+   "rows": 582,
+   "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1"
+  },
+  "bpm_bbref": {
+   "status": "carried",
+   "source": "preseason value (2025-26 final; 2026-27 season-to-date BPM not used yet)",
+   "as_of": "preseason",
+   "rows": 581,
+   "sha256": "8fec8554831ace7c0d623022f9d7b7835f90699e663d9f5d4e2ed2d478bed2c8"
+  },
+  "arc": {
+   "status": "pulled",
+   "source": "lumahoops.org ARC Live (arc-live/2027/2026-10-25.json)",
+   "as_of": "2026-10-25",
+   "rows": 631,
+   "sha256": "bad77fe7faa60aed7a5fade0b86b1a923d2f2a6d2f9839475accab2e6cf5e735"
+  }
+ }
+}
