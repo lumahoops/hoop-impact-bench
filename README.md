@@ -30,6 +30,10 @@ about 09:30 UTC. Base URL: `https://hoopimpactbench.org/`
 
 ## News
 
+- 2026-11-01: version 1.2.0 adds three metrics: xPM (George Berry, VORP.app), Danny Harlan's EPM projection, and GRBNU
+  (Mike Gribanov). It also re-solves the two RAPM reference rows the way LUMA's site solves its RAPM (counted
+  possessions, ridge penalty 10,000). Scores of the metrics already listed did not change; their rank ranges did,
+  because there are more metrics. The live 2026-27 track keeps the v1.1.0 harness.
 - 2026-11-01: the live 2026-27 track. The preseason board computes every 2026-27 game using each metric's ratings from before opening night; the dynamic board uses each metric's ratings as published on the morning of each game day.
 - 2026-10-30: version 1.1.0 adds a reference row, last season's plain RAPM (no prior), after a reader asked how raw
   RAPM carries forward. No ranked score changed.
@@ -46,23 +50,27 @@ Under the v1 rule, a player who played under 250 minutes the season before, rook
 
 | Rank | Metric | Game margins R² (90% interval) | Team win % r | Team net error (points) |
 |---|---|---|---|---|
-|  | *Same-season RAPM (ceiling)* | .268 (.251-.286) | .949 | 1.68 |
-| 1-2 | Pulse | .171 (.154-.187) | .800 | 3.13 |
-| 1-2 | LOKI † | .170 (.152-.186) | .805 | 3.08 |
-| 3-5 | OpenRAPM | .162 (.146-.178) | .786 | 3.39 |
-| 3-6 | xRAPM | .161 (.144-.177) | .772 | 3.48 |
-| 3-8 | LEBRON | .159 (.142-.175) | .770 | 3.39 |
-| 4-8 | EPM | .157 (.141-.174) | .778 | 3.87 |
-| 5-9 | DARKO | .155 (.138-.172) | .767 | 3.36 |
-| 5-9 | BPM (Basketball-Reference) | .154 (.136-.170) | .773 | 3.50 |
-| 6-9 | ARC, 2-year † | .152 (.135-.169) | .776 | 3.38 |
-|  | *Last season's RAPM, no prior (reference)* | .141 (.123-.157) | .729 | 3.53 |
+|  | *Same-season RAPM (ceiling)* | .258 (.241-.275) | .946 | 1.71 |
+| 1-2 | GRBNU | .182 (.165-.198) | .814 | 3.04 |
+| 1-3 | xPM (VORP.app) | .177 (.160-.194) | .815 | 2.94 |
+| 2-5 | Danny Harlan's EPM projection | .172 (.155-.188) | .818 | 3.07 |
+| 3-5 | Pulse | .171 (.154-.187) | .800 | 3.13 |
+| 3-5 | LOKI † | .170 (.152-.186) | .805 | 3.08 |
+| 6-8 | OpenRAPM | .162 (.146-.178) | .786 | 3.39 |
+| 6-9 | xRAPM | .161 (.144-.177) | .772 | 3.48 |
+| 6-11 | LEBRON | .159 (.142-.175) | .770 | 3.39 |
+| 7-11 | EPM | .157 (.141-.174) | .778 | 3.87 |
+| 8-12 | DARKO | .155 (.138-.172) | .767 | 3.36 |
+| 8-12 | BPM (Basketball-Reference) | .154 (.136-.170) | .773 | 3.50 |
+| 9-12 | ARC, 2-year † | .152 (.135-.169) | .776 | 3.38 |
+|  | *Last season's RAPM, no prior (reference)* | .142 (.124-.159) | .725 | 3.49 |
 |  | *Everyone 0 (floor)* | .125 (.109-.141) | .678 | 4.65 |
 |  | *Last season's team (floor)* | .103 (.087-.120) | .629 | 4.19 |
 
 Reference rows (in italics, not ranked):
 
-- Same-season RAPM (ceiling): plain RAPM (ridge regression on lineup stints, no prior, no box score) fit on the full
+- Same-season RAPM (ceiling): plain RAPM (ridge regression on lineup stints, no prior, no box score; possessions
+  counted from the box score, ridge penalty 10,000, solved the way LUMA's site solves its RAPM) fit on the full
   regular season being scored. It is estimated from the same games it is scored on, so it serves as an in-sample upper
   reference.
 - Last season's RAPM: the same plain RAPM fit on the previous season only and carried forward as the forecast.
@@ -77,17 +85,20 @@ The same files with no low-minute rule, so each metric's own values for rookies 
 
 | Rank | Metric | Game margins R² (90% interval) | Team win % r | Team net error (points) |
 |---|---|---|---|---|
-|  | *Same-season RAPM (ceiling)* | .288 (.270-.305) | .963 | 2.13 |
-| 1 | LOKI † | .196 (.178-.213) | .828 | 3.47 |
-| 2-3 | EPM | .178 (.161-.194) | .808 | 4.44 |
-| 2-3 | Pulse | .177 (.159-.192) | .807 | 3.09 |
-| 3-5 | OpenRAPM | .171 (.154-.187) | .801 | 3.40 |
-| 4-5 | xRAPM | .169 (.152-.185) | .782 | 3.47 |
-| 6-8 | DARKO | .159 (.142-.175) | .773 | 3.31 |
-| 6-9 | ARC, 2-year † | .156 (.138-.172) | .782 | 3.34 |
-| 6-9 | BPM (Basketball-Reference) | .154 (.138-.170) | .768 | 3.59 |
-| 6-9 | LEBRON | .154 (.137-.169) | .766 | 3.38 |
-|  | *Last season's RAPM, no prior (reference)* | .133 (.116-.149) | .719 | 3.66 |
+|  | *Same-season RAPM (ceiling)* | .267 (.251-.284) | .958 | 1.89 |
+| 1 | GRBNU | .205 (.187-.221) | .835 | 2.89 |
+| 2-3 | LOKI † | .196 (.178-.213) | .828 | 3.47 |
+| 2-3 | xPM (VORP.app) | .193 (.175-.210) | .825 | 2.83 |
+| 4-6 | Danny Harlan's EPM projection | .179 (.162-.195) | .829 | 2.95 |
+| 4-6 | EPM | .178 (.161-.194) | .808 | 4.44 |
+| 4-6 | Pulse | .177 (.159-.192) | .807 | 3.09 |
+| 6-8 | OpenRAPM | .171 (.154-.187) | .801 | 3.40 |
+| 7-8 | xRAPM | .169 (.152-.185) | .782 | 3.47 |
+| 9-11 | DARKO | .159 (.142-.175) | .773 | 3.31 |
+| 9-12 | ARC, 2-year † | .156 (.138-.172) | .782 | 3.34 |
+| 9-12 | BPM (Basketball-Reference) | .154 (.138-.170) | .768 | 3.59 |
+| 9-12 | LEBRON | .154 (.137-.169) | .766 | 3.38 |
+|  | *Last season's RAPM, no prior (reference)* | .132 (.115-.149) | .711 | 3.57 |
 |  | *Last season's team (floor)* | .092 (.077-.108) | .609 | 4.18 |
 |  | *Everyone 0 (floor)* | .000 (.000-.000) | .000 | 5.04 |
 
@@ -100,7 +111,7 @@ How to read the tables:
   well and still score badly here if its ratings are spread too wide or too narrow.
   EPM is the clearest case: its team ratings run about 1.9 points per 100 below the actual adjusted margins in every
   season (established players), which puts it last on net error (3.87); with that offset and scale fitted away its error
-  is 3.23, in the middle of the pack (range 3.01 to 3.32). Game margins and win % are not affected by an offset.
+  is 3.23, in the middle of the pack (range 2.93 to 3.32). Game margins and win % are not affected by an offset.
 - Rows in italics are reference points and are not ranked; see the key under the first table.
 - The team win % test reproduces Krishna Narsu's (2024) published out-of-sample results for 2020-21 to 2022-23 (his R²
   is r squared): LEBRON .555 (his .555), BPM .514 (his .514), DARKO .530 (his .523).
@@ -119,11 +130,14 @@ How to read the tables:
 | ARC, 2-year † | LUMA Basketball Research | [lumahoops.org](https://lumahoops.org), [open data](https://github.com/lumahoops/NBA) | ARC over the two seasons that end the season before |
 | LEBRON | BBall Index | [bball-index.com](https://www.bball-index.com/lebron-application/) | Previous season |
 | BPM | Basketball-Reference (BPM 2.0 by Daniel Myers) | [basketball-reference.com](https://www.basketball-reference.com/about/bpm2.html) | Previous season. Traded players use their season-total row. |
+| xPM (VORP.app) | George Berry | [vorp.app](https://vorp.app), [Substack](https://georgeberry.substack.com) | Preseason forecast for each season, from the file its maker sent (2026-10-31), shifted by him to above average |
+| Danny Harlan's EPM projection | Danny Harlan | [GitHub](https://github.com/dannyharlan05/nba-epm-projections) | One-year-ahead EPM projection from the season before (`pred_epm_1y`), as committed on 2026-10-20 (commit 97c0817); names matched to NBA.com ids by us |
+| GRBNU | Mike Gribanov | Google Sheet shared by its maker | Net rating forecast for each season from data before that season's opening day; 2020-21 from his V22 build, 2021-22 to 2025-26 from his build of 2026-10-27 |
 
 Each past season uses that season's preseason ratings, but the historical ratings come from each metric's current model,
 not the version published at the time: they are the values each site shows today (LOKI's were generated in 2026 by its
 current model). A model built or recalibrated after those seasons may fit them better than its earlier versions did, so
-the live 2026-27 track, scored on games played after the ratings were saved, is the stricter test. The files for Pulse, xRAPM, LEBRON, EPM, DARKO and BPM belong to their makers and are not in this repository.
+the live 2026-27 track, scored on games played after the ratings were saved, is the stricter test. The files for Pulse, xRAPM, LEBRON, EPM, DARKO, BPM, xPM, Danny Harlan's projection and GRBNU belong to their makers and are not in this repository.
 Their scores are in `launch/`, and `launch/provenance.csv` gives each file's source, the date it was pulled and its
 sha256 fingerprint, so anyone who gets the same file can check our numbers.
 
@@ -230,10 +244,11 @@ in `results.json` (`meta.standard`). Compare them only with runs under the same 
 ## Add your metric
 
 1. Make your CSV (see [Your file](#your-file)) and run `python eval.py --ratings my_metric.csv`.
-Submission rules (from 2026-10-30): the historical table is frozen with its launch entries, because a metric built
-after launch could be tuned to those seasons. New metrics compete on the live 2026-27 board (`live/PROTOCOL.md`).
-A metric can join the historical table only with values that were published before 2026-10-30, with proof (Wayback
-Machine snapshots, dated releases or git history); it is listed as archived.
+Submission rules (from 2026-10-30): a metric built after that date could be tuned to the historical seasons, so new
+metrics compete on the live 2026-27 board (`live/PROTOCOL.md`). A metric can join the historical table with values made
+before 2026-10-30, including backcasts (past seasons generated in 2026 by a current model, as LOKI's are), with proof
+of when they were made: Wayback Machine snapshots, dated releases, git history or a dated public post. The table says
+how each metric's past values were made.
 
 2. To be added to the results, use the [submission form](https://github.com/lumahoops/hoop-impact-bench/issues/new?template=submit-metric.yml).
    For a verified entry, email your CSV to courtshare78@gmail.com: we rerun it and publish only the scores and the
@@ -290,10 +305,11 @@ records the version and the sha256 of the `eval.py` that made it.
 | `data/minutes.csv` | Minutes per player per game, same seasons (2019-20 only supplies last season's minutes) |
 | `data/players.csv` | NBA.com id and name for every player-season, 2019-20 to 2025-26 |
 | `ratings/` | Bundled metrics: LOKI, a LOKI research variant with a BPM prior (`loki_bpm`), ARC over 1, 2 and 3 seasons, and OpenRAPM (MIT license, snapshot of 2026-10-29) |
-| `reference/rapm_same_season.csv` | Plain RAPM (ridge regression on lineup stints, no prior) fit on each season itself: the ceiling row |
+| `reference/rapm_same_season.csv` | Plain RAPM (ridge regression on lineup stints, no prior; counted possessions, penalty 10,000; built by `live/code/rapm_site.py --hist`) fit on each season itself: the ceiling row |
 | `reference/rapm_last_season.csv` | The same RAPM fit on the season before each one (2019-20 to 2024-25): the last-season RAPM row |
 | `results/` | The published run of the bundled metrics |
 | `launch/` | The two runs behind the results tables (scores only), and `provenance.csv` |
+| `live/` | The live 2026-27 track: protocol, snapshot fingerprints, scoring code (with the v1.1.0 harness it is scored by), data and results |
 
 To score Basketball-Reference's BPM yourself, export each season's Advanced table (Share & Export > Get table as CSV),
 then run `python tools/from_bbref.py 2019-20=bbref_2019-20.csv ... 2024-25=bbref_2024-25.csv --out bpm_bbref.csv`.
