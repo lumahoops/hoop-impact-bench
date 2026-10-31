@@ -9,7 +9,7 @@
   "min": 4,
   "max": 6
  },
- "updated_utc": "2026-10-31T22:17:03+00:00",
+ "updated_utc": "2026-10-31T22:18:31+00:00",
  "net_error_shown": false,
  "net_error_note": "hidden until every team has played 20 games",
  "rules": {
@@ -19,7 +19,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "f5f2f56887c1cd9054a1bd948bc7b00b40e69bb1",
+ "repo_commit": "5501a1a038a131eee2c0b412556a7f7eae034a7f",
  "snapshot": {
   "file": "live/snapshots/preseason.json",
   "saved_at_utc": "2026-10-31T20:40:22+00:00"
