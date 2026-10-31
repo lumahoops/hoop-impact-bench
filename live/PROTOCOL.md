@@ -35,4 +35,14 @@ from a file = -2.0). Early in the season the intervals are wide; read the rank r
   file, plus the time it was saved. These are committed before the games they are scored on; the git history is the
   timestamp.
 - Third-party ratings files are not published. Anyone who saves the same file can match its fingerprint.
-- Scores are published after each week, in `live/results/`.
+- Scores are published in `live/results/`, the one source for every page that shows the board:
+  - `frozen.json`: the frozen preseason board. Ranked metrics (score, 90% interval and rank range on each test, plus
+    label, source and fingerprint), reference rows that are not ranked (same-season RAPM ceiling, the consensus of all
+    metrics, last season's RAPM, two floors), and every pairwise gap. Net error is flagged hidden until every team has
+    played 20 games.
+  - `frozen_games.csv`: one row per game, the result and each row's predicted home margin.
+  - `frozen_history.csv`: each scoring run's numbers, appended, to show how the board moves.
+- The consensus is each player's average across the ranked metrics that rate him. It is scored in a separate run, so it
+  never changes anyone's rank range.
+- The RAPM reference rows for 2026-27 are solved the way LUMA's site solves its published RAPM: counted possessions
+  (FGA + 0.44 FTA + TOV - OREB), separate offense and defense terms, ridge 10,000, stints of 15+ seconds.
