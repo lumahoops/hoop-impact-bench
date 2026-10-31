@@ -8,16 +8,19 @@ is scored on.
 
 ## Two boards
 
-- Preseason: each metric's rating from before opening night (October 20, 2026), scored on every 2026-27 game so far.
-- Weekly: every Monday, each metric's current rating is saved and scored on that week's games only. A metric that
-  changes its model mid-season is scored on the version it had that week.
+- Frozen preseason: each metric's rating from before opening night (October 20, 2026), never updated, scored on every
+  2026-27 game so far.
+- Daily: every morning before that day's games, each metric's current published rating is saved, and that day's games
+  are scored with it. The tally runs all season. A metric that changes its model mid-season is scored on the version it
+  had that day.
 
-Weekly means one information cutoff for everyone: a metric that updates daily (EPM, DARKO, Pulse) is scored on its
-Monday-morning ratings for the whole week, the same as a metric that updates weekly (LOKI). A possible later addition is
-a daily board, which would score each game with each metric's latest ratings from before tip-off that day and so
-reward models that update fastest.
+The daily board scores forecasts as they are actually published. A metric is scored on whatever it showed that
+morning: one that updates daily (EPM, DARKO, Pulse, OpenRAPM) uses that day's values; one that updates weekly (LOKI) or
+not at all during the season (xRAPM, preseason-only projections) carries its latest value until it changes. Saving the
+values ourselves each morning is what makes them true forecasts: a site's view of a past date shows its current model,
+not what it said then.
 
-Both use the unchanged HIB harness and the v1 rules (under 250 minutes last season, rookies included, or missing
+Both boards use the unchanged HIB harness and the v1 rules (under 250 minutes last season, rookies included, or missing
 from a file = -2.0). Early in the season the intervals are wide; read the rank ranges, not the order.
 
 ## Labels
@@ -26,7 +29,7 @@ from a file = -2.0). Early in the season the intervals are wide; read the rank r
 |---|---|
 | archived | Published before the games, with proof (a release fingerprint or a dated public record) |
 | saved | Saved by us before the games, but with no public record of the date (our own copy) |
-| pulled_now | Saved by us at the time of the snapshot (every weekly snapshot) |
+| pulled_now | Saved by us at the time of the snapshot (every daily snapshot) |
 | backfill | Taken later from a site's date view, which shows the current model for a past date |
 
 ## Files
