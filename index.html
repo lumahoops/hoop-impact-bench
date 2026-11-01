@@ -11,13 +11,13 @@
 <meta property="og:title" content="Hoop Impact Bench">
 <meta property="og:description" content="Open benchmark for NBA impact metrics (EPM, DARKO, LEBRON, BPM, xRAPM, OpenRAPM, LOKI and more), computed on 2026-27 games played after each metric&#x27;s ratings were saved. After 88 games, xPM leads on team net error at 11.04 points per 100, ahead of LOKI at 11.06. Early: 4-7 games per team. A few games decide each team&#x27;s margin, so the ranges overlap and the floor rows score about the same as the metrics until every team has played 20.">
 <meta property="og:url" content="https://hoopimpactbench.org/">
-<meta property="og:image" content="https://hoopimpactbench.org/live/results/card.png?v=20261101T1918">
+<meta property="og:image" content="https://hoopimpactbench.org/live/results/card.png?v=20261101T1919">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hoop Impact Bench">
 <meta name="twitter:description" content="Open benchmark for NBA impact metrics (EPM, DARKO, LEBRON, BPM, xRAPM, OpenRAPM, LOKI and more), computed on 2026-27 games played after each metric&#x27;s ratings were saved. After 88 games, xPM leads on team net error at 11.04 points per 100, ahead of LOKI at 11.06. Early: 4-7 games per team. A few games decide each team&#x27;s margin, so the ranges overlap and the floor rows score about the same as the metrics until every team has played 20.">
-<meta name="twitter:image" content="https://hoopimpactbench.org/live/results/card.png?v=20261101T1918">
+<meta name="twitter:image" content="https://hoopimpactbench.org/live/results/card.png?v=20261101T1919">
 <style>
   /* dark grey by default; the [light] link switches to off-white (remembered) */
   :root { --bg: #2e2e2e; --fg: #e4e4e4; --muted: #a8a8a8; --line: #5c5c5c; --head: #3a3a3a; --link: #8fb3ff; --seen: #c3a6ff; }
@@ -69,7 +69,7 @@
 <section class="board" data-tab="live" id="live-board">
 <h2>2026-27 preseason</h2>
 <p class="line">Every 2026-27 game, computed using each metric's ratings from before opening night (October 20, 2026).</p>
-<p class="meta"><b>88 games</b> · Oct 20 to Oct 31 · updated Nov 1, 19:18 UTC</p>
+<p class="meta"><b>88 games</b> · Oct 20 to Oct 31 · updated Nov 1, 19:19 UTC</p>
 <p class="early">Early: 4-7 games per team. A few games decide each team&#x27;s margin, so the ranges overlap and the floor rows score about the same as the metrics until every team has played 20.</p>
 <details class="help"><summary>? What this table shows</summary>
 <p><b>After 88 games, xPM leads on team net error at 11.04 points per 100, ahead of LOKI at 11.06. Early: 4-7 games per team. A few games decide each team&#x27;s margin, so the ranges overlap and the floor rows score about the same as the metrics until every team has played 20.</b></p>
@@ -104,7 +104,7 @@
 <section class="board" data-tab="daily" id="daily-board">
 <h2>2026-27 dynamic</h2>
 <p class="line">Each 2026-27 game day, computed using each metric's ratings as published that morning.</p>
-<p class="meta"><b>6 games</b> · Oct 31 to Oct 31 · updated Nov 1, 19:18 UTC</p>
+<p class="meta"><b>6 games</b> · Oct 31 to Oct 31 · updated Nov 1, 19:19 UTC</p>
 <p class="early">Early: 1 game per team. A few games decide each team&#x27;s margin, so the ranges overlap and the floor rows score about the same as the metrics until every team has played 20.</p>
 <details class="help"><summary>? What this table shows</summary>
 <p><b>After 6 games, Pulse leads on team net error at 8.57 points per 100, ahead of ARC Live at 8.80. Early: 1 game per team. A few games decide each team&#x27;s margin, so the ranges overlap and the floor rows score about the same as the metrics until every team has played 20.</b></p>
@@ -235,6 +235,52 @@ themeLink.onclick = (e) => {
   label();
 };
 label();
+
+// Analytics: the same event pipeline as lumahoops.org (POST api.court-share.com/api/track, events table; the backend tags
+// bots). Visitor id is permanent, session id rotates after 30 idle minutes, and each session records how it began
+// (external / direct / continuation) and the visitor's first-touch source, like LUMA's tracker (src/utils/track.js).
+(() => {
+  const API = 'https://api.court-share.com/api/track', IDLE = 30 * 60 * 1000;
+  const ls = (() => { try { localStorage.setItem('_t', '1'); localStorage.removeItem('_t'); return localStorage; } catch (e) { return null; } })();
+  const id = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).slice(2, 14));
+  const get = (k) => ls ? ls.getItem(k) : null, set = (k, v) => { if (ls) ls.setItem(k, v); };
+  let vid = get('_cs_vid'); if (!vid) { vid = id(); set('_cs_vid', vid); }
+  function sid() {
+    const now = Date.now(), last = +(get('_cs_sid_ts') || 0); let s = get('_cs_sid');
+    if (!s || !last || now - last > IDLE) {
+      s = id(); set('_cs_sid', s);
+      const ref = document.referrer || '', internal = ref && ref.indexOf(location.origin) === 0;
+      const entry = !ref ? 'direct' : internal ? 'continuation' : 'external';
+      set('_cs_entry', entry); set('_cs_entry_ref', entry === 'external' ? ref : '');
+      if (!get('_cs_ft')) { set('_cs_ft', entry === 'external' ? ref : entry); set('_cs_ft_at', String(now)); }
+    }
+    set('_cs_sid_ts', String(now)); return s;
+  }
+  function track(event, props) {
+    const p = Object.assign({}, props, { site: 'hib', _host: location.hostname });
+    const e = get('_cs_entry'), er = get('_cs_entry_ref'), ft = get('_cs_ft');
+    if (e) p._entry = e; if (er) p._entry_ref = er; if (ft) p._first_touch = ft;
+    const body = JSON.stringify({ session_id: sid(), visitor_id: vid, event, path: '/hib/' + (location.hash.slice(1) || 'live'),
+      referrer: document.referrer || null, device: navigator.userAgent, props: p });
+    try { fetch(API, { method: 'POST', body, keepalive: true, credentials: 'omit', headers: { 'Content-Type': 'application/json' } }).catch(() => {}); } catch (err) {}
+  }
+  const tab = () => location.hash.slice(1) || 'live';
+  track('page_view', { tab: tab(), search: location.search || undefined });
+  addEventListener('hashchange', () => track('luma_board_view', { board: tab() }));
+  document.querySelectorAll('table.sort thead th').forEach((th) => th.addEventListener('click', () =>
+    track('luma_board_sort_change', { board: tab(), column: th.textContent.trim().split('\n')[0].slice(0, 40), dir: th.dataset.on || '' })));
+  document.querySelectorAll('details.help').forEach((d) => d.addEventListener('toggle', () => { if (d.open) track('luma_nav_click', { target: 'help', board: tab() }); }));
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+    const href = a.getAttribute('href');
+    if (/\.(json|csv)(\?|$)/.test(href)) track('luma_download_click', { file: href, board: tab() });
+    else if (/^https?:/.test(href) && !href.startsWith(location.origin)) track('luma_content_link_click', { href: href.slice(0, 200), text: a.textContent.trim().slice(0, 60), board: tab() });
+  }, true);
+  const t0 = Date.now(); let sent = false;
+  const dwell = () => { if (sent) return; sent = true; track('page_dwell', { seconds: Math.round((Date.now() - t0) / 1000), board: tab() }); };
+  addEventListener('pagehide', dwell);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') dwell(); });
+})();
 </script>
 </body>
 </html>
