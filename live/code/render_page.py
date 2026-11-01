@@ -76,12 +76,29 @@ def drawer(body):
     return f'<details class="help"><summary>? What this table shows</summary>\n{body}\n</details>'
 
 
+def summary(d):
+    """One plain sentence: who leads on game R², by how much, and whether the games separate any two metrics."""
+    m = d["metrics"]
+    if not m:
+        return ""
+    lead, second = m[0], m[1] if len(m) > 1 else None
+    sep = [p for p in d.get("pairs", []) if p["test"] == "margin_r2" and p["separated"]]
+    s = (f"After {d['games']} games, {lead['name']} leads on game R² at {f3(lead['tests']['margin_r2']['value'])}"
+         + (f", ahead of {second['name']} at {f3(second['tests']['margin_r2']['value'])}" if second else "") + ". ")
+    if not sep:
+        return s + "Every metric's rank range still overlaps the others, so the games so far do not separate any two metrics."
+    n = len([p for p in d["pairs"] if p["test"] == "margin_r2"])
+    return s + (f"{len(sep)} of {n} pairs of metrics are separated on game R² at the 90% level; across {n} comparisons, "
+                f"about {round(n * 0.1)} would be separated by chance alone, so these are early signals.")
+
+
 def live_board(d):
     net = d["net_error_shown"]
     ex = len(d["snapshot"].get("excluded_games") or [])
     h = [f'<p class="line">{LINE[d["board"]]}</p>',
          f'<p class="meta"><b>{d["games"]} games</b> · {day(d["first_game"])} to {day(d["scored_through"])} · updated '
          f'{day(d["updated_utc"])}, {d["updated_utc"][11:16]} UTC</p>',
+         f'<p class="sum">{escape(summary(d))}</p>',
          "{{DRAWER}}",
          head(cols(True, "" if net else " <small>after 20 games</small>", True)), '<tbody class="rk">']
     for m in d["metrics"]:
@@ -89,7 +106,7 @@ def live_board(d):
         name = f'<a href="{escape(m["url"])}">{escape(m["name"])}</a>' if m.get("url") else escape(m["name"])
         maker = "" if m["maker"] in m["name"] else f" <small>{escape(m['maker'])}</small>"
         r = t["margin_r2"].get("rank") or [0, 0]
-        h.append("<tr>" + td(rk(t["margin_r2"].get("rank")), r[0] + r[1] / 100)
+        h.append(f'<tr id="m-{m["id"]}">' + td(rk(t["margin_r2"].get("rank")), r[0] + r[1] / 100)
                  + td(f'{name}{" †" if m["ours"] else ""}{maker}', escape(m["name"]), "l")
                  + td(wl(m), (m.get("record") or {}).get("w", ""))
                  + td(f'<b>{f3(t["margin_r2"]["value"])}</b>{iv(t["margin_r2"]["interval"])}', t["margin_r2"]["value"])
@@ -127,6 +144,11 @@ def live_board(d):
                 "reference), the average of all metrics, last season's RAPM, and two floors.</li></ul>")
     body.append("<p><b>Labels</b></p><ul>" + "".join(f"<li>{escape(k)}: {escape(v)}</li>" for k, v in d["labels"].items())
                 + "</ul>")
+    body.append('<p>Sources for the tests: game margins and team net error follow <a href="https://dunksandthrees.com/blog/'
+                'metric-comparison">Taylor Snarr\'s 2020 metric comparison</a>; team win % r is <a href="https://x.com/'
+                'knarsu3/status/1763321501766627328">Krishna Narsu\'s 2024 test</a>; the 250-minute cutoff is <a href="'
+                'https://www.apbr.org/metrics/viewtopic.php?f=2&amp;t=8196&amp;start=15#p15334">Neil Paine\'s</a>. Questions or '
+                'errors: <a href="https://github.com/lumahoops/hoop-impact-bench/issues">open an issue</a>.</p>')
     body.append(f'<p>Data: <a href="live/results/{b}.json">{b}.json</a>, <a href="live/results/{b}_games.csv">every game</a>, '
                 f'<a href="live/results/{b}_history.csv">history</a>. Computed with eval.py v1.1.0 (sha256 '
                 f'{d["harness_sha256"][:12]}...). Rules: <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/'
@@ -213,7 +235,12 @@ def main():
         "keywords": ["NBA", "impact metrics", "EPM", "DARKO", "LEBRON", "BPM", "RAPM", "benchmark"],
         "temporalCoverage": "2020-10-01/..",
         "variableMeasured": ["game margin R\u00b2", "team win % correlation", "team net rating error", "W-L"],
-        **({"dateModified": frozen["updated_utc"]} if frozen else {}),
+        **({"dateModified": frozen["scored_through"]} if frozen else {}),   # changes only when new games are scored
+        "version": "1.1.0",
+        "measurementTechnique": "Each player's saved rating weighted by actual minutes gives a team rating per game; home minus "
+                                "away is the predicted margin, compared with final margins (R\u00b2), team win % (r) and "
+                                "opponent-adjusted team margins (net error).",
+        "citation": "Snarr, T. (2020). Metric comparison. Dunks & Threes. https://dunksandthrees.com/blog/metric-comparison",
         "distribution": [{"@type": "DataDownload", "encodingFormat": f, "contentUrl": base + p} for p, f in files
                          if (REPO / p).exists()]}
     jsonld = '<script type="application/ld+json">' + json.dumps(dataset, ensure_ascii=False) + "</script>"
