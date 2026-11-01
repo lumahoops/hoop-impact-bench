@@ -6,21 +6,33 @@
 <title>Hoop Impact Bench</title>
 <meta name="description" content="An open benchmark for NBA impact metrics: do last season's ratings predict this season's games?">
 <style>
-  body { font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; max-width: 860px; margin: 24px auto; padding: 0 12px; color: #111; background: #fff; }
+  /* light: off-white; dark: grey. Follows the system setting; the [light/dark] link overrides it (remembered). */
+  :root { --bg: #f6f4ee; --fg: #1b1b1b; --muted: #5a5a5a; --line: #a8a49a; --head: #e8e5dc; --link: #1a3fd1; --seen: #5b2a8c; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #2e2e2e; --fg: #e4e4e4; --muted: #a8a8a8; --line: #5c5c5c; --head: #3a3a3a; --link: #8fb3ff; --seen: #c3a6ff; }
+  }
+  :root[data-theme="dark"] { --bg: #2e2e2e; --fg: #e4e4e4; --muted: #a8a8a8; --line: #5c5c5c; --head: #3a3a3a; --link: #8fb3ff; --seen: #c3a6ff; }
+  body { font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; max-width: 860px; margin: 24px auto; padding: 0 12px; color: var(--fg); background: var(--bg); }
   h1 { font-size: 18px; margin: 0; }
-  a { color: #00e; } a:visited { color: #551a8b; }
-  .tabs a { margin-right: 12px; } .tabs a.on { color: #111; font-weight: bold; text-decoration: none; }
+  a { color: var(--link); } a:visited { color: var(--seen); }
+  .tabs a { margin-right: 12px; } .tabs a.on { color: var(--fg); font-weight: bold; text-decoration: none; }
+  #theme { float: right; font-size: 12px; }
   table { border-collapse: collapse; width: 100%; margin: 8px 0; }
-  th, td { border: 1px solid #999; padding: 2px 6px; text-align: right; white-space: nowrap; }
-  th { background: #eee; font-weight: normal; }
+  th, td { border: 1px solid var(--line); padding: 2px 6px; text-align: right; white-space: nowrap; }
+  th { background: var(--head); font-weight: normal; }
   td.l, th.l { text-align: left; white-space: normal; }
-  tr.ref td { font-style: italic; color: #555; }
-  small, .d { color: #555; }
-  hr { border: 0; border-top: 1px solid #999; }
+  tr.ref td { font-style: italic; color: var(--muted); }
+  small, .d { color: var(--muted); }
+  hr { border: 0; border-top: 1px solid var(--line); }
   @media (max-width: 600px) { .wide { overflow-x: auto; } }
 </style>
+<script>
+  // apply a saved choice before the page draws, so it does not flash
+  try { const t = localStorage.getItem('hib-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
 </head>
 <body>
+<a href="#" id="theme"></a>
 <h1>Hoop Impact Bench</h1>
 <p>Do last season's impact-metric ratings predict this season's NBA games?</p>
 <p class="tabs"><a href="#live">2026-27 preseason</a> <a href="#daily">2026-27 dynamic</a> <a href="#retro">Retro 2020-21 to 2025-26</a></p>
@@ -114,6 +126,17 @@ async function show() {
   }
   out.innerHTML = liveTable(d);
 }
+const themeLink = document.getElementById('theme');
+const isDark = () => (document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
+const label = () => { themeLink.textContent = isDark() ? '[light]' : '[dark]'; };
+themeLink.onclick = (e) => {
+  e.preventDefault();
+  const t = isDark() ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem('hib-theme', t); } catch (err) {}
+  label();
+};
+label();
 addEventListener('hashchange', show);
 show();
 </script>
