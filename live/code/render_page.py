@@ -51,16 +51,30 @@ def day(iso):
 
 
 def head(cols):
-    """Table header; each column sorts on click (data-s: n = number, t = text; data-d: a = ascending first)."""
+    """Table header; each column sorts on click (data-s: n = number, t = text; data-d: a = ascending first) and shows a
+    one-line definition on hover."""
     return ('<div class="wide"><table class="sort"><thead><tr>'
-            + "".join(f'<th data-s="{s}" data-d="{d}"{" class=\"l\"" if s == "t" else ""}>{label}</th>' for label, s, d in cols)
+            + "".join(f'<th data-s="{s}" data-d="{d}" title="{escape(TIPS.get(key, ""))}"'
+                      f'{" class=\"l\"" if s == "t" else ""}>{label}</th>' for label, s, d, key in cols)
             + "</tr></thead>")
 
 
+TIPS = {
+    "rank": "Range of places across 2,000 resamples of the games (middle 90%)",
+    "metric": "The impact metric and its maker",
+    "wl": "Games won by the team the metric rated higher (no home-court edge)",
+    "r2": "Share of the variation in final margins that the predicted margins explain. Higher is better",
+    "winpct": "Correlation between team ratings and team win %. Higher is better",
+    "net": "Average miss vs. each team's opponent-adjusted margin, points per 100. Lower is better",
+    "label": "Where the ratings came from; hover a label for its source",
+}
+
+
 def cols(wl_col, net_note, label_col):
-    return ([("rank", "n", "a"), ("metric", "t", "a")] + ([("W-L", "n", "d")] if wl_col else [])
-            + [("game R² <small>90% range</small>", "n", "d"), ("win % r", "n", "d"), (f"net error{net_note}", "n", "a")]
-            + ([("label", "t", "a")] if label_col else []))
+    return ([("rank", "n", "a", "rank"), ("metric", "t", "a", "metric")] + ([("W-L", "n", "d", "wl")] if wl_col else [])
+            + [("game R² <small>90% range</small>", "n", "d", "r2"), ("win % r", "n", "d", "winpct"),
+               (f"net error{net_note}", "n", "a", "net")]
+            + ([("label", "t", "a", "label")] if label_col else []))
 
 
 def td(text, v=None, cls=""):
