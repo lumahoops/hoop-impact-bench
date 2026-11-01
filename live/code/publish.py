@@ -40,7 +40,7 @@ OURS = {"loki", "arc_2yr", "arc"}
 PRESEASON_LINK = {   # the preseason board uses last season's table where that is what was scored
     "bpm_bbref": "https://www.basketball-reference.com/leagues/NBA_2026_advanced.html"}
 REFERENCE = {   # id: (display name, what it is)
-    "ceiling_rapm_same_season": ("Same-season RAPM (ceiling)", "Plain RAPM fit on this season's games so far: it has seen the games it is scored on."),
+    "ceiling_rapm_same_season": ("Same-season RAPM (ceiling)", "Plain RAPM fit on this season's games so far: it has seen the games it is computed on."),
     "consensus": ("Consensus of all metrics", "Each player's average across the ranked metrics that rate him (equal weights)."),
     "rapm_last_season": ("Last season's RAPM, no prior", "Plain RAPM fit on 2025-26 only, carried forward."),
     "baseline_last_team": ("Last season's team (floor)", "Each player = his main team's opponent-adjusted margin last season / 5."),
@@ -73,7 +73,7 @@ def main(board="frozen"):
         info = snap["metrics"]
         snap_meta = {"file": f"live/snapshots/{name}.json", "saved_at_utc": snap["saved_at_utc"]}
         title = ("The preseason board uses the ratings each metric had published before opening night of the 2026-27 NBA "
-                 "season (October 20, 2026). These ratings stay fixed, and every 2026-27 regular-season game is scored with them.")
+                 "season (October 20, 2026). These ratings stay fixed, and every 2026-27 regular-season game is computed using them.")
     else:
         run = json.loads((RUNS / "daily" / "results.json").read_text())
         cons = run
@@ -86,7 +86,8 @@ def main(board="frozen"):
                      "latest_saved_at_utc": latest["saved_at_utc"], "days": run["meta"]["snapshot_days"],
                      "excluded_games": run["meta"]["excluded_games"]}
         title = ("The dynamic board uses each metric's ratings as published on the morning of each game day, saved before "
-                 "that day's first game. A metric that has published nothing new is scored on its most recent ratings.")
+                 "that day's first game. Metrics that do not update daily, or have published nothing new that morning, are "
+                 "computed using their most recent ratings.")
 
     per_team = pd.concat([games.home, games.away]).value_counts()
     net_shown = bool(per_team.min() >= NET_MIN_GAMES)
@@ -126,7 +127,7 @@ def main(board="frozen"):
                    if board == "frozen" else
                    {"pulled": "new ratings saved from the maker's site that morning",
                     "carried": "no new ratings published, so the most recent saved ratings are used",
-                    "empty": "the ratings could not be saved that morning, so no metric is scored on that day's games"}),
+                    "empty": "the ratings could not be saved that morning, so that day's games are left out for every metric"}),
         "tests": {"margin_r2": "Game R²: the share of the variation in final game margins that the predicted margins explain",
                   "winpct_r": "Win % r: the correlation between team ratings and team winning percentage",
                   "net_rmse": "Net error: the average miss, in points per 100 possessions, between team ratings and opponent-adjusted team margins"},
