@@ -9,9 +9,10 @@
   "min": 4,
   "max": 7
  },
- "updated_utc": "2026-11-01T13:41:13+00:00",
+ "updated_utc": "2026-11-01T14:19:24+00:00",
  "net_error_shown": false,
  "net_error_note": "It appears once every team has played 20 games; before that, a few games decide each team's margin",
+ "record_note": "W-L: each game counts as a win when the team the metric rates higher won (no home-court edge, the same for every metric)",
  "rules": {
   "min_minutes": 250,
   "replacement": -2.0
@@ -19,7 +20,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "2eb353a81f121dcff5adc3c4b49b864389c61057",
+ "repo_commit": "112155f2a7f786e5a41e8f5759b441b6198c3034",
  "snapshot": {
   "file": "live/snapshots/preseason.json",
   "saved_at_utc": "2026-10-31T20:40:22+00:00"
@@ -46,6 +47,10 @@
    "sha256": "5e62034575eab2348844508199e232e9709cd4051d607289ef15a8f175a6344a",
    "players": 608,
    "coverage": 1.0,
+   "record": {
+    "w": 58,
+    "l": 30
+   },
    "tests": {
     "margin_r2": {
      "value": 0.2009,
@@ -93,6 +98,10 @@
    "sha256": "23b7d01a01dabe11f3d36560fb2826bdd06b10c5c3d126413d04ab15503d8623",
    "players": 679,
    "coverage": 1.0,
+   "record": {
+    "w": 61,
+    "l": 27
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1845,
@@ -140,6 +149,10 @@
    "sha256": "38d09f71a9d93a9293ac876aa1c1947b757dac7581b22c894c7f340c7e43d257",
    "players": 547,
    "coverage": 0.9995,
+   "record": {
+    "w": 60,
+    "l": 28
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1812,
@@ -187,6 +200,10 @@
    "sha256": "c78ec0deb99f547e460e00bde98e867623ecf14c3f6d8ffaac599595fd5395d7",
    "players": 687,
    "coverage": 1.0,
+   "record": {
+    "w": 63,
+    "l": 25
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1699,
@@ -234,6 +251,10 @@
    "sha256": "8d24ecda23832b5a148d11521bcd428a93d8dd572639ff53ee2ceaf60a66efe8",
    "players": 520,
    "coverage": 0.9994,
+   "record": {
+    "w": 59,
+    "l": 29
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1559,
@@ -281,6 +302,10 @@
    "sha256": "8fec8554831ace7c0d623022f9d7b7835f90699e663d9f5d4e2ed2d478bed2c8",
    "players": 581,
    "coverage": 1.0,
+   "record": {
+    "w": 62,
+    "l": 26
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1524,
@@ -328,6 +353,10 @@
    "sha256": "0500492433e1a6b0bd677963affe5f4bba4befe34d3925cdfba1c3b721b494f2",
    "players": 582,
    "coverage": 1.0,
+   "record": {
+    "w": 58,
+    "l": 30
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1515,
@@ -375,6 +404,10 @@
    "sha256": "1af65024cd22eccad3379d60c349c8aaec123cef227173c3cbe3e4a73307c328",
    "players": 582,
    "coverage": 1.0,
+   "record": {
+    "w": 58,
+    "l": 30
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1494,
@@ -422,6 +455,10 @@
    "sha256": "f85762fa4716f9b97cd4a43eebaca11c1d0ac335dc5275319b988d73a74f843b",
    "players": 582,
    "coverage": 1.0,
+   "record": {
+    "w": 60,
+    "l": 28
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1486,
@@ -469,6 +506,10 @@
    "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1",
    "players": 582,
    "coverage": 1.0,
+   "record": {
+    "w": 58,
+    "l": 30
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1337,

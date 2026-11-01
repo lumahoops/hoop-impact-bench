@@ -9,9 +9,10 @@
   "min": 1,
   "max": 1
  },
- "updated_utc": "2026-11-01T13:41:14+00:00",
+ "updated_utc": "2026-11-01T14:19:24+00:00",
  "net_error_shown": false,
  "net_error_note": "It appears once every team has played 20 games; before that, a few games decide each team's margin",
+ "record_note": "W-L: each game counts as a win when the team the metric rates higher won (no home-court edge, the same for every metric)",
  "rules": {
   "min_minutes": 0.0,
   "replacement": -2.0
@@ -19,7 +20,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "2eb353a81f121dcff5adc3c4b49b864389c61057",
+ "repo_commit": "112155f2a7f786e5a41e8f5759b441b6198c3034",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-01",
@@ -59,6 +60,10 @@
    "players": 631,
    "as_of": "2026-10-25",
    "coverage": 0.9865,
+   "record": {
+    "w": 5,
+    "l": 1
+   },
    "tests": {
     "margin_r2": {
      "value": 0.4232,
@@ -107,6 +112,10 @@
    "players": 660,
    "as_of": "2026-10-31",
    "coverage": 1.0,
+   "record": {
+    "w": 5,
+    "l": 1
+   },
    "tests": {
     "margin_r2": {
      "value": 0.3786,
@@ -155,6 +164,10 @@
    "players": 525,
    "as_of": "2026-10-30",
    "coverage": 1.0,
+   "record": {
+    "w": 5,
+    "l": 1
+   },
    "tests": {
     "margin_r2": {
      "value": 0.3182,
@@ -203,6 +216,10 @@
    "players": 1029,
    "as_of": "2026-11-01",
    "coverage": 0.8963,
+   "record": {
+    "w": 5,
+    "l": 1
+   },
    "tests": {
     "margin_r2": {
      "value": 0.2206,
@@ -251,6 +268,10 @@
    "players": 582,
    "as_of": "2026-04-12",
    "coverage": 0.8904,
+   "record": {
+    "w": 4,
+    "l": 2
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1983,
@@ -299,6 +320,10 @@
    "players": 528,
    "as_of": "2026-11-01",
    "coverage": 1.0,
+   "record": {
+    "w": 5,
+    "l": 1
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1768,
@@ -347,6 +372,10 @@
    "players": 608,
    "as_of": "preseason",
    "coverage": 1.0,
+   "record": {
+    "w": 3,
+    "l": 3
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1512,
@@ -395,6 +424,10 @@
    "players": 581,
    "as_of": "preseason",
    "coverage": 0.8904,
+   "record": {
+    "w": 4,
+    "l": 2
+   },
    "tests": {
     "margin_r2": {
      "value": 0.1332,
@@ -443,6 +476,10 @@
    "players": 679,
    "as_of": "preseason",
    "coverage": 0.8963,
+   "record": {
+    "w": 5,
+    "l": 1
+   },
    "tests": {
     "margin_r2": {
      "value": 0.121,
@@ -491,6 +528,10 @@
    "players": 582,
    "as_of": "2026-04-12",
    "coverage": 0.8904,
+   "record": {
+    "w": 3,
+    "l": 3
+   },
    "tests": {
     "margin_r2": {
      "value": 0.0711,
@@ -539,6 +580,10 @@
    "players": 590,
    "as_of": "2026-10-31",
    "coverage": 0.9885,
+   "record": {
+    "w": 4,
+    "l": 2
+   },
    "tests": {
     "margin_r2": {
      "value": 0.0,
