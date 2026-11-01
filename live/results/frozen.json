@@ -9,7 +9,7 @@
   "min": 4,
   "max": 7
  },
- "updated_utc": "2026-11-01T12:00:16+00:00",
+ "updated_utc": "2026-11-01T12:54:46+00:00",
  "net_error_shown": false,
  "net_error_note": "hidden until every team has played 20 games",
  "rules": {
@@ -19,7 +19,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "b76a1c01558f01632a9fe95ce93793ab8bd952fc",
+ "repo_commit": "9f4fc60a45fc3f7709ce68d14e25606f37788fcd",
  "snapshot": {
   "file": "live/snapshots/preseason.json",
   "saved_at_utc": "2026-10-31T20:40:22+00:00"
@@ -180,7 +180,7 @@
    "id": "loki",
    "name": "LOKI",
    "maker": "LUMA Basketball Research",
-   "url": "https://lumahoops.org",
+   "url": "https://lumahoops.org/loki",
    "ours": true,
    "label": "archived",
    "source": "LOKI v3.3 2026-27 preseason board, frozen 2026-10-12, release sha256 a1f9bad8...",
@@ -274,7 +274,7 @@
    "id": "bpm_bbref",
    "name": "BPM (Basketball-Reference)",
    "maker": "Daniel Myers / Basketball-Reference",
-   "url": "https://www.basketball-reference.com/",
+   "url": "https://www.basketball-reference.com/leagues/NBA_2026_advanced.html",
    "ours": false,
    "label": "archived",
    "source": "Basketball-Reference 2025-26 Advanced table, Wayback capture 2026-10-08 (web.archive.org/web/20261008065049/https://www.basketball-reference.com/leagues/NBA_2026_advanced.html), via tools/from_bbref.py",
@@ -415,7 +415,7 @@
    "id": "openrapm",
    "name": "OpenRAPM",
    "maker": "Nathan Walker",
-   "url": "https://github.com/bbstats/openrapm",
+   "url": "https://openrapm.com/",
    "ours": false,
    "label": "archived",
    "source": "bbstats/openrapm docs/data/ratings.json at commit 8dc207b (2026-10-19 18:50 UTC, last before opening night), 2025-26 total",
