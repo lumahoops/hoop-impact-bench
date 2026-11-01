@@ -132,10 +132,11 @@ label();
     set('_cs_sid_ts', String(now)); return s;
   }
   function track(event, props) {
+    const session = sid();   // first, so a new session's entry type is set before it is read
     const p = Object.assign({}, props, { site: 'hib', _host: location.hostname });
     const e = get('_cs_entry'), er = get('_cs_entry_ref'), ft = get('_cs_ft');
     if (e) p._entry = e; if (er) p._entry_ref = er; if (ft) p._first_touch = ft;
-    const body = JSON.stringify({ session_id: sid(), visitor_id: vid, event, path: '/hib/' + (location.hash.slice(1) || 'live'),
+    const body = JSON.stringify({ session_id: session, visitor_id: vid, event, path: '/hib/' + (location.hash.slice(1) || 'live'),
       referrer: document.referrer || null, device: navigator.userAgent, props: p });
     try { fetch(API, { method: 'POST', body, keepalive: true, credentials: 'omit', headers: { 'Content-Type': 'application/json' } }).catch(() => {}); } catch (err) {}
   }
