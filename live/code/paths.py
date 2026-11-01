@@ -23,4 +23,6 @@ RUNS = WORK / "runs"
 # Live rule (owner, 2026-11-01): no low-minute rule. Every player counts at the metric's own value; only a player the
 # metric does not rate gets the replacement. (The 250-minute v1 rule is for the historical tables.)
 RULES = {"min_minutes": 0.0, "replacement": -2.0}
+# Metrics kept in the frozen snapshot (fingerprint committed) but not scored on the frozen board (owner, 2026-11-01).
+FROZEN_DROPPED = {"arc_2yr": "a 2-year window ending 2025-26, not a forecast, with no rookies; ARC Live stays on the daily board"}
 RELEASE_HARNESS = "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a"   # eval.py v1.1.0

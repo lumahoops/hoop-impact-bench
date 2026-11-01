@@ -17,7 +17,7 @@ import sys
 
 import pandas as pd
 
-from paths import RULES, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
+from paths import FROZEN_DROPPED, RULES, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
 
 FIRST_GAME = "2026-10-20"
 
@@ -57,7 +57,8 @@ def main():
             sys.exit(f"missing ratings file {f}")
         if sha256(f) != e["sha256"]:
             sys.exit(f"{f} does not match its published fingerprint")
-        files.append(f)
+        if k not in FROZEN_DROPPED:
+            files.append(f)
     work = WORK / "work" / "frozen"
     n, last = scratch(work)
     cons = WORK / "derived" / "consensus.csv"                  # the file's name is the row's name in the results
