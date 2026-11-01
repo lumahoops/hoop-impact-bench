@@ -47,6 +47,8 @@
   details.help { line-height: 1.6; }
   details.help ul { padding-left: 20px; margin: 4px 0 10px; }
   hr { border: 0; border-top: 1px solid var(--line); margin: 10px 0; }
+  table.sort th { cursor: pointer; user-select: none; } table.sort th:hover { color: var(--fg); }
+  table.sort th.up::after { content: ' ▲'; font-size: 10px; } table.sort th.down::after { content: ' ▼'; font-size: 10px; }
   .js section.board { display: none; } .js section.board.on { display: block; }
   @media (max-width: 700px) { td.l small { display: none; } body { font-size: 14px; } table { font-size: 13px; } th, td { padding: 4px 6px; } .wide { overflow-x: auto; } }
 </style>
@@ -79,6 +81,21 @@ function show() {
   tabs.forEach((a) => a.className = a.getAttribute('href') === '#' + tab ? 'on' : '');
   boards.forEach((s) => s.classList.toggle('on', s.dataset.tab === tab));
 }
+// click a column header to sort the ranked rows (reference rows stay below); click again to reverse
+document.querySelectorAll('table.sort').forEach((tb) => {
+  const ths = tb.querySelectorAll('thead th');
+  ths.forEach((th, c) => th.addEventListener('click', () => {
+    const asc = th.dataset.on === 'a' ? false : th.dataset.on === 'd' ? true : th.dataset.d === 'a';
+    ths.forEach((x) => { delete x.dataset.on; x.classList.remove('up', 'down'); });
+    th.dataset.on = asc ? 'a' : 'd'; th.classList.add(asc ? 'up' : 'down');
+    const body = tb.querySelector('tbody.rk'), rows = [...body.rows];
+    const key = (r) => { const v = r.cells[c].dataset.v; return th.dataset.s === 'n' ? (v === '' || v === undefined ? null : +v) : (v || '').toLowerCase(); };
+    rows.sort((x, y) => { const a = key(x), b = key(y);
+      if (a === null) return 1; if (b === null) return -1;
+      return (a < b ? -1 : a > b ? 1 : 0) * (asc ? 1 : -1); });
+    rows.forEach((r) => body.appendChild(r));
+  }));
+});
 addEventListener('hashchange', show);
 show();
 const themeLink = document.getElementById('theme');

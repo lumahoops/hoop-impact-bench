@@ -50,8 +50,21 @@ def day(iso):
     return f"{d:%b} {d.day}"
 
 
-HEAD = ('<div class="wide"><table><tr><th>rank</th><th class="l">metric</th>{}<th>game R² <small>90% range</small></th>'
-        '<th>win % r</th><th>net error{}</th>{}</tr>')
+def head(cols):
+    """Table header; each column sorts on click (data-s: n = number, t = text; data-d: a = ascending first)."""
+    return ('<div class="wide"><table class="sort"><thead><tr>'
+            + "".join(f'<th data-s="{s}" data-d="{d}"{" class=\"l\"" if s == "t" else ""}>{label}</th>' for label, s, d in cols)
+            + "</tr></thead>")
+
+
+def cols(wl_col, net_note, label_col):
+    return ([("rank", "n", "a"), ("metric", "t", "a")] + ([("W-L", "n", "d")] if wl_col else [])
+            + [("game R² <small>90% range</small>", "n", "d"), ("win % r", "n", "d"), (f"net error{net_note}", "n", "a")]
+            + ([("label", "t", "a")] if label_col else []))
+
+
+def td(text, v=None, cls=""):
+    return f'<td{f" class={chr(34)}{cls}{chr(34)}" if cls else ""}{f" data-v={chr(34)}{v}{chr(34)}" if v is not None else ""}>{text}</td>'
 
 
 def wl(m):
@@ -70,21 +83,26 @@ def live_board(d):
          f'<p class="meta"><b>{d["games"]} games</b> · {day(d["first_game"])} to {day(d["scored_through"])} · updated '
          f'{day(d["updated_utc"])}, {d["updated_utc"][11:16]} UTC</p>',
          "{{DRAWER}}",
-         HEAD.format("<th>W-L</th>", "" if net else " <small>after 20 games</small>", '<th class="l">label</th>')]
+         head(cols(True, "" if net else " <small>after 20 games</small>", True)), '<tbody class="rk">']
     for m in d["metrics"]:
         t = m["tests"]
         name = f'<a href="{escape(m["url"])}">{escape(m["name"])}</a>' if m.get("url") else escape(m["name"])
         maker = "" if m["maker"] in m["name"] else f" <small>{escape(m['maker'])}</small>"
-        h.append(f'<tr><td>{rk(t["margin_r2"].get("rank"))}</td><td class="l">{name}{" †" if m["ours"] else ""}{maker}</td>'
-                 f'<td>{wl(m)}</td>'
-                 f'<td><b>{f3(t["margin_r2"]["value"])}</b>{iv(t["margin_r2"]["interval"])}</td><td>{f3(t["winpct_r"]["value"])}</td>'
-                 f'<td>{f"{t["net_rmse"]["value"]:.2f}" if net else "-"}</td>'
-                 f'<td class="l" title="{escape(m["source"])}">{escape(m["label"])}</td></tr>')
+        r = t["margin_r2"].get("rank") or [0, 0]
+        h.append("<tr>" + td(rk(t["margin_r2"].get("rank")), r[0] + r[1] / 100)
+                 + td(f'{name}{" †" if m["ours"] else ""}{maker}', escape(m["name"]), "l")
+                 + td(wl(m), (m.get("record") or {}).get("w", ""))
+                 + td(f'<b>{f3(t["margin_r2"]["value"])}</b>{iv(t["margin_r2"]["interval"])}', t["margin_r2"]["value"])
+                 + td(f3(t["winpct_r"]["value"]), t["winpct_r"]["value"])
+                 + td(f'{t["net_rmse"]["value"]:.2f}' if net else "-", t["net_rmse"]["value"] if net else "")
+                 + f'<td class="l" title="{escape(m["source"])}">{escape(m["label"])}</td></tr>')
+    h.append('</tbody><tbody class="refs">')
     for r in d["reference"]:
         t = r["tests"]
         h.append(f'<tr class="ref"><td></td><td class="l" title="{escape(r["description"])}">{escape(r["name"])}</td><td></td>'
                  f'<td>{f3(t["margin_r2"]["value"])}{iv(t["margin_r2"]["interval"])}</td><td>{f3(t["winpct_r"]["value"])}</td>'
                  f'<td>{f"{t["net_rmse"]["value"]:.2f}" if net else "-"}</td><td></td></tr>')
+    h.append("</tbody>")
     h.append("</table></div>")
 
     rules, tests = d["rules"], d["tests"]
@@ -118,16 +136,22 @@ def live_board(d):
 
 def retro_table(d, title, note):
     rows = sorted(d["metrics"].items(), key=lambda kv: -kv[1]["all"]["margin_r2"]["value"])
-    h = [f"<h3>{title}</h3>", f'<p class="meta">{note}</p>', HEAD.format("", "", "")]
+    h = [f"<h3>{title}</h3>", f'<p class="meta">{note}</p>', head(cols(False, "", False))]
     for ref in (False, True):
+        h.append('<tbody class="refs">' if ref else '<tbody class="rk">')
         for k, v in rows:
             if v["baseline"] != ref:
                 continue
             a = v["all"]
-            h.append(f'<tr{" class=\"ref\"" if ref else ""}><td>{"" if ref else rk(a["margin_r2"]["rank"])}</td>'
-                     f'<td class="l">{escape(NAMES.get(k, k))}</td><td>{"" if ref else "<b>"}{f3(a["margin_r2"]["value"])}'
-                     f'{"" if ref else "</b>"}{iv(a["margin_r2"]["interval"])}</td>'
-                     f'<td>{f3(a["winpct_r"]["value"])}</td><td>{a["net_rmse"]["value"]:.2f}</td></tr>')
+            r = a["margin_r2"].get("rank") or [0, 0]
+            h.append(f'<tr{" class=\"ref\"" if ref else ""}>'
+                     + td("" if ref else rk(a["margin_r2"].get("rank")), None if ref else r[0] + r[1] / 100)
+                     + td(escape(NAMES.get(k, k)), escape(NAMES.get(k, k)), "l")
+                     + td(f'{"" if ref else "<b>"}{f3(a["margin_r2"]["value"])}{"" if ref else "</b>"}{iv(a["margin_r2"]["interval"])}',
+                          a["margin_r2"]["value"])
+                     + td(f3(a["winpct_r"]["value"]), a["winpct_r"]["value"])
+                     + td(f'{a["net_rmse"]["value"]:.2f}', a["net_rmse"]["value"]) + "</tr>")
+        h.append("</tbody>")
     h.append("</table></div>")
     return "\n".join(h)
 
