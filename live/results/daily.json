@@ -1,7 +1,7 @@
 {
  "board": "daily",
  "season": "2026-27",
- "title": "The dynamic board uses each metric's ratings as published on the morning of each game day, saved before that day's first game. A metric that has published nothing new is scored on its most recent ratings.",
+ "title": "The dynamic board uses each metric's ratings as published on the morning of each game day, saved before that day's first game. Metrics that do not update daily, or have published nothing new that morning, are computed using their most recent ratings.",
  "scored_through": "2026-10-31",
  "first_game": "2026-10-31",
  "games": 6,
@@ -9,7 +9,7 @@
   "min": 1,
   "max": 1
  },
- "updated_utc": "2026-11-01T13:11:36+00:00",
+ "updated_utc": "2026-11-01T13:17:35+00:00",
  "net_error_shown": false,
  "net_error_note": "It appears once every team has played 20 games; before that, a few games decide each team's margin",
  "rules": {
@@ -19,7 +19,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "35349ceb0dd65dba90b5465693a36a2fabf58904",
+ "repo_commit": "e145c3d8554ddef94c812d261f406e04c828cb25",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-01",
@@ -39,7 +39,7 @@
  "labels": {
   "pulled": "new ratings saved from the maker's site that morning",
   "carried": "no new ratings published, so the most recent saved ratings are used",
-  "empty": "the ratings could not be saved that morning, so no metric is scored on that day's games"
+  "empty": "the ratings could not be saved that morning, so that day's games are left out for every metric"
  },
  "tests": {
   "margin_r2": "Game R²: the share of the variation in final game margins that the predicted margins explain",
@@ -580,7 +580,7 @@
   {
    "id": "ceiling_rapm_same_season",
    "name": "Same-season RAPM (ceiling)",
-   "description": "Plain RAPM fit on this season's games so far: it has seen the games it is scored on.",
+   "description": "Plain RAPM fit on this season's games so far: it has seen the games it is computed on.",
    "tests": {
     "margin_r2": {
      "value": 0.7664,
