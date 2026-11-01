@@ -9,7 +9,7 @@
   "min": 1,
   "max": 1
  },
- "updated_utc": "2026-11-01T09:01:44+00:00",
+ "updated_utc": "2026-11-01T09:10:56+00:00",
  "net_error_shown": false,
  "net_error_note": "hidden until every team has played 20 games",
  "rules": {
@@ -19,7 +19,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "5ab9fb576c3d8b3983f66149d11126f8a70aacd8",
+ "repo_commit": "9878576171bda8ad4654bcc1ae0e9a49de6c40d2",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-01",
