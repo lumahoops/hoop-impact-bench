@@ -49,6 +49,11 @@ REFERENCE = {   # id: (display name, what it is)
 }
 
 
+def games_per_team(per_team):
+    lo, hi = int(per_team.min()), int(per_team.max())
+    return f"{lo} game" if lo == hi == 1 else f"{lo} games" if lo == hi else f"{lo}-{hi} games"
+
+
 def tests(m, ranked):
     out = {}
     for t in TESTS:
@@ -125,7 +130,7 @@ def main(board="frozen"):
         "games_per_team": {"min": int(per_team.min()), "max": int(per_team.max())},
         "updated_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
         "primary_test": "net_rmse", "net_error_shown": True, "early": not net_shown,
-        "net_error_note": (f"Early: {int(per_team.min())}-{int(per_team.max())} games per team. A few games decide each team's "
+        "net_error_note": (f"Early: {games_per_team(per_team)} per team. A few games decide each team's "
                            f"margin, so the ranges overlap and the floor rows score about the same as the metrics until "
                            f"every team has played {NET_MIN_GAMES}.") if not net_shown else "",
         "record_note": "W-L: each game counts as a win when the team the metric rates higher won (no home-court edge, the same for every metric)",
