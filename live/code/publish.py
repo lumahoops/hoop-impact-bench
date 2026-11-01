@@ -72,7 +72,8 @@ def main(board="frozen"):
             sys.exit("the two runs disagree on the harness or the games")
         info = snap["metrics"]
         snap_meta = {"file": f"live/snapshots/{name}.json", "saved_at_utc": snap["saved_at_utc"]}
-        title = "We saved each metric's ratings before opening night (October 20, 2026). They never change."
+        title = ("The preseason board uses the ratings each metric had published before opening night of the 2026-27 NBA "
+                 "season (October 20, 2026). These ratings stay fixed, and every 2026-27 regular-season game is scored with them.")
     else:
         run = json.loads((RUNS / "daily" / "results.json").read_text())
         cons = run
@@ -84,8 +85,8 @@ def main(board="frozen"):
         snap_meta = {"files": "live/snapshots/daily/<date>.json", "latest": latest["date"],
                      "latest_saved_at_utc": latest["saved_at_utc"], "days": run["meta"]["snapshot_days"],
                      "excluded_games": run["meta"]["excluded_games"]}
-        title = ("Each morning we save every metric's ratings as its site shows them, before the day's games. "
-                 "A metric that published nothing new keeps its last ratings.")
+        title = ("The dynamic board uses each metric's ratings as published on the morning of each game day, saved before "
+                 "that day's first game. A metric that has published nothing new is scored on its most recent ratings.")
 
     per_team = pd.concat([games.home, games.away]).value_counts()
     net_shown = bool(per_team.min() >= NET_MIN_GAMES)
@@ -115,20 +116,20 @@ def main(board="frozen"):
         "scored_through": games.date.max(), "first_game": games.date.min(), "games": int(len(games)),
         "games_per_team": {"min": int(per_team.min()), "max": int(per_team.max())},
         "updated_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
-        "net_error_shown": net_shown, "net_error_note": f"shown once every team has played {NET_MIN_GAMES} games",
+        "net_error_shown": net_shown, "net_error_note": f"It appears once every team has played {NET_MIN_GAMES} games; before that, a few games decide each team's margin",
         "rules": meta["rules"], "confidence": meta["confidence"], "resamples": meta["resamples"],
         "harness_sha256": meta["harness"], "repo_commit": meta["git_commit"],
         "snapshot": snap_meta,
-        "labels": ({"archived": "the maker published these ratings before the games, and the date can be checked",
-                    "saved": "we saved these ratings before the games; no public record shows the date",
-                    "backfill": "we took these ratings later from the site's view of that date, which runs its current model"}
+        "labels": ({"archived": "published by the maker before opening night, with a public date (archive snapshot, release or commit)",
+                    "saved": "copied before opening night, with no public record of the date",
+                    "backfill": "taken later from the maker's view of a past date, which shows its current model"}
                    if board == "frozen" else
-                   {"pulled": "we saved new ratings from the maker's site that morning",
-                    "carried": "the maker published nothing new, so the last saved ratings count",
-                    "empty": "we could not save the ratings all morning, so no metric is scored on that day's games"}),
-        "tests": {"margin_r2": "Game R²: how much of each game's final margin the ratings explain, weighted by who played",
-                  "winpct_r": "Win % r: how closely team ratings follow team win %",
-                  "net_rmse": "Net error: how far team ratings miss each team's point margin per 100 possessions"},
+                   {"pulled": "new ratings saved from the maker's site that morning",
+                    "carried": "no new ratings published, so the most recent saved ratings are used",
+                    "empty": "the ratings could not be saved that morning, so no metric is scored on that day's games"}),
+        "tests": {"margin_r2": "Game R²: the share of the variation in final game margins that the predicted margins explain",
+                  "winpct_r": "Win % r: the correlation between team ratings and team winning percentage",
+                  "net_rmse": "Net error: the average miss, in points per 100 possessions, between team ratings and opponent-adjusted team margins"},
         "metrics": metrics, "reference": reference, "pairs": pairs,
     }
     OUT.mkdir(parents=True, exist_ok=True)

@@ -46,11 +46,11 @@ def live_board(d):
     net = d["net_error_shown"]
     ex = len(d["snapshot"].get("excluded_games") or [])
     h = [f"<p>{escape(d['title'])}</p>",
-         f"<p><b>{d['games']} games</b>, {day(d['first_game'])} to {day(d['scored_through'])} · updated "
-         f"{day(d['updated_utc'])}, {d['updated_utc'][11:16]} UTC</p>"]
+         f"<p><b>{d['games']} games scored</b>, {day(d['first_game'])} to {day(d['scored_through'])}. Updated "
+         f"{day(d['updated_utc'])}, {d['updated_utc'][11:16]} UTC.</p>"]
     if ex:
-        h.append(f"<p>{ex} game{'s' if ex != 1 else ''} not scored: {'it' if ex == 1 else 'they'} started before we saved "
-                 "that day's ratings.</p>")
+        h.append(f"<p>{ex} game{' is' if ex == 1 else 's are'} not scored because {'it' if ex == 1 else 'they'} started "
+                 "before that day's ratings were saved.</p>")
     h.append(HEAD.format('<th class="l">label</th>'))
     for m in d["metrics"]:
         t = m["tests"]
@@ -67,18 +67,19 @@ def live_board(d):
                  f'<td>{f"{t["net_rmse"]["value"]:.2f}" if net else "-"}</td><td></td></tr>')
     h.append("</table></div>")
     rules, tests = d["rules"], d["tests"]
-    rule = (f"Players with under {rules['min_minutes']:g} minutes last season, rookies included, count as "
-            f"{rules['replacement']:.1f} for every metric." if rules["min_minutes"] else
-            f"Every player counts at the metric's own rating. A player the metric does not rate counts as "
+    rule = (f"Minutes rule: a player with fewer than {rules['min_minutes']:g} minutes in 2025-26, including every rookie, "
+            f"is rated {rules['replacement']:.1f} for every metric." if rules["min_minutes"] else
+            f"Minutes rule: every player is rated at the metric's own value, and a player the metric does not rate is "
             f"{rules['replacement']:.1f}.")
     h.append('<p class="d">How to read it:</p><ul class="d">'
              f"<li>{escape(tests['margin_r2'])}. Higher is better.</li>"
              f"<li>{escape(tests['winpct_r'])}. Higher is better.</li>"
-             f"<li>{escape(tests['net_rmse'])}. Lower is better{'' if net else ', ' + escape(d['net_error_note'])}.</li>"
-             f"<li>Rank: the range of places a metric takes in {round(d['confidence'] * 100)}% of {d['resamples']:,} "
-             "resamples. Overlapping ranges mean the games so far cannot separate those metrics.</li>"
+             f"<li>{escape(tests['net_rmse'])}. Lower is better.{'' if net else ' ' + escape(d['net_error_note']) + '.'}</li>"
+             f"<li>Rank: the range of places a metric reaches across {d['resamples']:,} resamples of the games (the middle "
+             f"{round(d['confidence'] * 100)}%). Metrics whose ranges overlap are not separated by the games played so far.</li>"
              f"<li>{rule}</li>"
-             "<li>Italic rows are reference points, not ranked.</li></ul>")
+             "<li>Italic rows are reference points and are not ranked: RAPM fit on these same games (an upper reference), "
+             "the average of all metrics, last season's RAPM, and two floors.</li></ul>")
     h.append('<p class="d">Labels:</p><ul class="d">'
              + "".join(f"<li><b>{escape(k)}</b>: {escape(v)}</li>" for k, v in d["labels"].items()) + "</ul>")
     b = d["board"]
@@ -113,16 +114,16 @@ def main():
     est, full = load(REPO / "launch" / "established-players.json"), load(REPO / "launch" / "full-forecast.json")
     parts = [section("live", "2026-27 preseason board", live_board(frozen) if frozen else "<p>No games scored yet.</p>"),
              section("daily", "2026-27 dynamic board", live_board(daily) if daily else
-                     "<p>No games scored yet. Each morning we save every metric's ratings as its site shows them, "
-                     "before the day's games. Scores appear the morning after.</p>")]
+                     "<p>No games are scored yet. The dynamic board uses each metric's ratings as published on the "
+                     "morning of each game day, saved before that day's first game.</p>")]
     m = est["meta"]
     parts.append(section("retro", f"Retro: {m['seasons'][0]} to {m['seasons'][-1]}", "\n".join([
-        f"<p>We scored each past season with the ratings each metric had before it: <b>{m['games']:,} games</b> and "
-        f"{m['team_seasons']} team-seasons, {m['seasons'][0]} to {m['seasons'][-1]} (HIB v{m['version']}).</p>",
-        "<p>These ratings come from each site's current model, not what it published at the time. A model can fit past "
-        "seasons it was built on, so the 2026-27 boards are the stricter test.</p>",
-        retro_table(est, "Established players", "Players with under 250 minutes the season before, rookies included, count as -2.0 for every metric."),
-        retro_table(full, "Full forecast", "Every player counts at the metric's own rating."),
+        f"<p>The retro tables score each season from {m['seasons'][0]} to {m['seasons'][-1]} ({m['games']:,} games, "
+        f"{m['team_seasons']} team-seasons) with the ratings each metric had before that season (HIB v{m['version']}).</p>",
+        "<p>The past ratings come from each metric's current model rather than from what it published at the time, so a "
+        "model may fit seasons it was built on. The 2026-27 boards do not have that problem.</p>",
+        retro_table(est, "Established players", "A player with fewer than 250 minutes the season before, including every rookie, is rated -2.0 for every metric."),
+        retro_table(full, "Full forecast", "Every player is rated at the metric's own value."),
         '<p class="d">Method, sources and every file: the <a href="https://github.com/lumahoops/hoop-impact-bench#readme">'
         'README</a>.</p>'])))
     lead = ", ".join(f"{x['name']} {f3(x['tests']['margin_r2']['value'])}" for x in (frozen or {}).get("metrics", [])[:3])
