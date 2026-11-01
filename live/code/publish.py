@@ -21,21 +21,24 @@ from paths import RESULTS as OUT, RUNS, SNAPSHOTS
 NET_MIN_GAMES = 20
 TESTS = ["margin_r2", "winpct_r", "net_rmse"]
 
-METRICS = {   # display name, maker, link
-    "loki": ("LOKI", "LUMA Basketball Research", "https://lumahoops.org"),
+METRICS = {   # display name, maker, link (straight to the board the values come from)
+    "loki": ("LOKI", "LUMA Basketball Research", "https://lumahoops.org/loki"),
     "xpm": ("xPM", "George Berry, VORP.app", "https://vorp.app"),
     "danny": ("EPM projection (Danny Harlan)", "Danny Harlan", "https://github.com/dannyharlan05/nba-epm-projections"),
     "epm": ("EPM", "Taylor Snarr, Dunks & Threes", "https://dunksandthrees.com/epm"),
     "darko": ("DARKO", "Kostya Medvedovsky", "https://www.darko.app/"),
     "pulse": ("Pulse", "CourtSignal", "https://courtsignal.net/ratings"),
-    "openrapm": ("OpenRAPM", "Nathan Walker", "https://github.com/bbstats/openrapm"),
+    "openrapm": ("OpenRAPM", "Nathan Walker", "https://openrapm.com/"),
     "xrapm": ("xRAPM", "Jeremias Engelmann", "https://xrapm.com/"),
     "lebron": ("LEBRON", "BBall Index", "https://www.bball-index.com/lebron-database/"),
-    "bpm_bbref": ("BPM (Basketball-Reference)", "Daniel Myers / Basketball-Reference", "https://www.basketball-reference.com/"),
-    "arc_2yr": ("ARC, 2-year", "LUMA Basketball Research", "https://lumahoops.org"),
-    "arc": ("ARC Live", "LUMA Basketball Research", "https://lumahoops.org"),
+    "bpm_bbref": ("BPM (Basketball-Reference)", "Daniel Myers / Basketball-Reference",
+                  "https://www.basketball-reference.com/leagues/NBA_2027_advanced.html"),
+    "arc_2yr": ("ARC, 2-year", "LUMA Basketball Research", "https://lumahoops.org/arc"),
+    "arc": ("ARC Live", "LUMA Basketball Research", "https://lumahoops.org/arc"),
 }
 OURS = {"loki", "arc_2yr", "arc"}
+PRESEASON_LINK = {   # the preseason board uses last season's table where that is what was scored
+    "bpm_bbref": "https://www.basketball-reference.com/leagues/NBA_2026_advanced.html"}
 REFERENCE = {   # id: (display name, what it is)
     "ceiling_rapm_same_season": ("Same-season RAPM (ceiling)", "Plain RAPM fit on this season's games so far: it has seen the games it is scored on."),
     "consensus": ("Consensus of all metrics", "Each player's average across the ranked metrics that rate him (equal weights)."),
@@ -92,6 +95,7 @@ def main(board="frozen"):
     for k in sorted(ranked, key=lambda k: -run["metrics"][k]["all"]["margin_r2"]["value"]):
         m, s = run["metrics"][k], info[k]
         nm, maker, url = METRICS[k]
+        url = PRESEASON_LINK.get(k, url) if board == "frozen" else url
         metrics.append({"id": k, "name": nm, "maker": maker, "url": url, "ours": k in OURS,
                         "label": s["label"], "source": s["source"], "sha256": s.get("sha256"), "players": s.get("rows"),
                         **({"as_of": s["as_of"]} if "as_of" in s else {}),
