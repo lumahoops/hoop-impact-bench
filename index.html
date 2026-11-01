@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoop Impact Bench</title>
+<meta name="description" content="An open benchmark for NBA impact metrics: do last season's ratings predict this season's games?">
+<style>
+  body { font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; max-width: 860px; margin: 24px auto; padding: 0 12px; color: #111; background: #fff; }
+  h1 { font-size: 18px; margin: 0; }
+  a { color: #00e; } a:visited { color: #551a8b; }
+  .tabs a { margin-right: 12px; } .tabs a.on { color: #111; font-weight: bold; text-decoration: none; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+  th, td { border: 1px solid #999; padding: 2px 6px; text-align: right; white-space: nowrap; }
+  th { background: #eee; font-weight: normal; }
+  td.l, th.l { text-align: left; white-space: normal; }
+  tr.ref td { font-style: italic; color: #555; }
+  small, .d { color: #555; }
+  hr { border: 0; border-top: 1px solid #999; }
+  @media (max-width: 600px) { .wide { overflow-x: auto; } }
+</style>
+</head>
+<body>
+<h1>Hoop Impact Bench</h1>
+<p>Do last season's impact-metric ratings predict this season's NBA games?</p>
+<p class="tabs"><a href="#live">2026-27 preseason</a> <a href="#daily">2026-27 dynamic</a> <a href="#retro">Retro 2020-21 to 2025-26</a></p>
+<hr>
+<div id="out">Loading...</div>
+<hr>
+<p><small>
+  <a href="https://github.com/lumahoops/hoop-impact-bench">repository</a> ·
+  <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/live/PROTOCOL.md">live protocol</a> ·
+  <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/launch/provenance.csv">provenance</a> ·
+  <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/live/code/reproduce.py">reproduce</a> ·
+  maintained by <a href="https://lumahoops.org">LUMA Basketball Research</a> († = LUMA's own) · code MIT, data CC BY 4.0
+</small></p>
+
+<script>
+// Reads the committed results files directly; no build step. The live files are updated every morning by the VPS job.
+const out = document.getElementById('out');
+const f3 = (x) => x == null ? '' : (Math.abs(x) < 1 ? x.toFixed(3).replace(/^(-?)0\./, '$1.') : x.toFixed(3));
+const f2 = (x) => x == null ? '' : x.toFixed(2);
+const rk = (r) => !r ? '' : r[0] === r[1] ? r[0] : r[0] + '-' + r[1];
+const iv = (i) => i ? ' <small>(' + f3(i[0]) + '-' + f3(i[1]) + ')</small>' : '';
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const get = (p) => fetch(p, { cache: 'no-cache' }).then((r) => r.ok ? r.json() : null).catch(() => null);
+
+// Names for the retro files (the launch runs store keys only)
+const NAMES = { loki: 'LOKI †', openrapm: 'OpenRAPM', arc_2yr: 'ARC, 2-year †', epm_current: 'EPM', darko: 'DARKO', lebron: 'LEBRON',
+  bpm_bbref: 'BPM (Basketball-Reference)', pulse: 'Pulse', xrapm: 'xRAPM', xpm: 'xPM', danny: "Danny Harlan's EPM projection",
+  ceiling_rapm_same_season: 'Same-season RAPM (ceiling)', rapm_last_season: "Last season's RAPM, no prior",
+  baseline_zero: 'Everyone 0 (floor)', baseline_last_team: "Last season's team (floor)" };
+
+function liveTable(d) {
+  const net = d.net_error_shown;
+  let h = '<p>' + esc(d.title) + '</p>';
+  h += '<p>' + d.games + ' games, ' + d.first_game + ' to ' + d.scored_through + ' · updated ' + d.updated_utc.slice(0, 16).replace('T', ' ') + ' UTC'
+    + ((d.snapshot.excluded_games || []).length ? ' · ' + d.snapshot.excluded_games.length + ' games left off (a metric had no value saved before tip-off)' : '') + '</p>';
+  h += '<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th><th class="l">label</th></tr>';
+  for (const m of d.metrics) {
+    const t = m.tests;
+    h += '<tr><td>' + rk(t.margin_r2.rank) + '</td><td class="l">' + (m.url ? '<a href="' + esc(m.url) + '">' + esc(m.name) + '</a>' : esc(m.name))
+      + (m.ours ? ' †' : '') + (m.name.includes(m.maker) ? '' : ' <small>' + esc(m.maker) + '</small>') + '</td><td>' + f3(t.margin_r2.value) + iv(t.margin_r2.interval)
+      + '</td><td>' + f3(t.winpct_r.value) + '</td><td>' + (net ? f2(t.net_rmse.value) : '-') + '</td><td class="l" title="' + esc(m.source) + '">' + esc(m.label) + '</td></tr>';
+  }
+  for (const r of d.reference) {
+    const t = r.tests;
+    h += '<tr class="ref"><td></td><td class="l" title="' + esc(r.description) + '">' + esc(r.name) + '</td><td>' + f3(t.margin_r2.value) + iv(t.margin_r2.interval)
+      + '</td><td>' + f3(t.winpct_r.value) + '</td><td>' + (net ? f2(t.net_rmse.value) : '-') + '</td><td></td></tr>';
+  }
+  h += '</table></div>';
+  h += '<p class="d">Rank is the range of places in the middle ' + Math.round(d.confidence * 100) + '% of ' + d.resamples + ' resamples: overlapping ranges are not separated yet.'
+    + (net ? '' : ' Net error: ' + esc(d.net_error_note) + '.') + ' Italic rows are references, not ranked.</p>';
+  h += '<p class="d">Labels: ' + Object.entries(d.labels).map(([k, v]) => '<b>' + esc(k) + '</b> ' + esc(v)).join('; ') + '.</p>';
+  h += '<p class="d">Files: <a href="live/results/' + d.board + '.json">' + d.board + '.json</a>, <a href="live/results/' + d.board + '_games.csv">per game</a>, '
+    + '<a href="live/results/' + d.board + '_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 ' + d.harness_sha256.slice(0, 12) + '...).</p>';
+  return h;
+}
+
+function retroTable(d, title, note) {
+  const m = d.metrics;
+  const rows = Object.entries(m).sort((a, b) => b[1].all.margin_r2.value - a[1].all.margin_r2.value);
+  let h = '<h3>' + title + '</h3><p class="d">' + note + '</p><div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th></tr>';
+  for (const ref of [false, true]) for (const [k, v] of rows) {
+    if (v.baseline !== ref) continue;
+    const a = v.all;
+    h += '<tr' + (ref ? ' class="ref"' : '') + '><td>' + (ref ? '' : rk(a.margin_r2.rank)) + '</td><td class="l">' + esc(NAMES[k] || k) + '</td><td>'
+      + f3(a.margin_r2.value) + iv(a.margin_r2.interval) + '</td><td>' + f3(a.winpct_r.value) + '</td><td>' + f2(a.net_rmse.value) + '</td></tr>';
+  }
+  return h + '</table></div>';
+}
+
+async function show() {
+  const tab = (location.hash || '#live').slice(1);
+  document.querySelectorAll('.tabs a').forEach((a) => a.className = a.getAttribute('href') === '#' + tab ? 'on' : '');
+  out.textContent = 'Loading...';
+  if (tab === 'retro') {
+    const [e, f] = await Promise.all([get('launch/established-players.json'), get('launch/full-forecast.json')]);
+    if (!e || !f) { out.textContent = 'Could not load the retro results.'; return; }
+    out.innerHTML = '<p>Each season\'s preseason ratings, scored on that season\'s games: ' + e.meta.games.toLocaleString() + ' games, '
+      + e.meta.team_seasons + ' team-seasons, ' + e.meta.seasons[0] + ' to ' + e.meta.seasons.at(-1) + '. HIB v' + e.meta.version + '.</p>'
+      + retroTable(e, 'Established players', 'Under 250 minutes the season before, rookies included: -2.0 for every metric.')
+      + retroTable(f, 'Full forecast', 'Every player at the metric\'s own rating.')
+      + '<p class="d">Past seasons are the values each site shows today (its current model), not archived as published, so the live track is the stricter test. See the <a href="https://github.com/lumahoops/hoop-impact-bench#readme">README</a>.</p>';
+    return;
+  }
+  const d = await get('live/results/' + (tab === 'daily' ? 'daily' : 'frozen') + '.json');
+  if (!d) {
+    out.innerHTML = tab === 'daily'
+      ? '<p>Dynamic board: no games scored yet. Each game is scored with each metric\'s rating exactly as published that morning, saved before tip-off. The first scores appear the morning after the first such game.</p>'
+      : '<p>Could not load the live results.</p>';
+    return;
+  }
+  out.innerHTML = liveTable(d);
+}
+addEventListener('hashchange', show);
+show();
+</script>
+</body>
+</html>

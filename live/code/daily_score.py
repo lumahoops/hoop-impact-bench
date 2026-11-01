@@ -22,7 +22,7 @@ import sys
 import numpy as np
 import pandas as pd
 
-from paths import RULES, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
+from paths import DYNAMIC_RULES, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
 
 
 def sha256(path):
@@ -108,7 +108,7 @@ def main():
     mins = player_games["min"].values
     team_minutes = np.bincount(pg_team, weights=mins, minlength=len(team_seasons))
     established = player_games.last_min.values >= ev.STANDARD["min_minutes"]
-    rules = RULES
+    rules = DYNAMIC_RULES
 
     game_ratings = np.zeros((len(order), len(games)))
     team_ratings = np.zeros((len(order), len(team_seasons)))

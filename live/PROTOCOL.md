@@ -6,28 +6,36 @@ them better than it would have at the time, and anyone can submit ratings fitted
 The live track removes both problems: every rating is saved, and its fingerprint published here, before the games it
 is scored on.
 
-## Two boards
+## Two tracks
 
-- Frozen preseason: each metric's rating from before opening night (October 20, 2026), never updated, scored on every
-  2026-27 game so far.
-- Daily: every morning before that day's games, each metric's current published rating is saved, and that day's games
-  are scored with it. The tally runs all season. A metric that changes its model mid-season is scored on the version it
-  had that day.
+The live track has two boards, scored on the same 2026-27 games with the same harness and rules:
 
-The daily board scores forecasts as they are actually published. A metric is scored on whatever it showed that
-morning: one that updates daily (EPM, DARKO, Pulse, OpenRAPM) uses that day's values; one that updates weekly (LOKI) or
-not at all during the season (xRAPM, preseason-only projections) carries its latest value until it changes. Saving the
-values ourselves each morning is what makes them true forecasts: a site's view of a past date shows its current model,
-not what it said then.
+- **Preseason** (files `frozen*`): each metric's rating saved before opening night (October 20, 2026), never updated.
+  For a projection (LOKI, xPM, Danny Harlan's, DARKO, EPM) that is its preseason forecast. For a metric that publishes
+  only season ratings (BPM, xRAPM, OpenRAPM, Pulse, LEBRON) it is the 2025-26 final, which is what that metric offered
+  before the season. Fingerprints: `live/snapshots/preseason.json`.
+- **Dynamic** (files `daily*`): every morning before that day's games, each metric's rating is saved exactly as its
+  maker publishes it that morning, and that day's games are scored with it. Season-to-date ratings (OpenRAPM 2026-27,
+  Basketball-Reference BPM 2026-27, Pulse, ARC Live) are used as published, even early in the season when they rest
+  on a few games: HIB does not choose which of a maker's numbers counts, blend them, or wait for them to settle. A
+  metric that publishes nothing newer (LOKI between weekly solves, xRAPM, xPM, Danny Harlan's, LEBRON until its
+  2026-27 values appear) carries its latest saved value. A metric that changes its model mid-season is scored on the
+  version it had that day. Fingerprints: `live/snapshots/daily/<date>.json`.
 
-Both boards use the unchanged HIB harness with no low-minute rule: every player counts at the metric's own value, and
-only a player the metric does not rate counts as -2.0. Rookies and low-minute players are part of a forecast, and a
-daily board rates them as soon as a metric does. (The 250-minute v1 rule stays for the historical tables. The live
-boards used it until 2026-11-01, when the owner dropped it, with 88 games played; every score was recomputed under
-the new rule from the same saved files.)
+Saving the values ourselves each morning is what makes the dynamic board a true forecast: a site's view of a past date
+shows its current model, not what it said then.
 
-ARC (2-year window) stays in the frozen snapshot but is not scored on the frozen board (owner, 2026-11-01): it is a
-window ending 2025-26, not a forecast, and has no rookies. ARC Live stays on the daily board. Early in the season the intervals are wide; read the rank ranges, not the order.
+Rules. Preseason board: the v1 rule, as registered before the season and as in the historical tables' established
+players view (under 250 minutes last season, rookies included, or not rated = -2.0), so the live preseason scores can
+be set against the historical ones. Dynamic board: no low-minute rule; every player counts at the metric's value as
+published, rookies included, and only a player the metric does not rate counts as -2.0. (On 2026-11-01, with 88 games
+played, both boards were briefly scored without the low-minute rule; the owner then set the preseason board back to the
+registered rule and kept the dynamic board without it. Every score is computed from the same saved files.)
+
+ARC (2-year window) stays in the preseason snapshot but is not scored on the preseason board (owner, 2026-11-01): it is
+a window ending 2025-26, not a forecast, and has no rookies. ARC Live stays on the dynamic board.
+
+Early in the season the intervals are wide; read the rank ranges, not the order.
 
 ## Labels
 
@@ -35,19 +43,19 @@ window ending 2025-26, not a forecast, and has no rookies. ARC Live stays on the
 |---|---|
 | archived | Published before the games, with proof (a release fingerprint or a dated public record) |
 | saved | Saved by us before the games, but with no public record of the date (our own copy) |
-| pulled | Daily board: fetched from the maker's site that morning, fingerprinted and pushed before the games |
-| carried | Daily board: the metric published nothing newer, so its latest saved value is reused unchanged |
-| empty | Daily board: the pull failed all morning (tried at 09:30, 12:00 and 15:00 UTC). No value that day, and that day's games are left off the daily board for every metric, so all metrics are always scored on the same games |
+| pulled | Dynamic board: fetched from the maker's site that morning, fingerprinted and pushed before the games |
+| carried | Dynamic board: the metric published nothing newer, so its latest saved value is reused unchanged |
+| empty | Dynamic board: the pull failed all morning (tried at 09:30, 12:00 and 15:00 UTC). No value that day, and that day's games are left off the dynamic board for every metric, so all metrics are always scored on the same games |
 | backfill | Taken later from a site's date view, which shows the current model for a past date |
 
 ## Files
 
 Everything needed to rebuild any day's boards is in the repo, except the ratings files themselves:
 
-- `live/code/`: the scoring code (`score.py` frozen board, `daily_score.py` daily board, `publish.py`, `rapm_site.py`
+- `live/code/`: the scoring code (`score.py` preseason board, `daily_score.py` dynamic board, `publish.py`, `rapm_site.py`
   for the RAPM reference rows, `from_box.py` for the game data) and `reproduce.py`, which rebuilds both boards from a
   checkout and checks every published number. Run `HIB_RATINGS=<folder> python live/code/reproduce.py` on any commit.
-- `live/data/`: 2026-27 games (with tip-off times) and player minutes, updated daily from NBA.com box scores.
+- `live/data/`: 2026-27 games (with tip-off times), player minutes and player names (for matching names to ids), updated daily from NBA.com box scores.
 - `live/reference/`: the 2026-27 RAPM reference rows.
 - A GitHub Action (`.github/workflows/live-watchdog.yml`) checks every afternoon that the day's snapshot is complete and
   saved early enough, and that the results are fresh; a failed check emails the maintainer, every day it lasts.
@@ -57,7 +65,8 @@ Everything needed to rebuild any day's boards is in the repo, except the ratings
   timestamp.
 - Third-party ratings files are not published. Anyone who saves the same file can match its fingerprint.
 - Scores are published in `live/results/`, the one source for every page that shows the board:
-  - `frozen.json`: the frozen preseason board. Ranked metrics (score, 90% interval and rank range on each test, plus
+  - `frozen.json`: the preseason board (`daily.json`, `daily_games.csv`, `daily_history.csv`: the dynamic board, same
+    layout, plus the snapshot days and any games left off). Ranked metrics (score, 90% interval and rank range on each test, plus
     label, source and fingerprint), reference rows that are not ranked (same-season RAPM ceiling, the consensus of all
     metrics, last season's RAPM, two floors), and every pairwise gap. Net error is flagged hidden until every team has
     played 20 games.

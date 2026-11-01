@@ -69,7 +69,7 @@ def main(board="frozen"):
             sys.exit("the two runs disagree on the harness or the games")
         info = snap["metrics"]
         snap_meta = {"file": f"live/snapshots/{name}.json", "saved_at_utc": snap["saved_at_utc"]}
-        title = "Frozen preseason board: each metric's rating from before opening night (2026-10-20), never updated"
+        title = "Preseason board: each metric's rating saved before opening night (2026-10-20), never updated"
     else:
         run = json.loads((RUNS / "daily" / "results.json").read_text())
         cons = run
@@ -81,8 +81,9 @@ def main(board="frozen"):
         snap_meta = {"files": "live/snapshots/daily/<date>.json", "latest": latest["date"],
                      "latest_saved_at_utc": latest["saved_at_utc"], "days": run["meta"]["snapshot_days"],
                      "excluded_games": run["meta"]["excluded_games"]}
-        title = ("Daily board: each game scored with every metric's rating as saved that morning, before tip-off "
-                 "(LOKI updates weekly; metrics that publish nothing newer carry their latest value)")
+        title = ("Dynamic board: each game scored with every metric's rating exactly as published that morning, saved "
+                 "before tip-off (season-to-date ratings as published; metrics that publish nothing newer carry their "
+                 "latest value)")
 
     per_team = pd.concat([games.home, games.away]).value_counts()
     net_shown = bool(per_team.min() >= NET_MIN_GAMES)
@@ -94,7 +95,7 @@ def main(board="frozen"):
         metrics.append({"id": k, "name": nm, "maker": maker, "url": url, "ours": k in OURS,
                         "label": s["label"], "source": s["source"], "sha256": s.get("sha256"), "players": s.get("rows"),
                         **({"as_of": s["as_of"]} if "as_of" in s else {}),
-                        "coverage": round(m["coverage"], 4), "tests": tests(m, True)})
+                        "coverage": round(m["coverage_established" if board == "frozen" else "coverage"], 4), "tests": tests(m, True)})
     reference = []
     for k, (nm, what) in REFERENCE.items():
         m = cons["metrics"]["consensus"] if k == "consensus" else run["metrics"].get(k)
