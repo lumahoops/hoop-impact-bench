@@ -92,6 +92,11 @@ def main(board="frozen"):
     per_team = pd.concat([games.home, games.away]).value_counts()
     net_shown = bool(per_team.min() >= NET_MIN_GAMES)
     ranked = [k for k, v in run["metrics"].items() if not v["baseline"]]
+    # picks: each metric's raw home-minus-away team rating per game (score.py / daily_score.py); its sign is the pick
+    pk = pd.read_csv(RUNS / board / "picks.csv", dtype={"game_id": str}) \
+        .merge(games[["game_id", "date", "home", "away", "home_pts", "away_pts"]], on="game_id").sort_values(["date", "game_id"])
+    home_won = pk.home_pts > pk.away_pts
+    wins = {k: int(((pk[k] > 0) == home_won).sum()) for k in ranked}
     metrics = []
     for k in sorted(ranked, key=lambda k: -run["metrics"][k]["all"]["margin_r2"]["value"]):
         m, s = run["metrics"][k], info[k]
@@ -100,7 +105,8 @@ def main(board="frozen"):
         metrics.append({"id": k, "name": nm, "maker": maker, "url": url, "ours": k in OURS,
                         "label": s["label"], "source": s["source"], "sha256": s.get("sha256"), "players": s.get("rows"),
                         **({"as_of": s["as_of"]} if "as_of" in s else {}),
-                        "coverage": round(m["coverage_established" if board == "frozen" else "coverage"], 4), "tests": tests(m, True)})
+                        "coverage": round(m["coverage_established" if board == "frozen" else "coverage"], 4),
+                        "record": {"w": wins[k], "l": len(pk) - wins[k]}, "tests": tests(m, True)})
     reference = []
     for k, (nm, what) in REFERENCE.items():
         m = cons["metrics"]["consensus"] if k == "consensus" else run["metrics"].get(k)
@@ -118,6 +124,7 @@ def main(board="frozen"):
         "games_per_team": {"min": int(per_team.min()), "max": int(per_team.max())},
         "updated_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
         "net_error_shown": net_shown, "net_error_note": f"It appears once every team has played {NET_MIN_GAMES} games; before that, a few games decide each team's margin",
+        "record_note": "W-L: each game counts as a win when the team the metric rates higher won (no home-court edge, the same for every metric)",
         "rules": meta["rules"], "confidence": meta["confidence"], "resamples": meta["resamples"],
         "harness_sha256": meta["harness"], "repo_commit": meta["git_commit"],
         "snapshot": snap_meta,
@@ -142,6 +149,8 @@ def main(board="frozen"):
         pred = [p for p in pred if p != "consensus"]
     g = games[keep + pred].merge(cg[["game_id", "consensus"]], on="game_id", how="left")
     g.to_csv(OUT / f"{board}_games.csv", index=False)
+    pk[["game_id", "date", "home", "away", "home_pts", "away_pts"] + ranked].round(2) \
+        .to_csv(OUT / f"{board}_picks.csv", index=False)
 
     hist_path = OUT / f"{board}_history.csv"
     rows = []

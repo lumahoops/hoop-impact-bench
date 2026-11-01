@@ -155,6 +155,10 @@ def main():
             "snapshot_days": sorted(snaps), "excluded_games": excluded}
     (out / "results.json").write_text(json.dumps({"meta": meta, "metrics": results, "pairs": pairs}, indent=1), encoding="utf-8")
     ev.write_logs(out, games, team_seasons, game_ratings, team_ratings, order)
+    # picks.csv: each 2026-27 game's home-minus-away team rating per metric (raw: no fitted line, no home edge)
+    pk = pd.DataFrame({k: game_ratings[i].round(4) for i, k in enumerate(order) if k in names})
+    pk.insert(0, "game_id", games.game_id.values)
+    pk[games.season.values == SEASON].to_csv(out / "picks.csv", index=False)
     print(f"daily board: {len(games)} games {games.date.min()} to {games.date.max()}, {len(excluded)} excluded, "
           f"{len(names)} metrics + consensus + {len(refs)} reference rows")
 

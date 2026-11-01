@@ -14,7 +14,19 @@ test of how well an impact metric measures a player's per-100-possession value. 
 season prior and measures how well they predict the following season's games. Each metric is scored on the same 7,230
 games under the same rules and tests.
 
-**2026-27 leaderboards**, updated every morning: [lumahoops.org/bench](https://lumahoops.org/bench) (games, players and how each predicted margin adds up) and the [plain version](https://lumahoops.github.io/hoop-impact-bench/) (every board on one page, with the data files). Rules: [live/PROTOCOL.md](live/PROTOCOL.md).
+**2026-27 leaderboards**, updated every morning: [lumahoops.github.io/hoop-impact-bench](https://lumahoops.github.io/hoop-impact-bench/) (every board, with the data files) and [lumahoops.org/bench](https://lumahoops.org/bench) (the same boards with game and player pages). Rules: [live/PROTOCOL.md](live/PROTOCOL.md).
+
+**Data.** The leaderboard files are open to any site or script (JSON and CSV, CC BY 4.0), updated every morning at
+about 09:30 UTC. Base URL: `https://lumahoops.github.io/hoop-impact-bench/`
+
+| File | Contents |
+|---|---|
+| `live/results/frozen.json` | Preseason board: each metric's game R², team win % r, net error (after 20 games), 90% ranges, rank ranges, W-L, label, source and sha256 |
+| `live/results/daily.json` | Dynamic board, same fields |
+| `live/results/frozen_picks.csv`, `daily_picks.csv` | Every game: teams, final score, and each metric's home-minus-away team rating (positive = the metric rates the home team higher) |
+| `live/results/frozen_games.csv`, `daily_games.csv` | Every game: each metric's predicted margin on the scoring run's fitted line |
+| `live/results/frozen_history.csv`, `daily_history.csv` | Each metric's scores after every update |
+| `launch/established-players.json`, `full-forecast.json` | The historical tables, 2020-21 to 2025-26 |
 
 ## News
 

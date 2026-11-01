@@ -57,12 +57,15 @@ def main():
                 g1 = pd.read_csv(LIVE / "results" / f"{board}_games.csv", dtype={"game_id": str})
                 g2 = pd.read_csv(Path(tmp) / "results" / f"{board}_games.csv", dtype={"game_id": str})
                 games_same = g1.equals(g2)
+                p1, p2 = (LIVE / "results" / f"{board}_picks.csv"), (Path(tmp) / "results" / f"{board}_picks.csv")
+                if p1.exists():           # W-L picks (published from 2026-11-01)
+                    games_same &= pd.read_csv(p1, dtype={"game_id": str}).equals(pd.read_csv(p2, dtype={"game_id": str}))
                 print(f"{board}: {'REPRODUCED' if not d and games_same else 'DIFFERS'} "
                       f"({pub['games']} games through {pub['scored_through']})")
                 for line in d[:10]:
                     print("   ", line)
                 if not games_same:
-                    print("    per-game file differs")
+                    print("    per-game or picks file differs")
                 ok &= not d and games_same
     sys.exit(0 if ok else 1)
 

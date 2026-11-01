@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hoop Impact Bench: NBA impact metrics tested on games they never saw</title>
+<link rel="canonical" href="https://lumahoops.github.io/hoop-impact-bench/">
 <meta name="description" content="{{DESCRIPTION}}">
+{{JSONLD}}
 <meta property="og:type" content="website">
 <meta property="og:title" content="Hoop Impact Bench">
 <meta property="og:description" content="{{DESCRIPTION}}">
@@ -17,12 +19,9 @@
 <meta name="twitter:description" content="{{DESCRIPTION}}">
 <meta name="twitter:image" content="{{CARD}}">
 <style>
-  /* light: off-white; dark: grey. Follows the system setting; the [light/dark] link overrides it (remembered). */
-  :root { --bg: #f6f4ee; --fg: #1b1b1b; --muted: #5a5a5a; --line: #a8a49a; --head: #e8e5dc; --link: #1a3fd1; --seen: #5b2a8c; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --bg: #2e2e2e; --fg: #e4e4e4; --muted: #a8a8a8; --line: #5c5c5c; --head: #3a3a3a; --link: #8fb3ff; --seen: #c3a6ff; }
-  }
-  :root[data-theme="dark"] { --bg: #2e2e2e; --fg: #e4e4e4; --muted: #a8a8a8; --line: #5c5c5c; --head: #3a3a3a; --link: #8fb3ff; --seen: #c3a6ff; }
+  /* dark grey by default; the [light] link switches to off-white (remembered) */
+  :root { --bg: #2e2e2e; --fg: #e4e4e4; --muted: #a8a8a8; --line: #5c5c5c; --head: #3a3a3a; --link: #8fb3ff; --seen: #c3a6ff; }
+  :root[data-theme="light"] { --bg: #f6f4ee; --fg: #1b1b1b; --muted: #5a5a5a; --line: #a8a49a; --head: #e8e5dc; --link: #1a3fd1; --seen: #5b2a8c; }
   body { font: 15px/1.5 ui-monospace, Menlo, Consolas, monospace; max-width: 1000px; margin: 20px auto; padding: 0 14px; color: var(--fg); background: var(--bg); }
   h1 { font-size: 17px; margin: 0; }
   .tag { margin: 2px 0 10px; color: var(--muted); }
@@ -83,7 +82,7 @@ function show() {
 addEventListener('hashchange', show);
 show();
 const themeLink = document.getElementById('theme');
-const isDark = () => (document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
+const isDark = () => (document.documentElement.dataset.theme || 'dark') === 'dark';
 const label = () => { themeLink.textContent = isDark() ? '[light]' : '[dark]'; };
 themeLink.onclick = (e) => {
   e.preventDefault();

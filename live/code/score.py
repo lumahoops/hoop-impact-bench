@@ -72,7 +72,27 @@ def main():
         subprocess.run(cmd, check=True, capture_output=True)
         if json.loads((RUNS / out / "results.json").read_text())["meta"]["rules"] != PRESEASON_RULES:
             sys.exit("the harness defaults are not the preseason rules")
+    picks(work, files)
     print(f"frozen board: {n} games through {last}, {len(files)} metrics + consensus + reference rows")
+
+
+def picks(work, files):
+    """<RUNS>/frozen/picks.csv: each 2026-27 game's home-minus-away team rating for every metric, from the harness's own
+    rate_teams (no fitted line, no home edge). Positive = the metric picks the home team; W-L comes from its sign."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("hib_eval", work / "eval.py")
+    ev = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ev)
+    games = pd.read_csv(work / "data" / "games.csv", dtype={"game_id": str})
+    games["margin"] = (games.home_pts - games.away_pts).astype(float)
+    minutes = pd.read_csv(work / "data" / "minutes.csv", dtype={"game_id": str})
+    systems = {f.stem: ev.read_ratings(f) for f in files}
+    seasons, games, player_games, player_seasons, team_seasons = ev.prepare(systems, games, minutes)
+    game_ratings, _, _ = ev.rate_teams(systems, seasons, player_games, player_seasons, len(games), len(team_seasons),
+                                       PRESEASON_RULES["min_minutes"], PRESEASON_RULES["replacement"])
+    out = pd.DataFrame({k: game_ratings[i].round(4) for i, k in enumerate(systems)})
+    out.insert(0, "game_id", games.game_id.values)
+    out[games.season.values == SEASON].to_csv(RUNS / "frozen" / "picks.csv", index=False)
 
 
 if __name__ == "__main__":

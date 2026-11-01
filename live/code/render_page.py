@@ -50,8 +50,13 @@ def day(iso):
     return f"{d:%b} {d.day}"
 
 
-HEAD = ('<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R² <small>90% range</small></th>'
+HEAD = ('<div class="wide"><table><tr><th>rank</th><th class="l">metric</th>{}<th>game R² <small>90% range</small></th>'
         '<th>win % r</th><th>net error{}</th>{}</tr>')
+
+
+def wl(m):
+    r = m.get("record")
+    return f"{r['w']}-{r['l']}" if r else ""
 
 
 def drawer(body):
@@ -65,18 +70,19 @@ def live_board(d):
          f'<p class="meta"><b>{d["games"]} games</b> · {day(d["first_game"])} to {day(d["scored_through"])} · updated '
          f'{day(d["updated_utc"])}, {d["updated_utc"][11:16]} UTC</p>',
          "{{DRAWER}}",
-         HEAD.format("" if net else " <small>after 20 games</small>", '<th class="l">label</th>')]
+         HEAD.format("<th>W-L</th>", "" if net else " <small>after 20 games</small>", '<th class="l">label</th>')]
     for m in d["metrics"]:
         t = m["tests"]
         name = f'<a href="{escape(m["url"])}">{escape(m["name"])}</a>' if m.get("url") else escape(m["name"])
         maker = "" if m["maker"] in m["name"] else f" <small>{escape(m['maker'])}</small>"
         h.append(f'<tr><td>{rk(t["margin_r2"].get("rank"))}</td><td class="l">{name}{" †" if m["ours"] else ""}{maker}</td>'
+                 f'<td>{wl(m)}</td>'
                  f'<td><b>{f3(t["margin_r2"]["value"])}</b>{iv(t["margin_r2"]["interval"])}</td><td>{f3(t["winpct_r"]["value"])}</td>'
                  f'<td>{f"{t["net_rmse"]["value"]:.2f}" if net else "-"}</td>'
                  f'<td class="l" title="{escape(m["source"])}">{escape(m["label"])}</td></tr>')
     for r in d["reference"]:
         t = r["tests"]
-        h.append(f'<tr class="ref"><td></td><td class="l" title="{escape(r["description"])}">{escape(r["name"])}</td>'
+        h.append(f'<tr class="ref"><td></td><td class="l" title="{escape(r["description"])}">{escape(r["name"])}</td><td></td>'
                  f'<td>{f3(t["margin_r2"]["value"])}{iv(t["margin_r2"]["interval"])}</td><td>{f3(t["winpct_r"]["value"])}</td>'
                  f'<td>{f"{t["net_rmse"]["value"]:.2f}" if net else "-"}</td><td></td></tr>')
     h.append("</table></div>")
@@ -95,6 +101,7 @@ def live_board(d):
                 f"<li>{escape(tests['margin_r2'])}. Higher is better. The small numbers are its 90% range.</li>"
                 f"<li>{escape(tests['winpct_r'])}. Higher is better.</li>"
                 f"<li>{escape(tests['net_rmse'])}. Lower is better.{'' if net else ' ' + escape(d['net_error_note']) + '.'}</li>"
+                + (f"<li>{escape(d['record_note'])}.</li>" if d.get("record_note") else "") +
                 f"<li>Rank: the range of places a metric reaches across {d['resamples']:,} resamples of the games (the middle "
                 f"{round(d['confidence'] * 100)}%). Metrics whose ranges overlap are not separated by the games so far.</li>"
                 f"<li>Minutes rule: {rule}</li>"
@@ -111,7 +118,7 @@ def live_board(d):
 
 def retro_table(d, title, note):
     rows = sorted(d["metrics"].items(), key=lambda kv: -kv[1]["all"]["margin_r2"]["value"])
-    h = [f"<h3>{title}</h3>", f'<p class="meta">{note}</p>', HEAD.format("", "")]
+    h = [f"<h3>{title}</h3>", f'<p class="meta">{note}</p>', HEAD.format("", "", "")]
     for ref in (False, True):
         for k, v in rows:
             if v["baseline"] != ref:
@@ -169,7 +176,25 @@ def main():
     card = "https://lumahoops.github.io/hoop-impact-bench/live/results/card.png"
     if frozen:   # a new address each update, so link previews fetch the new card
         card += "?v=" + frozen["updated_utc"][:16].replace(":", "").replace("-", "")
-    page = page.replace("{{DESCRIPTION}}", escape(desc)).replace("{{CARD}}", card).replace("{{BOARDS}}", "\n".join(parts))
+    base = "https://lumahoops.github.io/hoop-impact-bench/"
+    files = [("live/results/frozen.json", "application/json"), ("live/results/frozen_picks.csv", "text/csv"),
+             ("live/results/daily.json", "application/json"), ("live/results/daily_picks.csv", "text/csv"),
+             ("launch/established-players.json", "application/json"), ("launch/full-forecast.json", "application/json")]
+    dataset = {   # schema.org Dataset: tells search engines this page is the source of these numbers
+        "@context": "https://schema.org", "@type": "Dataset",
+        "name": "Hoop Impact Bench: NBA impact metric leaderboards, 2026-27", "description": desc, "url": base,
+        "sameAs": "https://github.com/lumahoops/hoop-impact-bench", "isAccessibleForFree": True,
+        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "creator": {"@type": "Organization", "name": "LUMA Basketball Research", "url": "https://lumahoops.org"},
+        "keywords": ["NBA", "impact metrics", "EPM", "DARKO", "LEBRON", "BPM", "RAPM", "benchmark"],
+        "temporalCoverage": "2020-10-01/..",
+        "variableMeasured": ["game margin R\u00b2", "team win % correlation", "team net rating error", "W-L"],
+        **({"dateModified": frozen["updated_utc"]} if frozen else {}),
+        "distribution": [{"@type": "DataDownload", "encodingFormat": f, "contentUrl": base + p} for p, f in files
+                         if (REPO / p).exists()]}
+    jsonld = '<script type="application/ld+json">' + json.dumps(dataset, ensure_ascii=False) + "</script>"
+    page = page.replace("{{DESCRIPTION}}", escape(desc)).replace("{{CARD}}", card).replace("{{JSONLD}}", jsonld) \
+        .replace("{{BOARDS}}", "\n".join(parts))
     (REPO / "index.html").write_text(page, encoding="utf-8", newline="\n")
     print(f"index.html: preseason {frozen['games'] if frozen else 0} games, dynamic {daily['games'] if daily else 0} games, retro")
 
