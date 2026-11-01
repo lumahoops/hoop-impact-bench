@@ -5,12 +5,12 @@
  "saved_at_utc": "2026-11-01T08:59:00+00:00",
  "metrics": {
   "loki": {
-   "status": "carried",
-   "source": "LOKI R1 (frozen preseason board); no weekly solve yet",
-   "as_of": "preseason",
-   "rows": 687,
-   "sha256": "c78ec0deb99f547e460e00bde98e867623ecf14c3f6d8ffaac599595fd5395d7",
-   "saved_at_utc": "2026-11-01T08:58:57+00:00"
+   "status": "pulled",
+   "source": "LOKI weekly solve made 2026-11-01, games through 2026-10-25 (private; fingerprint only)",
+   "as_of": "2026-11-01",
+   "rows": 1029,
+   "sha256": "0c59364bf4cae44eacb856808b255171ff4be27ba32a7fa099ad280674440591",
+   "saved_at_utc": "2026-11-01T12:54:35+00:00"
   },
   "epm": {
    "status": "pulled",
