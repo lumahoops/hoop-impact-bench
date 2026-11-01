@@ -1,7 +1,7 @@
 {
  "board": "daily",
  "season": "2026-27",
- "title": "Each morning we save every metric's ratings as its site shows them, before the day's games. A metric that published nothing new keeps its last ratings.",
+ "title": "The dynamic board uses each metric's ratings as published on the morning of each game day, saved before that day's first game. A metric that has published nothing new is scored on its most recent ratings.",
  "scored_through": "2026-10-31",
  "first_game": "2026-10-31",
  "games": 6,
@@ -9,9 +9,9 @@
   "min": 1,
   "max": 1
  },
- "updated_utc": "2026-11-01T13:04:41+00:00",
+ "updated_utc": "2026-11-01T13:11:36+00:00",
  "net_error_shown": false,
- "net_error_note": "shown once every team has played 20 games",
+ "net_error_note": "It appears once every team has played 20 games; before that, a few games decide each team's margin",
  "rules": {
   "min_minutes": 0.0,
   "replacement": -2.0
@@ -19,7 +19,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "ae6a48118ecffa66b442235e3f9539ca56e2ee13",
+ "repo_commit": "35349ceb0dd65dba90b5465693a36a2fabf58904",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-01",
@@ -37,14 +37,14 @@
   ]
  },
  "labels": {
-  "pulled": "we saved new ratings from the maker's site that morning",
-  "carried": "the maker published nothing new, so the last saved ratings count",
-  "empty": "we could not save the ratings all morning, so no metric is scored on that day's games"
+  "pulled": "new ratings saved from the maker's site that morning",
+  "carried": "no new ratings published, so the most recent saved ratings are used",
+  "empty": "the ratings could not be saved that morning, so no metric is scored on that day's games"
  },
  "tests": {
-  "margin_r2": "Game R²: how much of each game's final margin the ratings explain, weighted by who played",
-  "winpct_r": "Win % r: how closely team ratings follow team win %",
-  "net_rmse": "Net error: how far team ratings miss each team's point margin per 100 possessions"
+  "margin_r2": "Game R²: the share of the variation in final game margins that the predicted margins explain",
+  "winpct_r": "Win % r: the correlation between team ratings and team winning percentage",
+  "net_rmse": "Net error: the average miss, in points per 100 possessions, between team ratings and opponent-adjusted team margins"
  },
  "metrics": [
   {

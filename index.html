@@ -40,13 +40,14 @@
 <!-- Written by live/code/render_page.py from live/results/ and launch/ each morning; edit live/code/page.html, not this file. -->
 <a href="#" id="theme"></a>
 <h1>Hoop Impact Bench</h1>
-<p>Which NBA impact metric predicts games best? We save each metric's ratings before the games, then score them on the results.</p>
+<p>Hoop Impact Bench tests NBA player impact metrics (EPM, DARKO, LEBRON, BPM and others) on games played after their ratings were saved. In each game, every player's rating is weighted by the minutes he played, which gives each team a rating in points per 100 possessions. The home team's rating minus the away team's is the predicted margin, and the boards measure how closely the predicted margins follow the final margins.</p>
+<p>2026-27 is the current NBA season, which opened on October 20, 2026. The retro tables cover the six seasons before it.</p>
 <p class="tabs"><a href="#live">2026-27 preseason</a> <a href="#daily">2026-27 dynamic</a> <a href="#retro">Retro 2020-21 to 2025-26</a></p>
 <hr>
 <section class="board" data-tab="live" id="live-board">
 <h2>2026-27 preseason board</h2>
-<p>We saved each metric&#x27;s ratings before opening night (October 20, 2026). They never change.</p>
-<p><b>88 games</b>, Oct 20 to Oct 31 · updated Nov 1, 13:04 UTC</p>
+<p>The preseason board uses the ratings each metric had published before opening night of the 2026-27 NBA season (October 20, 2026). These ratings stay fixed, and every 2026-27 regular-season game is scored with them.</p>
+<p><b>88 games scored</b>, Oct 20 to Oct 31. Updated Nov 1, 13:11 UTC.</p>
 <div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R²</th><th>win % r</th><th>net error</th><th class="l">label</th></tr>
 <tr><td>1-5</td><td class="l"><a href="https://vorp.app">xPM</a> <small>George Berry, VORP.app</small></td><td>.201 <small>(.122-.292)</small></td><td>.558</td><td>-</td><td class="l" title="VORP.app xPM v1.2 preseason forecast, made 2026-10-12, published 2026-10-13 (georgeberry.substack.com/p/the-big-vorpapp-2026-27-nba-player); file from George Berry 2026-10-31, shifted by him to above average (xpm - 2.166)">archived</td></tr>
 <tr><td>1-5</td><td class="l"><a href="https://github.com/dannyharlan05/nba-epm-projections">EPM projection (Danny Harlan)</a></td><td>.184 <small>(.107-.277)</small></td><td>.584</td><td>-</td><td class="l" title="Danny Harlan&#x27;s EPM projection model (github.com/dannyharlan05/nba-epm-projections), pred_epm_1y from artifacts/predictions.parquet at commit 97c0817, pushed 2026-10-20 17:03 UTC (GitHub push event), before opening night">archived</td></tr>
@@ -64,15 +65,15 @@
 <tr class="ref"><td></td><td class="l" title="Each player = his main team&#x27;s opponent-adjusted margin last season / 5.">Last season&#x27;s team (floor)</td><td>.128 <small>(.050-.235)</small></td><td>.469</td><td>-</td><td></td></tr>
 <tr class="ref"><td></td><td class="l" title="Every player 0; only the -2.0 for low-minute players separates teams.">Everyone 0 (floor)</td><td>.069 <small>(.013-.165)</small></td><td>.117</td><td>-</td><td></td></tr>
 </table></div>
-<p class="d">How to read it:</p><ul class="d"><li>Game R²: how much of each game&#x27;s final margin the ratings explain, weighted by who played. Higher is better.</li><li>Win % r: how closely team ratings follow team win %. Higher is better.</li><li>Net error: how far team ratings miss each team&#x27;s point margin per 100 possessions. Lower is better, shown once every team has played 20 games.</li><li>Rank: the range of places a metric takes in 90% of 2,000 resamples. Overlapping ranges mean the games so far cannot separate those metrics.</li><li>Players with under 250 minutes last season, rookies included, count as -2.0 for every metric.</li><li>Italic rows are reference points, not ranked.</li></ul>
-<p class="d">Labels:</p><ul class="d"><li><b>archived</b>: the maker published these ratings before the games, and the date can be checked</li><li><b>saved</b>: we saved these ratings before the games; no public record shows the date</li><li><b>backfill</b>: we took these ratings later from the site&#x27;s view of that date, which runs its current model</li></ul>
+<p class="d">How to read it:</p><ul class="d"><li>Game R²: the share of the variation in final game margins that the predicted margins explain. Higher is better.</li><li>Win % r: the correlation between team ratings and team winning percentage. Higher is better.</li><li>Net error: the average miss, in points per 100 possessions, between team ratings and opponent-adjusted team margins. Lower is better. It appears once every team has played 20 games; before that, a few games decide each team&#x27;s margin.</li><li>Rank: the range of places a metric reaches across 2,000 resamples of the games (the middle 90%). Metrics whose ranges overlap are not separated by the games played so far.</li><li>Minutes rule: a player with fewer than 250 minutes in 2025-26, including every rookie, is rated -2.0 for every metric.</li><li>Italic rows are reference points and are not ranked: RAPM fit on these same games (an upper reference), the average of all metrics, last season's RAPM, and two floors.</li></ul>
+<p class="d">Labels:</p><ul class="d"><li><b>archived</b>: published by the maker before opening night, with a public date (archive snapshot, release or commit)</li><li><b>saved</b>: copied before opening night, with no public record of the date</li><li><b>backfill</b>: taken later from the maker&#x27;s view of a past date, which shows its current model</li></ul>
 <p class="d">Data: <a href="live/results/frozen.json">frozen.json</a>, <a href="live/results/frozen_games.csv">every game</a>, <a href="live/results/frozen_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 cfde3f922e88...).</p>
 </section>
 <section class="board" data-tab="daily" id="daily-board">
 <h2>2026-27 dynamic board</h2>
-<p>Each morning we save every metric&#x27;s ratings as its site shows them, before the day&#x27;s games. A metric that published nothing new keeps its last ratings.</p>
-<p><b>6 games</b>, Oct 31 to Oct 31 · updated Nov 1, 13:04 UTC</p>
-<p>1 game not scored: it started before we saved that day's ratings.</p>
+<p>The dynamic board uses each metric&#x27;s ratings as published on the morning of each game day, saved before that day&#x27;s first game. A metric that has published nothing new is scored on its most recent ratings.</p>
+<p><b>6 games scored</b>, Oct 31 to Oct 31. Updated Nov 1, 13:11 UTC.</p>
+<p>1 game is not scored because it started before that day's ratings were saved.</p>
 <div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R²</th><th>win % r</th><th>net error</th><th class="l">label</th></tr>
 <tr><td>1-9</td><td class="l"><a href="https://lumahoops.org/arc">ARC Live</a> † <small>LUMA Basketball Research</small></td><td>.423 <small>(.032-1.000)</small></td><td>.562</td><td>-</td><td class="l" title="lumahoops.org ARC Live (arc-live/2027/2026-10-25.json)">pulled</td></tr>
 <tr><td>1-11</td><td class="l"><a href="https://courtsignal.net/ratings">Pulse</a> <small>CourtSignal</small></td><td>.379 <small>(.009-1.000)</small></td><td>.468</td><td>-</td><td class="l" title="courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-10-31">pulled</td></tr>
@@ -91,16 +92,16 @@
 <tr class="ref"><td></td><td class="l" title="Each player = his main team&#x27;s opponent-adjusted margin last season / 5.">Last season&#x27;s team (floor)</td><td>.053 <small>(.001-1.000)</small></td><td>.165</td><td>-</td><td></td></tr>
 <tr class="ref"><td></td><td class="l" title="Every player 0; only the -2.0 for low-minute players separates teams.">Everyone 0 (floor)</td><td>.000 <small>(.000-.000)</small></td><td>.000</td><td>-</td><td></td></tr>
 </table></div>
-<p class="d">How to read it:</p><ul class="d"><li>Game R²: how much of each game&#x27;s final margin the ratings explain, weighted by who played. Higher is better.</li><li>Win % r: how closely team ratings follow team win %. Higher is better.</li><li>Net error: how far team ratings miss each team&#x27;s point margin per 100 possessions. Lower is better, shown once every team has played 20 games.</li><li>Rank: the range of places a metric takes in 90% of 2,000 resamples. Overlapping ranges mean the games so far cannot separate those metrics.</li><li>Every player counts at the metric's own rating. A player the metric does not rate counts as -2.0.</li><li>Italic rows are reference points, not ranked.</li></ul>
-<p class="d">Labels:</p><ul class="d"><li><b>pulled</b>: we saved new ratings from the maker&#x27;s site that morning</li><li><b>carried</b>: the maker published nothing new, so the last saved ratings count</li><li><b>empty</b>: we could not save the ratings all morning, so no metric is scored on that day&#x27;s games</li></ul>
+<p class="d">How to read it:</p><ul class="d"><li>Game R²: the share of the variation in final game margins that the predicted margins explain. Higher is better.</li><li>Win % r: the correlation between team ratings and team winning percentage. Higher is better.</li><li>Net error: the average miss, in points per 100 possessions, between team ratings and opponent-adjusted team margins. Lower is better. It appears once every team has played 20 games; before that, a few games decide each team&#x27;s margin.</li><li>Rank: the range of places a metric reaches across 2,000 resamples of the games (the middle 90%). Metrics whose ranges overlap are not separated by the games played so far.</li><li>Minutes rule: every player is rated at the metric's own value, and a player the metric does not rate is -2.0.</li><li>Italic rows are reference points and are not ranked: RAPM fit on these same games (an upper reference), the average of all metrics, last season's RAPM, and two floors.</li></ul>
+<p class="d">Labels:</p><ul class="d"><li><b>pulled</b>: new ratings saved from the maker&#x27;s site that morning</li><li><b>carried</b>: no new ratings published, so the most recent saved ratings are used</li><li><b>empty</b>: the ratings could not be saved that morning, so no metric is scored on that day&#x27;s games</li></ul>
 <p class="d">Data: <a href="live/results/daily.json">daily.json</a>, <a href="live/results/daily_games.csv">every game</a>, <a href="live/results/daily_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 cfde3f922e88...).</p>
 </section>
 <section class="board" data-tab="retro" id="retro-board">
 <h2>Retro: 2020-21 to 2025-26</h2>
-<p>We scored each past season with the ratings each metric had before it: <b>7,230 games</b> and 180 team-seasons, 2020-21 to 2025-26 (HIB v1.1.0).</p>
-<p>These ratings come from each site's current model, not what it published at the time. A model can fit past seasons it was built on, so the 2026-27 boards are the stricter test.</p>
+<p>The retro tables score each season from 2020-21 to 2025-26 (7,230 games, 180 team-seasons) with the ratings each metric had before that season (HIB v1.1.0).</p>
+<p>The past ratings come from each metric's current model rather than from what it published at the time, so a model may fit seasons it was built on. The 2026-27 boards do not have that problem.</p>
 <h3>Established players</h3>
-<p class="d">Players with under 250 minutes the season before, rookies included, count as -2.0 for every metric.</p>
+<p class="d">A player with fewer than 250 minutes the season before, including every rookie, is rated -2.0 for every metric.</p>
 <div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R²</th><th>win % r</th><th>net error</th></tr>
 <tr><td>1-2</td><td class="l">Pulse</td><td>.171 <small>(.154-.187)</small></td><td>.800</td><td>3.13</td></tr>
 <tr><td>1-2</td><td class="l">LOKI †</td><td>.170 <small>(.152-.186)</small></td><td>.805</td><td>3.08</td></tr>
@@ -117,7 +118,7 @@
 <tr class="ref"><td></td><td class="l">Last season&#x27;s team (floor)</td><td>.103 <small>(.087-.120)</small></td><td>.629</td><td>4.19</td></tr>
 </table></div>
 <h3>Full forecast</h3>
-<p class="d">Every player counts at the metric's own rating.</p>
+<p class="d">Every player is rated at the metric's own value.</p>
 <div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R²</th><th>win % r</th><th>net error</th></tr>
 <tr><td>1</td><td class="l">LOKI †</td><td>.196 <small>(.178-.213)</small></td><td>.828</td><td>3.47</td></tr>
 <tr><td>2-3</td><td class="l">EPM</td><td>.178 <small>(.161-.194)</small></td><td>.808</td><td>4.44</td></tr>
