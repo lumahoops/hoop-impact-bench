@@ -9,7 +9,7 @@
   "min": 1,
   "max": 1
  },
- "updated_utc": "2026-11-01T14:19:24+00:00",
+ "updated_utc": "2026-11-01T14:28:47+00:00",
  "net_error_shown": false,
  "net_error_note": "It appears once every team has played 20 games; before that, a few games decide each team's margin",
  "record_note": "W-L: each game counts as a win when the team the metric rates higher won (no home-court edge, the same for every metric)",
@@ -20,7 +20,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "112155f2a7f786e5a41e8f5759b441b6198c3034",
+ "repo_commit": "39d32be174d0d4bfddc909b9c864f859eb603eba",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-01",
