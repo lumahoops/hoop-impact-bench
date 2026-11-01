@@ -1,7 +1,7 @@
 {
  "board": "daily",
  "season": "2026-27",
- "title": "Daily board: each game scored with every metric's rating as saved that morning, before tip-off (LOKI updates weekly; metrics that publish nothing newer carry their latest value)",
+ "title": "Dynamic board: each game scored with every metric's rating exactly as published that morning, saved before tip-off (season-to-date ratings as published; metrics that publish nothing newer carry their latest value)",
  "scored_through": "2026-10-31",
  "first_game": "2026-10-31",
  "games": 6,
@@ -9,7 +9,7 @@
   "min": 1,
   "max": 1
  },
- "updated_utc": "2026-11-01T09:10:56+00:00",
+ "updated_utc": "2026-11-01T09:28:51+00:00",
  "net_error_shown": false,
  "net_error_note": "hidden until every team has played 20 games",
  "rules": {
@@ -19,7 +19,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "9878576171bda8ad4654bcc1ae0e9a49de6c40d2",
+ "repo_commit": "f3792c252529861081cb8763aef0e5a02e80fd4a",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-01",

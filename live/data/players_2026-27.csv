@@ -84,6 +84,7 @@ season,nba_id,name
 2026-27,1628401,Derrick White
 2026-27,1628404,Josh Hart
 2026-27,1628415,Dillon Brooks
+2026-27,1628418,Thomas Bryant
 2026-27,1628436,Luke Kornet
 2026-27,1628960,Grayson Allen
 2026-27,1628963,Marvin Bagley III
@@ -321,11 +322,13 @@ season,nba_id,name
 2026-27,1642345,Oso Ighodaro
 2026-27,1642346,Ryan Dunn
 2026-27,1642347,Jamal Shead
+2026-27,1642348,Justin Edwards
 2026-27,1642349,Ajay Mitchell
 2026-27,1642350,Trevon Brazile
 2026-27,1642353,Cam Christie
 2026-27,1642355,Bronny James
 2026-27,1642357,David Jones Garcia
+2026-27,1642358,AJ Johnson
 2026-27,1642359,Pacôme Dadiet
 2026-27,1642363,Nique Clifford
 2026-27,1642366,Quinten Post
@@ -336,9 +339,11 @@ season,nba_id,name
 2026-27,1642384,Isaiah Crawford
 2026-27,1642389,Zyon Pullin
 2026-27,1642394,Baba Miller
+2026-27,1642400,Tristan Enaruna
 2026-27,1642403,Isaac Jones
 2026-27,1642404,Chaz Lanier
 2026-27,1642419,Jamison Battle
+2026-27,1642434,Riley Minix
 2026-27,1642449,Tolu Smith
 2026-27,1642450,Daniss Jenkins
 2026-27,1642502,Malevy Leons
@@ -369,6 +374,7 @@ season,nba_id,name
 2026-27,1642878,Tyrese Proctor
 2026-27,1642879,Ben Saraf
 2026-27,1642881,Bogoljub Marković
+2026-27,1642882,Julian Reese
 2026-27,1642883,Sion James
 2026-27,1642885,Mohamed Diawara
 2026-27,1642889,Labaron Philon Jr.
@@ -377,10 +383,13 @@ season,nba_id,name
 2026-27,1642907,Cedric Coward
 2026-27,1642910,John Tonje
 2026-27,1642912,Isaiah Evans
+2026-27,1642914,Javon Small
 2026-27,1642918,Alijah Martin
 2026-27,1642920,Kobe Sanders
+2026-27,1642942,Jahmai Mashack
 2026-27,1642948,Ryan Nembhard
 2026-27,1642954,Will Richard
+2026-27,1642959,Chris Youngblood
 2026-27,1642962,Drake Powell
 2026-27,1642964,Brooks Barnhizer
 2026-27,1643018,LJ Cryer
@@ -428,4 +437,5 @@ season,nba_id,name
 2026-27,1643633,Graham Ike
 2026-27,1643637,Jaylin Sellers
 2026-27,1643717,Josh Dix
+2026-27,1643721,Carson Cooper
 2026-27,1643813,Alpha Diallo
