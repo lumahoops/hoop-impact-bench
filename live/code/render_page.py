@@ -32,19 +32,26 @@ def iv(i):
     return f" <small>({f3(i[0])}-{f3(i[1])})</small>" if i else ""
 
 
-HEAD = ('<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th>'
-        '<th>team win % r</th><th>net error</th>{}</tr>')
+HEAD = ('<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R²</th>'
+        '<th>win % r</th><th>net error</th>{}</tr>')
+
+
+def day(iso):
+    import datetime
+    d = datetime.date.fromisoformat(iso[:10])
+    return f"{d:%b} {d.day}"
 
 
 def live_board(d):
     net = d["net_error_shown"]
     ex = len(d["snapshot"].get("excluded_games") or [])
     h = [f"<p>{escape(d['title'])}</p>",
-         f"<p>{d['games']} games, {d['first_game']} to {d['scored_through']} · updated "
-         f"{d['updated_utc'][:16].replace('T', ' ')} UTC"
-         + (f" · {ex} game{'s' if ex != 1 else ''} left off (it tipped off before every metric's value for that day was "
-            "saved)" if ex else "") + "</p>",
-         HEAD.format('<th class="l">label</th>')]
+         f"<p><b>{d['games']} games</b>, {day(d['first_game'])} to {day(d['scored_through'])} · updated "
+         f"{day(d['updated_utc'])}, {d['updated_utc'][11:16]} UTC</p>"]
+    if ex:
+        h.append(f"<p>{ex} game{'s' if ex != 1 else ''} not scored: {'it' if ex == 1 else 'they'} started before we saved "
+                 "that day's ratings.</p>")
+    h.append(HEAD.format('<th class="l">label</th>'))
     for m in d["metrics"]:
         t = m["tests"]
         name = f'<a href="{escape(m["url"])}">{escape(m["name"])}</a>' if m.get("url") else escape(m["name"])
@@ -59,16 +66,23 @@ def live_board(d):
                  f'<td>{f3(t["margin_r2"]["value"])}{iv(t["margin_r2"]["interval"])}</td><td>{f3(t["winpct_r"]["value"])}</td>'
                  f'<td>{f"{t["net_rmse"]["value"]:.2f}" if net else "-"}</td><td></td></tr>')
     h.append("</table></div>")
-    rules = d["rules"]
-    rule = (f"Rule: under {rules['min_minutes']:g} minutes last season (rookies included) or not rated = "
-            f"{rules['replacement']:g}." if rules["min_minutes"] else
-            f"Rule: every player at the metric's own value; a player the metric does not rate = {rules['replacement']:g}.")
-    h.append(f"<p class=\"d\">{rule} Rank is the range of places in the middle {round(d['confidence'] * 100)}% of "
-             f"{d['resamples']} resamples: overlapping ranges are not separated yet."
-             + ("" if net else f" Net error: {escape(d['net_error_note'])}.") + " Italic rows are references, not ranked.</p>")
-    h.append("<p class=\"d\">Labels: " + "; ".join(f"<b>{escape(k)}</b> {escape(v)}" for k, v in d["labels"].items()) + ".</p>")
+    rules, tests = d["rules"], d["tests"]
+    rule = (f"Players with under {rules['min_minutes']:g} minutes last season, rookies included, count as "
+            f"{rules['replacement']:.1f} for every metric." if rules["min_minutes"] else
+            f"Every player counts at the metric's own rating. A player the metric does not rate counts as "
+            f"{rules['replacement']:.1f}.")
+    h.append('<p class="d">How to read it:</p><ul class="d">'
+             f"<li>{escape(tests['margin_r2'])}. Higher is better.</li>"
+             f"<li>{escape(tests['winpct_r'])}. Higher is better.</li>"
+             f"<li>{escape(tests['net_rmse'])}. Lower is better{'' if net else ', ' + escape(d['net_error_note'])}.</li>"
+             f"<li>Rank: the range of places a metric takes in {round(d['confidence'] * 100)}% of {d['resamples']:,} "
+             "resamples. Overlapping ranges mean the games so far cannot separate those metrics.</li>"
+             f"<li>{rule}</li>"
+             "<li>Italic rows are reference points, not ranked.</li></ul>")
+    h.append('<p class="d">Labels:</p><ul class="d">'
+             + "".join(f"<li><b>{escape(k)}</b>: {escape(v)}</li>" for k, v in d["labels"].items()) + "</ul>")
     b = d["board"]
-    h.append(f'<p class="d">Files: <a href="live/results/{b}.json">{b}.json</a>, <a href="live/results/{b}_games.csv">per '
+    h.append(f'<p class="d">Data: <a href="live/results/{b}.json">{b}.json</a>, <a href="live/results/{b}_games.csv">every '
              f'game</a>, <a href="live/results/{b}_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 '
              f'{d["harness_sha256"][:12]}...).</p>')
     return "\n".join(h)
@@ -99,17 +113,18 @@ def main():
     est, full = load(REPO / "launch" / "established-players.json"), load(REPO / "launch" / "full-forecast.json")
     parts = [section("live", "2026-27 preseason board", live_board(frozen) if frozen else "<p>No games scored yet.</p>"),
              section("daily", "2026-27 dynamic board", live_board(daily) if daily else
-                     "<p>Dynamic board: no games scored yet. Each game is scored with each metric's rating exactly as "
-                     "published that morning, saved before tip-off. The first scores appear the morning after the first "
-                     "such game.</p>")]
+                     "<p>No games scored yet. Each morning we save every metric's ratings as its site shows them, "
+                     "before the day's games. Scores appear the morning after.</p>")]
     m = est["meta"]
     parts.append(section("retro", f"Retro: {m['seasons'][0]} to {m['seasons'][-1]}", "\n".join([
-        f"<p>Each season's preseason ratings, scored on that season's games: {m['games']:,} games, {m['team_seasons']} "
-        f"team-seasons, {m['seasons'][0]} to {m['seasons'][-1]}. HIB v{m['version']}.</p>",
-        retro_table(est, "Established players", "Under 250 minutes the season before, rookies included: -2.0 for every metric."),
-        retro_table(full, "Full forecast", "Every player at the metric's own rating."),
-        '<p class="d">Past seasons are the values each site shows today (its current model), not archived as published, so '
-        'the live track is the stricter test. See the <a href="https://github.com/lumahoops/hoop-impact-bench#readme">README</a>.</p>'])))
+        f"<p>We scored each past season with the ratings each metric had before it: <b>{m['games']:,} games</b> and "
+        f"{m['team_seasons']} team-seasons, {m['seasons'][0]} to {m['seasons'][-1]} (HIB v{m['version']}).</p>",
+        "<p>These ratings come from each site's current model, not what it published at the time. A model can fit past "
+        "seasons it was built on, so the 2026-27 boards are the stricter test.</p>",
+        retro_table(est, "Established players", "Players with under 250 minutes the season before, rookies included, count as -2.0 for every metric."),
+        retro_table(full, "Full forecast", "Every player counts at the metric's own rating."),
+        '<p class="d">Method, sources and every file: the <a href="https://github.com/lumahoops/hoop-impact-bench#readme">'
+        'README</a>.</p>'])))
     lead = ", ".join(f"{x['name']} {f3(x['tests']['margin_r2']['value'])}" for x in (frozen or {}).get("metrics", [])[:3])
     desc = ("Open benchmark for NBA impact metrics (EPM, DARKO, LEBRON, BPM, xRAPM, OpenRAPM, LOKI and more): each "
             "metric's saved ratings scored on 2026-27 games they never saw"
