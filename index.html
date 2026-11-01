@@ -11,13 +11,13 @@
 <meta property="og:title" content="Hoop Impact Bench">
 <meta property="og:description" content="Open benchmark for NBA impact metrics (EPM, DARKO, LEBRON, BPM, xRAPM, OpenRAPM, LOKI and more), computed on 2026-27 games played after each metric&#x27;s ratings were saved. After 88 games, xPM leads on game R² at .201, ahead of EPM projection (Danny Harlan) at .184. 8 of 45 pairs of metrics are separated on game R² at the 90% level; across 45 comparisons, about 4 would be separated by chance alone, so these are early signals.">
 <meta property="og:url" content="https://hoopimpactbench.org/">
-<meta property="og:image" content="https://hoopimpactbench.org/live/results/card.png?v=20261101T1547">
+<meta property="og:image" content="https://hoopimpactbench.org/live/results/card.png?v=20261101T1558">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Hoop Impact Bench">
 <meta name="twitter:description" content="Open benchmark for NBA impact metrics (EPM, DARKO, LEBRON, BPM, xRAPM, OpenRAPM, LOKI and more), computed on 2026-27 games played after each metric&#x27;s ratings were saved. After 88 games, xPM leads on game R² at .201, ahead of EPM projection (Danny Harlan) at .184. 8 of 45 pairs of metrics are separated on game R² at the 90% level; across 45 comparisons, about 4 would be separated by chance alone, so these are early signals.">
-<meta name="twitter:image" content="https://hoopimpactbench.org/live/results/card.png?v=20261101T1547">
+<meta name="twitter:image" content="https://hoopimpactbench.org/live/results/card.png?v=20261101T1558">
 <style>
   /* dark grey by default; the [light] link switches to off-white (remembered) */
   :root { --bg: #2e2e2e; --fg: #e4e4e4; --muted: #a8a8a8; --line: #5c5c5c; --head: #3a3a3a; --link: #8fb3ff; --seen: #c3a6ff; }
@@ -48,7 +48,7 @@
   details.help { line-height: 1.6; }
   details.help ul { padding-left: 20px; margin: 4px 0 10px; }
   hr { border: 0; border-top: 1px solid var(--line); margin: 10px 0; }
-  table.sort th { cursor: pointer; user-select: none; } table.sort th:hover { color: var(--fg); }
+  table.sort th { cursor: pointer; user-select: none; text-decoration: underline dotted var(--line); text-underline-offset: 4px; } table.sort th:hover { color: var(--fg); }
   table.sort th.up::after { content: ' ▲'; font-size: 10px; } table.sort th.down::after { content: ' ▼'; font-size: 10px; }
   .js section.board { display: none; } .js section.board.on { display: block; }
 </style>
@@ -68,7 +68,7 @@
 <section class="board" data-tab="live" id="live-board">
 <h2>2026-27 preseason</h2>
 <p class="line">Every 2026-27 game, computed using each metric's ratings from before opening night (October 20, 2026).</p>
-<p class="meta"><b>88 games</b> · Oct 20 to Oct 31 · updated Nov 1, 15:47 UTC</p>
+<p class="meta"><b>88 games</b> · Oct 20 to Oct 31 · updated Nov 1, 15:58 UTC</p>
 <details class="help"><summary>? What this table shows</summary>
 <p><b>After 88 games, xPM leads on game R² at .201, ahead of EPM projection (Danny Harlan) at .184. 8 of 45 pairs of metrics are separated on game R² at the 90% level; across 45 comparisons, about 4 would be separated by chance alone, so these are early signals.</b></p>
 <p>Hoop Impact Bench tests NBA player impact metrics (EPM, DARKO, LEBRON, BPM and others) on games played after their ratings were saved. In each game, every player's rating is weighted by the minutes he played, which gives each team a rating in points per 100 possessions. The home team's rating minus the away team's is the predicted margin, and the tables measure how closely the predicted margins follow the final margins.</p><p>2026-27 is the current NBA season, which opened on October 20, 2026. The retro tables cover the six seasons before it.</p>
@@ -78,7 +78,7 @@
 <p>Sources for the tests: game margins and team net error follow <a href="https://dunksandthrees.com/blog/metric-comparison">Taylor Snarr's 2020 metric comparison</a>; team win % r is <a href="https://x.com/knarsu3/status/1763321501766627328">Krishna Narsu's 2024 test</a>; the 250-minute cutoff is <a href="https://www.apbr.org/metrics/viewtopic.php?f=2&amp;t=8196&amp;start=15#p15334">Neil Paine's</a>. Questions or errors: <a href="https://github.com/lumahoops/hoop-impact-bench/issues">open an issue</a>.</p>
 <p>Data: <a href="live/results/frozen.json">frozen.json</a>, <a href="live/results/frozen_games.csv">every game</a>, <a href="live/results/frozen_history.csv">history</a>. Computed with eval.py v1.1.0 (sha256 cfde3f922e88...). Rules: <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/live/PROTOCOL.md">live protocol</a>.</p>
 </details>
-<div class="wide"><table class="sort"><thead><tr><th data-s="n" data-d="a">rank</th><th data-s="t" data-d="a" class="l">metric</th><th data-s="n" data-d="d">W-L</th><th data-s="n" data-d="d">game R² <small>90% range</small></th><th data-s="n" data-d="d">win % r</th><th data-s="n" data-d="a">net error <small>after 20 games</small></th><th data-s="t" data-d="a" class="l">label</th></tr></thead>
+<div class="wide"><table class="sort"><thead><tr><th data-s="n" data-d="a" title="Range of places across 2,000 resamples of the games (middle 90%)">rank</th><th data-s="t" data-d="a" title="The impact metric and its maker" class="l">metric</th><th data-s="n" data-d="d" title="Games won by the team the metric rated higher (no home-court edge)">W-L</th><th data-s="n" data-d="d" title="Share of the variation in final margins that the predicted margins explain. Higher is better">game R² <small>90% range</small></th><th data-s="n" data-d="d" title="Correlation between team ratings and team win %. Higher is better">win % r</th><th data-s="n" data-d="a" title="Average miss vs. each team&#x27;s opponent-adjusted margin, points per 100. Lower is better">net error <small>after 20 games</small></th><th data-s="t" data-d="a" title="Where the ratings came from; hover a label for its source" class="l">label</th></tr></thead>
 <tbody class="rk">
 <tr id="m-xpm"><td data-v="1.05">1-5</td><td class="l" data-v="xPM"><a href="https://vorp.app">xPM</a> <small>George Berry, VORP.app</small></td><td data-v="58">58-30</td><td data-v="0.2009"><b>.201</b> <small>.122-.292</small></td><td data-v="0.5583">.558</td><td data-v="">-</td><td class="l" title="VORP.app xPM v1.2 preseason forecast, made 2026-10-12, published 2026-10-13 (georgeberry.substack.com/p/the-big-vorpapp-2026-27-nba-player); file from George Berry 2026-10-31, shifted by him to above average (xpm - 2.166)">archived</td></tr>
 <tr id="m-danny"><td data-v="1.05">1-5</td><td class="l" data-v="EPM projection (Danny Harlan)"><a href="https://github.com/dannyharlan05/nba-epm-projections">EPM projection (Danny Harlan)</a></td><td data-v="61">61-27</td><td data-v="0.1845"><b>.184</b> <small>.107-.277</small></td><td data-v="0.5841">.584</td><td data-v="">-</td><td class="l" title="Danny Harlan&#x27;s EPM projection model (github.com/dannyharlan05/nba-epm-projections), pred_epm_1y from artifacts/predictions.parquet at commit 97c0817, pushed 2026-10-20 17:03 UTC (GitHub push event), before opening night">archived</td></tr>
@@ -102,7 +102,7 @@
 <section class="board" data-tab="daily" id="daily-board">
 <h2>2026-27 dynamic</h2>
 <p class="line">Each 2026-27 game day, computed using each metric's ratings as published that morning.</p>
-<p class="meta"><b>6 games</b> · Oct 31 to Oct 31 · updated Nov 1, 15:47 UTC</p>
+<p class="meta"><b>6 games</b> · Oct 31 to Oct 31 · updated Nov 1, 15:58 UTC</p>
 <details class="help"><summary>? What this table shows</summary>
 <p><b>After 6 games, ARC Live leads on game R² at .423, ahead of Pulse at .379. Every metric&#x27;s rank range still overlaps the others, so the games so far do not separate any two metrics.</b></p>
 <p>Hoop Impact Bench tests NBA player impact metrics (EPM, DARKO, LEBRON, BPM and others) on games played after their ratings were saved. In each game, every player's rating is weighted by the minutes he played, which gives each team a rating in points per 100 possessions. The home team's rating minus the away team's is the predicted margin, and the tables measure how closely the predicted margins follow the final margins.</p><p>2026-27 is the current NBA season, which opened on October 20, 2026. The retro tables cover the six seasons before it.</p>
@@ -113,7 +113,7 @@
 <p>Sources for the tests: game margins and team net error follow <a href="https://dunksandthrees.com/blog/metric-comparison">Taylor Snarr's 2020 metric comparison</a>; team win % r is <a href="https://x.com/knarsu3/status/1763321501766627328">Krishna Narsu's 2024 test</a>; the 250-minute cutoff is <a href="https://www.apbr.org/metrics/viewtopic.php?f=2&amp;t=8196&amp;start=15#p15334">Neil Paine's</a>. Questions or errors: <a href="https://github.com/lumahoops/hoop-impact-bench/issues">open an issue</a>.</p>
 <p>Data: <a href="live/results/daily.json">daily.json</a>, <a href="live/results/daily_games.csv">every game</a>, <a href="live/results/daily_history.csv">history</a>. Computed with eval.py v1.1.0 (sha256 cfde3f922e88...). Rules: <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/live/PROTOCOL.md">live protocol</a>.</p>
 </details>
-<div class="wide"><table class="sort"><thead><tr><th data-s="n" data-d="a">rank</th><th data-s="t" data-d="a" class="l">metric</th><th data-s="n" data-d="d">W-L</th><th data-s="n" data-d="d">game R² <small>90% range</small></th><th data-s="n" data-d="d">win % r</th><th data-s="n" data-d="a">net error <small>after 20 games</small></th><th data-s="t" data-d="a" class="l">label</th></tr></thead>
+<div class="wide"><table class="sort"><thead><tr><th data-s="n" data-d="a" title="Range of places across 2,000 resamples of the games (middle 90%)">rank</th><th data-s="t" data-d="a" title="The impact metric and its maker" class="l">metric</th><th data-s="n" data-d="d" title="Games won by the team the metric rated higher (no home-court edge)">W-L</th><th data-s="n" data-d="d" title="Share of the variation in final margins that the predicted margins explain. Higher is better">game R² <small>90% range</small></th><th data-s="n" data-d="d" title="Correlation between team ratings and team win %. Higher is better">win % r</th><th data-s="n" data-d="a" title="Average miss vs. each team&#x27;s opponent-adjusted margin, points per 100. Lower is better">net error <small>after 20 games</small></th><th data-s="t" data-d="a" title="Where the ratings came from; hover a label for its source" class="l">label</th></tr></thead>
 <tbody class="rk">
 <tr id="m-arc"><td data-v="1.09">1-9</td><td class="l" data-v="ARC Live"><a href="https://lumahoops.org/arc">ARC Live</a> † <small>LUMA Basketball Research</small></td><td data-v="5">5-1</td><td data-v="0.4232"><b>.423</b> <small>.032-1.000</small></td><td data-v="0.5619">.562</td><td data-v="">-</td><td class="l" title="lumahoops.org ARC Live (arc-live/2027/2026-10-25.json)">pulled</td></tr>
 <tr id="m-pulse"><td data-v="1.11">1-11</td><td class="l" data-v="Pulse"><a href="https://courtsignal.net/ratings">Pulse</a> <small>CourtSignal</small></td><td data-v="5">5-1</td><td data-v="0.3786"><b>.379</b> <small>.009-1.000</small></td><td data-v="0.4681">.468</td><td data-v="">-</td><td class="l" title="courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-10-31">pulled</td></tr>
@@ -148,7 +148,7 @@
 </details>
 <h3>Established players</h3>
 <p class="meta">A player with fewer than 250 minutes the season before, including every rookie, is rated -2.0 for every metric.</p>
-<div class="wide"><table class="sort"><thead><tr><th data-s="n" data-d="a">rank</th><th data-s="t" data-d="a" class="l">metric</th><th data-s="n" data-d="d">game R² <small>90% range</small></th><th data-s="n" data-d="d">win % r</th><th data-s="n" data-d="a">net error</th></tr></thead>
+<div class="wide"><table class="sort"><thead><tr><th data-s="n" data-d="a" title="Range of places across 2,000 resamples of the games (middle 90%)">rank</th><th data-s="t" data-d="a" title="The impact metric and its maker" class="l">metric</th><th data-s="n" data-d="d" title="Share of the variation in final margins that the predicted margins explain. Higher is better">game R² <small>90% range</small></th><th data-s="n" data-d="d" title="Correlation between team ratings and team win %. Higher is better">win % r</th><th data-s="n" data-d="a" title="Average miss vs. each team&#x27;s opponent-adjusted margin, points per 100. Lower is better">net error</th></tr></thead>
 <tbody class="rk">
 <tr><td data-v="1.02">1-2</td><td class="l" data-v="Pulse">Pulse</td><td data-v="0.1712786605643995"><b>.171</b> <small>.154-.187</small></td><td data-v="0.8001988051833173">.800</td><td data-v="3.133365852646059">3.13</td></tr>
 <tr><td data-v="1.02">1-2</td><td class="l" data-v="LOKI †">LOKI †</td><td data-v="0.1697057578321111"><b>.170</b> <small>.152-.186</small></td><td data-v="0.8051146839480088">.805</td><td data-v="3.0792778371926643">3.08</td></tr>
@@ -169,7 +169,7 @@
 </table></div>
 <h3>Full forecast</h3>
 <p class="meta">Every player is rated at the metric's own value.</p>
-<div class="wide"><table class="sort"><thead><tr><th data-s="n" data-d="a">rank</th><th data-s="t" data-d="a" class="l">metric</th><th data-s="n" data-d="d">game R² <small>90% range</small></th><th data-s="n" data-d="d">win % r</th><th data-s="n" data-d="a">net error</th></tr></thead>
+<div class="wide"><table class="sort"><thead><tr><th data-s="n" data-d="a" title="Range of places across 2,000 resamples of the games (middle 90%)">rank</th><th data-s="t" data-d="a" title="The impact metric and its maker" class="l">metric</th><th data-s="n" data-d="d" title="Share of the variation in final margins that the predicted margins explain. Higher is better">game R² <small>90% range</small></th><th data-s="n" data-d="d" title="Correlation between team ratings and team win %. Higher is better">win % r</th><th data-s="n" data-d="a" title="Average miss vs. each team&#x27;s opponent-adjusted margin, points per 100. Lower is better">net error</th></tr></thead>
 <tbody class="rk">
 <tr><td data-v="1.01">1</td><td class="l" data-v="LOKI †">LOKI †</td><td data-v="0.1961327098757896"><b>.196</b> <small>.178-.213</small></td><td data-v="0.8280522258708471">.828</td><td data-v="3.467507295522761">3.47</td></tr>
 <tr><td data-v="2.03">2-3</td><td class="l" data-v="EPM">EPM</td><td data-v="0.177682964747092"><b>.178</b> <small>.161-.194</small></td><td data-v="0.8075471120955381">.808</td><td data-v="4.443190836956935">4.44</td></tr>
