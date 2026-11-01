@@ -1,7 +1,7 @@
 {
  "board": "frozen",
  "season": "2026-27",
- "title": "Preseason board: each metric's rating saved before opening night (2026-10-20), never updated",
+ "title": "We saved each metric's ratings before opening night (October 20, 2026). They never change.",
  "scored_through": "2026-10-31",
  "first_game": "2026-10-20",
  "games": 88,
@@ -9,9 +9,9 @@
   "min": 4,
   "max": 7
  },
- "updated_utc": "2026-11-01T12:54:46+00:00",
+ "updated_utc": "2026-11-01T13:04:41+00:00",
  "net_error_shown": false,
- "net_error_note": "hidden until every team has played 20 games",
+ "net_error_note": "shown once every team has played 20 games",
  "rules": {
   "min_minutes": 250,
   "replacement": -2.0
@@ -19,20 +19,20 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "9f4fc60a45fc3f7709ce68d14e25606f37788fcd",
+ "repo_commit": "ae6a48118ecffa66b442235e3f9539ca56e2ee13",
  "snapshot": {
   "file": "live/snapshots/preseason.json",
   "saved_at_utc": "2026-10-31T20:40:22+00:00"
  },
  "labels": {
-  "archived": "published before the games, with proof (dated public record or release fingerprint)",
-  "saved": "saved by us before the games, no public record of the date",
-  "backfill": "taken later from the site's own view of that date (the site's current model)"
+  "archived": "the maker published these ratings before the games, and the date can be checked",
+  "saved": "we saved these ratings before the games; no public record shows the date",
+  "backfill": "we took these ratings later from the site's view of that date, which runs its current model"
  },
  "tests": {
-  "margin_r2": "Game margins R²: how much of each game's margin the ratings x actual minutes explain",
-  "winpct_r": "Team win % r: correlation between team ratings and team win %",
-  "net_rmse": "Team net error: points per 100 between team ratings and opponent-adjusted margins"
+  "margin_r2": "Game R²: how much of each game's final margin the ratings explain, weighted by who played",
+  "winpct_r": "Win % r: how closely team ratings follow team win %",
+  "net_rmse": "Net error: how far team ratings miss each team's point margin per 100 possessions"
  },
  "metrics": [
   {

@@ -25,6 +25,7 @@
   td.l, th.l { text-align: left; white-space: normal; }
   tr.ref td { font-style: italic; color: var(--muted); }
   small, .d { color: var(--muted); }
+  ul.d { margin: 2px 0 8px; padding-left: 20px; }
   hr { border: 0; border-top: 1px solid var(--line); }
   .js section.board { display: none; } .js section.board.on { display: block; }
   @media (max-width: 600px) { .wide { overflow-x: auto; } }
@@ -39,14 +40,14 @@
 <!-- Written by live/code/render_page.py from live/results/ and launch/ each morning; edit live/code/page.html, not this file. -->
 <a href="#" id="theme"></a>
 <h1>Hoop Impact Bench</h1>
-<p>Do last season's impact-metric ratings predict this season's NBA games?</p>
+<p>Which NBA impact metric predicts games best? We save each metric's ratings before the games, then score them on the results.</p>
 <p class="tabs"><a href="#live">2026-27 preseason</a> <a href="#daily">2026-27 dynamic</a> <a href="#retro">Retro 2020-21 to 2025-26</a></p>
 <hr>
 <section class="board" data-tab="live" id="live-board">
 <h2>2026-27 preseason board</h2>
-<p>Preseason board: each metric&#x27;s rating saved before opening night (2026-10-20), never updated</p>
-<p>88 games, 2026-10-20 to 2026-10-31 · updated 2026-11-01 12:54 UTC</p>
-<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th><th class="l">label</th></tr>
+<p>We saved each metric&#x27;s ratings before opening night (October 20, 2026). They never change.</p>
+<p><b>88 games</b>, Oct 20 to Oct 31 · updated Nov 1, 13:04 UTC</p>
+<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R²</th><th>win % r</th><th>net error</th><th class="l">label</th></tr>
 <tr><td>1-5</td><td class="l"><a href="https://vorp.app">xPM</a> <small>George Berry, VORP.app</small></td><td>.201 <small>(.122-.292)</small></td><td>.558</td><td>-</td><td class="l" title="VORP.app xPM v1.2 preseason forecast, made 2026-10-12, published 2026-10-13 (georgeberry.substack.com/p/the-big-vorpapp-2026-27-nba-player); file from George Berry 2026-10-31, shifted by him to above average (xpm - 2.166)">archived</td></tr>
 <tr><td>1-5</td><td class="l"><a href="https://github.com/dannyharlan05/nba-epm-projections">EPM projection (Danny Harlan)</a></td><td>.184 <small>(.107-.277)</small></td><td>.584</td><td>-</td><td class="l" title="Danny Harlan&#x27;s EPM projection model (github.com/dannyharlan05/nba-epm-projections), pred_epm_1y from artifacts/predictions.parquet at commit 97c0817, pushed 2026-10-20 17:03 UTC (GitHub push event), before opening night">archived</td></tr>
 <tr><td>1-8</td><td class="l"><a href="https://www.darko.app/">DARKO</a> <small>Kostya Medvedovsky</small></td><td>.181 <small>(.093-.288)</small></td><td>.520</td><td>-</td><td class="l" title="darko.app date view as of 2026-10-19 (day before opening night), pulled 2026-10-31; DARKO revises past dates">backfill</td></tr>
@@ -63,15 +64,16 @@
 <tr class="ref"><td></td><td class="l" title="Each player = his main team&#x27;s opponent-adjusted margin last season / 5.">Last season&#x27;s team (floor)</td><td>.128 <small>(.050-.235)</small></td><td>.469</td><td>-</td><td></td></tr>
 <tr class="ref"><td></td><td class="l" title="Every player 0; only the -2.0 for low-minute players separates teams.">Everyone 0 (floor)</td><td>.069 <small>(.013-.165)</small></td><td>.117</td><td>-</td><td></td></tr>
 </table></div>
-<p class="d">Rule: under 250 minutes last season (rookies included) or not rated = -2. Rank is the range of places in the middle 90% of 2000 resamples: overlapping ranges are not separated yet. Net error: hidden until every team has played 20 games. Italic rows are references, not ranked.</p>
-<p class="d">Labels: <b>archived</b> published before the games, with proof (dated public record or release fingerprint); <b>saved</b> saved by us before the games, no public record of the date; <b>backfill</b> taken later from the site&#x27;s own view of that date (the site&#x27;s current model).</p>
-<p class="d">Files: <a href="live/results/frozen.json">frozen.json</a>, <a href="live/results/frozen_games.csv">per game</a>, <a href="live/results/frozen_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 cfde3f922e88...).</p>
+<p class="d">How to read it:</p><ul class="d"><li>Game R²: how much of each game&#x27;s final margin the ratings explain, weighted by who played. Higher is better.</li><li>Win % r: how closely team ratings follow team win %. Higher is better.</li><li>Net error: how far team ratings miss each team&#x27;s point margin per 100 possessions. Lower is better, shown once every team has played 20 games.</li><li>Rank: the range of places a metric takes in 90% of 2,000 resamples. Overlapping ranges mean the games so far cannot separate those metrics.</li><li>Players with under 250 minutes last season, rookies included, count as -2.0 for every metric.</li><li>Italic rows are reference points, not ranked.</li></ul>
+<p class="d">Labels:</p><ul class="d"><li><b>archived</b>: the maker published these ratings before the games, and the date can be checked</li><li><b>saved</b>: we saved these ratings before the games; no public record shows the date</li><li><b>backfill</b>: we took these ratings later from the site&#x27;s view of that date, which runs its current model</li></ul>
+<p class="d">Data: <a href="live/results/frozen.json">frozen.json</a>, <a href="live/results/frozen_games.csv">every game</a>, <a href="live/results/frozen_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 cfde3f922e88...).</p>
 </section>
 <section class="board" data-tab="daily" id="daily-board">
 <h2>2026-27 dynamic board</h2>
-<p>Dynamic board: each game scored with every metric&#x27;s rating exactly as published that morning, saved before tip-off (season-to-date ratings as published; metrics that publish nothing newer carry their latest value)</p>
-<p>6 games, 2026-10-31 to 2026-10-31 · updated 2026-11-01 12:54 UTC · 1 game left off (it tipped off before every metric's value for that day was saved)</p>
-<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th><th class="l">label</th></tr>
+<p>Each morning we save every metric&#x27;s ratings as its site shows them, before the day&#x27;s games. A metric that published nothing new keeps its last ratings.</p>
+<p><b>6 games</b>, Oct 31 to Oct 31 · updated Nov 1, 13:04 UTC</p>
+<p>1 game not scored: it started before we saved that day's ratings.</p>
+<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R²</th><th>win % r</th><th>net error</th><th class="l">label</th></tr>
 <tr><td>1-9</td><td class="l"><a href="https://lumahoops.org/arc">ARC Live</a> † <small>LUMA Basketball Research</small></td><td>.423 <small>(.032-1.000)</small></td><td>.562</td><td>-</td><td class="l" title="lumahoops.org ARC Live (arc-live/2027/2026-10-25.json)">pulled</td></tr>
 <tr><td>1-11</td><td class="l"><a href="https://courtsignal.net/ratings">Pulse</a> <small>CourtSignal</small></td><td>.379 <small>(.009-1.000)</small></td><td>.468</td><td>-</td><td class="l" title="courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-10-31">pulled</td></tr>
 <tr><td>1-10</td><td class="l"><a href="https://www.darko.app/">DARKO</a> <small>Kostya Medvedovsky</small></td><td>.318 <small>(.011-1.000)</small></td><td>.390</td><td>-</td><td class="l" title="darko.app as of 2026-11-01 (data through 2026-10-30)">pulled</td></tr>
@@ -89,16 +91,17 @@
 <tr class="ref"><td></td><td class="l" title="Each player = his main team&#x27;s opponent-adjusted margin last season / 5.">Last season&#x27;s team (floor)</td><td>.053 <small>(.001-1.000)</small></td><td>.165</td><td>-</td><td></td></tr>
 <tr class="ref"><td></td><td class="l" title="Every player 0; only the -2.0 for low-minute players separates teams.">Everyone 0 (floor)</td><td>.000 <small>(.000-.000)</small></td><td>.000</td><td>-</td><td></td></tr>
 </table></div>
-<p class="d">Rule: every player at the metric's own value; a player the metric does not rate = -2. Rank is the range of places in the middle 90% of 2000 resamples: overlapping ranges are not separated yet. Net error: hidden until every team has played 20 games. Italic rows are references, not ranked.</p>
-<p class="d">Labels: <b>pulled</b> fetched from the maker&#x27;s site that morning and fingerprinted before the games; <b>carried</b> the metric published nothing newer, so its latest saved value was reused; <b>empty</b> the pull failed all morning; that day&#x27;s games are left off the board for every metric.</p>
-<p class="d">Files: <a href="live/results/daily.json">daily.json</a>, <a href="live/results/daily_games.csv">per game</a>, <a href="live/results/daily_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 cfde3f922e88...).</p>
+<p class="d">How to read it:</p><ul class="d"><li>Game R²: how much of each game&#x27;s final margin the ratings explain, weighted by who played. Higher is better.</li><li>Win % r: how closely team ratings follow team win %. Higher is better.</li><li>Net error: how far team ratings miss each team&#x27;s point margin per 100 possessions. Lower is better, shown once every team has played 20 games.</li><li>Rank: the range of places a metric takes in 90% of 2,000 resamples. Overlapping ranges mean the games so far cannot separate those metrics.</li><li>Every player counts at the metric's own rating. A player the metric does not rate counts as -2.0.</li><li>Italic rows are reference points, not ranked.</li></ul>
+<p class="d">Labels:</p><ul class="d"><li><b>pulled</b>: we saved new ratings from the maker&#x27;s site that morning</li><li><b>carried</b>: the maker published nothing new, so the last saved ratings count</li><li><b>empty</b>: we could not save the ratings all morning, so no metric is scored on that day&#x27;s games</li></ul>
+<p class="d">Data: <a href="live/results/daily.json">daily.json</a>, <a href="live/results/daily_games.csv">every game</a>, <a href="live/results/daily_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 cfde3f922e88...).</p>
 </section>
 <section class="board" data-tab="retro" id="retro-board">
 <h2>Retro: 2020-21 to 2025-26</h2>
-<p>Each season's preseason ratings, scored on that season's games: 7,230 games, 180 team-seasons, 2020-21 to 2025-26. HIB v1.1.0.</p>
+<p>We scored each past season with the ratings each metric had before it: <b>7,230 games</b> and 180 team-seasons, 2020-21 to 2025-26 (HIB v1.1.0).</p>
+<p>These ratings come from each site's current model, not what it published at the time. A model can fit past seasons it was built on, so the 2026-27 boards are the stricter test.</p>
 <h3>Established players</h3>
-<p class="d">Under 250 minutes the season before, rookies included: -2.0 for every metric.</p>
-<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th></tr>
+<p class="d">Players with under 250 minutes the season before, rookies included, count as -2.0 for every metric.</p>
+<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R²</th><th>win % r</th><th>net error</th></tr>
 <tr><td>1-2</td><td class="l">Pulse</td><td>.171 <small>(.154-.187)</small></td><td>.800</td><td>3.13</td></tr>
 <tr><td>1-2</td><td class="l">LOKI †</td><td>.170 <small>(.152-.186)</small></td><td>.805</td><td>3.08</td></tr>
 <tr><td>3-5</td><td class="l">OpenRAPM</td><td>.162 <small>(.146-.178)</small></td><td>.786</td><td>3.39</td></tr>
@@ -114,8 +117,8 @@
 <tr class="ref"><td></td><td class="l">Last season&#x27;s team (floor)</td><td>.103 <small>(.087-.120)</small></td><td>.629</td><td>4.19</td></tr>
 </table></div>
 <h3>Full forecast</h3>
-<p class="d">Every player at the metric's own rating.</p>
-<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th></tr>
+<p class="d">Every player counts at the metric's own rating.</p>
+<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R²</th><th>win % r</th><th>net error</th></tr>
 <tr><td>1</td><td class="l">LOKI †</td><td>.196 <small>(.178-.213)</small></td><td>.828</td><td>3.47</td></tr>
 <tr><td>2-3</td><td class="l">EPM</td><td>.178 <small>(.161-.194)</small></td><td>.808</td><td>4.44</td></tr>
 <tr><td>2-3</td><td class="l">Pulse</td><td>.177 <small>(.159-.192)</small></td><td>.807</td><td>3.09</td></tr>
@@ -130,7 +133,7 @@
 <tr class="ref"><td></td><td class="l">Last season&#x27;s team (floor)</td><td>.092 <small>(.077-.108)</small></td><td>.609</td><td>4.18</td></tr>
 <tr class="ref"><td></td><td class="l">Everyone 0 (floor)</td><td>.000 <small>(.000-.000)</small></td><td>.000</td><td>5.04</td></tr>
 </table></div>
-<p class="d">Past seasons are the values each site shows today (its current model), not archived as published, so the live track is the stricter test. See the <a href="https://github.com/lumahoops/hoop-impact-bench#readme">README</a>.</p>
+<p class="d">Method, sources and every file: the <a href="https://github.com/lumahoops/hoop-impact-bench#readme">README</a>.</p>
 </section>
 <hr>
 <p><small>
