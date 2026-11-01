@@ -70,9 +70,9 @@ def main():
     foot = (f"{d['games']} games · {day(d['first_game'])} to {day(d['scored_through'])} · "
             "ratings saved before opening night")
     g.text((M, H - 74), foot, font=small, fill=MUTED)
-    g.text((W - M, H - 74), "lumahoops.github.io/hoop-impact-bench", font=small, fill=MUTED, anchor="ra") \
-        if g.textlength(foot, font=small) + g.textlength("lumahoops.github.io/hoop-impact-bench", font=small) + 40 < W - 2 * M \
-        else g.text((M, H - 44), "lumahoops.github.io/hoop-impact-bench", font=small, fill=MUTED)
+    g.text((W - M, H - 74), "hoopimpactbench.org", font=small, fill=MUTED, anchor="ra") \
+        if g.textlength(foot, font=small) + g.textlength("hoopimpactbench.org", font=small) + 40 < W - 2 * M \
+        else g.text((M, H - 44), "hoopimpactbench.org", font=small, fill=MUTED)
     img.save(RESULTS / "card.png", optimize=True)
     print(f"card.png: top 5 of {len(d['metrics'])}, {d['games']} games")
 

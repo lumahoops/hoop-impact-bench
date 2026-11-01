@@ -7,7 +7,7 @@ date-released: "2026-10-30"
 license:
   - MIT
   - CC-BY-4.0
-url: "https://lumahoops.org"
+url: "https://hoopimpactbench.org"
 repository-code: "https://github.com/lumahoops/hoop-impact-bench"
 abstract: >
   Hoop Impact Bench scores NBA player impact metrics on one question: do the values known before a season predict
