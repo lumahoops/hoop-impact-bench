@@ -1,0 +1,2538 @@
+{
+ "board": "daily",
+ "season": "2026-27",
+ "title": "Daily board: each game scored with every metric's rating as saved that morning, before tip-off (LOKI updates weekly; metrics that publish nothing newer carry their latest value)",
+ "scored_through": "2026-10-31",
+ "first_game": "2026-10-31",
+ "games": 6,
+ "games_per_team": {
+  "min": 1,
+  "max": 1
+ },
+ "updated_utc": "2026-11-01T08:59:12+00:00",
+ "net_error_shown": false,
+ "net_error_note": "hidden until every team has played 20 games",
+ "rules": {
+  "min_minutes": 250,
+  "replacement": -2.0
+ },
+ "confidence": 0.9,
+ "resamples": 2000,
+ "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
+ "repo_commit": "4733cb5643831f49d393d494c4cb35038bb5773a",
+ "snapshot": {
+  "files": "live/snapshots/daily/<date>.json",
+  "latest": "2026-11-01",
+  "latest_saved_at_utc": "2026-11-01T08:59:00+00:00",
+  "days": [
+   "2026-10-31",
+   "2026-11-01"
+  ],
+  "excluded_games": [
+   {
+    "game_id": "0022600147",
+    "date": "2026-10-31",
+    "reason": "no value saved before tip-off: arc, bpm_bbref, danny, darko, epm, lebron, loki, openrapm, pulse, xpm, xrapm"
+   }
+  ]
+ },
+ "labels": {
+  "pulled": "fetched from the maker's site that morning and fingerprinted before the games",
+  "carried": "the metric published nothing newer, so its latest saved value was reused",
+  "empty": "the pull failed all morning; that day's games are left off the board for every metric"
+ },
+ "tests": {
+  "margin_r2": "Game margins R²: how much of each game's margin the ratings x actual minutes explain",
+  "winpct_r": "Team win % r: correlation between team ratings and team win %",
+  "net_rmse": "Team net error: points per 100 between team ratings and opponent-adjusted margins"
+ },
+ "metrics": [
+  {
+   "id": "arc",
+   "name": "ARC Live",
+   "maker": "LUMA Basketball Research",
+   "url": "https://lumahoops.org",
+   "ours": true,
+   "label": "pulled",
+   "source": "lumahoops.org ARC Live (arc-live/2027/2026-10-25.json)",
+   "sha256": "bad77fe7faa60aed7a5fade0b86b1a923d2f2a6d2f9839475accab2e6cf5e735",
+   "players": 631,
+   "as_of": "2026-10-25",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.3013,
+     "interval": [
+      0.0191,
+      1.0
+     ],
+     "rank": [
+      1,
+      10
+     ]
+    },
+    "winpct_r": {
+     "value": 0.5206,
+     "interval": [
+      0.1483,
+      0.7719
+     ],
+     "rank": [
+      1,
+      6
+     ]
+    },
+    "net_rmse": {
+     "value": 9.2502,
+     "interval": [
+      7.2074,
+      10.9687
+     ],
+     "rank": [
+      1,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "id": "pulse",
+   "name": "Pulse",
+   "maker": "CourtSignal",
+   "url": "https://courtsignal.net/ratings",
+   "ours": false,
+   "label": "pulled",
+   "source": "courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-10-31",
+   "sha256": "00aaba48b542b50b4bfa8cd1d240cecff0e0a40fbe53fdce7b963880b8479836",
+   "players": 660,
+   "as_of": "2026-10-31",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.2889,
+     "interval": [
+      0.0107,
+      1.0
+     ],
+     "rank": [
+      1,
+      11
+     ]
+    },
+    "winpct_r": {
+     "value": 0.4264,
+     "interval": [
+      -0.0016,
+      0.7201
+     ],
+     "rank": [
+      2,
+      8
+     ]
+    },
+    "net_rmse": {
+     "value": 8.888,
+     "interval": [
+      7.0214,
+      10.4888
+     ],
+     "rank": [
+      1,
+      5
+     ]
+    }
+   }
+  },
+  {
+   "id": "loki",
+   "name": "LOKI",
+   "maker": "LUMA Basketball Research",
+   "url": "https://lumahoops.org",
+   "ours": true,
+   "label": "carried",
+   "source": "LOKI R1 (frozen preseason board); no weekly solve yet",
+   "sha256": "c78ec0deb99f547e460e00bde98e867623ecf14c3f6d8ffaac599595fd5395d7",
+   "players": 687,
+   "as_of": "preseason",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.2204,
+     "interval": [
+      0.011,
+      1.0
+     ],
+     "rank": [
+      2,
+      9
+     ]
+    },
+    "winpct_r": {
+     "value": 0.436,
+     "interval": [
+      -0.0189,
+      0.7495
+     ],
+     "rank": [
+      2,
+      9
+     ]
+    },
+    "net_rmse": {
+     "value": 9.3329,
+     "interval": [
+      7.373,
+      10.9963
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "id": "darko",
+   "name": "DARKO",
+   "maker": "Kostya Medvedovsky",
+   "url": "https://www.darko.app/",
+   "ours": false,
+   "label": "pulled",
+   "source": "darko.app as of 2026-11-01 (data through 2026-10-30)",
+   "sha256": "9fec0b77c8c2f1a3a54f2757f0817ed949044b9be227b9712b1df869901792f1",
+   "players": 525,
+   "as_of": "2026-10-30",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.2149,
+     "interval": [
+      0.006,
+      1.0
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    },
+    "winpct_r": {
+     "value": 0.3568,
+     "interval": [
+      -0.1296,
+      0.7142
+     ],
+     "rank": [
+      3,
+      10
+     ]
+    },
+    "net_rmse": {
+     "value": 9.246,
+     "interval": [
+      7.0218,
+      11.1294
+     ],
+     "rank": [
+      2,
+      9
+     ]
+    }
+   }
+  },
+  {
+   "id": "lebron",
+   "name": "LEBRON",
+   "maker": "BBall Index",
+   "url": "https://www.bball-index.com/lebron-database/",
+   "ours": false,
+   "label": "carried",
+   "source": "no 2026-27 LEBRON published yet; 2025-26 final (export saved 2026-10-03)",
+   "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1",
+   "players": 582,
+   "as_of": "2026-04-12",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1855,
+     "interval": [
+      0.0048,
+      1.0
+     ],
+     "rank": [
+      1,
+      10
+     ]
+    },
+    "winpct_r": {
+     "value": 0.4029,
+     "interval": [
+      -0.0756,
+      0.7368
+     ],
+     "rank": [
+      1,
+      9
+     ]
+    },
+    "net_rmse": {
+     "value": 9.0767,
+     "interval": [
+      7.0615,
+      10.9825
+     ],
+     "rank": [
+      1,
+      8
+     ]
+    }
+   }
+  },
+  {
+   "id": "xpm",
+   "name": "xPM",
+   "maker": "George Berry, VORP.app",
+   "url": "https://vorp.app",
+   "ours": false,
+   "label": "carried",
+   "source": "preseason value (VORP.app publishes a preseason forecast only)",
+   "sha256": "5e62034575eab2348844508199e232e9709cd4051d607289ef15a8f175a6344a",
+   "players": 608,
+   "as_of": "preseason",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1437,
+     "interval": [
+      0.0033,
+      1.0
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    },
+    "winpct_r": {
+     "value": 0.3726,
+     "interval": [
+      -0.1113,
+      0.6714
+     ],
+     "rank": [
+      2,
+      11
+     ]
+    },
+    "net_rmse": {
+     "value": 9.4011,
+     "interval": [
+      7.6474,
+      10.9097
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "id": "danny",
+   "name": "EPM projection (Danny Harlan)",
+   "maker": "Danny Harlan",
+   "url": "https://github.com/dannyharlan05/nba-epm-projections",
+   "ours": false,
+   "label": "carried",
+   "source": "preseason value (Danny's preseason projection; in-season updates not yet included)",
+   "sha256": "23b7d01a01dabe11f3d36560fb2826bdd06b10c5c3d126413d04ab15503d8623",
+   "players": 679,
+   "as_of": "preseason",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1425,
+     "interval": [
+      0.0042,
+      1.0
+     ],
+     "rank": [
+      1,
+      10
+     ]
+    },
+    "winpct_r": {
+     "value": 0.4466,
+     "interval": [
+      0.0323,
+      0.7348
+     ],
+     "rank": [
+      1,
+      6
+     ]
+    },
+    "net_rmse": {
+     "value": 9.5535,
+     "interval": [
+      7.6339,
+      11.1945
+     ],
+     "rank": [
+      3,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "id": "epm",
+   "name": "EPM",
+   "maker": "Taylor Snarr, Dunks & Threes",
+   "url": "https://dunksandthrees.com/epm",
+   "ours": false,
+   "label": "pulled",
+   "source": "dunksandthrees.com/epm (current expected EPM, Aayo's subscription)",
+   "sha256": "51d48fb293c64d6e043fb46d7eb8486ab3f4c2720cd9735338759d8a7edd584c",
+   "players": 528,
+   "as_of": "2026-11-01",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1336,
+     "interval": [
+      0.0025,
+      1.0
+     ],
+     "rank": [
+      3,
+      11
+     ]
+    },
+    "winpct_r": {
+     "value": 0.3429,
+     "interval": [
+      -0.1449,
+      0.6856
+     ],
+     "rank": [
+      3,
+      10
+     ]
+    },
+    "net_rmse": {
+     "value": 9.6609,
+     "interval": [
+      7.5267,
+      11.5556
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "id": "bpm_bbref",
+   "name": "BPM (Basketball-Reference)",
+   "maker": "Daniel Myers / Basketball-Reference",
+   "url": "https://www.basketball-reference.com/",
+   "ours": false,
+   "label": "carried",
+   "source": "preseason value (2025-26 final; 2026-27 season-to-date BPM not used yet)",
+   "sha256": "8fec8554831ace7c0d623022f9d7b7835f90699e663d9f5d4e2ed2d478bed2c8",
+   "players": 581,
+   "as_of": "preseason",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1257,
+     "interval": [
+      0.0035,
+      1.0
+     ],
+     "rank": [
+      1,
+      11
+     ]
+    },
+    "winpct_r": {
+     "value": 0.3054,
+     "interval": [
+      -0.2005,
+      0.651
+     ],
+     "rank": [
+      3,
+      11
+     ]
+    },
+    "net_rmse": {
+     "value": 9.7397,
+     "interval": [
+      7.8252,
+      11.4253
+     ],
+     "rank": [
+      3,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "id": "xrapm",
+   "name": "xRAPM",
+   "maker": "Jeremias Engelmann",
+   "url": "https://xrapm.com/",
+   "ours": false,
+   "label": "carried",
+   "source": "xrapm.com still shows the 2025-26 final (metrics updated 2026-04-12)",
+   "sha256": "1af65024cd22eccad3379d60c349c8aaec123cef227173c3cbe3e4a73307c328",
+   "players": 582,
+   "as_of": "2026-04-12",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.0895,
+     "interval": [
+      0.0026,
+      1.0
+     ],
+     "rank": [
+      2,
+      11
+     ]
+    },
+    "winpct_r": {
+     "value": 0.3188,
+     "interval": [
+      -0.1833,
+      0.6604
+     ],
+     "rank": [
+      4,
+      11
+     ]
+    },
+    "net_rmse": {
+     "value": 10.3839,
+     "interval": [
+      8.2282,
+      12.3666
+     ],
+     "rank": [
+      5,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "id": "openrapm",
+   "name": "OpenRAPM",
+   "maker": "Nathan Walker",
+   "url": "https://github.com/bbstats/openrapm",
+   "ours": false,
+   "label": "pulled",
+   "source": "bbstats/openrapm ratings.json at 651fe8d (Daily update: 2027 through the games of 2026-10-30); 2026-27 value, else 2025-26",
+   "sha256": "35ca7fff58cc82565b0e5771a6587aa28b790a9c01a302a6c0832710ed645bcd",
+   "players": 590,
+   "as_of": "2026-10-31",
+   "coverage": 1.0,
+   "tests": {
+    "margin_r2": {
+     "value": 0.0144,
+     "interval": [
+      0.0004,
+      1.0
+     ],
+     "rank": [
+      1,
+      11
+     ]
+    },
+    "winpct_r": {
+     "value": 0.1481,
+     "interval": [
+      -0.3849,
+      0.609
+     ],
+     "rank": [
+      2,
+      11
+     ]
+    },
+    "net_rmse": {
+     "value": 9.889,
+     "interval": [
+      7.0695,
+      12.4231
+     ],
+     "rank": [
+      1,
+      11
+     ]
+    }
+   }
+  }
+ ],
+ "reference": [
+  {
+   "id": "ceiling_rapm_same_season",
+   "name": "Same-season RAPM (ceiling)",
+   "description": "Plain RAPM fit on this season's games so far: it has seen the games it is scored on.",
+   "tests": {
+    "margin_r2": {
+     "value": 0.7128,
+     "interval": [
+      0.5176,
+      1.0
+     ]
+    },
+    "winpct_r": {
+     "value": 0.5941,
+     "interval": [
+      0.2253,
+      0.8782
+     ]
+    },
+    "net_rmse": {
+     "value": 8.6908,
+     "interval": [
+      6.0481,
+      11.0666
+     ]
+    }
+   }
+  },
+  {
+   "id": "consensus",
+   "name": "Consensus of all metrics",
+   "description": "Each player's average across the ranked metrics that rate him (equal weights).",
+   "tests": {
+    "margin_r2": {
+     "value": 0.1738,
+     "interval": [
+      0.0037,
+      1.0
+     ]
+    },
+    "winpct_r": {
+     "value": 0.3923,
+     "interval": [
+      -0.0602,
+      0.7046
+     ]
+    },
+    "net_rmse": {
+     "value": 9.2928,
+     "interval": [
+      7.3863,
+      10.9549
+     ]
+    }
+   }
+  },
+  {
+   "id": "rapm_last_season",
+   "name": "Last season's RAPM, no prior",
+   "description": "Plain RAPM fit on 2025-26 only, carried forward.",
+   "tests": {
+    "margin_r2": {
+     "value": 0.1357,
+     "interval": [
+      0.0031,
+      1.0
+     ]
+    },
+    "winpct_r": {
+     "value": 0.2744,
+     "interval": [
+      -0.261,
+      0.6109
+     ]
+    },
+    "net_rmse": {
+     "value": 9.3779,
+     "interval": [
+      7.4574,
+      11.053
+     ]
+    }
+   }
+  },
+  {
+   "id": "baseline_last_team",
+   "name": "Last season's team (floor)",
+   "description": "Each player = his main team's opponent-adjusted margin last season / 5.",
+   "tests": {
+    "margin_r2": {
+     "value": 0.0272,
+     "interval": [
+      0.0006,
+      1.0
+     ]
+    },
+    "winpct_r": {
+     "value": 0.1294,
+     "interval": [
+      -0.4164,
+      0.5307
+     ]
+    },
+    "net_rmse": {
+     "value": 9.9804,
+     "interval": [
+      7.8128,
+      11.9487
+     ]
+    }
+   }
+  },
+  {
+   "id": "baseline_zero",
+   "name": "Everyone 0 (floor)",
+   "description": "Every player 0; only the -2.0 for low-minute players separates teams.",
+   "tests": {
+    "margin_r2": {
+     "value": 0.56,
+     "interval": [
+      0.2676,
+      1.0
+     ]
+    },
+    "winpct_r": {
+     "value": 0.3629,
+     "interval": [
+      -0.1031,
+      0.7109
+     ]
+    },
+    "net_rmse": {
+     "value": 9.4025,
+     "interval": [
+      6.857,
+      11.7161
+     ]
+    }
+   }
+  }
+ ],
+ "pairs": [
+  {
+   "test": "margin_r2",
+   "a": "arc",
+   "b": "bpm_bbref",
+   "diff": 0.1756,
+   "interval": [
+    -0.1487,
+    0.5983
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "arc",
+   "b": "danny",
+   "diff": 0.1588,
+   "interval": [
+    -0.0711,
+    0.2531
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "arc",
+   "b": "darko",
+   "diff": 0.0864,
+   "interval": [
+    -0.0599,
+    0.3265
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "arc",
+   "b": "epm",
+   "diff": 0.1677,
+   "interval": [
+    -0.0669,
+    0.5103
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "arc",
+   "b": "lebron",
+   "diff": 0.1158,
+   "interval": [
+    -0.2465,
+    0.3447
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "arc",
+   "b": "loki",
+   "diff": 0.0809,
+   "interval": [
+    -0.0505,
+    0.1464
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "arc",
+   "b": "openrapm",
+   "diff": 0.2869,
+   "interval": [
+    -0.2274,
+    0.7442
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "arc",
+   "b": "pulse",
+   "diff": 0.0124,
+   "interval": [
+    -0.1032,
+    0.3253
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "arc",
+   "b": "xpm",
+   "diff": 0.1576,
+   "interval": [
+    -0.216,
+    0.5033
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "arc",
+   "b": "xrapm",
+   "diff": 0.2118,
+   "interval": [
+    -0.0997,
+    0.5386
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "danny",
+   "diff": -0.0168,
+   "interval": [
+    -0.4627,
+    0.1688
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "darko",
+   "diff": -0.0892,
+   "interval": [
+    -0.5035,
+    0.1948
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "epm",
+   "diff": -0.0079,
+   "interval": [
+    -0.4525,
+    0.3033
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "lebron",
+   "diff": -0.0597,
+   "interval": [
+    -0.4739,
+    0.1588
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "loki",
+   "diff": -0.0947,
+   "interval": [
+    -0.5393,
+    0.1259
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "openrapm",
+   "diff": 0.1113,
+   "interval": [
+    -0.5999,
+    0.6327
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "pulse",
+   "diff": -0.1632,
+   "interval": [
+    -0.4739,
+    0.1422
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "xpm",
+   "diff": -0.018,
+   "interval": [
+    -0.35,
+    0.1827
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "xrapm",
+   "diff": 0.0362,
+   "interval": [
+    -0.1457,
+    0.1533
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "darko",
+   "diff": -0.0724,
+   "interval": [
+    -0.2022,
+    0.1457
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "epm",
+   "diff": 0.0088,
+   "interval": [
+    -0.1439,
+    0.3083
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "lebron",
+   "diff": -0.043,
+   "interval": [
+    -0.2695,
+    0.1519
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "loki",
+   "diff": -0.0779,
+   "interval": [
+    -0.1722,
+    0.0667
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "openrapm",
+   "diff": 0.1281,
+   "interval": [
+    -0.3259,
+    0.6827
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "pulse",
+   "diff": -0.1464,
+   "interval": [
+    -0.2757,
+    0.1776
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "xpm",
+   "diff": -0.0013,
+   "interval": [
+    -0.2395,
+    0.3194
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "xrapm",
+   "diff": 0.0529,
+   "interval": [
+    -0.096,
+    0.3615
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "darko",
+   "b": "epm",
+   "diff": 0.0813,
+   "interval": [
+    -0.0427,
+    0.2018
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "darko",
+   "b": "lebron",
+   "diff": 0.0295,
+   "interval": [
+    -0.4178,
+    0.2235
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "darko",
+   "b": "loki",
+   "diff": -0.0055,
+   "interval": [
+    -0.2879,
+    0.167
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "darko",
+   "b": "openrapm",
+   "diff": 0.2005,
+   "interval": [
+    -0.2016,
+    0.6027
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "darko",
+   "b": "pulse",
+   "diff": -0.074,
+   "interval": [
+    -0.1398,
+    0.0992
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "darko",
+   "b": "xpm",
+   "diff": 0.0712,
+   "interval": [
+    -0.3701,
+    0.3264
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "darko",
+   "b": "xrapm",
+   "diff": 0.1254,
+   "interval": [
+    -0.1336,
+    0.4021
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "epm",
+   "b": "lebron",
+   "diff": -0.0518,
+   "interval": [
+    -0.514,
+    0.1433
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "epm",
+   "b": "loki",
+   "diff": -0.0868,
+   "interval": [
+    -0.4747,
+    0.127
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "epm",
+   "b": "openrapm",
+   "diff": 0.1193,
+   "interval": [
+    -0.2173,
+    0.5273
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "epm",
+   "b": "pulse",
+   "diff": -0.1553,
+   "interval": [
+    -0.2529,
+    0.1061
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "epm",
+   "b": "xpm",
+   "diff": -0.0101,
+   "interval": [
+    -0.4496,
+    0.2216
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "epm",
+   "b": "xrapm",
+   "diff": 0.0441,
+   "interval": [
+    -0.1546,
+    0.3366
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "lebron",
+   "b": "loki",
+   "diff": -0.0349,
+   "interval": [
+    -0.2408,
+    0.2111
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "lebron",
+   "b": "openrapm",
+   "diff": 0.1711,
+   "interval": [
+    -0.289,
+    0.8345
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "lebron",
+   "b": "pulse",
+   "diff": -0.1034,
+   "interval": [
+    -0.2827,
+    0.3517
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "lebron",
+   "b": "xpm",
+   "diff": 0.0417,
+   "interval": [
+    -0.0341,
+    0.2103
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "lebron",
+   "b": "xrapm",
+   "diff": 0.0959,
+   "interval": [
+    -0.0687,
+    0.4575
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "loki",
+   "b": "openrapm",
+   "diff": 0.206,
+   "interval": [
+    -0.2981,
+    0.7418
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "loki",
+   "b": "pulse",
+   "diff": -0.0685,
+   "interval": [
+    -0.1937,
+    0.2487
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "loki",
+   "b": "xpm",
+   "diff": 0.0766,
+   "interval": [
+    -0.1858,
+    0.4
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "loki",
+   "b": "xrapm",
+   "diff": 0.1309,
+   "interval": [
+    -0.0726,
+    0.5097
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "openrapm",
+   "b": "pulse",
+   "diff": -0.2745,
+   "interval": [
+    -0.6732,
+    0.3239
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "openrapm",
+   "b": "xpm",
+   "diff": -0.1294,
+   "interval": [
+    -0.7949,
+    0.3484
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "openrapm",
+   "b": "xrapm",
+   "diff": -0.0752,
+   "interval": [
+    -0.5656,
+    0.5312
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "pulse",
+   "b": "xpm",
+   "diff": 0.1451,
+   "interval": [
+    -0.324,
+    0.3431
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "pulse",
+   "b": "xrapm",
+   "diff": 0.1994,
+   "interval": [
+    -0.1571,
+    0.4054
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "xpm",
+   "b": "xrapm",
+   "diff": 0.0542,
+   "interval": [
+    -0.0854,
+    0.3199
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "arc",
+   "b": "bpm_bbref",
+   "diff": 0.2152,
+   "interval": [
+    -0.018,
+    0.5468
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "arc",
+   "b": "danny",
+   "diff": 0.074,
+   "interval": [
+    -0.087,
+    0.2586
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "arc",
+   "b": "darko",
+   "diff": 0.1637,
+   "interval": [
+    -0.0091,
+    0.3733
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "arc",
+   "b": "epm",
+   "diff": 0.1777,
+   "interval": [
+    0.0027,
+    0.4563
+   ],
+   "separated": true
+  },
+  {
+   "test": "winpct_r",
+   "a": "arc",
+   "b": "lebron",
+   "diff": 0.1177,
+   "interval": [
+    -0.1142,
+    0.3871
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "arc",
+   "b": "loki",
+   "diff": 0.0845,
+   "interval": [
+    -0.0084,
+    0.1931
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "arc",
+   "b": "openrapm",
+   "diff": 0.3724,
+   "interval": [
+    -0.0033,
+    0.7936
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "arc",
+   "b": "pulse",
+   "diff": 0.0942,
+   "interval": [
+    -0.0409,
+    0.269
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "arc",
+   "b": "xpm",
+   "diff": 0.1479,
+   "interval": [
+    0.0331,
+    0.3576
+   ],
+   "separated": true
+  },
+  {
+   "test": "winpct_r",
+   "a": "arc",
+   "b": "xrapm",
+   "diff": 0.2017,
+   "interval": [
+    0.0115,
+    0.4765
+   ],
+   "separated": true
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "danny",
+   "diff": -0.1413,
+   "interval": [
+    -0.3538,
+    0.0
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "darko",
+   "diff": -0.0515,
+   "interval": [
+    -0.3168,
+    0.1619
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "epm",
+   "diff": -0.0376,
+   "interval": [
+    -0.2917,
+    0.187
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "lebron",
+   "diff": -0.0975,
+   "interval": [
+    -0.2639,
+    0.0382
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "loki",
+   "diff": -0.1307,
+   "interval": [
+    -0.4159,
+    0.0629
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "openrapm",
+   "diff": 0.1572,
+   "interval": [
+    -0.248,
+    0.5354
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "pulse",
+   "diff": -0.121,
+   "interval": [
+    -0.3524,
+    0.0739
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "xpm",
+   "diff": -0.0673,
+   "interval": [
+    -0.3105,
+    0.1763
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "xrapm",
+   "diff": -0.0135,
+   "interval": [
+    -0.1738,
+    0.143
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "darko",
+   "diff": 0.0898,
+   "interval": [
+    -0.0395,
+    0.258
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "epm",
+   "diff": 0.1037,
+   "interval": [
+    -0.0183,
+    0.2897
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "lebron",
+   "diff": 0.0437,
+   "interval": [
+    -0.0786,
+    0.1762
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "loki",
+   "diff": 0.0106,
+   "interval": [
+    -0.1452,
+    0.1682
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "openrapm",
+   "diff": 0.2985,
+   "interval": [
+    -0.0223,
+    0.672
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "pulse",
+   "diff": 0.0202,
+   "interval": [
+    -0.0807,
+    0.1395
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "xpm",
+   "diff": 0.074,
+   "interval": [
+    -0.0877,
+    0.3149
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "xrapm",
+   "diff": 0.1278,
+   "interval": [
+    0.0073,
+    0.2863
+   ],
+   "separated": true
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "epm",
+   "diff": 0.0139,
+   "interval": [
+    -0.1131,
+    0.1527
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "lebron",
+   "diff": -0.046,
+   "interval": [
+    -0.2329,
+    0.1451
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "loki",
+   "diff": -0.0792,
+   "interval": [
+    -0.2651,
+    0.0689
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "openrapm",
+   "diff": 0.2087,
+   "interval": [
+    -0.0692,
+    0.4809
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "pulse",
+   "diff": -0.0696,
+   "interval": [
+    -0.191,
+    0.0448
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "xpm",
+   "diff": -0.0158,
+   "interval": [
+    -0.1986,
+    0.1951
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "xrapm",
+   "diff": 0.038,
+   "interval": [
+    -0.164,
+    0.2598
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "lebron",
+   "diff": -0.06,
+   "interval": [
+    -0.2888,
+    0.1463
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "loki",
+   "diff": -0.0931,
+   "interval": [
+    -0.3476,
+    0.0979
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "openrapm",
+   "diff": 0.1948,
+   "interval": [
+    -0.0901,
+    0.4673
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "pulse",
+   "diff": -0.0835,
+   "interval": [
+    -0.2309,
+    0.0425
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "xpm",
+   "diff": -0.0297,
+   "interval": [
+    -0.2522,
+    0.1635
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "xrapm",
+   "diff": 0.0241,
+   "interval": [
+    -0.1607,
+    0.2126
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "loki",
+   "diff": -0.0332,
+   "interval": [
+    -0.2656,
+    0.1705
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "openrapm",
+   "diff": 0.2547,
+   "interval": [
+    -0.0774,
+    0.6269
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "pulse",
+   "diff": -0.0235,
+   "interval": [
+    -0.2014,
+    0.1627
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "xpm",
+   "diff": 0.0302,
+   "interval": [
+    -0.1698,
+    0.2953
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "xrapm",
+   "diff": 0.084,
+   "interval": [
+    -0.0885,
+    0.2991
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "loki",
+   "b": "openrapm",
+   "diff": 0.2879,
+   "interval": [
+    -0.1198,
+    0.7141
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "loki",
+   "b": "pulse",
+   "diff": 0.0096,
+   "interval": [
+    -0.1215,
+    0.1705
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "loki",
+   "b": "xpm",
+   "diff": 0.0634,
+   "interval": [
+    -0.0812,
+    0.259
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "loki",
+   "b": "xrapm",
+   "diff": 0.1172,
+   "interval": [
+    -0.0347,
+    0.3361
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "openrapm",
+   "b": "pulse",
+   "diff": -0.2782,
+   "interval": [
+    -0.6135,
+    0.0654
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "openrapm",
+   "b": "xpm",
+   "diff": -0.2245,
+   "interval": [
+    -0.5776,
+    0.1595
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "openrapm",
+   "b": "xrapm",
+   "diff": -0.1707,
+   "interval": [
+    -0.5631,
+    0.2305
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "pulse",
+   "b": "xpm",
+   "diff": 0.0537,
+   "interval": [
+    -0.1071,
+    0.2366
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "pulse",
+   "b": "xrapm",
+   "diff": 0.1076,
+   "interval": [
+    -0.0446,
+    0.2704
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "xpm",
+   "b": "xrapm",
+   "diff": 0.0538,
+   "interval": [
+    -0.1471,
+    0.2445
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "arc",
+   "b": "bpm_bbref",
+   "diff": -0.4896,
+   "interval": [
+    -1.8526,
+    0.7687
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "arc",
+   "b": "danny",
+   "diff": -0.3034,
+   "interval": [
+    -1.356,
+    0.6327
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "arc",
+   "b": "darko",
+   "diff": 0.0042,
+   "interval": [
+    -1.6136,
+    1.4522
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "arc",
+   "b": "epm",
+   "diff": -0.4107,
+   "interval": [
+    -2.3637,
+    1.3833
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "arc",
+   "b": "lebron",
+   "diff": 0.1734,
+   "interval": [
+    -1.6457,
+    1.807
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "arc",
+   "b": "loki",
+   "diff": -0.0827,
+   "interval": [
+    -0.7158,
+    0.4916
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "arc",
+   "b": "openrapm",
+   "diff": -0.6388,
+   "interval": [
+    -3.0647,
+    1.908
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "arc",
+   "b": "pulse",
+   "diff": 0.3621,
+   "interval": [
+    -1.0181,
+    1.6276
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "arc",
+   "b": "xpm",
+   "diff": -0.1509,
+   "interval": [
+    -1.0953,
+    0.6626
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "arc",
+   "b": "xrapm",
+   "diff": -1.1338,
+   "interval": [
+    -2.6831,
+    0.5379
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "danny",
+   "diff": 0.1862,
+   "interval": [
+    -0.491,
+    0.8836
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "darko",
+   "diff": 0.4937,
+   "interval": [
+    -0.482,
+    1.6058
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "epm",
+   "diff": 0.0788,
+   "interval": [
+    -1.023,
+    1.2742
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "lebron",
+   "diff": 0.663,
+   "interval": [
+    -0.2359,
+    1.6147
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "loki",
+   "diff": 0.4068,
+   "interval": [
+    -0.4788,
+    1.3931
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "openrapm",
+   "diff": -0.1493,
+   "interval": [
+    -2.0683,
+    2.0746
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "pulse",
+   "diff": 0.8517,
+   "interval": [
+    -0.1524,
+    1.768
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "xpm",
+   "diff": 0.3386,
+   "interval": [
+    -0.7351,
+    1.3246
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "xrapm",
+   "diff": -0.6442,
+   "interval": [
+    -1.5163,
+    0.2991
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "danny",
+   "b": "darko",
+   "diff": 0.3076,
+   "interval": [
+    -0.6096,
+    1.4065
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "danny",
+   "b": "epm",
+   "diff": -0.1073,
+   "interval": [
+    -1.1218,
+    0.9163
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "danny",
+   "b": "lebron",
+   "diff": 0.4768,
+   "interval": [
+    -0.6229,
+    1.6065
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "danny",
+   "b": "loki",
+   "diff": 0.2207,
+   "interval": [
+    -0.5078,
+    1.0206
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "danny",
+   "b": "openrapm",
+   "diff": -0.3354,
+   "interval": [
+    -2.1357,
+    1.8996
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "danny",
+   "b": "pulse",
+   "diff": 0.6655,
+   "interval": [
+    -0.0976,
+    1.5153
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "danny",
+   "b": "xpm",
+   "diff": 0.1525,
+   "interval": [
+    -0.5459,
+    0.8307
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "danny",
+   "b": "xrapm",
+   "diff": -0.8304,
+   "interval": [
+    -1.6575,
+    0.1051
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "darko",
+   "b": "epm",
+   "diff": -0.4149,
+   "interval": [
+    -1.4145,
+    0.4558
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "darko",
+   "b": "lebron",
+   "diff": 0.1693,
+   "interval": [
+    -0.3892,
+    0.6654
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "darko",
+   "b": "loki",
+   "diff": -0.0869,
+   "interval": [
+    -1.2418,
+    1.0694
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "darko",
+   "b": "openrapm",
+   "diff": -0.643,
+   "interval": [
+    -1.7669,
+    0.6998
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "darko",
+   "b": "pulse",
+   "diff": 0.3579,
+   "interval": [
+    -0.2224,
+    0.9012
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "darko",
+   "b": "xpm",
+   "diff": -0.1551,
+   "interval": [
+    -1.095,
+    0.747
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "darko",
+   "b": "xrapm",
+   "diff": -1.138,
+   "interval": [
+    -2.7423,
+    0.3108
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "epm",
+   "b": "lebron",
+   "diff": 0.5842,
+   "interval": [
+    -0.3918,
+    1.6015
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "epm",
+   "b": "loki",
+   "diff": 0.328,
+   "interval": [
+    -1.2161,
+    1.9064
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "epm",
+   "b": "openrapm",
+   "diff": -0.2281,
+   "interval": [
+    -1.7142,
+    1.5596
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "epm",
+   "b": "pulse",
+   "diff": 0.7728,
+   "interval": [
+    -0.1226,
+    1.7291
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "epm",
+   "b": "xpm",
+   "diff": 0.2598,
+   "interval": [
+    -1.0085,
+    1.6202
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "epm",
+   "b": "xrapm",
+   "diff": -0.7231,
+   "interval": [
+    -2.0245,
+    0.461
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "lebron",
+   "b": "loki",
+   "diff": -0.2562,
+   "interval": [
+    -1.5433,
+    1.1155
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "lebron",
+   "b": "openrapm",
+   "diff": -0.8123,
+   "interval": [
+    -2.0474,
+    0.6159
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "lebron",
+   "b": "pulse",
+   "diff": 0.1887,
+   "interval": [
+    -0.6288,
+    1.0038
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "lebron",
+   "b": "xpm",
+   "diff": -0.3244,
+   "interval": [
+    -1.3668,
+    0.7807
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "lebron",
+   "b": "xrapm",
+   "diff": -1.3072,
+   "interval": [
+    -2.9056,
+    0.2105
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "loki",
+   "b": "openrapm",
+   "diff": -0.5561,
+   "interval": [
+    -2.6549,
+    1.8718
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "loki",
+   "b": "pulse",
+   "diff": 0.4448,
+   "interval": [
+    -0.5252,
+    1.3776
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "loki",
+   "b": "xpm",
+   "diff": -0.0682,
+   "interval": [
+    -0.827,
+    0.6347
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "loki",
+   "b": "xrapm",
+   "diff": -1.0511,
+   "interval": [
+    -2.3166,
+    0.2805
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "openrapm",
+   "b": "pulse",
+   "diff": 1.001,
+   "interval": [
+    -0.7486,
+    2.3841
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "openrapm",
+   "b": "xpm",
+   "diff": 0.4879,
+   "interval": [
+    -1.4485,
+    2.0662
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "openrapm",
+   "b": "xrapm",
+   "diff": -0.4949,
+   "interval": [
+    -3.1918,
+    1.7264
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "pulse",
+   "b": "xpm",
+   "diff": -0.513,
+   "interval": [
+    -1.2412,
+    0.1913
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "pulse",
+   "b": "xrapm",
+   "diff": -1.4959,
+   "interval": [
+    -2.7567,
+    -0.2583
+   ],
+   "separated": true
+  },
+  {
+   "test": "net_rmse",
+   "a": "xpm",
+   "b": "xrapm",
+   "diff": -0.9829,
+   "interval": [
+    -2.3088,
+    0.4309
+   ],
+   "separated": false
+  }
+ ]
+}
