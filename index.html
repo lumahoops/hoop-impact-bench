@@ -55,7 +55,8 @@ function liveTable(d) {
   const net = d.net_error_shown;
   let h = '<p>' + esc(d.title) + '</p>';
   h += '<p>' + d.games + ' games, ' + d.first_game + ' to ' + d.scored_through + ' · updated ' + d.updated_utc.slice(0, 16).replace('T', ' ') + ' UTC'
-    + ((d.snapshot.excluded_games || []).length ? ' · ' + d.snapshot.excluded_games.length + ' games left off (a metric had no value saved before tip-off)' : '') + '</p>';
+    + ((d.snapshot.excluded_games || []).length ? ' · ' + d.snapshot.excluded_games.length + (d.snapshot.excluded_games.length === 1 ? ' game' : ' games')
+      + ' left off (it tipped off before every metric\'s value for that day was saved)' : '') + '</p>';
   h += '<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th><th class="l">label</th></tr>';
   for (const m of d.metrics) {
     const t = m.tests;
