@@ -14,8 +14,11 @@ test of how well an impact metric measures a player's per-100-possession value. 
 season prior and measures how well they predict the following season's games. Each metric is scored on the same 7,230
 games under the same rules and tests.
 
+**2026-27 leaderboards**, updated every morning: [lumahoops.org/bench](https://lumahoops.org/bench) (games, players and how each predicted margin adds up) and the [plain version](https://lumahoops.github.io/hoop-impact-bench/) (every board on one page, with the data files). Rules: [live/PROTOCOL.md](live/PROTOCOL.md).
+
 ## News
 
+- 2026-11-01: the live 2026-27 track. The preseason board computes every 2026-27 game using each metric's ratings from before opening night; the dynamic board uses each metric's ratings as published on the morning of each game day.
 - 2026-10-30: version 1.1.0 adds a reference row, last season's plain RAPM (no prior), after a reader asked how raw
   RAPM carries forward. No ranked score changed.
 - 2026-10-29: version 1.0.0 and the first results, nine public metrics over the 2020-21 to 2025-26 seasons.
