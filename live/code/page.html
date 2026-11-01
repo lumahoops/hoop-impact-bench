@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoop Impact Bench: NBA impact metrics tested on games they never saw</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<style>
+  /* light: off-white; dark: grey. Follows the system setting; the [light/dark] link overrides it (remembered). */
+  :root { --bg: #f6f4ee; --fg: #1b1b1b; --muted: #5a5a5a; --line: #a8a49a; --head: #e8e5dc; --link: #1a3fd1; --seen: #5b2a8c; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #2e2e2e; --fg: #e4e4e4; --muted: #a8a8a8; --line: #5c5c5c; --head: #3a3a3a; --link: #8fb3ff; --seen: #c3a6ff; }
+  }
+  :root[data-theme="dark"] { --bg: #2e2e2e; --fg: #e4e4e4; --muted: #a8a8a8; --line: #5c5c5c; --head: #3a3a3a; --link: #8fb3ff; --seen: #c3a6ff; }
+  body { font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; max-width: 860px; margin: 24px auto; padding: 0 12px; color: var(--fg); background: var(--bg); }
+  h1 { font-size: 18px; margin: 0; }
+  h2 { font-size: 15px; margin: 16px 0 4px; }
+  h3 { font-size: 14px; margin: 16px 0 4px; }
+  a { color: var(--link); } a:visited { color: var(--seen); }
+  .tabs a { margin-right: 12px; } .tabs a.on { color: var(--fg); font-weight: bold; text-decoration: none; }
+  #theme { float: right; font-size: 12px; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+  th, td { border: 1px solid var(--line); padding: 2px 6px; text-align: right; white-space: nowrap; }
+  th { background: var(--head); font-weight: normal; }
+  td.l, th.l { text-align: left; white-space: normal; }
+  tr.ref td { font-style: italic; color: var(--muted); }
+  small, .d { color: var(--muted); }
+  hr { border: 0; border-top: 1px solid var(--line); }
+  .js section.board { display: none; } .js section.board.on { display: block; }
+  @media (max-width: 600px) { .wide { overflow-x: auto; } }
+</style>
+<script>
+  // tabs only with JavaScript (without it every board shows, one after another); saved theme applied before drawing
+  document.documentElement.classList.add('js');
+  try { const t = localStorage.getItem('hib-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<!-- Written by live/code/render_page.py from live/results/ and launch/ each morning; edit live/code/page.html, not this file. -->
+<a href="#" id="theme"></a>
+<h1>Hoop Impact Bench</h1>
+<p>Do last season's impact-metric ratings predict this season's NBA games?</p>
+<p class="tabs"><a href="#live">2026-27 preseason</a> <a href="#daily">2026-27 dynamic</a> <a href="#retro">Retro 2020-21 to 2025-26</a></p>
+<hr>
+{{BOARDS}}
+<hr>
+<p><small>
+  <a href="https://github.com/lumahoops/hoop-impact-bench">repository</a> ·
+  <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/live/PROTOCOL.md">live protocol</a> ·
+  <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/launch/provenance.csv">provenance</a> ·
+  <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/live/code/reproduce.py">reproduce</a> ·
+  maintained by <a href="https://lumahoops.org">LUMA Basketball Research</a> († = LUMA's own) · code MIT, data CC BY 4.0
+</small></p>
+<script>
+const tabs = document.querySelectorAll('.tabs a'), boards = document.querySelectorAll('section.board');
+function show() {
+  const tab = ['live', 'daily', 'retro'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'live';
+  tabs.forEach((a) => a.className = a.getAttribute('href') === '#' + tab ? 'on' : '');
+  boards.forEach((s) => s.classList.toggle('on', s.dataset.tab === tab));
+}
+addEventListener('hashchange', show);
+show();
+const themeLink = document.getElementById('theme');
+const isDark = () => (document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
+const label = () => { themeLink.textContent = isDark() ? '[light]' : '[dark]'; };
+themeLink.onclick = (e) => {
+  e.preventDefault();
+  const t = isDark() ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem('hib-theme', t); } catch (err) {}
+  label();
+};
+label();
+</script>
+</body>
+</html>

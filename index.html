@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hoop Impact Bench</title>
-<meta name="description" content="An open benchmark for NBA impact metrics: do last season's ratings predict this season's games?">
+<title>Hoop Impact Bench: NBA impact metrics tested on games they never saw</title>
+<meta name="description" content="Open benchmark for NBA impact metrics (EPM, DARKO, LEBRON, BPM, xRAPM, OpenRAPM, LOKI and more): each metric&#x27;s saved ratings scored on 2026-27 games they never saw; preseason board after 88 games: xPM .201, EPM projection (Danny Harlan) .184, DARKO .181.">
 <style>
   /* light: off-white; dark: grey. Follows the system setting; the [light/dark] link overrides it (remembered). */
   :root { --bg: #f6f4ee; --fg: #1b1b1b; --muted: #5a5a5a; --line: #a8a49a; --head: #e8e5dc; --link: #1a3fd1; --seen: #5b2a8c; }
@@ -14,6 +14,8 @@
   :root[data-theme="dark"] { --bg: #2e2e2e; --fg: #e4e4e4; --muted: #a8a8a8; --line: #5c5c5c; --head: #3a3a3a; --link: #8fb3ff; --seen: #c3a6ff; }
   body { font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; max-width: 860px; margin: 24px auto; padding: 0 12px; color: var(--fg); background: var(--bg); }
   h1 { font-size: 18px; margin: 0; }
+  h2 { font-size: 15px; margin: 16px 0 4px; }
+  h3 { font-size: 14px; margin: 16px 0 4px; }
   a { color: var(--link); } a:visited { color: var(--seen); }
   .tabs a { margin-right: 12px; } .tabs a.on { color: var(--fg); font-weight: bold; text-decoration: none; }
   #theme { float: right; font-size: 12px; }
@@ -24,20 +26,112 @@
   tr.ref td { font-style: italic; color: var(--muted); }
   small, .d { color: var(--muted); }
   hr { border: 0; border-top: 1px solid var(--line); }
+  .js section.board { display: none; } .js section.board.on { display: block; }
   @media (max-width: 600px) { .wide { overflow-x: auto; } }
 </style>
 <script>
-  // apply a saved choice before the page draws, so it does not flash
+  // tabs only with JavaScript (without it every board shows, one after another); saved theme applied before drawing
+  document.documentElement.classList.add('js');
   try { const t = localStorage.getItem('hib-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
 </script>
 </head>
 <body>
+<!-- Written by live/code/render_page.py from live/results/ and launch/ each morning; edit live/code/page.html, not this file. -->
 <a href="#" id="theme"></a>
 <h1>Hoop Impact Bench</h1>
 <p>Do last season's impact-metric ratings predict this season's NBA games?</p>
 <p class="tabs"><a href="#live">2026-27 preseason</a> <a href="#daily">2026-27 dynamic</a> <a href="#retro">Retro 2020-21 to 2025-26</a></p>
 <hr>
-<div id="out">Loading...</div>
+<section class="board" data-tab="live" id="live-board">
+<h2>2026-27 preseason board</h2>
+<p>Preseason board: each metric&#x27;s rating saved before opening night (2026-10-20), never updated</p>
+<p>88 games, 2026-10-20 to 2026-10-31 · updated 2026-11-01 12:00 UTC</p>
+<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th><th class="l">label</th></tr>
+<tr><td>1-5</td><td class="l"><a href="https://vorp.app">xPM</a> <small>George Berry, VORP.app</small></td><td>.201 <small>(.122-.292)</small></td><td>.558</td><td>-</td><td class="l" title="VORP.app xPM v1.2 preseason forecast, made 2026-10-12, published 2026-10-13 (georgeberry.substack.com/p/the-big-vorpapp-2026-27-nba-player); file from George Berry 2026-10-31, shifted by him to above average (xpm - 2.166)">archived</td></tr>
+<tr><td>1-5</td><td class="l"><a href="https://github.com/dannyharlan05/nba-epm-projections">EPM projection (Danny Harlan)</a></td><td>.184 <small>(.107-.277)</small></td><td>.584</td><td>-</td><td class="l" title="Danny Harlan&#x27;s EPM projection model (github.com/dannyharlan05/nba-epm-projections), pred_epm_1y from artifacts/predictions.parquet at commit 97c0817, pushed 2026-10-20 17:03 UTC (GitHub push event), before opening night">archived</td></tr>
+<tr><td>1-8</td><td class="l"><a href="https://www.darko.app/">DARKO</a> <small>Kostya Medvedovsky</small></td><td>.181 <small>(.093-.288)</small></td><td>.520</td><td>-</td><td class="l" title="darko.app date view as of 2026-10-19 (day before opening night), pulled 2026-10-31; DARKO revises past dates">backfill</td></tr>
+<tr><td>1-9</td><td class="l"><a href="https://lumahoops.org">LOKI</a> † <small>LUMA Basketball Research</small></td><td>.170 <small>(.085-.280)</small></td><td>.546</td><td>-</td><td class="l" title="LOKI v3.3 2026-27 preseason board, frozen 2026-10-12, release sha256 a1f9bad8...">archived</td></tr>
+<tr><td>2-10</td><td class="l"><a href="https://dunksandthrees.com/epm">EPM</a> <small>Taylor Snarr, Dunks &amp; Threes</small></td><td>.156 <small>(.080-.254)</small></td><td>.553</td><td>-</td><td class="l" title="dunksandthrees.com date view as of each team&#x27;s first game (pulled 2026-10-29)">backfill</td></tr>
+<tr><td>3-10</td><td class="l"><a href="https://www.basketball-reference.com/">BPM (Basketball-Reference)</a> <small>Daniel Myers / Basketball-Reference</small></td><td>.152 <small>(.080-.239)</small></td><td>.594</td><td>-</td><td class="l" title="Basketball-Reference 2025-26 Advanced table, Wayback capture 2026-10-08 (web.archive.org/web/20261008065049/https://www.basketball-reference.com/leagues/NBA_2026_advanced.html), via tools/from_bbref.py">archived</td></tr>
+<tr><td>3-10</td><td class="l"><a href="https://courtsignal.net/ratings">Pulse</a> <small>CourtSignal</small></td><td>.151 <small>(.075-.244)</small></td><td>.544</td><td>-</td><td class="l" title="CourtSignal Season PULSE 2025-26 (courtshare.net/data/leaderboard-2026.json, pulse_net); our copy saved 2026-10-25, identical on 2026-10-31">backfill</td></tr>
+<tr><td>3-10</td><td class="l"><a href="https://xrapm.com/">xRAPM</a> <small>Jeremias Engelmann</small></td><td>.149 <small>(.075-.243)</small></td><td>.551</td><td>-</td><td class="l" title="xrapm.com 2025-26 final (metrics updated 2026-04-12), Wayback capture web.archive.org/web/20260925005234/https://xrapm.com/">archived</td></tr>
+<tr><td>3-10</td><td class="l"><a href="https://github.com/bbstats/openrapm">OpenRAPM</a> <small>Nathan Walker</small></td><td>.149 <small>(.080-.232)</small></td><td>.537</td><td>-</td><td class="l" title="bbstats/openrapm docs/data/ratings.json at commit 8dc207b (2026-10-19 18:50 UTC, last before opening night), 2025-26 total">archived</td></tr>
+<tr><td>6-10</td><td class="l"><a href="https://www.bball-index.com/lebron-database/">LEBRON</a> <small>BBall Index</small></td><td>.134 <small>(.060-.222)</small></td><td>.539</td><td>-</td><td class="l" title="BBall Index LEBRON database export saved by us 2026-10-03 (before opening night), 2025-26 final; no Wayback copy of the data">saved</td></tr>
+<tr class="ref"><td></td><td class="l" title="Plain RAPM fit on this season&#x27;s games so far: it has seen the games it is scored on.">Same-season RAPM (ceiling)</td><td>.361 <small>(.262-.457)</small></td><td>.690</td><td>-</td><td></td></tr>
+<tr class="ref"><td></td><td class="l" title="Each player&#x27;s average across the ranked metrics that rate him (equal weights).">Consensus of all metrics</td><td>.172 <small>(.093-.265)</small></td><td>.570</td><td>-</td><td></td></tr>
+<tr class="ref"><td></td><td class="l" title="Plain RAPM fit on 2025-26 only, carried forward.">Last season&#x27;s RAPM, no prior</td><td>.144 <small>(.063-.251)</small></td><td>.463</td><td>-</td><td></td></tr>
+<tr class="ref"><td></td><td class="l" title="Each player = his main team&#x27;s opponent-adjusted margin last season / 5.">Last season&#x27;s team (floor)</td><td>.128 <small>(.050-.235)</small></td><td>.469</td><td>-</td><td></td></tr>
+<tr class="ref"><td></td><td class="l" title="Every player 0; only the -2.0 for low-minute players separates teams.">Everyone 0 (floor)</td><td>.069 <small>(.013-.165)</small></td><td>.117</td><td>-</td><td></td></tr>
+</table></div>
+<p class="d">Rule: under 250 minutes last season (rookies included) or not rated = -2. Rank is the range of places in the middle 90% of 2000 resamples: overlapping ranges are not separated yet. Net error: hidden until every team has played 20 games. Italic rows are references, not ranked.</p>
+<p class="d">Labels: <b>archived</b> published before the games, with proof (dated public record or release fingerprint); <b>saved</b> saved by us before the games, no public record of the date; <b>backfill</b> taken later from the site&#x27;s own view of that date (the site&#x27;s current model).</p>
+<p class="d">Files: <a href="live/results/frozen.json">frozen.json</a>, <a href="live/results/frozen_games.csv">per game</a>, <a href="live/results/frozen_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 cfde3f922e88...).</p>
+</section>
+<section class="board" data-tab="daily" id="daily-board">
+<h2>2026-27 dynamic board</h2>
+<p>Dynamic board: each game scored with every metric&#x27;s rating exactly as published that morning, saved before tip-off (season-to-date ratings as published; metrics that publish nothing newer carry their latest value)</p>
+<p>6 games, 2026-10-31 to 2026-10-31 · updated 2026-11-01 12:00 UTC · 1 game left off (it tipped off before every metric's value for that day was saved)</p>
+<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th><th class="l">label</th></tr>
+<tr><td>1-9</td><td class="l"><a href="https://lumahoops.org">ARC Live</a> † <small>LUMA Basketball Research</small></td><td>.423 <small>(.032-1.000)</small></td><td>.562</td><td>-</td><td class="l" title="lumahoops.org ARC Live (arc-live/2027/2026-10-25.json)">pulled</td></tr>
+<tr><td>1-11</td><td class="l"><a href="https://courtsignal.net/ratings">Pulse</a> <small>CourtSignal</small></td><td>.379 <small>(.009-1.000)</small></td><td>.468</td><td>-</td><td class="l" title="courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-10-31">pulled</td></tr>
+<tr><td>1-10</td><td class="l"><a href="https://www.darko.app/">DARKO</a> <small>Kostya Medvedovsky</small></td><td>.318 <small>(.011-1.000)</small></td><td>.390</td><td>-</td><td class="l" title="darko.app as of 2026-11-01 (data through 2026-10-30)">pulled</td></tr>
+<tr><td>2-9</td><td class="l"><a href="https://lumahoops.org">LOKI</a> † <small>LUMA Basketball Research</small></td><td>.221 <small>(.011-1.000)</small></td><td>.430</td><td>-</td><td class="l" title="LOKI R1 (frozen preseason board); no weekly solve yet">carried</td></tr>
+<tr><td>1-10</td><td class="l"><a href="https://www.bball-index.com/lebron-database/">LEBRON</a> <small>BBall Index</small></td><td>.198 <small>(.006-1.000)</small></td><td>.410</td><td>-</td><td class="l" title="no 2026-27 LEBRON published yet; 2025-26 final (export saved 2026-10-03)">carried</td></tr>
+<tr><td>2-11</td><td class="l"><a href="https://dunksandthrees.com/epm">EPM</a> <small>Taylor Snarr, Dunks &amp; Threes</small></td><td>.177 <small>(.005-1.000)</small></td><td>.371</td><td>-</td><td class="l" title="dunksandthrees.com/epm (current expected EPM, Aayo&#x27;s subscription)">pulled</td></tr>
+<tr><td>2-10</td><td class="l"><a href="https://vorp.app">xPM</a> <small>George Berry, VORP.app</small></td><td>.151 <small>(.004-1.000)</small></td><td>.342</td><td>-</td><td class="l" title="preseason value (VORP.app publishes a preseason forecast only)">carried</td></tr>
+<tr><td>2-11</td><td class="l"><a href="https://www.basketball-reference.com/">BPM (Basketball-Reference)</a> <small>Daniel Myers / Basketball-Reference</small></td><td>.133 <small>(.004-1.000)</small></td><td>.307</td><td>-</td><td class="l" title="preseason value (2025-26 final; 2026-27 season-to-date BPM not used yet)">carried</td></tr>
+<tr><td>2-10</td><td class="l"><a href="https://github.com/dannyharlan05/nba-epm-projections">EPM projection (Danny Harlan)</a></td><td>.121 <small>(.004-1.000)</small></td><td>.423</td><td>-</td><td class="l" title="preseason value (Danny&#x27;s preseason projection; in-season updates not yet included)">carried</td></tr>
+<tr><td>2-11</td><td class="l"><a href="https://xrapm.com/">xRAPM</a> <small>Jeremias Engelmann</small></td><td>.071 <small>(.001-1.000)</small></td><td>.301</td><td>-</td><td class="l" title="xrapm.com still shows the 2025-26 final (metrics updated 2026-04-12)">carried</td></tr>
+<tr><td>2-11</td><td class="l"><a href="https://github.com/bbstats/openrapm">OpenRAPM</a> <small>Nathan Walker</small></td><td>.000 <small>(.000-1.000)</small></td><td>.070</td><td>-</td><td class="l" title="bbstats/openrapm ratings.json at 651fe8d (Daily update: 2027 through the games of 2026-10-30); 2026-27 value, else 2025-26">pulled</td></tr>
+<tr class="ref"><td></td><td class="l" title="Plain RAPM fit on this season&#x27;s games so far: it has seen the games it is scored on.">Same-season RAPM (ceiling)</td><td>.766 <small>(.656-1.000)</small></td><td>.623</td><td>-</td><td></td></tr>
+<tr class="ref"><td></td><td class="l" title="Each player&#x27;s average across the ranked metrics that rate him (equal weights).">Consensus of all metrics</td><td>.228 <small>(.008-1.000)</small></td><td>.416</td><td>-</td><td></td></tr>
+<tr class="ref"><td></td><td class="l" title="Plain RAPM fit on 2025-26 only, carried forward.">Last season&#x27;s RAPM, no prior</td><td>.173 <small>(.003-1.000)</small></td><td>.301</td><td>-</td><td></td></tr>
+<tr class="ref"><td></td><td class="l" title="Each player = his main team&#x27;s opponent-adjusted margin last season / 5.">Last season&#x27;s team (floor)</td><td>.053 <small>(.001-1.000)</small></td><td>.165</td><td>-</td><td></td></tr>
+<tr class="ref"><td></td><td class="l" title="Every player 0; only the -2.0 for low-minute players separates teams.">Everyone 0 (floor)</td><td>.000 <small>(.000-.000)</small></td><td>.000</td><td>-</td><td></td></tr>
+</table></div>
+<p class="d">Rule: every player at the metric's own value; a player the metric does not rate = -2. Rank is the range of places in the middle 90% of 2000 resamples: overlapping ranges are not separated yet. Net error: hidden until every team has played 20 games. Italic rows are references, not ranked.</p>
+<p class="d">Labels: <b>pulled</b> fetched from the maker&#x27;s site that morning and fingerprinted before the games; <b>carried</b> the metric published nothing newer, so its latest saved value was reused; <b>empty</b> the pull failed all morning; that day&#x27;s games are left off the board for every metric.</p>
+<p class="d">Files: <a href="live/results/daily.json">daily.json</a>, <a href="live/results/daily_games.csv">per game</a>, <a href="live/results/daily_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 cfde3f922e88...).</p>
+</section>
+<section class="board" data-tab="retro" id="retro-board">
+<h2>Retro: 2020-21 to 2025-26</h2>
+<p>Each season's preseason ratings, scored on that season's games: 7,230 games, 180 team-seasons, 2020-21 to 2025-26. HIB v1.1.0.</p>
+<h3>Established players</h3>
+<p class="d">Under 250 minutes the season before, rookies included: -2.0 for every metric.</p>
+<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th></tr>
+<tr><td>1-2</td><td class="l">Pulse</td><td>.171 <small>(.154-.187)</small></td><td>.800</td><td>3.13</td></tr>
+<tr><td>1-2</td><td class="l">LOKI †</td><td>.170 <small>(.152-.186)</small></td><td>.805</td><td>3.08</td></tr>
+<tr><td>3-5</td><td class="l">OpenRAPM</td><td>.162 <small>(.146-.178)</small></td><td>.786</td><td>3.39</td></tr>
+<tr><td>3-6</td><td class="l">xRAPM</td><td>.161 <small>(.144-.177)</small></td><td>.772</td><td>3.48</td></tr>
+<tr><td>3-8</td><td class="l">LEBRON</td><td>.159 <small>(.142-.175)</small></td><td>.770</td><td>3.39</td></tr>
+<tr><td>4-8</td><td class="l">EPM</td><td>.157 <small>(.141-.174)</small></td><td>.778</td><td>3.87</td></tr>
+<tr><td>5-9</td><td class="l">DARKO</td><td>.155 <small>(.138-.172)</small></td><td>.767</td><td>3.36</td></tr>
+<tr><td>5-9</td><td class="l">BPM (Basketball-Reference)</td><td>.154 <small>(.136-.170)</small></td><td>.773</td><td>3.50</td></tr>
+<tr><td>6-9</td><td class="l">ARC, 2-year †</td><td>.152 <small>(.135-.169)</small></td><td>.776</td><td>3.38</td></tr>
+<tr class="ref"><td></td><td class="l">Same-season RAPM (ceiling)</td><td>.268 <small>(.251-.286)</small></td><td>.949</td><td>1.68</td></tr>
+<tr class="ref"><td></td><td class="l">Last season&#x27;s RAPM, no prior</td><td>.141 <small>(.123-.157)</small></td><td>.729</td><td>3.53</td></tr>
+<tr class="ref"><td></td><td class="l">Everyone 0 (floor)</td><td>.125 <small>(.109-.141)</small></td><td>.678</td><td>4.65</td></tr>
+<tr class="ref"><td></td><td class="l">Last season&#x27;s team (floor)</td><td>.103 <small>(.087-.120)</small></td><td>.629</td><td>4.19</td></tr>
+</table></div>
+<h3>Full forecast</h3>
+<p class="d">Every player at the metric's own rating.</p>
+<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th></tr>
+<tr><td>1</td><td class="l">LOKI †</td><td>.196 <small>(.178-.213)</small></td><td>.828</td><td>3.47</td></tr>
+<tr><td>2-3</td><td class="l">EPM</td><td>.178 <small>(.161-.194)</small></td><td>.808</td><td>4.44</td></tr>
+<tr><td>2-3</td><td class="l">Pulse</td><td>.177 <small>(.159-.192)</small></td><td>.807</td><td>3.09</td></tr>
+<tr><td>3-5</td><td class="l">OpenRAPM</td><td>.171 <small>(.154-.187)</small></td><td>.801</td><td>3.40</td></tr>
+<tr><td>4-5</td><td class="l">xRAPM</td><td>.169 <small>(.152-.185)</small></td><td>.782</td><td>3.47</td></tr>
+<tr><td>6-8</td><td class="l">DARKO</td><td>.159 <small>(.142-.175)</small></td><td>.773</td><td>3.31</td></tr>
+<tr><td>6-9</td><td class="l">ARC, 2-year †</td><td>.156 <small>(.138-.172)</small></td><td>.782</td><td>3.34</td></tr>
+<tr><td>6-9</td><td class="l">BPM (Basketball-Reference)</td><td>.154 <small>(.138-.170)</small></td><td>.768</td><td>3.59</td></tr>
+<tr><td>6-9</td><td class="l">LEBRON</td><td>.154 <small>(.137-.169)</small></td><td>.766</td><td>3.38</td></tr>
+<tr class="ref"><td></td><td class="l">Same-season RAPM (ceiling)</td><td>.288 <small>(.270-.305)</small></td><td>.963</td><td>2.13</td></tr>
+<tr class="ref"><td></td><td class="l">Last season&#x27;s RAPM, no prior</td><td>.133 <small>(.116-.149)</small></td><td>.719</td><td>3.66</td></tr>
+<tr class="ref"><td></td><td class="l">Last season&#x27;s team (floor)</td><td>.092 <small>(.077-.108)</small></td><td>.609</td><td>4.18</td></tr>
+<tr class="ref"><td></td><td class="l">Everyone 0 (floor)</td><td>.000 <small>(.000-.000)</small></td><td>.000</td><td>5.04</td></tr>
+</table></div>
+<p class="d">Past seasons are the values each site shows today (its current model), not archived as published, so the live track is the stricter test. See the <a href="https://github.com/lumahoops/hoop-impact-bench#readme">README</a>.</p>
+</section>
 <hr>
 <p><small>
   <a href="https://github.com/lumahoops/hoop-impact-bench">repository</a> ·
@@ -46,86 +140,15 @@
   <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/live/code/reproduce.py">reproduce</a> ·
   maintained by <a href="https://lumahoops.org">LUMA Basketball Research</a> († = LUMA's own) · code MIT, data CC BY 4.0
 </small></p>
-
 <script>
-// Reads the committed results files directly; no build step. The live files are updated every morning by the VPS job.
-const out = document.getElementById('out');
-const f3 = (x) => x == null ? '' : (Math.abs(x) < 1 ? x.toFixed(3).replace(/^(-?)0\./, '$1.') : x.toFixed(3));
-const f2 = (x) => x == null ? '' : x.toFixed(2);
-const rk = (r) => !r ? '' : r[0] === r[1] ? r[0] : r[0] + '-' + r[1];
-const iv = (i) => i ? ' <small>(' + f3(i[0]) + '-' + f3(i[1]) + ')</small>' : '';
-const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const get = (p) => fetch(p, { cache: 'no-cache' }).then((r) => r.ok ? r.json() : null).catch(() => null);
-
-// Names for the retro files (the launch runs store keys only)
-const NAMES = { loki: 'LOKI †', openrapm: 'OpenRAPM', arc_2yr: 'ARC, 2-year †', epm_current: 'EPM', darko: 'DARKO', lebron: 'LEBRON',
-  bpm_bbref: 'BPM (Basketball-Reference)', pulse: 'Pulse', xrapm: 'xRAPM', xpm: 'xPM', danny: "Danny Harlan's EPM projection",
-  ceiling_rapm_same_season: 'Same-season RAPM (ceiling)', rapm_last_season: "Last season's RAPM, no prior",
-  baseline_zero: 'Everyone 0 (floor)', baseline_last_team: "Last season's team (floor)" };
-
-function liveTable(d) {
-  const net = d.net_error_shown;
-  let h = '<p>' + esc(d.title) + '</p>';
-  h += '<p>' + d.games + ' games, ' + d.first_game + ' to ' + d.scored_through + ' · updated ' + d.updated_utc.slice(0, 16).replace('T', ' ') + ' UTC'
-    + ((d.snapshot.excluded_games || []).length ? ' · ' + d.snapshot.excluded_games.length + (d.snapshot.excluded_games.length === 1 ? ' game' : ' games')
-      + ' left off (it tipped off before every metric\'s value for that day was saved)' : '') + '</p>';
-  h += '<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th><th class="l">label</th></tr>';
-  for (const m of d.metrics) {
-    const t = m.tests;
-    h += '<tr><td>' + rk(t.margin_r2.rank) + '</td><td class="l">' + (m.url ? '<a href="' + esc(m.url) + '">' + esc(m.name) + '</a>' : esc(m.name))
-      + (m.ours ? ' †' : '') + (m.name.includes(m.maker) ? '' : ' <small>' + esc(m.maker) + '</small>') + '</td><td>' + f3(t.margin_r2.value) + iv(t.margin_r2.interval)
-      + '</td><td>' + f3(t.winpct_r.value) + '</td><td>' + (net ? f2(t.net_rmse.value) : '-') + '</td><td class="l" title="' + esc(m.source) + '">' + esc(m.label) + '</td></tr>';
-  }
-  for (const r of d.reference) {
-    const t = r.tests;
-    h += '<tr class="ref"><td></td><td class="l" title="' + esc(r.description) + '">' + esc(r.name) + '</td><td>' + f3(t.margin_r2.value) + iv(t.margin_r2.interval)
-      + '</td><td>' + f3(t.winpct_r.value) + '</td><td>' + (net ? f2(t.net_rmse.value) : '-') + '</td><td></td></tr>';
-  }
-  h += '</table></div>';
-  h += '<p class="d">Rank is the range of places in the middle ' + Math.round(d.confidence * 100) + '% of ' + d.resamples + ' resamples: overlapping ranges are not separated yet.'
-    + (net ? '' : ' Net error: ' + esc(d.net_error_note) + '.') + ' Italic rows are references, not ranked.</p>';
-  h += '<p class="d">Labels: ' + Object.entries(d.labels).map(([k, v]) => '<b>' + esc(k) + '</b> ' + esc(v)).join('; ') + '.</p>';
-  h += '<p class="d">Files: <a href="live/results/' + d.board + '.json">' + d.board + '.json</a>, <a href="live/results/' + d.board + '_games.csv">per game</a>, '
-    + '<a href="live/results/' + d.board + '_history.csv">history</a>. Scored with eval.py v1.1.0 (sha256 ' + d.harness_sha256.slice(0, 12) + '...).</p>';
-  return h;
+const tabs = document.querySelectorAll('.tabs a'), boards = document.querySelectorAll('section.board');
+function show() {
+  const tab = ['live', 'daily', 'retro'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'live';
+  tabs.forEach((a) => a.className = a.getAttribute('href') === '#' + tab ? 'on' : '');
+  boards.forEach((s) => s.classList.toggle('on', s.dataset.tab === tab));
 }
-
-function retroTable(d, title, note) {
-  const m = d.metrics;
-  const rows = Object.entries(m).sort((a, b) => b[1].all.margin_r2.value - a[1].all.margin_r2.value);
-  let h = '<h3>' + title + '</h3><p class="d">' + note + '</p><div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game margins R²</th><th>team win % r</th><th>net error</th></tr>';
-  for (const ref of [false, true]) for (const [k, v] of rows) {
-    if (v.baseline !== ref) continue;
-    const a = v.all;
-    h += '<tr' + (ref ? ' class="ref"' : '') + '><td>' + (ref ? '' : rk(a.margin_r2.rank)) + '</td><td class="l">' + esc(NAMES[k] || k) + '</td><td>'
-      + f3(a.margin_r2.value) + iv(a.margin_r2.interval) + '</td><td>' + f3(a.winpct_r.value) + '</td><td>' + f2(a.net_rmse.value) + '</td></tr>';
-  }
-  return h + '</table></div>';
-}
-
-async function show() {
-  const tab = (location.hash || '#live').slice(1);
-  document.querySelectorAll('.tabs a').forEach((a) => a.className = a.getAttribute('href') === '#' + tab ? 'on' : '');
-  out.textContent = 'Loading...';
-  if (tab === 'retro') {
-    const [e, f] = await Promise.all([get('launch/established-players.json'), get('launch/full-forecast.json')]);
-    if (!e || !f) { out.textContent = 'Could not load the retro results.'; return; }
-    out.innerHTML = '<p>Each season\'s preseason ratings, scored on that season\'s games: ' + e.meta.games.toLocaleString() + ' games, '
-      + e.meta.team_seasons + ' team-seasons, ' + e.meta.seasons[0] + ' to ' + e.meta.seasons.at(-1) + '. HIB v' + e.meta.version + '.</p>'
-      + retroTable(e, 'Established players', 'Under 250 minutes the season before, rookies included: -2.0 for every metric.')
-      + retroTable(f, 'Full forecast', 'Every player at the metric\'s own rating.')
-      + '<p class="d">Past seasons are the values each site shows today (its current model), not archived as published, so the live track is the stricter test. See the <a href="https://github.com/lumahoops/hoop-impact-bench#readme">README</a>.</p>';
-    return;
-  }
-  const d = await get('live/results/' + (tab === 'daily' ? 'daily' : 'frozen') + '.json');
-  if (!d) {
-    out.innerHTML = tab === 'daily'
-      ? '<p>Dynamic board: no games scored yet. Each game is scored with each metric\'s rating exactly as published that morning, saved before tip-off. The first scores appear the morning after the first such game.</p>'
-      : '<p>Could not load the live results.</p>';
-    return;
-  }
-  out.innerHTML = liveTable(d);
-}
+addEventListener('hashchange', show);
+show();
 const themeLink = document.getElementById('theme');
 const isDark = () => (document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
 const label = () => { themeLink.textContent = isDark() ? '[light]' : '[dark]'; };
@@ -137,8 +160,6 @@ themeLink.onclick = (e) => {
   label();
 };
 label();
-addEventListener('hashchange', show);
-show();
 </script>
 </body>
 </html>
