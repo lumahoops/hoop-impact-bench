@@ -41,6 +41,10 @@ def rk(r):
     return "" if not r else str(r[0]) if r[0] == r[1] else f"{r[0]}-{r[1]}"
 
 
+def ivn(i):
+    return f" <small>{i[0]:.2f}-{i[1]:.2f}</small>" if i else ""
+
+
 def iv(i):
     return f" <small>{f3(i[0])}-{f3(i[1])}</small>" if i else ""
 
@@ -60,20 +64,20 @@ def head(cols):
 
 
 TIPS = {
-    "rank": "Range of places across 2,000 resamples of the games (middle 90%)",
+    "rank": "Range of places on net error across 2,000 resamples of the games (middle 90%)",
     "metric": "The impact metric and its maker",
     "wl": "Games won by the team the metric rated higher (no home-court edge)",
     "r2": "Share of the variation in final margins that the predicted margins explain. Higher is better",
     "winpct": "Correlation between team ratings and team win %. Higher is better",
-    "net": "Average miss vs. each team's opponent-adjusted margin, points per 100. Lower is better",
+    "net": "Ranking test. Average miss vs. each team's opponent-adjusted margin, points per 100. Lower is better",
     "label": "Where the ratings came from; hover a label for its source",
 }
 
 
 def cols(wl_col, net_note, label_col):
     return ([("rank", "n", "a", "rank"), ("metric", "t", "a", "metric")] + ([("W-L", "n", "d", "wl")] if wl_col else [])
-            + [("game R² <small>90% range</small>", "n", "d", "r2"), ("win % r", "n", "d", "winpct"),
-               (f"net error{net_note}", "n", "a", "net")]
+            + [(f"net error <small>90% range</small>{net_note}", "n", "a", "net"), ("game R²", "n", "d", "r2"),
+               ("win % r", "n", "d", "winpct")]
             + ([("label", "t", "a", "label")] if label_col else []))
 
 
@@ -91,19 +95,15 @@ def drawer(body):
 
 
 def summary(d):
-    """One plain sentence: who leads on game R², by how much, and whether the games separate any two metrics."""
+    """One plain sentence: who leads on team net error, by how much, and how early it is."""
     m = d["metrics"]
     if not m:
         return ""
     lead, second = m[0], m[1] if len(m) > 1 else None
-    sep = [p for p in d.get("pairs", []) if p["test"] == "margin_r2" and p["separated"]]
-    s = (f"After {d['games']} games, {lead['name']} leads on game R² at {f3(lead['tests']['margin_r2']['value'])}"
-         + (f", ahead of {second['name']} at {f3(second['tests']['margin_r2']['value'])}" if second else "") + ". ")
-    if not sep:
-        return s + "Every metric's rank range still overlaps the others, so the games so far do not separate any two metrics."
-    n = len([p for p in d["pairs"] if p["test"] == "margin_r2"])
-    return s + (f"{len(sep)} of {n} pairs of metrics are separated on game R² at the 90% level; across {n} comparisons, "
-                f"about {round(n * 0.1)} would be separated by chance alone, so these are early signals.")
+    s = (f"After {d['games']} games, {lead['name']} leads on team net error at {lead['tests']['net_rmse']['value']:.2f} "
+         f"points per 100" + (f", ahead of {second['name']} at {second['tests']['net_rmse']['value']:.2f}" if second else "")
+         + ".")
+    return s + (" " + d["net_error_note"] if d.get("early") else "")
 
 
 def live_board(d):
@@ -112,26 +112,27 @@ def live_board(d):
     h = [f'<p class="line">{LINE[d["board"]]}</p>',
          f'<p class="meta"><b>{d["games"]} games</b> · {day(d["first_game"])} to {day(d["scored_through"])} · updated '
          f'{day(d["updated_utc"])}, {d["updated_utc"][11:16]} UTC</p>',
+         f'<p class="early">{escape(d["net_error_note"])}</p>' if d.get("early") else "",
          "{{DRAWER}}",
-         head(cols(True, "" if net else " <small>after 20 games</small>", True)), '<tbody class="rk">']
+         head(cols(True, "", True)), '<tbody class="rk">']
     for m in d["metrics"]:
         t = m["tests"]
         name = f'<a href="{escape(m["url"])}">{escape(m["name"])}</a>' if m.get("url") else escape(m["name"])
         maker = "" if m["maker"] in m["name"] else f" <small>{escape(m['maker'])}</small>"
-        r = t["margin_r2"].get("rank") or [0, 0]
-        h.append(f'<tr id="m-{m["id"]}">' + td(rk(t["margin_r2"].get("rank")), r[0] + r[1] / 100)
+        r = t["net_rmse"].get("rank") or [0, 0]
+        h.append(f'<tr id="m-{m["id"]}">' + td(rk(t["net_rmse"].get("rank")), r[0] + r[1] / 100)
                  + td(f'{name}{" †" if m["ours"] else ""}{maker}', escape(m["name"]), "l")
                  + td(wl(m), (m.get("record") or {}).get("w", ""))
-                 + td(f'<b>{f3(t["margin_r2"]["value"])}</b>{iv(t["margin_r2"]["interval"])}', t["margin_r2"]["value"])
+                 + td(f'<b>{t["net_rmse"]["value"]:.2f}</b>{ivn(t["net_rmse"]["interval"])}', t["net_rmse"]["value"])
+                 + td(f3(t["margin_r2"]["value"]), t["margin_r2"]["value"])
                  + td(f3(t["winpct_r"]["value"]), t["winpct_r"]["value"])
-                 + td(f'{t["net_rmse"]["value"]:.2f}' if net else "-", t["net_rmse"]["value"] if net else "")
                  + f'<td class="l" title="{escape(m["source"])}">{escape(m["label"])}</td></tr>')
     h.append('</tbody><tbody class="refs">')
     for r in d["reference"]:
         t = r["tests"]
         h.append(f'<tr class="ref"><td></td><td class="l" title="{escape(r["description"])}">{escape(r["name"])}</td><td></td>'
-                 f'<td>{f3(t["margin_r2"]["value"])}{iv(t["margin_r2"]["interval"])}</td><td>{f3(t["winpct_r"]["value"])}</td>'
-                 f'<td>{f"{t["net_rmse"]["value"]:.2f}" if net else "-"}</td><td></td></tr>')
+                 f'<td>{t["net_rmse"]["value"]:.2f}{ivn(t["net_rmse"]["interval"])}</td><td>{f3(t["margin_r2"]["value"])}</td>'
+                 f'<td>{f3(t["winpct_r"]["value"])}</td><td></td></tr>')
     h.append("</tbody>")
     h.append("</table></div>")
 
@@ -146,11 +147,12 @@ def live_board(d):
         body.append(f"<p>{ex} game{' is' if ex == 1 else 's are'} left out because {'it' if ex == 1 else 'they'} started "
                     "before that day's ratings were saved.</p>")
     body.append("<p><b>Columns</b></p><ul>"
-                f"<li>{escape(tests['margin_r2'])}. Higher is better. The small numbers are its 90% range.</li>"
+                f"<li>{escape(tests['net_rmse'])}. Lower is better. This is the ranking test: it checks whether the players' "
+                "ratings add up to the team's actual net rating, at face value. The small numbers are its 90% range.</li>"
+                f"<li>{escape(tests['margin_r2'])}. Higher is better.</li>"
                 f"<li>{escape(tests['winpct_r'])}. Higher is better.</li>"
-                f"<li>{escape(tests['net_rmse'])}. Lower is better.{'' if net else ' ' + escape(d['net_error_note']) + '.'}</li>"
                 + (f"<li>{escape(d['record_note'])}.</li>" if d.get("record_note") else "") +
-                f"<li>Rank: the range of places a metric reaches across {d['resamples']:,} resamples of the games (the middle "
+                f"<li>Rank: the range of places on net error a metric reaches across {d['resamples']:,} resamples of the games (the middle "
                 f"{round(d['confidence'] * 100)}%). Metrics whose ranges overlap are not separated by the games so far.</li>"
                 f"<li>Minutes rule: {rule}</li>"
                 "<li>Italic rows are reference points and are not ranked: RAPM fit on these same games (an upper "
@@ -170,7 +172,7 @@ def live_board(d):
 
 
 def retro_table(d, title, note):
-    rows = sorted(d["metrics"].items(), key=lambda kv: -kv[1]["all"]["margin_r2"]["value"])
+    rows = sorted(d["metrics"].items(), key=lambda kv: kv[1]["all"]["net_rmse"]["value"])
     h = [f"<h3>{title}</h3>", f'<p class="meta">{note}</p>', head(cols(False, "", False))]
     for ref in (False, True):
         h.append('<tbody class="refs">' if ref else '<tbody class="rk">')
@@ -178,14 +180,14 @@ def retro_table(d, title, note):
             if v["baseline"] != ref:
                 continue
             a = v["all"]
-            r = a["margin_r2"].get("rank") or [0, 0]
+            r = a["net_rmse"].get("rank") or [0, 0]
             h.append(f'<tr{" class=\"ref\"" if ref else ""}>'
-                     + td("" if ref else rk(a["margin_r2"].get("rank")), None if ref else r[0] + r[1] / 100)
+                     + td("" if ref else rk(a["net_rmse"].get("rank")), None if ref else r[0] + r[1] / 100)
                      + td(escape(NAMES.get(k, k)), escape(NAMES.get(k, k)), "l")
-                     + td(f'{"" if ref else "<b>"}{f3(a["margin_r2"]["value"])}{"" if ref else "</b>"}{iv(a["margin_r2"]["interval"])}',
-                          a["margin_r2"]["value"])
-                     + td(f3(a["winpct_r"]["value"]), a["winpct_r"]["value"])
-                     + td(f'{a["net_rmse"]["value"]:.2f}', a["net_rmse"]["value"]) + "</tr>")
+                     + td(f'{"" if ref else "<b>"}{a["net_rmse"]["value"]:.2f}{"" if ref else "</b>"}{ivn(a["net_rmse"]["interval"])}',
+                          a["net_rmse"]["value"])
+                     + td(f3(a["margin_r2"]["value"]), a["margin_r2"]["value"])
+                     + td(f3(a["winpct_r"]["value"]), a["winpct_r"]["value"]) + "</tr>")
         h.append("</tbody>")
     h.append("</table></div>")
     return "\n".join(h)

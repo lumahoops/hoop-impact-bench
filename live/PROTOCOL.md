@@ -35,6 +35,13 @@ registered rule and kept the dynamic board without it. Every score is computed f
 ARC (2-year window) stays in the preseason snapshot but is not scored on the preseason board (owner, 2026-11-01): it is
 a window ending 2025-26, not a forecast, and has no rookies. ARC Live stays on the dynamic board.
 
+Ranking test: team net error (owner, 2026-11-01). It checks whether the players' ratings, weighted by the minutes
+they played, add up to each team's opponent-adjusted net rating, at face value and in the metric's own units (points
+per 100). Game margin R² and team win % r are reported beside it. Until 2026-11-01 the live boards were ordered by game
+margin R² and net error was hidden until every team had played 20 games; net error is now shown from the first game
+with an "early" note until then, because the rank ranges and the floor rows already show how little a few games
+separate.
+
 Early in the season the intervals are wide; read the rank ranges, not the order.
 
 ## Labels
@@ -68,8 +75,8 @@ Everything needed to rebuild any day's boards is in the repo, except the ratings
   - `frozen.json`: the preseason board (`daily.json`, `daily_games.csv`, `daily_history.csv`: the dynamic board, same
     layout, plus the snapshot days and any games left off). Ranked metrics (score, 90% interval and rank range on each test, plus
     label, source and fingerprint), reference rows that are not ranked (same-season RAPM ceiling, the consensus of all
-    metrics, last season's RAPM, two floors), and every pairwise gap. Net error is flagged hidden until every team has
-    played 20 games.
+    metrics, last season's RAPM, two floors), and every pairwise gap. Both boards are ranked by team net error, shown
+    from the first game, with an "early" flag until every team has played 20 games.
   - `frozen_games.csv`: one row per game, the result and each row's predicted home margin.
   - `frozen_history.csv`: each scoring run's numbers, appended, to show how the board moves.
 - The consensus is each player's average across the ranked metrics that rate him. It is scored in a separate run, so it

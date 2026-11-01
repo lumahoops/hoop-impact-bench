@@ -9,7 +9,8 @@ Writes  live/results/<board>.json         the board: metrics (ranked), reference
         live/results/<board>_history.csv  one row per metric per scoring run (appended), for "how the board moved"
 
 Ranks come from the 11 metrics only; the consensus is scored in a second run so it never shifts anyone's rank range.
-Net error is published but flagged hidden until every team has played NET_MIN_GAMES games.
+Ranked by team net error (owner 2026-11-01), shown from the first game; until every team has played NET_MIN_GAMES
+games the board carries an 'early' note.
 """
 import datetime
 import json
@@ -98,7 +99,7 @@ def main(board="frozen"):
     home_won = pk.home_pts > pk.away_pts
     wins = {k: int(((pk[k] > 0) == home_won).sum()) for k in ranked}
     metrics = []
-    for k in sorted(ranked, key=lambda k: -run["metrics"][k]["all"]["margin_r2"]["value"]):
+    for k in sorted(ranked, key=lambda k: run["metrics"][k]["all"]["net_rmse"]["value"]):   # primary test: net error
         m, s = run["metrics"][k], info[k]
         nm, maker, url = METRICS[k]
         url = PRESEASON_LINK.get(k, url) if board == "frozen" else url
@@ -123,7 +124,10 @@ def main(board="frozen"):
         "scored_through": games.date.max(), "first_game": games.date.min(), "games": int(len(games)),
         "games_per_team": {"min": int(per_team.min()), "max": int(per_team.max())},
         "updated_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
-        "net_error_shown": net_shown, "net_error_note": f"It appears once every team has played {NET_MIN_GAMES} games; before that, a few games decide each team's margin",
+        "primary_test": "net_rmse", "net_error_shown": True, "early": not net_shown,
+        "net_error_note": (f"Early: {int(per_team.min())}-{int(per_team.max())} games per team. A few games decide each team's "
+                           f"margin, so the ranges overlap and the floor rows score about the same as the metrics until "
+                           f"every team has played {NET_MIN_GAMES}.") if not net_shown else "",
         "record_note": "W-L: each game counts as a win when the team the metric rates higher won (no home-court edge, the same for every metric)",
         "rules": meta["rules"], "confidence": meta["confidence"], "resamples": meta["resamples"],
         "harness_sha256": meta["harness"], "repo_commit": meta["git_commit"],
@@ -168,7 +172,7 @@ def main(board="frozen"):
     new.to_csv(hist_path, index=False)
     print(f"live/results: {board}.json ({len(metrics)} metrics, {len(reference)} reference rows, {len(pairs)} pairs), "
           f"{board}_games.csv ({len(g)} games), {board}_history.csv; through {doc['scored_through']}, "
-          f"net error {'shown' if net_shown else 'hidden'}")
+          f"ranked by net error{' (early)' if not net_shown else ''}")
 
 
 if __name__ == "__main__":

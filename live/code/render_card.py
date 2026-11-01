@@ -51,18 +51,18 @@ def main():
     g.rectangle((M, top, W - M, top + 46), fill=HEAD)
     g.text((cols[0] + 14, top + 12), "rank", font=head, fill=MUTED)
     g.text((cols[1] + 14, top + 12), "metric", font=head, fill=MUTED)
-    g.text((cols[2] - 14, top + 12), "game R²  90% range", font=head, fill=MUTED, anchor="ra")
+    g.text((cols[2] - 14, top + 12), "net error  90% range", font=head, fill=MUTED, anchor="ra")
     y = top + 46
     for m in d["metrics"][:5]:
-        t = m["tests"]["margin_r2"]
+        t = m["tests"]["net_rmse"]
         r = t.get("rank") or ["", ""]
         g.line((M, y, W - M, y), fill=LINE, width=1)
         g.text((cols[0] + 14, y + 14), f"{r[0]}-{r[1]}" if r[0] != r[1] else str(r[0]), font=cell, fill=FG)
         g.text((cols[1] + 14, y + 14), m["name"] + (" †" if m.get("ours") else ""), font=cell, fill=FG)
-        rng = f"{f3(t['interval'][0])}-{f3(t['interval'][1])}"
+        rng = f"{t['interval'][0]:.2f}-{t['interval'][1]:.2f}"
         g.text((cols[2] - 14, y + 20), rng, font=head, fill=MUTED, anchor="ra")
         w = g.textlength(rng, font=head)
-        g.text((cols[2] - 14 - w - 18, y + 14), f3(t["value"]), font=cell_b, fill=FG, anchor="ra")
+        g.text((cols[2] - 14 - w - 18, y + 14), f"{t['value']:.2f}", font=cell_b, fill=FG, anchor="ra")
         y += row
     g.rectangle((M, top, W - M, y), outline=LINE, width=1)
     g.line((cols[1], top, cols[1], y), fill=LINE, width=1)
