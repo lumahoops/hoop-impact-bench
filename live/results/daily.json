@@ -9,9 +9,11 @@
   "min": 1,
   "max": 1
  },
- "updated_utc": "2026-11-01T15:58:55+00:00",
- "net_error_shown": false,
- "net_error_note": "It appears once every team has played 20 games; before that, a few games decide each team's margin",
+ "updated_utc": "2026-11-01T16:19:27+00:00",
+ "primary_test": "net_rmse",
+ "net_error_shown": true,
+ "early": true,
+ "net_error_note": "Early: 1-1 games per team. A few games decide each team's margin, so the ranges overlap and the floor rows score about the same as the metrics until every team has played 20.",
  "record_note": "W-L: each game counts as a win when the team the metric rates higher won (no home-court edge, the same for every metric)",
  "rules": {
   "min_minutes": 0.0,
@@ -20,7 +22,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "4be6774227f60af5f2cd0d0e1badcd012060082e",
+ "repo_commit": "99128e2c2f2f15afa2c646144f97a409494418d5",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-01",
@@ -48,6 +50,58 @@
   "net_rmse": "Net error: the average miss, in points per 100 possessions, between team ratings and opponent-adjusted team margins"
  },
  "metrics": [
+  {
+   "id": "pulse",
+   "name": "Pulse",
+   "maker": "CourtSignal",
+   "url": "https://courtsignal.net/ratings",
+   "ours": false,
+   "label": "pulled",
+   "source": "courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-10-31",
+   "sha256": "00aaba48b542b50b4bfa8cd1d240cecff0e0a40fbe53fdce7b963880b8479836",
+   "players": 660,
+   "as_of": "2026-10-31",
+   "coverage": 1.0,
+   "record": {
+    "w": 5,
+    "l": 1
+   },
+   "tests": {
+    "margin_r2": {
+     "value": 0.3786,
+     "interval": [
+      0.0087,
+      1.0
+     ],
+     "rank": [
+      1,
+      11
+     ]
+    },
+    "winpct_r": {
+     "value": 0.4681,
+     "interval": [
+      0.067,
+      0.7452
+     ],
+     "rank": [
+      2,
+      6
+     ]
+    },
+    "net_rmse": {
+     "value": 8.5676,
+     "interval": [
+      6.8365,
+      10.0404
+     ],
+     "rank": [
+      1,
+      4
+     ]
+    }
+   }
+  },
   {
    "id": "arc",
    "name": "ARC Live",
@@ -101,53 +155,53 @@
    }
   },
   {
-   "id": "pulse",
-   "name": "Pulse",
-   "maker": "CourtSignal",
-   "url": "https://courtsignal.net/ratings",
+   "id": "lebron",
+   "name": "LEBRON",
+   "maker": "BBall Index",
+   "url": "https://www.bball-index.com/lebron-database/",
    "ours": false,
-   "label": "pulled",
-   "source": "courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-10-31",
-   "sha256": "00aaba48b542b50b4bfa8cd1d240cecff0e0a40fbe53fdce7b963880b8479836",
-   "players": 660,
-   "as_of": "2026-10-31",
-   "coverage": 1.0,
+   "label": "carried",
+   "source": "no 2026-27 LEBRON published yet; 2025-26 final (export saved 2026-10-03)",
+   "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1",
+   "players": 582,
+   "as_of": "2026-04-12",
+   "coverage": 0.8904,
    "record": {
-    "w": 5,
-    "l": 1
+    "w": 4,
+    "l": 2
    },
    "tests": {
     "margin_r2": {
-     "value": 0.3786,
+     "value": 0.1983,
      "interval": [
-      0.0087,
+      0.0059,
       1.0
      ],
      "rank": [
       1,
-      11
+      10
      ]
     },
     "winpct_r": {
-     "value": 0.4681,
+     "value": 0.4103,
      "interval": [
-      0.067,
-      0.7452
-     ],
-     "rank": [
-      2,
-      6
-     ]
-    },
-    "net_rmse": {
-     "value": 8.5676,
-     "interval": [
-      6.8365,
-      10.0404
+      -0.067,
+      0.744
      ],
      "rank": [
       1,
-      4
+      9
+     ]
+    },
+    "net_rmse": {
+     "value": 9.0283,
+     "interval": [
+      7.0244,
+      10.9086
+     ],
+     "rank": [
+      1,
+      9
      ]
     }
    }
@@ -257,110 +311,6 @@
    }
   },
   {
-   "id": "lebron",
-   "name": "LEBRON",
-   "maker": "BBall Index",
-   "url": "https://www.bball-index.com/lebron-database/",
-   "ours": false,
-   "label": "carried",
-   "source": "no 2026-27 LEBRON published yet; 2025-26 final (export saved 2026-10-03)",
-   "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1",
-   "players": 582,
-   "as_of": "2026-04-12",
-   "coverage": 0.8904,
-   "record": {
-    "w": 4,
-    "l": 2
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.1983,
-     "interval": [
-      0.0059,
-      1.0
-     ],
-     "rank": [
-      1,
-      10
-     ]
-    },
-    "winpct_r": {
-     "value": 0.4103,
-     "interval": [
-      -0.067,
-      0.744
-     ],
-     "rank": [
-      1,
-      9
-     ]
-    },
-    "net_rmse": {
-     "value": 9.0283,
-     "interval": [
-      7.0244,
-      10.9086
-     ],
-     "rank": [
-      1,
-      9
-     ]
-    }
-   }
-  },
-  {
-   "id": "epm",
-   "name": "EPM",
-   "maker": "Taylor Snarr, Dunks & Threes",
-   "url": "https://dunksandthrees.com/epm",
-   "ours": false,
-   "label": "pulled",
-   "source": "dunksandthrees.com/epm (current expected EPM, Aayo's subscription)",
-   "sha256": "51d48fb293c64d6e043fb46d7eb8486ab3f4c2720cd9735338759d8a7edd584c",
-   "players": 528,
-   "as_of": "2026-11-01",
-   "coverage": 1.0,
-   "record": {
-    "w": 5,
-    "l": 1
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.1768,
-     "interval": [
-      0.0051,
-      1.0
-     ],
-     "rank": [
-      2,
-      11
-     ]
-    },
-    "winpct_r": {
-     "value": 0.3709,
-     "interval": [
-      -0.0761,
-      0.6619
-     ],
-     "rank": [
-      2,
-      10
-     ]
-    },
-    "net_rmse": {
-     "value": 9.5803,
-     "interval": [
-      7.1189,
-      11.7892
-     ],
-     "rank": [
-      1,
-      10
-     ]
-    }
-   }
-  },
-  {
    "id": "xpm",
    "name": "xPM",
    "maker": "George Berry, VORP.app",
@@ -413,26 +363,26 @@
    }
   },
   {
-   "id": "bpm_bbref",
-   "name": "BPM (Basketball-Reference)",
-   "maker": "Daniel Myers / Basketball-Reference",
-   "url": "https://www.basketball-reference.com/leagues/NBA_2027_advanced.html",
+   "id": "epm",
+   "name": "EPM",
+   "maker": "Taylor Snarr, Dunks & Threes",
+   "url": "https://dunksandthrees.com/epm",
    "ours": false,
-   "label": "carried",
-   "source": "preseason value (2025-26 final; 2026-27 season-to-date BPM not used yet)",
-   "sha256": "8fec8554831ace7c0d623022f9d7b7835f90699e663d9f5d4e2ed2d478bed2c8",
-   "players": 581,
-   "as_of": "preseason",
-   "coverage": 0.8904,
+   "label": "pulled",
+   "source": "dunksandthrees.com/epm (current expected EPM, Aayo's subscription)",
+   "sha256": "51d48fb293c64d6e043fb46d7eb8486ab3f4c2720cd9735338759d8a7edd584c",
+   "players": 528,
+   "as_of": "2026-11-01",
+   "coverage": 1.0,
    "record": {
-    "w": 4,
-    "l": 2
+    "w": 5,
+    "l": 1
    },
    "tests": {
     "margin_r2": {
-     "value": 0.1332,
+     "value": 0.1768,
      "interval": [
-      0.0041,
+      0.0051,
       1.0
      ],
      "rank": [
@@ -441,24 +391,24 @@
      ]
     },
     "winpct_r": {
-     "value": 0.3066,
+     "value": 0.3709,
      "interval": [
-      -0.2068,
-      0.652
+      -0.0761,
+      0.6619
      ],
      "rank": [
-      3,
-      11
+      2,
+      10
      ]
     },
     "net_rmse": {
-     "value": 9.7023,
+     "value": 9.5803,
      "interval": [
-      7.8229,
-      11.36
+      7.1189,
+      11.7892
      ],
      "rank": [
-      3,
+      1,
       10
      ]
     }
@@ -517,26 +467,26 @@
    }
   },
   {
-   "id": "xrapm",
-   "name": "xRAPM",
-   "maker": "Jeremias Engelmann",
-   "url": "https://xrapm.com/",
+   "id": "bpm_bbref",
+   "name": "BPM (Basketball-Reference)",
+   "maker": "Daniel Myers / Basketball-Reference",
+   "url": "https://www.basketball-reference.com/leagues/NBA_2027_advanced.html",
    "ours": false,
    "label": "carried",
-   "source": "xrapm.com still shows the 2025-26 final (metrics updated 2026-04-12)",
-   "sha256": "1af65024cd22eccad3379d60c349c8aaec123cef227173c3cbe3e4a73307c328",
-   "players": 582,
-   "as_of": "2026-04-12",
+   "source": "preseason value (2025-26 final; 2026-27 season-to-date BPM not used yet)",
+   "sha256": "8fec8554831ace7c0d623022f9d7b7835f90699e663d9f5d4e2ed2d478bed2c8",
+   "players": 581,
+   "as_of": "preseason",
    "coverage": 0.8904,
    "record": {
-    "w": 3,
-    "l": 3
+    "w": 4,
+    "l": 2
    },
    "tests": {
     "margin_r2": {
-     "value": 0.0711,
+     "value": 0.1332,
      "interval": [
-      0.0014,
+      0.0041,
       1.0
      ],
      "rank": [
@@ -545,25 +495,25 @@
      ]
     },
     "winpct_r": {
-     "value": 0.3007,
+     "value": 0.3066,
      "interval": [
-      -0.2079,
-      0.6494
+      -0.2068,
+      0.652
      ],
      "rank": [
-      5,
+      3,
       11
      ]
     },
     "net_rmse": {
-     "value": 10.4621,
+     "value": 9.7023,
      "interval": [
-      8.2812,
-      12.4835
+      7.8229,
+      11.36
      ],
      "rank": [
-      6,
-      11
+      3,
+      10
      ]
     }
    }
@@ -615,6 +565,58 @@
      ],
      "rank": [
       1,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "id": "xrapm",
+   "name": "xRAPM",
+   "maker": "Jeremias Engelmann",
+   "url": "https://xrapm.com/",
+   "ours": false,
+   "label": "carried",
+   "source": "xrapm.com still shows the 2025-26 final (metrics updated 2026-04-12)",
+   "sha256": "1af65024cd22eccad3379d60c349c8aaec123cef227173c3cbe3e4a73307c328",
+   "players": 582,
+   "as_of": "2026-04-12",
+   "coverage": 0.8904,
+   "record": {
+    "w": 3,
+    "l": 3
+   },
+   "tests": {
+    "margin_r2": {
+     "value": 0.0711,
+     "interval": [
+      0.0014,
+      1.0
+     ],
+     "rank": [
+      2,
+      11
+     ]
+    },
+    "winpct_r": {
+     "value": 0.3007,
+     "interval": [
+      -0.2079,
+      0.6494
+     ],
+     "rank": [
+      5,
+      11
+     ]
+    },
+    "net_rmse": {
+     "value": 10.4621,
+     "interval": [
+      8.2812,
+      12.4835
+     ],
+     "rank": [
+      6,
       11
      ]
     }
