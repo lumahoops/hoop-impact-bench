@@ -98,7 +98,6 @@ def live_board(d):
     h = [f'<p class="line">{LINE[d["board"]]}</p>',
          f'<p class="meta"><b>{d["games"]} games</b> · {day(d["first_game"])} to {day(d["scored_through"])} · updated '
          f'{day(d["updated_utc"])}, {d["updated_utc"][11:16]} UTC</p>',
-         f'<p class="sum">{escape(summary(d))}</p>',
          "{{DRAWER}}",
          head(cols(True, "" if net else " <small>after 20 games</small>", True)), '<tbody class="rk">']
     for m in d["metrics"]:
@@ -128,7 +127,7 @@ def live_board(d):
             f"Every player is rated at the metric's own value. A player the metric does not rate is "
             f"{rules['replacement']:.1f}.")
     b = d["board"]
-    body = [WHAT, f"<p>{escape(d['title'])}</p>"]
+    body = [f"<p><b>{escape(summary(d))}</b></p>", WHAT, f"<p>{escape(d['title'])}</p>"]
     if ex:
         body.append(f"<p>{ex} game{' is' if ex == 1 else 's are'} left out because {'it' if ex == 1 else 'they'} started "
                     "before that day's ratings were saved.</p>")
@@ -216,8 +215,8 @@ def main():
              section("retro", f"Retro {est['meta']['seasons'][0]} to {est['meta']['seasons'][-1]}", retro(est, full))]
     lead = ", ".join(f"{x['name']} {f3(x['tests']['margin_r2']['value'])}" for x in (frozen or {}).get("metrics", [])[:3])
     desc = ("Open benchmark for NBA impact metrics (EPM, DARKO, LEBRON, BPM, xRAPM, OpenRAPM, LOKI and more), computed on "
-            "2026-27 games played after each metric's ratings were saved"
-            + (f". Preseason table after {frozen['games']} games: {lead}" if frozen else "") + ".")
+            "2026-27 games played after each metric's ratings were saved."
+            + (f" {summary(frozen)}" if frozen else ""))
     page = (LIVE / "code" / "page.html").read_text(encoding="utf-8")
     card = "https://hoopimpactbench.org/live/results/card.png"
     if frozen:   # a new address each update, so link previews fetch the new card
