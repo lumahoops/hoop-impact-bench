@@ -51,7 +51,7 @@ def day(iso):
 
 
 HEAD = ('<div class="wide"><table><tr><th>rank</th><th class="l">metric</th><th>game R² <small>90% range</small></th>'
-        '<th>win % r</th><th>net error</th>{}</tr>')
+        '<th>win % r</th><th>net error{}</th>{}</tr>')
 
 
 def drawer(body):
@@ -64,7 +64,8 @@ def live_board(d):
     h = [f'<p class="line">{LINE[d["board"]]}</p>',
          f'<p class="meta"><b>{d["games"]} games</b> · {day(d["first_game"])} to {day(d["scored_through"])} · updated '
          f'{day(d["updated_utc"])}, {d["updated_utc"][11:16]} UTC</p>',
-         HEAD.format('<th class="l">label</th>')]
+         "{{DRAWER}}",
+         HEAD.format("" if net else " <small>after 20 games</small>", '<th class="l">label</th>')]
     for m in d["metrics"]:
         t = m["tests"]
         name = f'<a href="{escape(m["url"])}">{escape(m["name"])}</a>' if m.get("url") else escape(m["name"])
@@ -105,13 +106,12 @@ def live_board(d):
                 f'<a href="live/results/{b}_history.csv">history</a>. Computed with eval.py v1.1.0 (sha256 '
                 f'{d["harness_sha256"][:12]}...). Rules: <a href="https://github.com/lumahoops/hoop-impact-bench/blob/main/'
                 'live/PROTOCOL.md">live protocol</a>.</p>')
-    h.append(drawer("\n".join(body)))
-    return "\n".join(h)
+    return "\n".join(h).replace("{{DRAWER}}", drawer("\n".join(body)))
 
 
 def retro_table(d, title, note):
     rows = sorted(d["metrics"].items(), key=lambda kv: -kv[1]["all"]["margin_r2"]["value"])
-    h = [f"<h3>{title}</h3>", f'<p class="meta">{note}</p>', HEAD.format("")]
+    h = [f"<h3>{title}</h3>", f'<p class="meta">{note}</p>', HEAD.format("", "")]
     for ref in (False, True):
         for k, v in rows:
             if v["baseline"] != ref:
@@ -143,10 +143,10 @@ def retro(est, full):
         f'<p class="line">{m["seasons"][0]} to {m["seasons"][-1]}, computed using the ratings each metric had before '
         f'each season.</p>',
         f'<p class="meta"><b>{m["games"]:,} games</b> · {m["team_seasons"]} team-seasons</p>',
+        drawer("\n".join(body)),
         retro_table(est, "Established players", "A player with fewer than 250 minutes the season before, including every "
                     "rookie, is rated -2.0 for every metric."),
-        retro_table(full, "Full forecast", "Every player is rated at the metric's own value."),
-        drawer("\n".join(body))])
+        retro_table(full, "Full forecast", "Every player is rated at the metric's own value.")])
 
 
 def section(tab, title, body):
