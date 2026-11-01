@@ -166,7 +166,10 @@ def main():
             "2026-27 games played after each metric's ratings were saved"
             + (f". Preseason table after {frozen['games']} games: {lead}" if frozen else "") + ".")
     page = (LIVE / "code" / "page.html").read_text(encoding="utf-8")
-    page = page.replace("{{DESCRIPTION}}", escape(desc)).replace("{{BOARDS}}", "\n".join(parts))
+    card = "https://lumahoops.github.io/hoop-impact-bench/live/results/card.png"
+    if frozen:   # a new address each update, so link previews fetch the new card
+        card += "?v=" + frozen["updated_utc"][:16].replace(":", "").replace("-", "")
+    page = page.replace("{{DESCRIPTION}}", escape(desc)).replace("{{CARD}}", card).replace("{{BOARDS}}", "\n".join(parts))
     (REPO / "index.html").write_text(page, encoding="utf-8", newline="\n")
     print(f"index.html: preseason {frozen['games'] if frozen else 0} games, dynamic {daily['games'] if daily else 0} games, retro")
 
