@@ -20,4 +20,7 @@ RATINGS = Path(os.environ.get("HIB_RATINGS", REPO / "_private_live" / "snapshots
 WORK = Path(os.environ.get("HIB_WORK", REPO / "_private_live"))
 BOX = Path(os.environ.get("HIB_BOX", WORK / "raw" / "box_2627"))
 RUNS = WORK / "runs"
+# Live rule (owner, 2026-11-01): no low-minute rule. Every player counts at the metric's own value; only a player the
+# metric does not rate gets the replacement. (The 250-minute v1 rule is for the historical tables.)
+RULES = {"min_minutes": 0.0, "replacement": -2.0}
 RELEASE_HARNESS = "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a"   # eval.py v1.1.0

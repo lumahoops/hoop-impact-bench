@@ -17,7 +17,7 @@ import sys
 
 import pandas as pd
 
-from paths import DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
+from paths import RULES, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
 
 FIRST_GAME = "2026-10-20"
 
@@ -66,7 +66,8 @@ def main():
     pd.DataFrame({"season": SEASON, "nba_id": wide.index, "rating": wide.mean(axis=1).round(3)}).to_csv(cons, index=False)
     for out, more, flags in (("frozen", [], ["--baselines"]), ("frozen_with_consensus", [str(cons)], [])):
         shutil.rmtree(RUNS / out, ignore_errors=True)
-        cmd = [sys.executable, str(work / "eval.py"), "--no-bundled", "--out", str(RUNS / out)] + flags + \
+        cmd = [sys.executable, str(work / "eval.py"), "--no-bundled", "--out", str(RUNS / out),
+               "--min-minutes", str(RULES["min_minutes"]), "--replacement", str(RULES["replacement"])] + flags + \
               ["--ratings"] + [str(f) for f in files] + more
         subprocess.run(cmd, check=True, capture_output=True)
     print(f"frozen board: {n} games through {last}, {len(files)} metrics + consensus + reference rows")

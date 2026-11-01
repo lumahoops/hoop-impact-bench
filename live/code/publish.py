@@ -94,7 +94,7 @@ def main(board="frozen"):
         metrics.append({"id": k, "name": nm, "maker": maker, "url": url, "ours": k in OURS,
                         "label": s["label"], "source": s["source"], "sha256": s.get("sha256"), "players": s.get("rows"),
                         **({"as_of": s["as_of"]} if "as_of" in s else {}),
-                        "coverage": round(m["coverage_established"], 4), "tests": tests(m, True)})
+                        "coverage": round(m["coverage"], 4), "tests": tests(m, True)})
     reference = []
     for k, (nm, what) in REFERENCE.items():
         m = cons["metrics"]["consensus"] if k == "consensus" else run["metrics"].get(k)

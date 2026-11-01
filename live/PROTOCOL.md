@@ -20,8 +20,11 @@ not at all during the season (xRAPM, preseason-only projections) carries its lat
 values ourselves each morning is what makes them true forecasts: a site's view of a past date shows its current model,
 not what it said then.
 
-Both boards use the unchanged HIB harness and the v1 rules (under 250 minutes last season, rookies included, or missing
-from a file = -2.0). Early in the season the intervals are wide; read the rank ranges, not the order.
+Both boards use the unchanged HIB harness with no low-minute rule: every player counts at the metric's own value, and
+only a player the metric does not rate counts as -2.0. Rookies and low-minute players are part of a forecast, and a
+daily board rates them as soon as a metric does. (The 250-minute v1 rule stays for the historical tables. The live
+boards used it until 2026-11-01, when the owner dropped it, with 88 games played; every score was recomputed under
+the new rule from the same saved files.) Early in the season the intervals are wide; read the rank ranges, not the order.
 
 ## Labels
 
