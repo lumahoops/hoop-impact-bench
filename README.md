@@ -119,20 +119,25 @@ How to read the tables:
 
 ### The metrics
 
-| Metric | Made by | Where | Value used for each season |
-|---|---|---|---|
-| LOKI † | LUMA Basketball Research | [lumahoops.org](https://lumahoops.org) | Preseason rating. Past seasons were generated in 2026 by the current model. |
-| OpenRAPM | Nathan Walker | [GitHub](https://github.com/bbstats/openrapm), [site](https://bbstats.github.io/openrapm/) | Previous season. Its box-score prior was trained on RAPM from every other season, later ones included. |
-| EPM | Taylor Snarr, Dunks & Threes | [dunksandthrees.com](https://dunksandthrees.com/epm) | The site's value on each team's first game day, before that day's games |
-| DARKO | Kostya Medvedovsky | [darko.app](https://www.darko.app/) | The site's value on the day before each opening night |
-| Pulse | CourtSignal | [courtsignal.net](https://courtsignal.net/ratings) | Previous season |
-| xRAPM | Jeremias Engelmann | [xrapm.com](https://xrapm.com/) | Previous season |
-| ARC, 2-year † | LUMA Basketball Research | [lumahoops.org](https://lumahoops.org), [open data](https://github.com/lumahoops/NBA) | ARC over the two seasons that end the season before |
-| LEBRON | BBall Index | [bball-index.com](https://www.bball-index.com/lebron-application/) | Previous season |
-| BPM | Basketball-Reference (BPM 2.0 by Daniel Myers) | [basketball-reference.com](https://www.basketball-reference.com/about/bpm2.html) | Previous season. Traded players use their season-total row. |
-| xPM (VORP.app) | George Berry | [vorp.app](https://vorp.app), [Substack](https://georgeberry.substack.com) | Preseason forecast for each season, from the file its maker sent (2026-10-31), shifted by him to above average |
-| Danny Harlan's EPM projection | Danny Harlan | [GitHub](https://github.com/dannyharlan05/nba-epm-projections) | One-year-ahead EPM projection from the season before (`pred_epm_1y`), as committed on 2026-10-20 (commit 97c0817); names matched to NBA.com ids by us |
-| GRBNU | Mike Gribanov | Google Sheet shared by its maker | Net rating forecast for each season from data before that season's opening day; 2020-21 from his V22 build, 2021-22 to 2025-26 from his build of 2026-10-27 |
+| Metric | Made by | Where | Value used for each season | How the past values were made |
+|---|---|---|---|---|
+| LOKI † | LUMA Basketball Research | [lumahoops.org](https://lumahoops.org) | Preseason rating | The current model run on past seasons in 2026; the model was built and tuned on these seasons |
+| OpenRAPM | Nathan Walker | [GitHub](https://github.com/bbstats/openrapm), [site](https://bbstats.github.io/openrapm/) | Previous season | Values as published today; the box-score prior was trained on RAPM from every season, later ones included |
+| EPM | Taylor Snarr, Dunks & Threes | [dunksandthrees.com](https://dunksandthrees.com/epm) | The site's value on each team's first game day, before that day's games | Today's model's value for that date, not what the site showed then |
+| DARKO | Kostya Medvedovsky | [darko.app](https://www.darko.app/) | The site's value on the day before each opening night | Today's model's value for that date, not what the site showed then |
+| Pulse | CourtSignal | [courtsignal.net](https://courtsignal.net/ratings) | Previous season | Values as published today |
+| xRAPM | Jeremias Engelmann | [xrapm.com](https://xrapm.com/) | Previous season | Values as published today |
+| ARC, 2-year † | LUMA Basketball Research | [lumahoops.org](https://lumahoops.org), [open data](https://github.com/lumahoops/NBA) | ARC over the two seasons that end the season before | The current model run on past seasons in 2026 |
+| LEBRON | BBall Index | [bball-index.com](https://www.bball-index.com/lebron-application/) | Previous season | Values as published today |
+| BPM | Basketball-Reference (BPM 2.0 by Daniel Myers) | [basketball-reference.com](https://www.basketball-reference.com/about/bpm2.html) | Previous season. Traded players use their season-total row. | Values as published today; the BPM 2.0 formula dates from 2020 |
+| xPM (VORP.app) | George Berry | [vorp.app](https://vorp.app), [Substack](https://georgeberry.substack.com) | Preseason forecast for each season, from the file its maker sent (2026-10-31), shifted by him to above average | File made in 2026 by its maker |
+| Danny Harlan's EPM projection | Danny Harlan | [GitHub](https://github.com/dannyharlan05/nba-epm-projections) | One-year-ahead EPM projection from the season before (`pred_epm_1y`), as committed on 2026-10-20 (commit 97c0817); names matched to NBA.com ids by us | Each season from a model trained only on earlier seasons (time-ordered, per his README); its inputs are today's EPM and DARKO histories, and the design was chosen on all seasons |
+| GRBNU | Mike Gribanov | Google Sheet shared by its maker | Net rating forecast for each season from data before that season's opening day; 2020-21 from his V22 build, 2021-22 to 2025-26 from his build of 2026-10-27 | File made in 2026 by its maker, who states that each season uses only data from before its opening day |
+
+The historical tables can only report how each maker says its past values were made; HIB saved none of them before
+those seasons were played, and any model fitted or tuned on a season can look better on it than it would have at the
+time (it can still score worse: being fitted to a season makes a score optimistic, not high). Only the live board
+scores every metric on games played after its ratings were saved.
 
 Each past season uses that season's preseason ratings, but the historical ratings come from each metric's current model,
 not the version published at the time: they are the values each site shows today (LOKI's were generated in 2026 by its
