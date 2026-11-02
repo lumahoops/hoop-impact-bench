@@ -198,8 +198,11 @@ def retro(est, full):
     body = [WHAT,
             f"<p>The retro tables compute each season from {m['seasons'][0]} to {m['seasons'][-1]} ({m['games']:,} games, "
             f"{m['team_seasons']} team-seasons) using the ratings each metric had before that season (HIB v{m['version']}).</p>",
-            "<p>The past ratings come from each metric's current model rather than from what it published at the time, so "
-            "a model may fit seasons it was built on. The 2026-27 tables do not have that problem.</p>",
+            "<p>The retro tables are a loose baseline for comparing metrics, not a conclusive ranking. HIB did not receive "
+            "any of the past ratings before each season was played, so it cannot confirm that a metric's fitting held out the "
+            "seasons it is scored on; how fully each one did varies (README, the metrics table). The 2026-27 boards are out of "
+            "sample for every metric by construction: each rating is saved, and its fingerprint published, before the games "
+            "it is scored on.</p>",
             "<p>Columns: game R² is the share of the variation in final game margins that the predicted margins explain; "
             "win % r is the correlation between team ratings and team winning percentage; net error is the average miss, "
             "in points per 100 possessions, between team ratings and opponent-adjusted team margins. Rank is the range of "

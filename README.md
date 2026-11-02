@@ -134,15 +134,16 @@ How to read the tables:
 | Danny Harlan's EPM projection | Danny Harlan | [GitHub](https://github.com/dannyharlan05/nba-epm-projections) | One-year-ahead EPM projection from the season before (`pred_epm_1y`), as committed on 2026-10-20 (commit 97c0817); names matched to NBA.com ids by us | Each season from a model trained only on earlier seasons (time-ordered, per his README); its inputs are today's EPM and DARKO histories, and the design was chosen on all seasons |
 | GRBNU | Mike Gribanov | Google Sheet shared by its maker | Net rating forecast for each season from data before that season's opening day; 2020-21 from his V22 build, 2021-22 to 2025-26 from his build of 2026-10-27 | File made in 2026 by its maker, who states that each season uses only data from before its opening day |
 
-The historical tables can only report how each maker says its past values were made; HIB saved none of them before
-those seasons were played, and any model fitted or tuned on a season can look better on it than it would have at the
-time (it can still score worse: being fitted to a season makes a score optimistic, not high). Only the live board
-scores every metric on games played after its ratings were saved.
+The historical tables are a loose baseline for comparing metrics, not a conclusive ranking. HIB did not receive any
+of the historical values before each season was played, so it cannot confirm that a metric's fitting held out the
+seasons it is scored on; how fully each one did varies (see the last column above). The live 2026-27 board is out of
+sample for every metric by construction: each rating is saved, and its fingerprint published, before the games it is
+scored on.
 
 Each past season uses that season's preseason ratings, but the historical ratings come from each metric's current model,
 not the version published at the time: they are the values each site shows today (LOKI's were generated in 2026 by its
-current model). A model built or recalibrated after those seasons may fit them better than its earlier versions did, so
-the live 2026-27 track, scored on games played after the ratings were saved, is the stricter test. The files for Pulse, xRAPM, LEBRON, EPM, DARKO, BPM, xPM, Danny Harlan's projection and GRBNU belong to their makers and are not in this repository.
+current model). A model built or recalibrated after those seasons may fit them better than its earlier versions did.
+The files for Pulse, xRAPM, LEBRON, EPM, DARKO, BPM, xPM, Danny Harlan's projection and GRBNU belong to their makers and are not in this repository.
 Their scores are in `launch/`, and `launch/provenance.csv` gives each file's source, the date it was pulled and its
 sha256 fingerprint, so anyone who gets the same file can check our numbers.
 
