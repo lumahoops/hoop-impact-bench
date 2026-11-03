@@ -126,7 +126,7 @@ def live_board(d):
                  + td(f'<b>{t["net_rmse"]["value"]:.2f}</b>{ivn(t["net_rmse"]["interval"])}', t["net_rmse"]["value"])
                  + td(f3(t["margin_r2"]["value"]), t["margin_r2"]["value"])
                  + td(f3(t["winpct_r"]["value"]), t["winpct_r"]["value"])
-                 + f'<td class="l" title="{escape(m["source"])}">{escape(m["label"])}</td></tr>')
+                 + f'<td class="l" title="{escape(m["source"] or "")}">{escape(m["label"])}</td></tr>')
     h.append('</tbody><tbody class="refs">')
     for r in d["reference"]:
         t = r["tests"]
