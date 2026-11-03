@@ -109,7 +109,7 @@ def main(board="frozen"):
         nm, maker, url = METRICS[k]
         url = PRESEASON_LINK.get(k, url) if board == "frozen" else url
         metrics.append({"id": k, "name": nm, "maker": maker, "url": url, "ours": k in OURS,
-                        "label": s["label"], "source": s["source"], "sha256": s.get("sha256"), "players": s.get("rows"),
+                        "label": s["label"], "source": s.get("source"), "sha256": s.get("sha256"), "players": s.get("rows"),
                         **({"as_of": s["as_of"]} if "as_of" in s else {}),
                         "coverage": round(m["coverage_established" if board == "frozen" else "coverage"], 4),
                         "record": {"w": wins[k], "l": len(pk) - wins[k]}, "tests": tests(m, True)})
