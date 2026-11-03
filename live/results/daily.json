@@ -9,7 +9,7 @@
   "min": 1,
   "max": 2
  },
- "updated_utc": "2026-11-03T15:18:05+00:00",
+ "updated_utc": "2026-11-03T15:20:47+00:00",
  "primary_test": "net_rmse",
  "net_error_shown": true,
  "early": true,
@@ -22,7 +22,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "0639bd8764a66706e06006950f436d24cbbe72c7",
+ "repo_commit": "414291e8ee6924a86eceae9771fded7c5a7b6b37",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-03",
@@ -214,10 +214,11 @@
    "maker": "Jeremias Engelmann",
    "url": "https://xrapm.com/",
    "ours": false,
-   "label": "empty",
-   "source": null,
-   "sha256": null,
-   "players": null,
+   "label": "pulled",
+   "source": "xrapm.com Total (metrics updated 2026-11-01)",
+   "sha256": "be031411a186f47c12ce36ddfc5e8503e41f7c247f9a192a3c995f2778a40ea0",
+   "players": 582,
+   "as_of": "2026-11-01",
    "coverage": 0.9081,
    "record": {
     "w": 15,
