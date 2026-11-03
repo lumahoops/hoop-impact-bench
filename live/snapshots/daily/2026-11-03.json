@@ -47,8 +47,8 @@
   "xrapm": {
    "status": "empty",
    "reason": "RuntimeError: xRAPM updated (2026-11-01): add a puller for the new table",
-   "tries": 1,
-   "last_try_utc": "2026-11-03T09:30:09+00:00"
+   "tries": 2,
+   "last_try_utc": "2026-11-03T12:00:04+00:00"
   },
   "xpm": {
    "status": "carried",
