@@ -45,10 +45,12 @@
    "saved_at_utc": "2026-11-03T09:30:08+00:00"
   },
   "xrapm": {
-   "status": "empty",
-   "reason": "RuntimeError: xRAPM updated (2026-11-01): add a puller for the new table",
-   "tries": 3,
-   "last_try_utc": "2026-11-03T15:00:04+00:00"
+   "status": "pulled",
+   "source": "xrapm.com Total (metrics updated 2026-11-01)",
+   "as_of": "2026-11-01",
+   "rows": 582,
+   "sha256": "be031411a186f47c12ce36ddfc5e8503e41f7c247f9a192a3c995f2778a40ea0",
+   "saved_at_utc": "2026-11-03T15:20:35+00:00"
   },
   "xpm": {
    "status": "carried",
