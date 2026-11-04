@@ -9,7 +9,7 @@
   "min": 1,
   "max": 2
  },
- "updated_utc": "2026-11-03T15:20:47+00:00",
+ "updated_utc": "2026-11-04T09:30:20+00:00",
  "primary_test": "net_rmse",
  "net_error_shown": true,
  "early": true,
@@ -22,16 +22,17 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "414291e8ee6924a86eceae9771fded7c5a7b6b37",
+ "repo_commit": "df61ff54f2ba0ab447c29bac523db4c9de66ac45",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
-  "latest": "2026-11-03",
-  "latest_saved_at_utc": "2026-11-03T09:30:09+00:00",
+  "latest": "2026-11-04",
+  "latest_saved_at_utc": "2026-11-04T09:30:08+00:00",
   "days": [
    "2026-10-31",
    "2026-11-01",
    "2026-11-02",
-   "2026-11-03"
+   "2026-11-03",
+   "2026-11-04"
   ],
   "excluded_games": [
    {
@@ -111,10 +112,10 @@
    "url": "https://www.darko.app/",
    "ours": false,
    "label": "pulled",
-   "source": "darko.app as of 2026-11-03 (data through 2026-11-01)",
-   "sha256": "8a081cdc2b2be2e01e2eb0d8faff0127908d8cb7116884a3b9f34f35eaaa02ed",
+   "source": "darko.app as of 2026-11-04 (data through 2026-11-02)",
+   "sha256": "9c27496bba1cca1e1e9211b4bdb527d79f0a9ad1bee2fbe8627edeaa6fbb24f2",
    "players": 527,
-   "as_of": "2026-11-01",
+   "as_of": "2026-11-02",
    "coverage": 1.0,
    "record": {
     "w": 19,
@@ -164,9 +165,9 @@
    "ours": false,
    "label": "pulled",
    "source": "dunksandthrees.com/epm (current expected EPM, Aayo's subscription)",
-   "sha256": "f4f0dc3ce90934110c942835c48b2e2eb21d98036040cfaab2b5f1aa37d22d3b",
+   "sha256": "04fb219afd6fce241b488b25e5dc8272110b5cffd9fcee3a475932af0f99c8f3",
    "players": 528,
-   "as_of": "2026-11-03",
+   "as_of": "2026-11-04",
    "coverage": 1.0,
    "record": {
     "w": 16,
@@ -527,10 +528,10 @@
    "url": "https://www.basketball-reference.com/leagues/NBA_2027_advanced.html",
    "ours": false,
    "label": "pulled",
-   "source": "basketball-reference.com 2026-27 Advanced, season-to-date BPM (Last Updated: Tuesday, November 3, 3:03AM); 441 matched, unmatched: none",
-   "sha256": "62f05f1feca6004a4fc6acee5a653ec2927adad00a25eca60520c12048a247cd",
-   "players": 441,
-   "as_of": "2026-11-03",
+   "source": "basketball-reference.com 2026-27 Advanced, season-to-date BPM (Last Updated: Wednesday, November 4, 3:03AM); 447 matched, unmatched: none",
+   "sha256": "493056093902886eb9f9f116a3b6e3736cd75de712cee742dc16a785220b1443",
+   "players": 447,
+   "as_of": "2026-11-04",
    "coverage": 0.9604,
    "record": {
     "w": 20,
@@ -579,9 +580,9 @@
    "url": "https://openrapm.com/",
    "ours": false,
    "label": "pulled",
-   "source": "bbstats/openrapm ratings.json at 27fdbee (Publish WOSA's switch and lock on the owner's word: \"Publish); 2026-27 value, else 2025-26",
-   "sha256": "fba959540731d01193f44eb7b08786e883a509766dea7b011090bcdef7584858",
-   "players": 592,
+   "source": "bbstats/openrapm ratings.json at a39f1b3 (Daily update: 2027 through the games of 2026-11-02); 2026-27 value, else 2025-26",
+   "sha256": "8263ca7b884097e56b6b3df011a53fb9e4d2d9c98a0e7e016f1229011d14673b",
+   "players": 594,
    "as_of": "2026-11-03",
    "coverage": 0.9866,
    "record": {
