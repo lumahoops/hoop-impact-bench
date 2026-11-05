@@ -15,8 +15,8 @@
   "epm": {
    "status": "empty",
    "reason": "HTTPError: 403 Client Error: Forbidden for url: https://dunksandthrees.com/epm/__data.json",
-   "tries": 2,
-   "last_try_utc": "2026-11-05T12:00:07+00:00"
+   "tries": 3,
+   "last_try_utc": "2026-11-05T15:00:05+00:00"
   },
   "darko": {
    "status": "pulled",
