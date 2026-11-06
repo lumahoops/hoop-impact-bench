@@ -13,10 +13,12 @@
    "saved_at_utc": "2026-11-06T09:30:04+00:00"
   },
   "epm": {
-   "status": "empty",
-   "reason": "HTTPError: 403 Client Error: Forbidden for url: https://dunksandthrees.com/epm/__data.json",
-   "tries": 2,
-   "last_try_utc": "2026-11-06T12:00:05+00:00"
+   "status": "pulled",
+   "source": "dunksandthrees.com/epm (current expected EPM, Aayo's subscription)",
+   "as_of": "2026-11-06",
+   "rows": 530,
+   "sha256": "21ca980f518cd0ee5a2e201db059696825f1583f85ce3b711090c450a57404fd",
+   "saved_at_utc": "2026-11-06T14:46:38+00:00"
   },
   "darko": {
    "status": "pulled",
