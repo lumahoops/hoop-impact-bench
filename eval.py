@@ -5,16 +5,20 @@ Bring one CSV per metric with columns season,nba_id,rating. `rating` is the valu
 season's opening night (last season's value, or a preseason projection), in points per 100 possessions above
 league average; nba_id is the NBA.com person id. The file name is the metric's name.
 
-Rules, the same for every metric (Taylor Snarr's 2020 retrodiction rules):
-  players who played under 250 minutes the season before, rookies included, count as -2.0 (replacement level);
-  players missing from a file count as -2.0.
+Rules, the same for every metric:
+  every player counts at the metric's own value, rookies and low-minute players included (the full forecast);
+  players missing from a file count as -2.0 (replacement level).
+  --established adds Taylor Snarr's 2020 rule (the established-players view): players who played under 250 minutes
+  the season before, rookies included, count as -2.0 for every metric.
 A team's rating, in a game or over a season, is 5 x the minutes-weighted mean of its players' values.
 
 Tests
   game margins     R^2 of each game's final margin on home-minus-away team rating (one straight line, home edge in)
   team win %       correlation between team-season rating and win % (Krishna Narsu's 2024 test)
-  team net rating  RMSE between team-season rating, taken at face value, and the team's average margin adjusted for
-                   opponents and home court (Snarr's 2020 test)
+  team net rating  RMSE between team-season rating and the team's average margin adjusted for opponents and home
+                   court (Snarr's 2020 test), centered: each metric's team ratings are shifted so its average team in
+                   each season is 0, like the adjusted margins (the ranked number). Also reported: raw, at face
+                   value, and the offset, the metric's average team rating; in a season raw^2 = centered^2 + offset^2
   rebuilt rosters  the same scores on the third of games / teams that kept the least of last season's minutes
 Every score gets a bootstrap interval and a rank range (team-seasons resampled, the same resamples for every metric).
 
@@ -29,8 +33,9 @@ Usage
   python eval.py --by-season             also print every score season by season
   python eval.py --pairs                 also print each metric minus the leader, with paired intervals
   python eval.py --confidence 0.95       interval level (default 0.90)
-  python eval.py --min-minutes 0         no low-minute rule: every file as-is; only missing players get --replacement
-  python eval.py --replacement -1.0      the value those players get (default -2.0)
+  python eval.py --established           the rookie rule: under 250 minutes last season (rookies included) = -2.0
+  python eval.py --min-minutes 500       the rookie rule with another cutoff (default 0: no rule, every file as-is)
+  python eval.py --replacement -1.0      the value those players, and players missing from a file, get (default -2.0)
   python eval.py --resamples 5000        bootstrap resamples (default 2000, at least 100)
   python eval.py --out my_run            save the run somewhere else (default runs/<date_time>)
 
@@ -51,18 +56,20 @@ import numpy as np
 import pandas as pd
 
 HERE = Path(__file__).parent
-VERSION = "1.2.0"
-STANDARD = {"min_minutes": 250, "replacement": -2.0}
+VERSION = "2.0.0"
+STANDARD = {"min_minutes": 0.0, "replacement": -2.0}      # the full forecast, the default (owner 2026-11-06)
+ESTABLISHED = {"min_minutes": 250, "replacement": -2.0}   # the established-players view: Snarr's 2020 rookie rule
 STANDARD_SEASONS = ["2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 SEED = 7
 TESTS = [("margin_r2", "game margin R2", True),  # (key, label, higher is better)
          ("winpct_r", "team win % r", True),
-         ("net_rmse", "team net RMSE", False)]
+         ("net_rmse", "team net RMSE, raw", False),
+         ("net_rmse_centered", "team net RMSE, centered", False)]   # the ranked net error (owner 2026-11-06)
 HIGHER = {test: higher for test, _, higher in TESTS}
 BASELINES = {
-    "baseline_zero": "every player 0 (under the default rule, only the -2.0 for low-minute players separates teams; "
-                     "with --min-minutes 0 every team is 0: R2 and r are 0, and its net error is the error of calling "
-                     "every team average)",
+    "baseline_zero": "every player 0 (with no rookie rule every team is 0: R2 and r are 0, and its net error is the "
+                     "error of calling every team average; with --established only the -2.0 for low-minute players "
+                     "separates teams)",
     "baseline_last_team": "each player = his main team's opponent-adjusted margin last season / 5",
     "rapm_last_season": "plain RAPM fit on last season only (no prior): raw RAPM carried forward",
     "ceiling_rapm_same_season": "RAPM fit on the season being scored: it has seen those games",
@@ -285,7 +292,7 @@ def rate_teams(systems, seasons, player_games, player_seasons, n_games, n_teams,
     team_ratings = np.zeros((len(names), n_teams))
     checks = {}
     minutes = player_games["min"].values
-    established = player_games.last_min.values >= STANDARD["min_minutes"]  # 250+ minutes last season
+    established = player_games.last_min.values >= ESTABLISHED["min_minutes"]  # 250+ minutes last season
     team_minutes = np.bincount(player_seasons.team_row, weights=player_seasons["min"], minlength=n_teams)
     for i, name in enumerate(names):
         ratings = systems[name][systems[name].season.isin(seasons)]
@@ -312,12 +319,28 @@ def correlations(a, b):
     return np.nan_to_num(r)
 
 
-def score(game_ratings, team_ratings, targets, game_rows, team_rows):
-    """The three tests (rows) for every metric (columns), on the given games and team-seasons."""
+def center(team_ratings, season_of):
+    """Each metric's team ratings minus its average team in the same season: the adjusted margins average 0 in every
+    season, so a metric is not charged for where its zero sits. One number per metric per season, from the ratings and
+    minutes only (never the results)."""
+    out = np.array(team_ratings, dtype=float)
+    season_of = np.asarray(season_of)
+    for s in np.unique(season_of):
+        cols = season_of == s
+        out[:, cols] -= out[:, cols].mean(axis=1, keepdims=True)
+    return out
+
+
+def score(game_ratings, team_ratings, centered_ratings, targets, game_rows, team_rows):
+    """The four tests (rows, in TESTS order) for every metric (columns), on the given games and team-seasons.
+    centered_ratings = center(team_ratings, season of each team-season), computed once on all team-seasons."""
     margin, win_pct, adjusted_margin = targets
+
+    def rmse(x):
+        return np.sqrt(((x[:, team_rows] - adjusted_margin[team_rows]) ** 2).mean(axis=1))
     return np.vstack([correlations(game_ratings[:, game_rows], margin[game_rows]) ** 2,
                       correlations(team_ratings[:, team_rows], win_pct[team_rows]),
-                      np.sqrt(((team_ratings[:, team_rows] - adjusted_margin[team_rows]) ** 2).mean(axis=1))])
+                      rmse(team_ratings), rmse(centered_ratings)])
 
 
 def bootstrap(score_rows, games, team_seasons, resamples):
@@ -378,17 +401,22 @@ def evaluate(systems, seasons, games, player_games, player_seasons, team_seasons
     game_ratings, team_ratings, checks = rate_teams(systems, seasons, player_games, player_seasons, len(games),
                                                     len(team_seasons), min_minutes, replacement)
     targets = (games.margin.values, team_seasons.win_pct.values, team_seasons.adjusted_margin.values)
+    season_of = team_seasons.index.get_level_values(0)
+    centered = center(team_ratings, season_of)          # fixed on all team-seasons, then resampled like the rest
 
     def score_rows(game_rows, team_rows):
-        return score(game_ratings, team_ratings, targets, game_rows, team_rows)
+        return score(game_ratings, team_ratings, centered, targets, game_rows, team_rows)
 
     every_game, every_team = np.arange(len(games)), np.arange(len(team_seasons))
     point = {"all": score_rows(every_game, every_team),
              "rebuilt": score_rows(every_game[games.rebuilt.values], every_team[team_seasons.rebuilt.values])}
-    season_of = team_seasons.index.get_level_values(0)
     by_season = {s: score_rows(np.flatnonzero(games.season == s), np.flatnonzero(season_of == s)) for s in seasons}
     draws = bootstrap(score_rows, games, team_seasons, resamples)
     results = summarize(names, seasons, point, by_season, draws, checks, confidence)
+    for i, name in enumerate(names):         # the offset: the metric's average team rating (points per 100)
+        results[name]["offset"] = float(team_ratings[i].mean())
+        for s in seasons:
+            results[name]["by_season"][s]["offset"] = float(team_ratings[i, np.asarray(season_of == s)].mean())
     return results, paired_differences(names, point, draws, confidence), game_ratings, team_ratings
 
 
@@ -422,7 +450,7 @@ def num(v, digits=3):
 
 def fmt(test, v):
     """Errors in points (2 decimals); R2 and r as .xxx"""
-    return f"{v:.2f}" if test == "net_rmse" else num(v)
+    return f"{v:.2f}" if test.startswith("net_rmse") else num(v)
 
 
 def signed(test, v):
@@ -461,13 +489,15 @@ def header(meta, results):
         rule = (f"under {rules['min_minutes']:g} minutes last season (rookies included) = {replacement}; "
                 f"not in a file = {replacement}")
     else:
-        rule = f"no low-minute rule (every file as-is); not in a file = {replacement}"
+        rule = f"every file as-is, rookies included (no low-minute rule); not in a file = {replacement}"
+    view = {"full": "   [full forecast]", "established": "   [established players]"}.get(meta.get("view"),
+                                                                                       "   [custom rules]")
     lines = [f"Hoop Impact Bench (HIB) v{meta['version']}",
              "Do last season's impact-metric values predict this season?", "",
              f"  seasons    {season_span(meta['seasons'])}: {meta['games']:,} games, {meta['team_seasons']} "
              "team-seasons" + ("   [v1 window]" if std["window"] else "   [custom window]")]
     lines += [f"             shortened by {k} (covers {v})" for k, v in meta["window_limited_by"].items()]
-    lines += [f"  rules      {rule}" + ("   [v1 rules]" if std["rules"] else "   [custom rules]"),
+    lines += [f"  rules      {rule}" + view,
               f"  intervals  {percent(meta)}%, {meta['resamples']:,} resamples of team-seasons, the same for every "
               "metric"]
     if not (std["rules"] and std["window"]):
@@ -477,6 +507,21 @@ def header(meta, results):
     references = [k for k in results if results[k]["baseline"]]
     if references:
         lines += ["  baselines  not ranked:"] + [f"             {k}: {BASELINES[k]}" for k in references]
+    return lines + [""]
+
+
+def net_table(meta, results, width):
+    """The ranked net error (centered), with the raw error and the offset beside it."""
+    lines = ["TEAM NET RATING",
+             "  error vs opponent-adjusted margin in points, centered: each metric's average team set to 0 in each season",
+             "  (lower is better; Snarr 2020). raw = at face value; offset = the metric's average team rating",
+             f"  {'rank':<7}{'metric':<{width}}{'score':>7}   {percent(meta)}% interval      {'raw':>6}  {'offset':>7}"]
+    for name in sorted(results, key=lambda k: results[k]["all"]["net_rmse_centered"]["value"]):
+        s, raw = results[name]["all"]["net_rmse_centered"], results[name]["all"]["net_rmse"]["value"]
+        lo, hi = s.get("rank", (None, None))
+        rank = "-" if lo is None else str(lo) if lo == hi else f"{lo}-{hi}"
+        span = f"{s['interval'][0]:.2f} to {s['interval'][1]:.2f}"
+        lines.append(f"  {rank:<7}{name:<{width}}{s['value']:>7.2f}   {span:<17}{raw:>6.2f}  {results[name]['offset']:>+7.2f}")
     return lines + [""]
 
 
@@ -496,7 +541,7 @@ def rebuilt_table(results, width):
         return f"{fmt(test, s['value'])} ({fmt(test, s['interval'][0])}-{fmt(test, s['interval'][1])})"
     lines = ["REBUILT ROSTERS",
              "  the same tests on the third of games and teams that kept the least of last season's minutes",
-             f"  {'':<7}{'metric':<{width}}{'game R2':<20}{'win % r':<20}{'net RMSE':<20}"]
+             f"  {'':<7}{'metric':<{width}}{'game R2':<20}{'win % r':<20}{'net RMSE, raw':<20}{'net, centered':<20}"]
     for name in sorted(results, key=lambda k: results[k]["rebuilt"]["margin_r2"]["value"], reverse=True):
         cells = "".join(f"{cell(test, results[name]['rebuilt'][test]):<20}" for test, _, _ in TESTS)
         lines.append(f"  {'':<7}{name:<{width}}" + cells)
@@ -567,9 +612,7 @@ def report(meta, results, pairs, by_season, show_pairs, saved):
                           "share of each game's final margin the ratings explain, R2 (higher is better)", width)
     lines += ranked_table(meta, results, "winpct_r", "TEAM WIN %",
                           "correlation with team win %, r (higher is better; Narsu 2024)", width)
-    lines += ranked_table(meta, results, "net_rmse", "TEAM NET RATING",
-                          "ratings at face value vs opponent-adjusted margin, error in points "
-                          "(lower is better; Snarr 2020)", width)
+    lines += net_table(meta, results, width)
     lines += rebuilt_table(results, width) + coverage_lines(results)
     if show_pairs:
         lines += paired_lines(meta, results, pairs, width)
@@ -591,13 +634,21 @@ def parse_args():
     ap.add_argument("--pairs", action="store_true",
                     help="also print each metric minus the leader with paired intervals, and who clears the floors")
     ap.add_argument("--confidence", type=float, default=0.90, help="interval level, e.g. 0.90 or 0.95")
+    ap.add_argument("--established", action="store_true",
+                    help="the rookie rule (established-players view): under 250 minutes last season, rookies "
+                         "included, = --replacement for every metric")
     ap.add_argument("--min-minutes", type=float, default=STANDARD["min_minutes"],
-                    help="players under this many minutes last season get --replacement (0 = use every file as-is)")
+                    help="the rookie rule with another cutoff: players under this many minutes last season get "
+                         "--replacement (default 0: no rule, every file as-is)")
     ap.add_argument("--replacement", type=float, default=STANDARD["replacement"],
                     help="the value those players, and players missing from a file, get (default -2.0)")
     ap.add_argument("--resamples", type=int, default=2000, help="bootstrap resamples (default 2000, at least 100)")
     ap.add_argument("--out", help="folder for the run (default: runs/<date_time>)")
     args = ap.parse_args()
+    if args.established:
+        if args.min_minutes not in (STANDARD["min_minutes"], ESTABLISHED["min_minutes"]):
+            raise SystemExit("--established is the 250-minute rule; for another cutoff use --min-minutes alone")
+        args.min_minutes = ESTABLISHED["min_minutes"]
     if not 0 < args.confidence < 1:
         raise SystemExit("--confidence must be between 0 and 1, e.g. 0.90")
     if args.resamples < 100:
@@ -641,7 +692,8 @@ def main():
     meta = {
         "benchmark": "Hoop Impact Bench (HIB)", "version": VERSION, "seasons": seasons, "games": len(games),
         "team_seasons": len(team_seasons), "rules": rules,
-        "standard": {"rules": rules == STANDARD, "window": seasons == STANDARD_SEASONS},
+        "view": "full" if rules == STANDARD else "established" if rules == ESTABLISHED else "custom",
+        "standard": {"rules": rules in (STANDARD, ESTABLISHED), "window": seasons == STANDARD_SEASONS},
         "window_limited_by": {k: season_span(set(d.season) & set(STANDARD_SEASONS)) for k, d in systems.items()
                               if not set(STANDARD_SEASONS) <= set(d.season)},
         "confidence": args.confidence, "resamples": args.resamples, "seed": SEED,

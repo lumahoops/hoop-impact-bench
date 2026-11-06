@@ -20,11 +20,21 @@ RATINGS = Path(os.environ.get("HIB_RATINGS", REPO / "_private_live" / "snapshots
 WORK = Path(os.environ.get("HIB_WORK", REPO / "_private_live"))
 BOX = Path(os.environ.get("HIB_BOX", WORK / "raw" / "box_2627"))
 RUNS = WORK / "runs"
-# Rules (owner, 2026-11-01). Preseason board: the v1 rule, as registered and as in the historical tables (under 250
-# minutes last season, rookies included, or not rated = -2.0); score.py runs the harness with its defaults, which are
-# these. Dynamic board: no low-minute rule; every player at the metric's value as published, only unrated players -2.0.
-PRESEASON_RULES = {"min_minutes": 250, "replacement": -2.0}
-DYNAMIC_RULES = {"min_minutes": 0.0, "replacement": -2.0}
+# Rules (owner 2026-11-06; before that 2026-11-01). Two views of every board, scored from the same saved files:
+#   full          the full forecast, the default on both boards: every player at the metric's own value, rookies
+#                 included; a player the metric does not rate = -2.0
+#   established   established players (Snarr 2020): under 250 minutes in 2025-26, rookies included, or not rated = -2.0
+# The preseason board was registered with the established rule, so its files keep their names (frozen*) and the full
+# view is frozen_full*; score.py runs the harness with its defaults for the established view, --min-minutes 0 for the
+# full view. The dynamic board was registered with no rule (daily*); its established view is daily_established*.
+PRESEASON_RULES = {"min_minutes": 250, "replacement": -2.0}   # established players (the harness defaults)
+DYNAMIC_RULES = {"min_minutes": 0.0, "replacement": -2.0}    # full forecast
+VIEWS = {   # board -> view -> (run folder under <HIB_WORK>/runs = results file stem in live/results, rules)
+    "frozen": {"full": ("frozen_full", DYNAMIC_RULES), "established": ("frozen", PRESEASON_RULES)},
+    "daily": {"full": ("daily", DYNAMIC_RULES), "established": ("daily_established", PRESEASON_RULES)},
+}
+DEFAULT_VIEW = "full"
+VIEW_NAMES = {"full": "Full forecast", "established": "Established players"}
 # Metrics kept in the frozen snapshot (fingerprint committed) but not scored on the frozen board (owner, 2026-11-01).
 FROZEN_DROPPED = {"arc_2yr": "a 2-year window ending 2025-26, not a forecast, with no rookies; ARC Live stays on the daily board"}
 HARNESS = Path(__file__).resolve().parent / "eval_v1.1.0.py"   # eval.py of release v1.1.0, byte for byte: the live

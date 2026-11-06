@@ -7,8 +7,8 @@ Uses only what is in the repo (live/data, live/reference, live/snapshots, live/c
 not published (each must match its fingerprint in live/snapshots/, or the run stops):
   <HIB_RATINGS>/preseason/<metric>.csv        the frozen board
   <HIB_RATINGS>/daily/<date>/<metric>.csv     the daily board (one folder per snapshot day)
-Scores both boards in a temporary folder with the release harness and compares every published number in
-live/results/<board>.json and <board>_games.csv. Only updated_utc and repo_commit may differ (they record when and
+Scores both boards, both views, in a temporary folder with the release harness and compares every published number in
+live/results/<stem>.json, <stem>_games.csv and <stem>_picks.csv (frozen, frozen_full, daily, daily_established). Only updated_utc and repo_commit may differ (they record when and
 from which commit a run was made). Exit code 0 = reproduced.
 """
 import json
@@ -23,6 +23,7 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 LIVE = HERE.parent
 SKIP = {"updated_utc", "repo_commit"}
+STEMS = {"frozen": ["frozen", "frozen_full"], "daily": ["daily", "daily_established"]}   # paths.py VIEWS
 
 
 def diff(a, b, path=""):
@@ -51,24 +52,29 @@ def main():
                     ok = False
                     break
             else:
-                pub = json.loads((LIVE / "results" / f"{board}.json").read_text(encoding="utf-8"))
-                new = json.loads((Path(tmp) / "results" / f"{board}.json").read_text(encoding="utf-8"))
-                d = diff(pub, new)
-                g1 = pd.read_csv(LIVE / "results" / f"{board}_games.csv", dtype={"game_id": str})
-                g2 = pd.read_csv(Path(tmp) / "results" / f"{board}_games.csv", dtype={"game_id": str})
-                games_same = g1.equals(g2)
-                p1, p2 = (LIVE / "results" / f"{board}_picks.csv"), (Path(tmp) / "results" / f"{board}_picks.csv")
-                if p1.exists():           # W-L picks (published from 2026-11-01)
-                    games_same &= pd.read_csv(p1, dtype={"game_id": str}).equals(pd.read_csv(p2, dtype={"game_id": str}))
-                print(f"{board}: {'REPRODUCED' if not d and games_same else 'DIFFERS'} "
-                      f"({pub['games']} games through {pub['scored_through']})")
-                for line in d[:10]:
-                    print("   ", line)
-                if not games_same:
-                    print("    per-game or picks file differs")
-                ok &= not d and games_same
+                for stem in STEMS[board]:              # both views (owner 2026-11-06); a view published later may be absent
+                    if (LIVE / "results" / f"{stem}.json").exists():
+                        ok &= compare(stem, Path(tmp) / "results")
     sys.exit(0 if ok else 1)
 
+
+def compare(stem, rebuilt):
+    pub = json.loads((LIVE / "results" / f"{stem}.json").read_text(encoding="utf-8"))
+    new = json.loads((rebuilt / f"{stem}.json").read_text(encoding="utf-8"))
+    d = diff(pub, new)
+    g1 = pd.read_csv(LIVE / "results" / f"{stem}_games.csv", dtype={"game_id": str})
+    g2 = pd.read_csv(rebuilt / f"{stem}_games.csv", dtype={"game_id": str})
+    games_same = g1.equals(g2)
+    p1, p2 = (LIVE / "results" / f"{stem}_picks.csv"), (rebuilt / f"{stem}_picks.csv")
+    if p1.exists():           # W-L picks (published from 2026-11-01)
+        games_same &= pd.read_csv(p1, dtype={"game_id": str}).equals(pd.read_csv(p2, dtype={"game_id": str}))
+    print(f"{stem}: {'REPRODUCED' if not d and games_same else 'DIFFERS'} "
+          f"({pub['games']} games through {pub['scored_through']})")
+    for line in d[:10]:
+        print("   ", line)
+    if not games_same:
+        print("    per-game or picks file differs")
+    return not d and games_same
 
 if __name__ == "__main__":
     main()

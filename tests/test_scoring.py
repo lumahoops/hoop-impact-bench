@@ -11,7 +11,7 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(HERE))
-from eval import apply_rules, correlations, opponent_adjusted, prev, score  # noqa: E402
+from eval import apply_rules, center, correlations, opponent_adjusted, prev, score  # noqa: E402
 
 
 def run_eval(*args):
@@ -37,18 +37,38 @@ def test_rules_replace_low_minute_and_unrated_players():
 
 
 def test_perfect_ratings_score_perfectly_and_constants_score_zero():
-    margin, win_pct, adjusted = np.array([5.0, -3.0, 8.0, 1.0]), np.array([.7, .4, .5]), np.array([4.0, -2.0, 1.0])
+    margin, win_pct, adjusted = np.array([5.0, -3.0, 8.0, 1.0]), np.array([.7, .4, .5]), np.array([4.0, -3.0, -1.0])
     game_ratings = np.vstack([margin, np.full(4, 2.0)])        # a perfect metric and a constant one
     team_ratings = np.vstack([adjusted, np.full(3, 2.0)])
-    r2, r, rmse = score(game_ratings, team_ratings, (margin, win_pct, adjusted), np.arange(4), np.arange(3))
-    assert np.isclose(r2[0], 1) and np.isclose(rmse[0], 0)
+    centered = center(team_ratings, ["2024-25"] * 3)
+    r2, r, rmse, rmse_c = score(game_ratings, team_ratings, centered, (margin, win_pct, adjusted), np.arange(4), np.arange(3))
+    assert np.isclose(r2[0], 1) and np.isclose(rmse[0], 0) and np.isclose(rmse_c[0], 0)
     assert r2[1] == 0 and r[1] == 0
     assert correlations(np.ones((1, 3)), np.array([1.0, 2.0, 3.0]))[0] == 0
 
 
+def test_centering_removes_only_the_offset():
+    """Centered net error: each season's average team set to 0. In a season raw^2 = centered^2 + offset^2, a constant
+    shift changes nothing, and game R2 and win % r do not move."""
+    rng = np.random.default_rng(1)
+    adjusted = np.r_[rng.normal(0, 5, 30), rng.normal(0, 5, 30)]
+    adjusted[:30] -= adjusted[:30].mean()
+    adjusted[30:] -= adjusted[30:].mean()
+    seasons = ["2023-24"] * 30 + ["2024-25"] * 30
+    x = 0.8 * adjusted + rng.normal(0, 2, 60)
+    team_ratings = np.vstack([x, x + 3.0, x - 1.5])            # the same metric with three different zeros
+    margin, rows = rng.normal(0, 12, 50), np.arange(30)
+    game_ratings = np.vstack([margin + rng.normal(0, 9, 50)] * 3)
+    centered = center(team_ratings, seasons)
+    r2, r, raw, cen = score(game_ratings, team_ratings, centered, (margin, np.full(60, .5), adjusted), np.arange(50), rows)
+    assert np.allclose(cen, cen[0]) and np.allclose(r2, r2[0]) and np.allclose(r, r[0])
+    offset = team_ratings[:, rows].mean(axis=1)
+    assert np.allclose(raw ** 2, cen ** 2 + offset ** 2) and (cen <= raw + 1e-12).all()
+
+
 def test_rookie_values_only_count_without_the_low_minute_rule():
-    """Under the default rule a file's values for players under 250 minutes last season (rookies included) are
-    replaced by -2.0, so changing them changes nothing; with --min-minutes 0 they count."""
+    """With --established a file's values for players under 250 minutes last season (rookies included) are replaced
+    by -2.0, so changing them changes nothing; by default (no rule) they count."""
     loki = pd.read_csv(HERE / "ratings" / "loki.csv")
     minutes = pd.read_csv(HERE / "data" / "minutes.csv", dtype={"game_id": str})
     last = minutes.groupby(["season", "nba_id"])["min"].sum()
@@ -57,7 +77,7 @@ def test_rookie_values_only_count_without_the_low_minute_rule():
     with tempfile.TemporaryDirectory() as tmp:
         loki.to_csv(Path(tmp) / "loki.csv", index=False)
         loki.assign(rating=np.where(low, 40.0, loki.rating)).to_csv(Path(tmp) / "wild.csv", index=False)
-        for rules, should_match in (([], True), (["--min-minutes", "0"], False)):
+        for rules, should_match in ((["--established"], True), ([], False)):
             m = run_eval("--no-bundled", "--ratings", tmp, *rules)["metrics"]
             match = all(m["loki"]["all"][t]["value"] == m["wild"]["all"][t]["value"] for t in m["loki"]["all"])
             assert match == should_match, rules

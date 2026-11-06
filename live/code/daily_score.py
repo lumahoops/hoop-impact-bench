@@ -1,6 +1,12 @@
 """Daily board: score every 2026-27 game with each metric's rating as saved on the morning of that game, before tip-off.
 
-  python live/code/daily_score.py
+  python live/code/daily_score.py                         every game so far, both views
+  python live/code/daily_score.py --through 2026-11-02    only games through that date (rebuilding a past day's board)
+
+Two views (live/code/paths.py VIEWS; owner 2026-11-06), scored from the same saved files:
+  <HIB_WORK>/runs/daily/               full forecast: every player at the metric's value as published, rookies included
+  <HIB_WORK>/runs/daily_established/   established players: under 250 minutes in 2025-26, rookies included, = -2.0
+Each run also gets centered.json: team net error centered (live/code/centered.py), the ranked test.
 
 A game on date D uses the snapshot of date D (live/snapshots/daily/D.json; ratings in <HIB_RATINGS>/daily/D/). Each
 metric's value counts for the game only if that metric's entry was saved before the game's tip-off (tip_utc) and is
@@ -13,6 +19,7 @@ from a byte-identical copy of eval.py (sha256 checked). The only new piece is th
 from game to game); a team-season's rating is the minutes-weighted average of its players' values over the games scored.
 The consensus (each player's average across that morning's metrics) and the reference rows are not ranked.
 """
+import argparse
 import hashlib
 import importlib.util
 import json
@@ -22,20 +29,21 @@ import sys
 import numpy as np
 import pandas as pd
 
-from paths import DYNAMIC_RULES, HARNESS, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, WORK
+import centered
+from paths import HARNESS, DATA, REFERENCE, RATINGS, RELEASE_HARNESS, REPO, RUNS, SEASON, SNAPSHOTS, VIEWS, WORK
 
 
 def sha256(path):
     return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
-def harness(work):
+def harness(work, reference=REFERENCE):
     shutil.rmtree(work, ignore_errors=True)
     (work / "data").mkdir(parents=True)
     shutil.copy(HARNESS, work / "eval.py")
     shutil.copytree(REPO / "reference", work / "reference")
     for f in ("rapm_same_season", "rapm_last_season"):
-        pd.concat([pd.read_csv(work / "reference" / f"{f}.csv"), pd.read_csv(REFERENCE / f"{f}_{SEASON}.csv")]) \
+        pd.concat([pd.read_csv(work / "reference" / f"{f}.csv"), pd.read_csv(reference / f"{f}_{SEASON}.csv")]) \
             .to_csv(work / "reference" / f"{f}.csv", index=False)
     spec = importlib.util.spec_from_file_location("hib_eval", work / "eval.py")
     ev = importlib.util.module_from_spec(spec)
@@ -66,13 +74,23 @@ def load_snapshots():
 
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--through", help="score only games through this date (YYYY-MM-DD)")
+    ap.add_argument("--reference", help="folder with that day's rapm_*_2026-27.csv (default live/reference)")
+    args = ap.parse_args()
+    from pathlib import Path
+    reference = Path(args.reference) if args.reference else REFERENCE
     snaps = load_snapshots()
+    if args.through:
+        snaps = {d: v for d, v in snaps.items() if d <= args.through}
     if not snaps:
         sys.exit("no daily snapshots yet")
     names = sorted(set.union(*(set(e) for e in snaps.values())))
     g26 = pd.read_csv(DATA / f"games_{SEASON}.csv", dtype={"game_id": str})
     m26 = pd.read_csv(DATA / f"minutes_{SEASON}.csv", dtype={"game_id": str})
     g26 = g26[g26.date >= min(snaps)]
+    if args.through:
+        g26 = g26[g26.date <= args.through]
     tip = pd.to_datetime(g26.tip_utc, utc=True)
     keep, excluded = [], []
     for (_, row), t in zip(g26.iterrows(), tip):
@@ -90,7 +108,7 @@ def main():
     if g26.empty:
         sys.exit("no game has a full set of values saved before its tip-off yet")
 
-    ev = harness(WORK / "work" / "daily")
+    ev = harness(WORK / "work" / "daily", reference)
     base_g = pd.read_csv(REPO / "data" / "games.csv", dtype={"game_id": str})
     base_m = pd.read_csv(REPO / "data" / "minutes.csv", dtype={"game_id": str})
     games = pd.concat([base_g, g26[base_g.columns]])
@@ -108,14 +126,11 @@ def main():
     mins = player_games["min"].values
     team_minutes = np.bincount(pg_team, weights=mins, minlength=len(team_seasons))
     established = player_games.last_min.values >= ev.STANDARD["min_minutes"]
-    rules = DYNAMIC_RULES
 
-    game_ratings = np.zeros((len(order), len(games)))
-    team_ratings = np.zeros((len(order), len(team_seasons)))
-    checks = {}
-    for i, k in enumerate(order):
+    raws = {}                                    # each row's value per player-game, as saved (before any rule)
+    for k in order:
         if k in refs:
-            raw = ev.lookup(player_games, refs[k][refs[k].season.isin(seasons)])
+            raws[k] = ev.lookup(player_games, refs[k][refs[k].season.isin(seasons)])
         else:
             raw = np.full(len(player_games), np.nan)
             for day in np.unique(day_of):
@@ -125,6 +140,23 @@ def main():
                     raw[rows] = pd.DataFrame({m: snaps[day][m][0] for m in names}).mean(axis=1).reindex(ids).values
                 else:
                     raw[rows] = snaps[day][k][0].reindex(ids).values
+            raws[k] = raw
+    ev.BASELINES = dict(ev.BASELINES, consensus="each player's average across that morning's metrics")   # not ranked
+    for view, (name, rules) in VIEWS["daily"].items():
+        score_view(ev, view, name, rules, order, names, raws, games, player_games, team_seasons, pg_team, mins,
+                   team_minutes, established, seasons, snaps, excluded)
+    print(f"daily board: {len(games)} games {games.date.min()} to {games.date.max()}, {len(excluded)} excluded, "
+          f"{len(names)} metrics + consensus + {len(refs)} reference rows, views {', '.join(VIEWS['daily'])}")
+
+
+def score_view(ev, view, name, rules, order, names, raws, games, player_games, team_seasons, pg_team, mins,
+               team_minutes, established, seasons, snaps, excluded):
+    """One view of the board under its rules: results.json, games.csv, teams.csv, picks.csv, centered.json."""
+    game_ratings = np.zeros((len(order), len(games)))
+    team_ratings = np.zeros((len(order), len(team_seasons)))
+    checks = {}
+    for i, k in enumerate(order):
+        raw = raws[k]
         value, eligible, rated = ev.apply_rules(raw, player_games.last_min.values, rules["min_minutes"], rules["replacement"])
         game_ratings[i] = np.bincount(player_games.game, weights=player_games.weight * value, minlength=len(games))
         team_ratings[i] = 5 * np.bincount(pg_team, weights=value * mins, minlength=len(team_seasons)) / team_minutes
@@ -142,11 +174,10 @@ def main():
     point = {"all": score_rows(every_game, every_team),
              "rebuilt": score_rows(every_game[games.rebuilt.values], every_team[team_seasons.rebuilt.values])}
     draws = ev.bootstrap(score_rows, games, team_seasons, 2000)
-    ev.BASELINES = dict(ev.BASELINES, consensus="each player's average across that morning's metrics")   # not ranked
     results = ev.summarize(order, seasons, point, {SEASON: point["all"]}, draws, checks, 0.90)
     pairs = [p for p in ev.paired_differences(order, point, draws, 0.90) if p["a"] in names and p["b"] in names]
 
-    out = RUNS / "daily"
+    out = RUNS / name
     out.mkdir(parents=True, exist_ok=True)
     meta = {"benchmark": "Hoop Impact Bench (HIB)", "board": "daily", "version": ev.VERSION, "seasons": seasons,
             "games": int(len(games)), "team_seasons": int(len(team_seasons)), "rules": rules, "confidence": 0.90,
@@ -159,9 +190,7 @@ def main():
     pk = pd.DataFrame({k: game_ratings[i].round(4) for i, k in enumerate(order) if k in names})
     pk.insert(0, "game_id", games.game_id.values)
     pk[games.season.values == SEASON].to_csv(out / "picks.csv", index=False)
-    print(f"daily board: {len(games)} games {games.date.min()} to {games.date.max()}, {len(excluded)} excluded, "
-          f"{len(names)} metrics + consensus + {len(refs)} reference rows")
-
+    centered.write(out / "centered.json", centered.scores(ev, order, names, team_ratings, games, team_seasons))
 
 if __name__ == "__main__":
     main()

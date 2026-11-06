@@ -4,7 +4,7 @@ definitions are the assistant's wording. -->
 
 Do last season's impact-metric values predict this season?
 
-![version](https://img.shields.io/badge/version-1.2.0-blue)
+![version](https://img.shields.io/badge/version-2.0.0-blue)
 ![code](https://img.shields.io/badge/code-MIT-green)
 ![data](https://img.shields.io/badge/data-CC%20BY%204.0-green)
 ![python](https://img.shields.io/badge/tested%20on-Python%203.12-blue)
@@ -21,15 +21,34 @@ about 09:30 UTC. Base URL: `https://hoopimpactbench.org/`
 
 | File | Contents |
 |---|---|
-| `live/results/frozen.json` | Preseason board: each metric's game R², team win % r, net error (after 20 games), 90% ranges, rank ranges, W-L, label, source and sha256 |
-| `live/results/daily.json` | Dynamic board, same fields |
-| `live/results/frozen_picks.csv`, `daily_picks.csv` | Every game: teams, final score, and each metric's home-minus-away team rating (positive = the metric rates the home team higher) |
-| `live/results/frozen_games.csv`, `daily_games.csv` | Every game: each metric's predicted margin on the scoring run's fitted line |
-| `live/results/frozen_history.csv`, `daily_history.csv` | Each metric's scores after every update |
-| `launch/established-players.json`, `full-forecast.json` | The historical tables, 2020-21 to 2025-26 |
+| `live/results/frozen_full.json` | Preseason board, Full forecast (the default view): each metric's net error (centered, the ranking test; raw; offset), game R², team win % r, 90% ranges, rank ranges, W-L, label, source and sha256 |
+| `live/results/frozen.json` | Preseason board, Established players (the rule registered before the season), same fields |
+| `live/results/daily.json`, `daily_established.json` | Dynamic board, Full forecast (the default view) and Established players, same fields |
+| `live/results/<board>_picks.csv` | Every game: teams, final score, and each metric's home-minus-away team rating (positive = the metric rates the home team higher) |
+| `live/results/<board>_games.csv` | Every game: each metric's predicted margin on the scoring run's fitted line |
+| `live/results/<board>_history.csv` | Each metric's scores after every update (net error columns from 2026-11-06; earlier rows filled in from the saved files) |
+| `launch/full-forecast.json`, `established-players.json` | The historical tables, 2020-21 to 2025-26 |
+
+`<board>` is `frozen_full`, `frozen`, `daily` or `daily_established`. Every file states its rules in `rules`; no field
+changes meaning between versions (from 2.0.0, `net_rmse` is the raw error and `net_rmse_centered` the ranked one).
 
 ## News
 
+<!-- 2026-11-06 entry: the "Team net error centered" sub-bullet is the owner's wording; the rest is the assistant's. -->
+- 2026-11-06: version 2.0.0 changes two scoring rules on every board, for 2026-27 and for 2020-21 to 2025-26.
+  - Team net error centered. Each metric's team ratings are shifted so its average team is 0 in each season, the same
+    as the opponent-adjusted margins they are compared with. The shift is one number per metric per season, computed
+    from the ratings and minutes only, never from game results. Prior to that, the gap between a metric's average team
+    value and zero was added to every team's error. Part of the gap originated from HIB's own -2.0 for rookies and
+    low-minute players, which lowered every metric's average team by 1.1 to 1.6 points. The uncentered score stays on
+    every board as "raw". Centering does not change game margin R², team win % r or W-L.
+  - Rookies and low-minute players count at each metric's own rating by default. The rule that rates every player
+    under 250 minutes the season before, rookies included, at -2.0 for every metric (Taylor Snarr, 2020) is now a
+    switch on every board, "Established players". A player a metric does not rate still counts as -2.0. On the
+    preseason board this changes every score, W-L included. The dynamic board already worked this way.
+  - Every score published before this change is still published: the face-value net error as "raw" on every board, and
+    the preseason board's old view as Established players. Earlier versions of every results file are in the
+    repository's history.
 - 2026-11-01: version 1.2.0 adds three metrics: xPM (George Berry, VORP.app), Danny Harlan's EPM projection, and GRBNU
   (Mike Gribanov). It also re-solves the two RAPM reference rows the way LUMA's site solves its RAPM (counted
   possessions, ridge penalty 10,000). Scores of the metrics already listed did not change; their rank ranges did,
@@ -42,79 +61,84 @@ about 09:30 UTC. Base URL: `https://hoopimpactbench.org/`
 ## Results
 
 The tables score each metric's ratings from before each season on the regular seasons 2020-21 to 2025-26 (7,230 games,
-180 team-seasons), sorted by the first test. The tests are explained under [How it works](#how-it-works).
+180 team-seasons), ranked by team net error, centered (the ranking test). The tests are explained under
+[How it works](#how-it-works).
 
-### Established players
+### Full forecast
 
-Under the v1 rule, a player who played under 250 minutes the season before, rookies included, counts as -2.0 for every metric.
+The default view: every player counts at the metric's own rating, rookies and low-minute players included. A player a
+metric does not rate counts as -2.0.
 
-| Rank | Metric | Game margins R² (90% interval) | Team win % r | Team net error (points) |
-|---|---|---|---|---|
-|  | *Same-season RAPM (ceiling)* | .258 (.241-.275) | .946 | 1.71 |
-| 1-2 | GRBNU | .182 (.165-.198) | .814 | 3.04 |
-| 1-3 | xPM (VORP.app) | .177 (.160-.194) | .815 | 2.94 |
-| 2-5 | Danny Harlan's EPM projection | .172 (.155-.188) | .818 | 3.07 |
-| 3-5 | Pulse | .171 (.154-.187) | .800 | 3.13 |
-| 3-5 | LOKI † | .170 (.152-.186) | .805 | 3.08 |
-| 6-8 | OpenRAPM | .162 (.146-.178) | .786 | 3.39 |
-| 6-9 | xRAPM | .161 (.144-.177) | .772 | 3.48 |
-| 6-11 | LEBRON | .159 (.142-.175) | .770 | 3.39 |
-| 7-11 | EPM | .157 (.141-.174) | .778 | 3.87 |
-| 8-12 | DARKO | .155 (.138-.172) | .767 | 3.36 |
-| 8-12 | BPM (Basketball-Reference) | .154 (.136-.170) | .773 | 3.50 |
-| 9-12 | ARC, 2-year † | .152 (.135-.169) | .776 | 3.38 |
-|  | *Last season's RAPM, no prior (reference)* | .142 (.124-.159) | .725 | 3.49 |
-|  | *Everyone 0 (floor)* | .125 (.109-.141) | .678 | 4.65 |
-|  | *Last season's team (floor)* | .103 (.087-.120) | .629 | 4.19 |
+| Rank | Metric | Team net error (90% interval) | Raw | Game margins R² (90% interval) | Team win % r |
+|---|---|---|---|---|---|
+|  | *Same-season RAPM (ceiling)* | 1.51 (1.36-1.65) | 1.89 | .267 (.251-.284) | .958 |
+| 1-4 | xPM (VORP.app) | 2.79 (2.55-3.03) | 2.83 | .193 (.175-.210) | .825 |
+| 1-3 | GRBNU | 2.81 (2.57-3.04) | 2.89 | .205 (.187-.221) | .835 |
+| 1-5 | Danny Harlan's EPM projection | 2.88 (2.64-3.13) | 2.95 | .179 (.162-.195) | .829 |
+| 2-5 | Pulse | 2.95 (2.70-3.21) | 3.09 | .177 (.159-.192) | .807 |
+| 3-6 | OpenRAPM | 3.01 (2.77-3.23) | 3.40 | .171 (.154-.187) | .801 |
+| 5-10 | LOKI † | 3.16 (2.88-3.43) | 3.47 | .196 (.178-.213) | .828 |
+| 6-11 | ARC, 2-year † | 3.24 (3.01-3.49) | 3.34 | .156 (.138-.172) | .782 |
+| 6-12 | LEBRON | 3.28 (2.99-3.54) | 3.38 | .154 (.137-.169) | .766 |
+| 6-11 | DARKO | 3.28 (3.00-3.55) | 3.31 | .159 (.142-.175) | .773 |
+| 7-11 | xRAPM | 3.31 (3.06-3.57) | 3.47 | .169 (.152-.185) | .782 |
+| 6-12 | EPM | 3.32 (3.03-3.60) | 4.44 | .178 (.161-.194) | .808 |
+| 9-12 | BPM (Basketball-Reference) | 3.50 (3.19-3.81) | 3.59 | .154 (.138-.170) | .768 |
+|  | *Last season's RAPM, no prior (reference)* | 3.55 (3.23-3.85) | 3.57 | .132 (.115-.149) | .711 |
+|  | *Last season's team (floor)* | 4.08 (3.71-4.44) | 4.18 | .092 (.077-.108) | .609 |
+|  | *Everyone 0 (floor)* | 5.04 (4.63-5.41) | 5.04 | .000 (.000-.000) | .000 |
 
 Reference rows (in italics, not ranked):
 
 - Same-season RAPM (ceiling): plain RAPM (ridge regression on lineup stints, no prior, no box score; possessions
-  counted from the box score, ridge penalty 10,000, solved the way LUMA's site solves its RAPM) fit on the full
-  regular season being scored. It is estimated from the same games it is scored on, so it serves as an in-sample upper
-  reference.
+  counted from the box score, ridge penalty 10,000, solved the way LUMA's site solves its published RAPM) fit on the
+  full regular season being scored. It is estimated from the same games it is scored on, so it serves as an in-sample
+  upper reference.
 - Last season's RAPM: the same plain RAPM fit on the previous season only and carried forward as the forecast.
-- Everyone 0 (floor): every player is rated 0, so teams differ only by the number of low-minute players (rated -2.0)
-  they used. In the full forecast there is no -2.0, so every team is 0 and the score is 0.
+- Everyone 0 (floor): every player is rated 0, so every team is league average. In the Established players view the
+  -2.0 for low-minute players is the only thing that separates teams.
 - Last season's team (floor): each player is assigned his main team's opponent-adjusted margin from the previous
   season, divided by 5, so the forecast uses only team strength from the previous season.
 
-### Full forecast
+### Established players
 
-The same files with no low-minute rule, so each metric's own values for rookies and low-minute players count.
+Taylor Snarr's 2020 rule (`--established`): a player who played under 250 minutes the season before, rookies
+included, counts as -2.0 for every metric, and so does a player a metric does not rate.
 
-| Rank | Metric | Game margins R² (90% interval) | Team win % r | Team net error (points) |
-|---|---|---|---|---|
-|  | *Same-season RAPM (ceiling)* | .267 (.251-.284) | .958 | 1.89 |
-| 1 | GRBNU | .205 (.187-.221) | .835 | 2.89 |
-| 2-3 | LOKI † | .196 (.178-.213) | .828 | 3.47 |
-| 2-3 | xPM (VORP.app) | .193 (.175-.210) | .825 | 2.83 |
-| 4-6 | Danny Harlan's EPM projection | .179 (.162-.195) | .829 | 2.95 |
-| 4-6 | EPM | .178 (.161-.194) | .808 | 4.44 |
-| 4-6 | Pulse | .177 (.159-.192) | .807 | 3.09 |
-| 6-8 | OpenRAPM | .171 (.154-.187) | .801 | 3.40 |
-| 7-8 | xRAPM | .169 (.152-.185) | .782 | 3.47 |
-| 9-11 | DARKO | .159 (.142-.175) | .773 | 3.31 |
-| 9-12 | ARC, 2-year † | .156 (.138-.172) | .782 | 3.34 |
-| 9-12 | BPM (Basketball-Reference) | .154 (.138-.170) | .768 | 3.59 |
-| 9-12 | LEBRON | .154 (.137-.169) | .766 | 3.38 |
-|  | *Last season's RAPM, no prior (reference)* | .132 (.115-.149) | .711 | 3.57 |
-|  | *Last season's team (floor)* | .092 (.077-.108) | .609 | 4.18 |
-|  | *Everyone 0 (floor)* | .000 (.000-.000) | .000 | 5.04 |
+| Rank | Metric | Team net error (90% interval) | Raw | Game margins R² (90% interval) | Team win % r |
+|---|---|---|---|---|---|
+|  | *Same-season RAPM (ceiling)* | 1.69 (1.52-1.84) | 1.71 | .258 (.241-.275) | .946 |
+| 1-4 | xPM (VORP.app) | 2.92 (2.67-3.17) | 2.94 | .177 (.160-.194) | .815 |
+| 1-6 | Danny Harlan's EPM projection | 2.98 (2.73-3.23) | 3.07 | .172 (.155-.188) | .818 |
+| 1-6 | LOKI † | 2.99 (2.73-3.24) | 3.08 | .170 (.152-.186) | .805 |
+| 1-6 | GRBNU | 3.00 (2.76-3.25) | 3.04 | .182 (.165-.198) | .814 |
+| 1-6 | Pulse | 3.01 (2.75-3.26) | 3.13 | .171 (.154-.187) | .800 |
+| 4-8 | OpenRAPM | 3.12 (2.86-3.35) | 3.39 | .162 (.146-.178) | .786 |
+| 6-11 | LEBRON | 3.22 (2.95-3.49) | 3.39 | .159 (.142-.175) | .770 |
+| 6-11 | ARC, 2-year † | 3.28 (3.04-3.52) | 3.38 | .152 (.135-.169) | .776 |
+| 7-12 | DARKO | 3.31 (3.03-3.59) | 3.36 | .155 (.138-.172) | .767 |
+| 7-12 | EPM | 3.35 (3.07-3.63) | 3.87 | .157 (.141-.174) | .778 |
+| 8-12 | xRAPM | 3.39 (3.13-3.65) | 3.48 | .161 (.144-.177) | .772 |
+| 8-12 | BPM (Basketball-Reference) | 3.46 (3.12-3.78) | 3.50 | .154 (.136-.170) | .773 |
+|  | *Last season's RAPM, no prior (reference)* | 3.45 (3.15-3.75) | 3.49 | .142 (.124-.159) | .725 |
+|  | *Last season's team (floor)* | 3.96 (3.61-4.31) | 4.19 | .103 (.087-.120) | .629 |
+|  | *Everyone 0 (floor)* | 4.42 (4.05-4.76) | 4.65 | .125 (.109-.141) | .678 |
 
 How to read the tables:
 
-- Rank is the range of places a metric took in the middle 90% of 2,000 resamples. When two metrics' ranges overlap,
-  this data does not separate them. On game margins, gaps under about .006 are within the noise; `python eval.py
-  --pairs` prints the paired difference between every two metrics.
-- Team net error takes each team's rating at face value, so it also grades a metric's scale. A metric can order players
-  well and still score badly here if its ratings are spread too wide or too narrow.
-  EPM is the clearest case: its team ratings run about 1.9 points per 100 below the actual adjusted margins in every
-  season (established players), which puts it last on net error (3.87); with that offset and scale fitted away its error
-  is 3.23, in the middle of the pack (range 2.93 to 3.32). Game margins and win % are not affected by an offset.
-- Rows in italics are reference points and are not ranked; see the key under the first table.
+- Rank is the range of places on team net error a metric took in the middle 90% of 2,000 resamples. When two metrics'
+  ranges overlap, this data does not separate them. `python eval.py --pairs` prints the paired difference between
+  every two metrics on every test.
+- Team net error is centered: each metric's team ratings are shifted so its average team is 0 in each season, like the
+  opponent-adjusted margins. Raw is the same error at face value. The gap between them is the metric's offset, its
+  average team rating (in a season, raw² = centered² + offset²); `results.json` has it as `offset`. EPM's average team
+  sits 2.90 points below 0 in the full forecast, so its raw error is 4.44 and its centered error 3.32. The centered
+  error still grades scale: a metric whose ratings are spread too wide or too narrow scores worse.
+- Game margins and win % are not affected by an offset, so centering does not change them.
+- Rows in italics are reference points and are not ranked.
 - The team win % test reproduces Krishna Narsu's (2024) published out-of-sample results for 2020-21 to 2022-23 (his R²
-  is r squared): LEBRON .555 (his .555), BPM .514 (his .514), DARKO .530 (his .523).
+  is r squared): LEBRON .555 (his .555), BPM .514 (his .514), DARKO .530 (his .523), all in the Established players
+  view.
 - † LOKI and ARC are made by LUMA Basketball Research, which maintains HIB.
 
 ### The metrics
@@ -176,11 +200,11 @@ A run takes a few seconds, prints a report, and saves a folder `runs/<date_time>
 
 ```mermaid
 flowchart LR
-    A["Your CSV: season, nba_id, rating<br/>values known before opening night"] --> B["Same rules for every metric<br/>under 250 minutes last season or unrated = -2.0"]
+    A["Your CSV: season, nba_id, rating<br/>values known before opening night"] --> B["Same rules for every metric<br/>unrated = -2.0; with --established also<br/>under 250 minutes last season = -2.0"]
     B --> C["Team ratings: 5 x minutes-weighted average<br/>with the minutes actually played"]
     C --> D["Game margins R²"]
     C --> E["Team win % r"]
-    C --> F["Team net error"]
+    C --> F["Team net error<br/>centered, and raw"]
     D --> G["2,000 resamples of team-seasons<br/>intervals, rank ranges, paired differences"]
     E --> G
     F --> G
@@ -210,8 +234,10 @@ to be converted first: for PER, subtract 15 (the league average) and rescale.
 
 ### The rules
 
-- A player who played under 250 minutes the season before, rookies included, counts as -2.0 (replacement level).
-- A player missing from your file counts as -2.0.
+- Every player counts at your file's value, rookies and low-minute players included (the full forecast, the default).
+- A player missing from your file counts as -2.0 (replacement level).
+- `--established` adds Taylor Snarr's 2020 rule (the Established players view): a player who played under 250 minutes
+  the season before, rookies included, counts as -2.0 for every metric.
 
 A team's rating, in a game or over a season, is 5 times the minutes-weighted average of its players' values, using the
 minutes they actually played. Every metric gets the same minutes, so playing time cannot favor one metric over another.
@@ -222,7 +248,7 @@ minutes they actually played. Every metric gets the same minutes, so playing tim
 |---|---|---|
 | Game margins | How much of each game's final margin do the ratings explain? | R² |
 | Team win % | Do better-rated teams win more often? | r |
-| Team net rating | How far is each team's rating, taken at face value, from its opponent-adjusted margin? | RMSE in points |
+| Team net rating | How far is each team's rating from its opponent-adjusted margin, with each metric's average team set to 0? Also reported at face value (raw), with the offset | RMSE in points |
 | Rebuilt rosters | The same three tests on the third of games and teams that kept the least of last season's minutes | |
 
 Every score has a bootstrap interval. The 180 team-seasons are resampled 2,000 times, and every metric is scored on the
@@ -239,8 +265,9 @@ never combined into one score.
 | `--by-season` | Also print every score season by season |
 | `--pairs` | Also print each metric minus the leader with paired intervals (a tie when the interval holds 0), the noise level, and which metrics beat the floors |
 | `--confidence 0.95` | Interval level (default 0.90) |
-| `--min-minutes 0` | No low-minute rule: every file is scored as it is, and only players missing from a file get the replacement value. Default 250 |
-| `--replacement -1.0` | The value those players get. Default -2.0 |
+| `--established` | The Established players view: under 250 minutes last season, rookies included, = the replacement value for every metric. Default: no such rule, every file is scored as it is |
+| `--min-minutes 500` | The same rule with another cutoff (a custom run) |
+| `--replacement -1.0` | The value those players, and players missing from a file, get. Default -2.0 |
 | `--resamples 5000` | Bootstrap resamples. Default 2000, at least 100 |
 | `--out FOLDER` | Where to save the run (default `runs/<date_time>`) |
 
@@ -277,7 +304,7 @@ its sha256 matches the one in `launch/provenance.csv`.
 
 ```
 python tests/test_hib.py                     # the file reader and fingerprints
-python tests/test_scoring.py                 # the scoring: known answers, the rookie rule, reference rows
+python tests/test_scoring.py                 # the scoring: known answers, centering, the rookie rule, reference rows
 ```
 
 ### Check the Narsu (2024) reproduction
@@ -286,7 +313,7 @@ Krishna Narsu reported R² (r squared) of team win % for 2020-21 to 2022-23. BPM
 
 ```
 python tools/from_bbref.py 2019-20=bbref_2019-20.csv 2020-21=bbref_2020-21.csv 2021-22=bbref_2021-22.csv --out bpm_narsu.csv
-python eval.py --no-bundled --ratings bpm_narsu.csv
+python eval.py --no-bundled --established --ratings bpm_narsu.csv
 ```
 
 A file that covers only those three seasons shortens the window to them (the run is labelled custom window). The team
@@ -315,7 +342,7 @@ records the version and the sha256 of the `eval.py` that made it.
 | `reference/rapm_last_season.csv` | The same RAPM fit on the season before each one (2019-20 to 2024-25): the last-season RAPM row |
 | `results/` | The published run of the bundled metrics |
 | `launch/` | The two runs behind the results tables (scores only), and `provenance.csv` |
-| `live/` | The live 2026-27 track: protocol, snapshot fingerprints, scoring code (with the v1.1.0 harness it is scored by), data and results |
+| `live/` | The live 2026-27 track: protocol, snapshot fingerprints, scoring code (the v1.1.0 harness it is scored by, and `centered.py` for the centered net error), data and results |
 
 To score Basketball-Reference's BPM yourself, export each season's Advanced table (Share & Export > Get table as CSV),
 then run `python tools/from_bbref.py 2019-20=bbref_2019-20.csv ... 2024-25=bbref_2024-25.csv --out bpm_bbref.csv`.
@@ -323,7 +350,7 @@ Each table becomes the ratings for the season after it.
 
 ## Credit, citation and license
 
-The rules and the team net rating test come from [Taylor Snarr's 2020 study](https://dunksandthrees.com/blog/metric-comparison).
+The established-players rule and the team net rating test come from [Taylor Snarr's 2020 study](https://dunksandthrees.com/blog/metric-comparison).
 The team win % test is [Krishna Narsu's (2024)](https://x.com/knarsu3/status/1763321501766627328), and the 250-minute cutoff is
 [Neil Paine's](https://www.apbr.org/metrics/viewtopic.php?f=2&t=8196&start=15#p15334). Game and minutes data are from
 NBA.com.

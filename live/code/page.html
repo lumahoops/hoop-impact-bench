@@ -52,6 +52,14 @@
   table.sort th { cursor: pointer; user-select: none; text-decoration: underline dotted var(--line); text-underline-offset: 4px; } table.sort th:hover { color: var(--fg); }
   table.sort th.up::after { content: ' ▲'; font-size: 10px; } table.sort th.down::after { content: ' ▼'; font-size: 10px; }
   .js section.board { display: none; } .js section.board.on { display: block; }
+  /* the view switch (owner 2026-11-06): radio buttons + CSS, so it works without JavaScript; the first view is the default */
+  .views > input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .views > label { display: inline-block; cursor: pointer; margin: 6px 16px 0 0; color: var(--link); text-decoration: underline; }
+  .views > input:checked + label { color: var(--fg); font-weight: bold; text-decoration: none; }
+  .views > input:focus-visible + label { outline: 1px dotted var(--fg); }
+  .views > .view { display: none; }
+  .views > input[id$="-full"]:checked ~ .v-full, .views > input[id$="-established"]:checked ~ .v-established { display: block; }
+  .rule { color: var(--muted); margin: 6px 0 0; }
 </style>
 <script>
   // tabs only with JavaScript (without it every board shows, one after another); saved theme applied before drawing
@@ -99,6 +107,15 @@ document.querySelectorAll('table.sort').forEach((tb) => {
 });
 addEventListener('hashchange', show);
 show();
+// the view switch: one choice for every board, remembered (owner 2026-11-06: rookie rule off by default)
+const views = document.querySelectorAll('.views > input');
+const setView = (v) => views.forEach((i) => { if (i.id.endsWith('-' + v)) i.checked = true; });
+try { const v = localStorage.getItem('hib-view'); if (v) setView(v); } catch (e) {}
+views.forEach((i) => i.addEventListener('change', () => {
+  const v = i.id.endsWith('-established') ? 'established' : 'full';
+  setView(v);
+  try { localStorage.setItem('hib-view', v); } catch (e) {}
+}));
 const themeLink = document.getElementById('theme');
 const isDark = () => (document.documentElement.dataset.theme || 'dark') === 'dark';
 const label = () => { themeLink.textContent = isDark() ? '[light]' : '[dark]'; };

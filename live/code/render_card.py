@@ -36,7 +36,8 @@ def day(iso):
 
 
 def main():
-    d = json.loads((RESULTS / "frozen.json").read_text(encoding="utf-8"))
+    f = RESULTS / "frozen_full.json"           # the default view (owner 2026-11-06); frozen.json = established players
+    d = json.loads((f if f.exists() else RESULTS / "frozen.json").read_text(encoding="utf-8"))
     img = Image.new("RGB", (W, H), BG)
     g = ImageDraw.Draw(img)
     title, tag, small = font("bold", 46), font("regular", 26), font("regular", 22)
@@ -54,7 +55,7 @@ def main():
     g.text((cols[2] - 14, top + 12), "net error  90% range", font=head, fill=MUTED, anchor="ra")
     y = top + 46
     for m in d["metrics"][:5]:
-        t = m["tests"]["net_rmse"]
+        t = m["tests"].get("net_rmse_centered") or m["tests"]["net_rmse"]   # the ranked test: net error, centered
         r = t.get("rank") or ["", ""]
         g.line((M, y, W - M, y), fill=LINE, width=1)
         g.text((cols[0] + 14, y + 14), f"{r[0]}-{r[1]}" if r[0] != r[1] else str(r[0]), font=cell, fill=FG)
