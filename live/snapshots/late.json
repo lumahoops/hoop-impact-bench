@@ -1,0 +1,16 @@
+{
+ "note": "Metrics that joined the live 2026-27 track after opening night (owner 2026-11-06). Each one is scored only on games that tip off after its saved_at_utc, and the commit that adds its fingerprint here is the proof of time. They are shown in their own table, next to every other metric scored on the same games. The ratings files are not published; anyone who holds the same file can match its sha256.",
+ "metrics": {
+  "epoch_xpm": {
+   "name": "EPOCH XPM projection",
+   "maker": "EPOCH Basketball",
+   "url": "https://epochhoops.com",
+   "label": "saved",
+   "source": "EPOCH XPM projection for 2026-27: a preseason projection from 2024-25 and 2025-26 XPM (prior-adjusted RAPM with a box-score prior) plus a college model for rookies; model last changed 2026-10-27. Emailed by its maker; submission: github.com/lumahoops/hoop-impact-bench/issues/3",
+   "sha256": "533b2d0e0f99de4d4b7e369e830545afed275ada8f594d94594ac28a0992f5ca",
+   "rows": 605,
+   "saved_at_utc": "2026-11-06T21:02:57+00:00",
+   "scored_from": "games that tip off after saved_at_utc"
+  }
+ }
+}
