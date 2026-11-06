@@ -9,7 +9,7 @@
   "min": 2,
   "max": 3
  },
- "updated_utc": "2026-11-05T15:00:21+00:00",
+ "updated_utc": "2026-11-06T09:30:20+00:00",
  "primary_test": "net_rmse",
  "net_error_shown": true,
  "early": true,
@@ -22,24 +22,35 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "bf322f4e28eb22e357f3abaa3333f355443bd5de",
+ "repo_commit": "b54d870da43bae89ae51c15501fea263fa739f1c",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
-  "latest": "2026-11-05",
-  "latest_saved_at_utc": "2026-11-05T09:30:10+00:00",
+  "latest": "2026-11-06",
+  "latest_saved_at_utc": "2026-11-06T09:30:08+00:00",
   "days": [
    "2026-10-31",
    "2026-11-01",
    "2026-11-02",
    "2026-11-03",
    "2026-11-04",
-   "2026-11-05"
+   "2026-11-05",
+   "2026-11-06"
   ],
   "excluded_games": [
    {
     "game_id": "0022600147",
     "date": "2026-10-31",
     "reason": "no value saved before tip-off: arc, bpm_bbref, danny, darko, epm, lebron, loki, openrapm, pulse, xpm, xrapm"
+   },
+   {
+    "game_id": "0022600187",
+    "date": "2026-11-05",
+    "reason": "no value saved before tip-off: epm"
+   },
+   {
+    "game_id": "0022600188",
+    "date": "2026-11-05",
+    "reason": "no value saved before tip-off: epm"
    }
   ]
  },
@@ -113,10 +124,10 @@
    "url": "https://courtsignal.net/ratings",
    "ours": false,
    "label": "pulled",
-   "source": "courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-11-04",
-   "sha256": "9848722515a2dcbfde37f7cf003978b03b671d06ee7cb86728dceb4485436b22",
+   "source": "courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-11-05",
+   "sha256": "1389b0aea62f9f1237984f69b61abb1c5398ce1c37c2c1782d8ff4c15b4777d5",
    "players": 660,
-   "as_of": "2026-11-04",
+   "as_of": "2026-11-05",
    "coverage": 1.0,
    "record": {
     "w": 28,
@@ -165,10 +176,10 @@
    "url": "https://www.darko.app/",
    "ours": false,
    "label": "pulled",
-   "source": "darko.app as of 2026-11-05 (data through 2026-11-02)",
-   "sha256": "9c27496bba1cca1e1e9211b4bdb527d79f0a9ad1bee2fbe8627edeaa6fbb24f2",
-   "players": 527,
-   "as_of": "2026-11-02",
+   "source": "darko.app as of 2026-11-06 (data through 2026-11-04)",
+   "sha256": "17a75a9196f6eceb1751fdfaebfa747137912a2f594b2aeda886bce19589eb85",
+   "players": 528,
+   "as_of": "2026-11-04",
    "coverage": 1.0,
    "record": {
     "w": 30,
@@ -268,10 +279,10 @@
    "url": "https://openrapm.com/",
    "ours": false,
    "label": "pulled",
-   "source": "bbstats/openrapm ratings.json at d8113bb (Publish the new Box Adj with team rates and halfway width on); 2026-27 value, else 2025-26",
-   "sha256": "3d23ee494ef5e5f34a90dbfa90c131bbfd8ca791666472394b1e2c50c3e4615a",
-   "players": 594,
-   "as_of": "2026-11-04",
+   "source": "bbstats/openrapm ratings.json at 010ebf4 (Daily update: 2027 through the games of 2026-11-04); 2026-27 value, else 2025-26",
+   "sha256": "15fcf7b19ab8f55a09a2ae15c095795d8e8748390dfea52747c2990ac221d961",
+   "players": 596,
+   "as_of": "2026-11-05",
    "coverage": 0.9885,
    "record": {
     "w": 26,
@@ -528,10 +539,10 @@
    "url": "https://xrapm.com/",
    "ours": false,
    "label": "pulled",
-   "source": "xrapm.com Total (metrics updated 2026-11-02)",
-   "sha256": "616c36f4cb35949c7e629d597a2aa97e529ea36b2ca97a414b9fdcdca9c884d5",
+   "source": "xrapm.com Total (metrics updated 2026-11-04)",
+   "sha256": "afe21182f8173216be641dc11b695fb55cccb76eb3b0034c3a15a64d17ce1137",
    "players": 582,
-   "as_of": "2026-11-02",
+   "as_of": "2026-11-04",
    "coverage": 0.9065,
    "record": {
     "w": 25,
@@ -580,10 +591,10 @@
    "url": "https://www.basketball-reference.com/leagues/NBA_2027_advanced.html",
    "ours": false,
    "label": "pulled",
-   "source": "basketball-reference.com 2026-27 Advanced, season-to-date BPM (Last Updated: Thursday, November 5, 3:03AM); 447 matched, unmatched: none",
-   "sha256": "4c0ef475b2856e874d3b65810a4b93d89f4000d21496b52da295588cce5f3fe5",
-   "players": 447,
-   "as_of": "2026-11-05",
+   "source": "basketball-reference.com 2026-27 Advanced, season-to-date BPM (Last Updated: Friday, November 6, 3:03AM); 451 matched, unmatched: none",
+   "sha256": "33e5101f4b28ca49ad8079c45946ee19cacea5eaa841bfae1406181523b9a157",
+   "players": 451,
+   "as_of": "2026-11-06",
    "coverage": 0.9718,
    "record": {
     "w": 31,
@@ -633,24 +644,24 @@
    "description": "Plain RAPM fit on this season's games so far: it has seen the games it is computed on.",
    "tests": {
     "margin_r2": {
-     "value": 0.5083,
+     "value": 0.5154,
      "interval": [
-      0.3418,
-      0.6434
+      0.3469,
+      0.6519
      ]
     },
     "winpct_r": {
-     "value": 0.7337,
+     "value": 0.7345,
      "interval": [
-      0.604,
-      0.8407
+      0.6045,
+      0.8415
      ]
     },
     "net_rmse": {
-     "value": 13.6171,
+     "value": 13.5784,
      "interval": [
-      11.1644,
-      15.7022
+      11.1372,
+      15.6503
      ]
     }
    }
