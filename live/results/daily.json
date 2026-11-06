@@ -1,7 +1,15 @@
 {
  "board": "daily",
+ "view": "full",
+ "view_name": "Full forecast",
+ "default_view": "full",
+ "views": {
+  "full": "live/results/daily.json",
+  "established": "live/results/daily_established.json"
+ },
  "season": "2026-27",
  "title": "The dynamic board uses each metric's ratings as published on the morning of each game day, saved before that day's first game. Metrics that do not update daily, or have published nothing new that morning, are computed using their most recent ratings.",
+ "rule_note": "Every player counts at the metric's own rating, rookies and low-minute players included. A player the metric does not rate counts as -2.0.",
  "scored_through": "2026-11-04",
  "first_game": "2026-10-31",
  "games": 39,
@@ -9,8 +17,8 @@
   "min": 2,
   "max": 3
  },
- "updated_utc": "2026-11-06T15:00:15+00:00",
- "primary_test": "net_rmse",
+ "updated_utc": "2026-11-06T18:47:16+00:00",
+ "primary_test": "net_rmse_centered",
  "net_error_shown": true,
  "early": true,
  "net_error_note": "Early: 2-3 games per team. A few games decide each team's margin, so the ranges overlap and the floor rows score about the same as the metrics until every team has played 20.",
@@ -22,7 +30,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "c1dd8e4155cb9bce12b94bdeba26bdb8823460ce",
+ "repo_commit": "75aba0908a3ed174c0508354555b3b48f6709cab",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-06",
@@ -62,7 +70,9 @@
  "tests": {
   "margin_r2": "Game R²: the share of the variation in final game margins that the predicted margins explain",
   "winpct_r": "Win % r: the correlation between team ratings and team winning percentage",
-  "net_rmse": "Net error: the average miss, in points per 100 possessions, between team ratings and opponent-adjusted team margins"
+  "net_rmse": "Net error, raw: the average miss, in points per 100 possessions, between team ratings at face value and opponent-adjusted team margins",
+  "net_rmse_centered": "Net error (the ranking test): the same miss after each metric's team ratings are shifted so its average team is 0, like the adjusted margins",
+  "offset": "The metric's average team rating, points per 100; raw net error squared = net error squared + offset squared"
  },
  "metrics": [
   {
@@ -81,6 +91,7 @@
     "w": 27,
     "l": 12
    },
+   "offset": 1.7645,
    "tests": {
     "margin_r2": {
      "value": 0.2212,
@@ -114,6 +125,17 @@
       1,
       8
      ]
+    },
+    "net_rmse_centered": {
+     "value": 13.9006,
+     "interval": [
+      11.2464,
+      16.1914
+     ],
+     "rank": [
+      1,
+      8
+     ]
     }
    }
   },
@@ -133,6 +155,7 @@
     "w": 28,
     "l": 11
    },
+   "offset": 1.9749,
    "tests": {
     "margin_r2": {
      "value": 0.2872,
@@ -166,6 +189,17 @@
       1,
       7
      ]
+    },
+    "net_rmse_centered": {
+     "value": 13.9805,
+     "interval": [
+      11.3208,
+      16.2872
+     ],
+     "rank": [
+      1,
+      6
+     ]
     }
    }
   },
@@ -185,6 +219,7 @@
     "w": 30,
     "l": 9
    },
+   "offset": 1.2989,
    "tests": {
     "margin_r2": {
      "value": 0.3228,
@@ -218,213 +253,16 @@
       1,
       8
      ]
-    }
-   }
-  },
-  {
-   "id": "epm",
-   "name": "EPM",
-   "maker": "Taylor Snarr, Dunks & Threes",
-   "url": "https://dunksandthrees.com/epm",
-   "ours": false,
-   "label": "pulled",
-   "source": "dunksandthrees.com/epm (current expected EPM, Aayo's subscription)",
-   "sha256": "21ca980f518cd0ee5a2e201db059696825f1583f85ce3b711090c450a57404fd",
-   "players": 530,
-   "as_of": "2026-11-06",
-   "coverage": 1.0,
-   "record": {
-    "w": 24,
-    "l": 15
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.1909,
-     "interval": [
-      0.0567,
-      0.3538
-     ],
-     "rank": [
-      5,
-      10
-     ]
     },
-    "winpct_r": {
-     "value": 0.5035,
+    "net_rmse_centered": {
+     "value": 14.0888,
      "interval": [
-      0.2854,
-      0.6894
-     ],
-     "rank": [
-      3,
-      10
-     ]
-    },
-    "net_rmse": {
-     "value": 14.1851,
-     "interval": [
-      11.48,
-      16.6457
+      11.3847,
+      16.3693
      ],
      "rank": [
       1,
       9
-     ]
-    }
-   }
-  },
-  {
-   "id": "openrapm",
-   "name": "OpenRAPM",
-   "maker": "Nathan Walker",
-   "url": "https://openrapm.com/",
-   "ours": false,
-   "label": "pulled",
-   "source": "bbstats/openrapm ratings.json at 010ebf4 (Daily update: 2027 through the games of 2026-11-04); 2026-27 value, else 2025-26",
-   "sha256": "15fcf7b19ab8f55a09a2ae15c095795d8e8748390dfea52747c2990ac221d961",
-   "players": 596,
-   "as_of": "2026-11-05",
-   "coverage": 0.9885,
-   "record": {
-    "w": 26,
-    "l": 13
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.0797,
-     "interval": [
-      0.0038,
-      0.2283
-     ],
-     "rank": [
-      7,
-      11
-     ]
-    },
-    "winpct_r": {
-     "value": 0.4109,
-     "interval": [
-      0.1096,
-      0.6525
-     ],
-     "rank": [
-      2,
-      11
-     ]
-    },
-    "net_rmse": {
-     "value": 14.2692,
-     "interval": [
-      11.3389,
-      16.818
-     ],
-     "rank": [
-      1,
-      10
-     ]
-    }
-   }
-  },
-  {
-   "id": "loki",
-   "name": "LOKI",
-   "maker": "LUMA Basketball Research",
-   "url": "https://lumahoops.org/loki",
-   "ours": true,
-   "label": "pulled",
-   "source": "LOKI weekly solve made 2026-11-02, games through 2026-11-01 (private; fingerprint only)",
-   "sha256": "a748cec0eb5b75e5e0277c09f971876f9f087473c8c074cbd7b9ebbbeacb068a",
-   "players": 1029,
-   "as_of": "2026-11-02",
-   "coverage": 0.9201,
-   "record": {
-    "w": 30,
-    "l": 9
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.2663,
-     "interval": [
-      0.1015,
-      0.4445
-     ],
-     "rank": [
-      2,
-      6
-     ]
-    },
-    "winpct_r": {
-     "value": 0.5429,
-     "interval": [
-      0.3607,
-      0.6996
-     ],
-     "rank": [
-      2,
-      8
-     ]
-    },
-    "net_rmse": {
-     "value": 14.3257,
-     "interval": [
-      11.5972,
-      16.7077
-     ],
-     "rank": [
-      2,
-      9
-     ]
-    }
-   }
-  },
-  {
-   "id": "lebron",
-   "name": "LEBRON",
-   "maker": "BBall Index",
-   "url": "https://www.bball-index.com/lebron-database/",
-   "ours": false,
-   "label": "carried",
-   "source": "no 2026-27 LEBRON published yet; 2025-26 final (export saved 2026-10-03)",
-   "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1",
-   "players": 582,
-   "as_of": "2026-04-12",
-   "coverage": 0.9065,
-   "record": {
-    "w": 25,
-    "l": 14
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.1632,
-     "interval": [
-      0.0375,
-      0.3288
-     ],
-     "rank": [
-      5,
-      11
-     ]
-    },
-    "winpct_r": {
-     "value": 0.4482,
-     "interval": [
-      0.2372,
-      0.6301
-     ],
-     "rank": [
-      5,
-      11
-     ]
-    },
-    "net_rmse": {
-     "value": 14.5076,
-     "interval": [
-      11.8299,
-      16.8577
-     ],
-     "rank": [
-      4,
-      11
      ]
     }
    }
@@ -445,6 +283,7 @@
     "w": 30,
     "l": 9
    },
+   "offset": 3.3317,
    "tests": {
     "margin_r2": {
      "value": 0.3211,
@@ -478,108 +317,207 @@
       1,
       11
      ]
+    },
+    "net_rmse_centered": {
+     "value": 14.1306,
+     "interval": [
+      11.368,
+      16.5479
+     ],
+     "rank": [
+      1,
+      9
+     ]
     }
    }
   },
   {
-   "id": "danny",
-   "name": "EPM projection (Danny Harlan)",
-   "maker": "Danny Harlan",
-   "url": "https://github.com/dannyharlan05/nba-epm-projections",
-   "ours": false,
-   "label": "carried",
-   "source": "preseason value (Danny's preseason projection; in-season updates not yet included)",
-   "sha256": "23b7d01a01dabe11f3d36560fb2826bdd06b10c5c3d126413d04ab15503d8623",
-   "players": 679,
-   "as_of": "preseason",
+   "id": "loki",
+   "name": "LOKI",
+   "maker": "LUMA Basketball Research",
+   "url": "https://lumahoops.org/loki",
+   "ours": true,
+   "label": "pulled",
+   "source": "LOKI weekly solve made 2026-11-02, games through 2026-11-01 (private; fingerprint only)",
+   "sha256": "a748cec0eb5b75e5e0277c09f971876f9f087473c8c074cbd7b9ebbbeacb068a",
+   "players": 1029,
+   "as_of": "2026-11-02",
    "coverage": 0.9201,
    "record": {
-    "w": 28,
-    "l": 11
+    "w": 30,
+    "l": 9
    },
+   "offset": 2.2493,
    "tests": {
     "margin_r2": {
-     "value": 0.1735,
+     "value": 0.2663,
      "interval": [
-      0.0512,
-      0.3281
+      0.1015,
+      0.4445
      ],
      "rank": [
-      6,
-      10
+      2,
+      6
      ]
     },
     "winpct_r": {
-     "value": 0.4759,
+     "value": 0.5429,
      "interval": [
-      0.245,
-      0.6709
+      0.3607,
+      0.6996
      ],
      "rank": [
-      4,
-      10
+      2,
+      8
      ]
     },
     "net_rmse": {
-     "value": 14.6188,
+     "value": 14.3257,
      "interval": [
-      11.8783,
-      17.1128
+      11.5972,
+      16.7077
+     ],
+     "rank": [
+      2,
+      9
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 14.148,
+     "interval": [
+      11.4882,
+      16.5037
+     ],
+     "rank": [
+      2,
+      9
+     ]
+    }
+   }
+  },
+  {
+   "id": "epm",
+   "name": "EPM",
+   "maker": "Taylor Snarr, Dunks & Threes",
+   "url": "https://dunksandthrees.com/epm",
+   "ours": false,
+   "label": "pulled",
+   "source": "dunksandthrees.com/epm (current expected EPM, Aayo's subscription)",
+   "sha256": "21ca980f518cd0ee5a2e201db059696825f1583f85ce3b711090c450a57404fd",
+   "players": 530,
+   "as_of": "2026-11-06",
+   "coverage": 1.0,
+   "record": {
+    "w": 24,
+    "l": 15
+   },
+   "offset": 0.9333,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1909,
+     "interval": [
+      0.0567,
+      0.3538
      ],
      "rank": [
       5,
       10
      ]
+    },
+    "winpct_r": {
+     "value": 0.5035,
+     "interval": [
+      0.2854,
+      0.6894
+     ],
+     "rank": [
+      3,
+      10
+     ]
+    },
+    "net_rmse": {
+     "value": 14.1851,
+     "interval": [
+      11.48,
+      16.6457
+     ],
+     "rank": [
+      1,
+      9
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 14.1544,
+     "interval": [
+      11.4236,
+      16.5863
+     ],
+     "rank": [
+      1,
+      10
+     ]
     }
    }
   },
   {
-   "id": "xrapm",
-   "name": "xRAPM",
-   "maker": "Jeremias Engelmann",
-   "url": "https://xrapm.com/",
+   "id": "openrapm",
+   "name": "OpenRAPM",
+   "maker": "Nathan Walker",
+   "url": "https://openrapm.com/",
    "ours": false,
    "label": "pulled",
-   "source": "xrapm.com Total (metrics updated 2026-11-04)",
-   "sha256": "afe21182f8173216be641dc11b695fb55cccb76eb3b0034c3a15a64d17ce1137",
-   "players": 582,
-   "as_of": "2026-11-04",
-   "coverage": 0.9065,
+   "source": "bbstats/openrapm ratings.json at 010ebf4 (Daily update: 2027 through the games of 2026-11-04); 2026-27 value, else 2025-26",
+   "sha256": "15fcf7b19ab8f55a09a2ae15c095795d8e8748390dfea52747c2990ac221d961",
+   "players": 596,
+   "as_of": "2026-11-05",
+   "coverage": 0.9885,
    "record": {
-    "w": 25,
-    "l": 14
+    "w": 26,
+    "l": 13
    },
+   "offset": -0.26,
    "tests": {
     "margin_r2": {
-     "value": 0.1551,
+     "value": 0.0797,
      "interval": [
-      0.0363,
-      0.3212
-     ],
-     "rank": [
-      6,
-      11
-     ]
-    },
-    "winpct_r": {
-     "value": 0.4275,
-     "interval": [
-      0.2102,
-      0.6147
+      0.0038,
+      0.2283
      ],
      "rank": [
       7,
       11
      ]
     },
-    "net_rmse": {
-     "value": 14.7702,
+    "winpct_r": {
+     "value": 0.4109,
      "interval": [
-      11.9746,
-      17.2259
+      0.1096,
+      0.6525
      ],
      "rank": [
-      5,
+      2,
+      11
+     ]
+    },
+    "net_rmse": {
+     "value": 14.2692,
+     "interval": [
+      11.3389,
+      16.818
+     ],
+     "rank": [
+      1,
+      10
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 14.2668,
+     "interval": [
+      11.3497,
+      16.7884
+     ],
+     "rank": [
+      1,
       11
      ]
     }
@@ -601,6 +539,7 @@
     "w": 31,
     "l": 8
    },
+   "offset": -3.4426,
    "tests": {
     "margin_r2": {
      "value": 0.2015,
@@ -634,6 +573,209 @@
       1,
       11
      ]
+    },
+    "net_rmse_centered": {
+     "value": 14.3728,
+     "interval": [
+      11.2526,
+      17.2669
+     ],
+     "rank": [
+      1,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "id": "danny",
+   "name": "EPM projection (Danny Harlan)",
+   "maker": "Danny Harlan",
+   "url": "https://github.com/dannyharlan05/nba-epm-projections",
+   "ours": false,
+   "label": "carried",
+   "source": "preseason value (Danny's preseason projection; in-season updates not yet included)",
+   "sha256": "23b7d01a01dabe11f3d36560fb2826bdd06b10c5c3d126413d04ab15503d8623",
+   "players": 679,
+   "as_of": "preseason",
+   "coverage": 0.9201,
+   "record": {
+    "w": 28,
+    "l": 11
+   },
+   "offset": 2.1741,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1735,
+     "interval": [
+      0.0512,
+      0.3281
+     ],
+     "rank": [
+      6,
+      10
+     ]
+    },
+    "winpct_r": {
+     "value": 0.4759,
+     "interval": [
+      0.245,
+      0.6709
+     ],
+     "rank": [
+      4,
+      10
+     ]
+    },
+    "net_rmse": {
+     "value": 14.6188,
+     "interval": [
+      11.8783,
+      17.1128
+     ],
+     "rank": [
+      5,
+      10
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 14.4563,
+     "interval": [
+      11.7073,
+      16.8532
+     ],
+     "rank": [
+      5,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "id": "lebron",
+   "name": "LEBRON",
+   "maker": "BBall Index",
+   "url": "https://www.bball-index.com/lebron-database/",
+   "ours": false,
+   "label": "carried",
+   "source": "no 2026-27 LEBRON published yet; 2025-26 final (export saved 2026-10-03)",
+   "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1",
+   "players": 582,
+   "as_of": "2026-04-12",
+   "coverage": 0.9065,
+   "record": {
+    "w": 25,
+    "l": 14
+   },
+   "offset": 0.5404,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1632,
+     "interval": [
+      0.0375,
+      0.3288
+     ],
+     "rank": [
+      5,
+      11
+     ]
+    },
+    "winpct_r": {
+     "value": 0.4482,
+     "interval": [
+      0.2372,
+      0.6301
+     ],
+     "rank": [
+      5,
+      11
+     ]
+    },
+    "net_rmse": {
+     "value": 14.5076,
+     "interval": [
+      11.8299,
+      16.8577
+     ],
+     "rank": [
+      4,
+      11
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 14.4976,
+     "interval": [
+      11.8015,
+      16.8271
+     ],
+     "rank": [
+      4,
+      11
+     ]
+    }
+   }
+  },
+  {
+   "id": "xrapm",
+   "name": "xRAPM",
+   "maker": "Jeremias Engelmann",
+   "url": "https://xrapm.com/",
+   "ours": false,
+   "label": "pulled",
+   "source": "xrapm.com Total (metrics updated 2026-11-04)",
+   "sha256": "afe21182f8173216be641dc11b695fb55cccb76eb3b0034c3a15a64d17ce1137",
+   "players": 582,
+   "as_of": "2026-11-04",
+   "coverage": 0.9065,
+   "record": {
+    "w": 25,
+    "l": 14
+   },
+   "offset": 1.1937,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1551,
+     "interval": [
+      0.0363,
+      0.3212
+     ],
+     "rank": [
+      6,
+      11
+     ]
+    },
+    "winpct_r": {
+     "value": 0.4275,
+     "interval": [
+      0.2102,
+      0.6147
+     ],
+     "rank": [
+      7,
+      11
+     ]
+    },
+    "net_rmse": {
+     "value": 14.7702,
+     "interval": [
+      11.9746,
+      17.2259
+     ],
+     "rank": [
+      5,
+      11
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 14.7219,
+     "interval": [
+      11.9602,
+      17.1476
+     ],
+     "rank": [
+      5,
+      11
+     ]
     }
    }
   }
@@ -643,6 +785,7 @@
    "id": "ceiling_rapm_same_season",
    "name": "Same-season RAPM (ceiling)",
    "description": "Plain RAPM fit on this season's games so far: it has seen the games it is computed on.",
+   "offset": 0.1237,
    "tests": {
     "margin_r2": {
      "value": 0.5154,
@@ -664,6 +807,13 @@
       11.1372,
       15.6503
      ]
+    },
+    "net_rmse_centered": {
+     "value": 13.5778,
+     "interval": [
+      11.1163,
+      15.6574
+     ]
     }
    }
   },
@@ -671,6 +821,7 @@
    "id": "consensus",
    "name": "Consensus of all metrics",
    "description": "Each player's average across the ranked metrics that rate him (equal weights).",
+   "offset": 1.0718,
    "tests": {
     "margin_r2": {
      "value": 0.2677,
@@ -692,6 +843,13 @@
       11.3376,
       16.3735
      ]
+    },
+    "net_rmse_centered": {
+     "value": 14.0146,
+     "interval": [
+      11.3086,
+      16.3423
+     ]
     }
    }
   },
@@ -699,6 +857,7 @@
    "id": "rapm_last_season",
    "name": "Last season's RAPM, no prior",
    "description": "Plain RAPM fit on 2025-26 only, carried forward.",
+   "offset": 0.5512,
    "tests": {
     "margin_r2": {
      "value": 0.1257,
@@ -720,6 +879,13 @@
       11.7042,
       16.4902
      ]
+    },
+    "net_rmse_centered": {
+     "value": 14.263,
+     "interval": [
+      11.6647,
+      16.4641
+     ]
     }
    }
   },
@@ -727,6 +893,7 @@
    "id": "baseline_last_team",
    "name": "Last season's team (floor)",
    "description": "Each player = his main team's opponent-adjusted margin last season / 5.",
+   "offset": -0.5802,
    "tests": {
     "margin_r2": {
      "value": 0.0994,
@@ -748,13 +915,21 @@
       11.9089,
       16.774
      ]
+    },
+    "net_rmse_centered": {
+     "value": 14.5617,
+     "interval": [
+      11.9003,
+      16.7532
+     ]
     }
    }
   },
   {
    "id": "baseline_zero",
    "name": "Everyone 0 (floor)",
-   "description": "Every player 0; only the -2.0 for low-minute players separates teams.",
+   "description": "Every player 0, so every team is rated league average.",
+   "offset": 0.0,
    "tests": {
     "margin_r2": {
      "value": 0.0,
@@ -771,6 +946,13 @@
      ]
     },
     "net_rmse": {
+     "value": 14.3092,
+     "interval": [
+      11.7602,
+      16.428
+     ]
+    },
+    "net_rmse_centered": {
      "value": 14.3092,
      "interval": [
       11.7602,
@@ -2593,6 +2775,611 @@
    "interval": [
     -1.6052,
     0.0934
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "arc",
+   "b": "bpm_bbref",
+   "diff": -0.2422,
+   "interval": [
+    -2.2541,
+    1.758
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "arc",
+   "b": "danny",
+   "diff": -0.3257,
+   "interval": [
+    -0.8186,
+    0.092
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "arc",
+   "b": "darko",
+   "diff": 0.0418,
+   "interval": [
+    -0.7017,
+    0.764
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "arc",
+   "b": "epm",
+   "diff": -0.0238,
+   "interval": [
+    -0.8071,
+    0.6253
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "arc",
+   "b": "lebron",
+   "diff": -0.367,
+   "interval": [
+    -1.0008,
+    0.2764
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "arc",
+   "b": "loki",
+   "diff": -0.0174,
+   "interval": [
+    -0.5729,
+    0.5377
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "arc",
+   "b": "openrapm",
+   "diff": -0.1362,
+   "interval": [
+    -1.2047,
+    0.899
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "arc",
+   "b": "pulse",
+   "diff": 0.1501,
+   "interval": [
+    -0.4304,
+    0.7462
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "arc",
+   "b": "xpm",
+   "diff": 0.23,
+   "interval": [
+    -0.564,
+    1.0213
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "arc",
+   "b": "xrapm",
+   "diff": -0.5913,
+   "interval": [
+    -1.3108,
+    0.0877
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "danny",
+   "diff": -0.0835,
+   "interval": [
+    -2.0287,
+    1.938
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "darko",
+   "diff": 0.284,
+   "interval": [
+    -1.8392,
+    2.3314
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "epm",
+   "diff": 0.2184,
+   "interval": [
+    -1.7226,
+    2.2417
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "lebron",
+   "diff": -0.1248,
+   "interval": [
+    -2.2532,
+    2.0343
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "loki",
+   "diff": 0.2248,
+   "interval": [
+    -1.5817,
+    1.8895
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "openrapm",
+   "diff": 0.106,
+   "interval": [
+    -1.6444,
+    1.8516
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "pulse",
+   "diff": 0.3923,
+   "interval": [
+    -1.428,
+    2.1788
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "xpm",
+   "diff": 0.4722,
+   "interval": [
+    -1.6138,
+    2.359
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "xrapm",
+   "diff": -0.3491,
+   "interval": [
+    -2.349,
+    1.7226
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "darko",
+   "diff": 0.3675,
+   "interval": [
+    -0.1695,
+    0.9314
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "epm",
+   "diff": 0.3019,
+   "interval": [
+    -0.2346,
+    0.8554
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "lebron",
+   "diff": -0.0413,
+   "interval": [
+    -0.585,
+    0.4805
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "loki",
+   "diff": 0.3083,
+   "interval": [
+    -0.2598,
+    0.7982
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "openrapm",
+   "diff": 0.1895,
+   "interval": [
+    -0.9407,
+    1.2795
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "pulse",
+   "diff": 0.4758,
+   "interval": [
+    -0.0147,
+    0.9106
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "xpm",
+   "diff": 0.5556,
+   "interval": [
+    -0.1411,
+    1.2726
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "xrapm",
+   "diff": -0.2656,
+   "interval": [
+    -0.7763,
+    0.1767
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "epm",
+   "diff": -0.0656,
+   "interval": [
+    -0.9038,
+    0.8222
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "lebron",
+   "diff": -0.4088,
+   "interval": [
+    -0.7934,
+    -0.0231
+   ],
+   "separated": true
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "loki",
+   "diff": -0.0593,
+   "interval": [
+    -0.6501,
+    0.5298
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "openrapm",
+   "diff": -0.178,
+   "interval": [
+    -1.1644,
+    0.7965
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "pulse",
+   "diff": 0.1082,
+   "interval": [
+    -0.3627,
+    0.6296
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "xpm",
+   "diff": 0.1881,
+   "interval": [
+    -0.3335,
+    0.7297
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "xrapm",
+   "diff": -0.6331,
+   "interval": [
+    -1.4334,
+    0.1112
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "lebron",
+   "diff": -0.3432,
+   "interval": [
+    -1.1817,
+    0.4831
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "loki",
+   "diff": 0.0063,
+   "interval": [
+    -0.8946,
+    0.9116
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "openrapm",
+   "diff": -0.1124,
+   "interval": [
+    -1.3309,
+    1.1353
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "pulse",
+   "diff": 0.1739,
+   "interval": [
+    -0.4748,
+    0.8006
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "xpm",
+   "diff": 0.2537,
+   "interval": [
+    -0.8129,
+    1.3387
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "xrapm",
+   "diff": -0.5675,
+   "interval": [
+    -1.2314,
+    0.0251
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "lebron",
+   "b": "loki",
+   "diff": 0.3495,
+   "interval": [
+    -0.3072,
+    0.9646
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "lebron",
+   "b": "openrapm",
+   "diff": 0.2308,
+   "interval": [
+    -0.9643,
+    1.3693
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "lebron",
+   "b": "pulse",
+   "diff": 0.5171,
+   "interval": [
+    0.0805,
+    0.9559
+   ],
+   "separated": true
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "lebron",
+   "b": "xpm",
+   "diff": 0.5969,
+   "interval": [
+    -0.0071,
+    1.182
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "lebron",
+   "b": "xrapm",
+   "diff": -0.2243,
+   "interval": [
+    -0.8692,
+    0.4059
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "loki",
+   "b": "openrapm",
+   "diff": -0.1188,
+   "interval": [
+    -0.9191,
+    0.7763
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "loki",
+   "b": "pulse",
+   "diff": 0.1675,
+   "interval": [
+    -0.3476,
+    0.629
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "loki",
+   "b": "xpm",
+   "diff": 0.2474,
+   "interval": [
+    -0.2802,
+    0.7697
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "loki",
+   "b": "xrapm",
+   "diff": -0.5739,
+   "interval": [
+    -1.3029,
+    0.1598
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "openrapm",
+   "b": "pulse",
+   "diff": 0.2863,
+   "interval": [
+    -0.7526,
+    1.2547
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "openrapm",
+   "b": "xpm",
+   "diff": 0.3661,
+   "interval": [
+    -0.508,
+    1.1595
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "openrapm",
+   "b": "xrapm",
+   "diff": -0.4551,
+   "interval": [
+    -1.9017,
+    0.924
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "pulse",
+   "b": "xpm",
+   "diff": 0.0799,
+   "interval": [
+    -0.543,
+    0.7057
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "pulse",
+   "b": "xrapm",
+   "diff": -0.7414,
+   "interval": [
+    -1.3051,
+    -0.1562
+   ],
+   "separated": true
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "xpm",
+   "b": "xrapm",
+   "diff": -0.8213,
+   "interval": [
+    -1.6898,
+    0.047
    ],
    "separated": false
   }

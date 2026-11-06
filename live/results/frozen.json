@@ -1,7 +1,15 @@
 {
  "board": "frozen",
+ "view": "established",
+ "view_name": "Established players",
+ "default_view": "full",
+ "views": {
+  "full": "live/results/frozen_full.json",
+  "established": "live/results/frozen.json"
+ },
  "season": "2026-27",
  "title": "The preseason board uses the ratings each metric had published before opening night of the 2026-27 NBA season (October 20, 2026). These ratings stay fixed, and every 2026-27 regular-season game is computed using them.",
+ "rule_note": "A player with fewer than 250 minutes in 2025-26, including every rookie, counts as -2.0 for every metric (Taylor Snarr's 2020 rule), and so does a player the metric does not rate.",
  "scored_through": "2026-11-05",
  "first_game": "2026-10-20",
  "games": 123,
@@ -9,8 +17,8 @@
   "min": 7,
   "max": 9
  },
- "updated_utc": "2026-11-06T15:00:15+00:00",
- "primary_test": "net_rmse",
+ "updated_utc": "2026-11-06T18:47:16+00:00",
+ "primary_test": "net_rmse_centered",
  "net_error_shown": true,
  "early": true,
  "net_error_note": "Early: 7-9 games per team. A few games decide each team's margin, so the ranges overlap and the floor rows score about the same as the metrics until every team has played 20.",
@@ -22,7 +30,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "c1dd8e4155cb9bce12b94bdeba26bdb8823460ce",
+ "repo_commit": "75aba0908a3ed174c0508354555b3b48f6709cab",
  "snapshot": {
   "file": "live/snapshots/preseason.json",
   "saved_at_utc": "2026-10-31T20:40:22+00:00"
@@ -35,111 +43,11 @@
  "tests": {
   "margin_r2": "Game R²: the share of the variation in final game margins that the predicted margins explain",
   "winpct_r": "Win % r: the correlation between team ratings and team winning percentage",
-  "net_rmse": "Net error: the average miss, in points per 100 possessions, between team ratings and opponent-adjusted team margins"
+  "net_rmse": "Net error, raw: the average miss, in points per 100 possessions, between team ratings at face value and opponent-adjusted team margins",
+  "net_rmse_centered": "Net error (the ranking test): the same miss after each metric's team ratings are shifted so its average team is 0, like the adjusted margins",
+  "offset": "The metric's average team rating, points per 100; raw net error squared = net error squared + offset squared"
  },
  "metrics": [
-  {
-   "id": "xpm",
-   "name": "xPM",
-   "maker": "George Berry, VORP.app",
-   "url": "https://vorp.app",
-   "ours": false,
-   "label": "archived",
-   "source": "VORP.app xPM v1.2 preseason forecast, made 2026-10-12, published 2026-10-13 (georgeberry.substack.com/p/the-big-vorpapp-2026-27-nba-player); file from George Berry 2026-10-31, shifted by him to above average (xpm - 2.166)",
-   "sha256": "5e62034575eab2348844508199e232e9709cd4051d607289ef15a8f175a6344a",
-   "players": 608,
-   "coverage": 1.0,
-   "record": {
-    "w": 83,
-    "l": 40
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.1902,
-     "interval": [
-      0.1079,
-      0.2762
-     ],
-     "rank": [
-      1,
-      4
-     ]
-    },
-    "winpct_r": {
-     "value": 0.6612,
-     "interval": [
-      0.493,
-      0.811
-     ],
-     "rank": [
-      1,
-      8
-     ]
-    },
-    "net_rmse": {
-     "value": 8.4335,
-     "interval": [
-      6.6662,
-      9.937
-     ],
-     "rank": [
-      1,
-      8
-     ]
-    }
-   }
-  },
-  {
-   "id": "darko",
-   "name": "DARKO",
-   "maker": "Kostya Medvedovsky",
-   "url": "https://www.darko.app/",
-   "ours": false,
-   "label": "backfill",
-   "source": "darko.app date view as of 2026-10-19 (day before opening night), pulled 2026-10-31; DARKO revises past dates",
-   "sha256": "38d09f71a9d93a9293ac876aa1c1947b757dac7581b22c894c7f340c7e43d257",
-   "players": 547,
-   "coverage": 0.9995,
-   "record": {
-    "w": 84,
-    "l": 39
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.1837,
-     "interval": [
-      0.1017,
-      0.2748
-     ],
-     "rank": [
-      1,
-      4
-     ]
-    },
-    "winpct_r": {
-     "value": 0.6135,
-     "interval": [
-      0.4443,
-      0.7642
-     ],
-     "rank": [
-      1,
-      10
-     ]
-    },
-    "net_rmse": {
-     "value": 8.4484,
-     "interval": [
-      6.8736,
-      9.8042
-     ],
-     "rank": [
-      1,
-      7
-     ]
-    }
-   }
-  },
   {
    "id": "loki",
    "name": "LOKI",
@@ -155,6 +63,7 @@
     "w": 86,
     "l": 37
    },
+   "offset": 2.6729,
    "tests": {
     "margin_r2": {
      "value": 0.1649,
@@ -188,209 +97,142 @@
       1,
       10
      ]
+    },
+    "net_rmse_centered": {
+     "value": 8.122,
+     "interval": [
+      6.4662,
+      9.5052
+     ],
+     "rank": [
+      1,
+      7
+     ]
     }
    }
   },
   {
-   "id": "openrapm",
-   "name": "OpenRAPM",
-   "maker": "Nathan Walker",
-   "url": "https://openrapm.com/",
+   "id": "xpm",
+   "name": "xPM",
+   "maker": "George Berry, VORP.app",
+   "url": "https://vorp.app",
    "ours": false,
    "label": "archived",
-   "source": "bbstats/openrapm docs/data/ratings.json at commit 8dc207b (2026-10-19 18:50 UTC, last before opening night), 2025-26 total",
-   "sha256": "f85762fa4716f9b97cd4a43eebaca11c1d0ac335dc5275319b988d73a74f843b",
-   "players": 582,
+   "source": "VORP.app xPM v1.2 preseason forecast, made 2026-10-12, published 2026-10-13 (georgeberry.substack.com/p/the-big-vorpapp-2026-27-nba-player); file from George Berry 2026-10-31, shifted by him to above average (xpm - 2.166)",
+   "sha256": "5e62034575eab2348844508199e232e9709cd4051d607289ef15a8f175a6344a",
+   "players": 608,
    "coverage": 1.0,
    "record": {
-    "w": 82,
-    "l": 41
+    "w": 83,
+    "l": 40
    },
+   "offset": 1.8986,
    "tests": {
     "margin_r2": {
-     "value": 0.1444,
+     "value": 0.1902,
      "interval": [
-      0.0792,
-      0.2207
+      0.1079,
+      0.2762
      ],
      "rank": [
-      3,
-      10
+      1,
+      4
      ]
     },
     "winpct_r": {
-     "value": 0.6126,
+     "value": 0.6612,
      "interval": [
-      0.4658,
-      0.74
+      0.493,
+      0.811
      ],
      "rank": [
-      2,
-      10
+      1,
+      8
      ]
     },
     "net_rmse": {
-     "value": 8.5814,
+     "value": 8.4335,
      "interval": [
-      6.9174,
-      9.9758
+      6.6662,
+      9.937
+     ],
+     "rank": [
+      1,
+      8
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 8.217,
+     "interval": [
+      6.5771,
+      9.642
+     ],
+     "rank": [
+      1,
+      7
+     ]
+    }
+   }
+  },
+  {
+   "id": "darko",
+   "name": "DARKO",
+   "maker": "Kostya Medvedovsky",
+   "url": "https://www.darko.app/",
+   "ours": false,
+   "label": "backfill",
+   "source": "darko.app date view as of 2026-10-19 (day before opening night), pulled 2026-10-31; DARKO revises past dates",
+   "sha256": "38d09f71a9d93a9293ac876aa1c1947b757dac7581b22c894c7f340c7e43d257",
+   "players": 547,
+   "coverage": 0.9995,
+   "record": {
+    "w": 84,
+    "l": 39
+   },
+   "offset": 1.4618,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1837,
+     "interval": [
+      0.1017,
+      0.2748
+     ],
+     "rank": [
+      1,
+      4
+     ]
+    },
+    "winpct_r": {
+     "value": 0.6135,
+     "interval": [
+      0.4443,
+      0.7642
      ],
      "rank": [
       1,
       10
      ]
-    }
-   }
-  },
-  {
-   "id": "lebron",
-   "name": "LEBRON",
-   "maker": "BBall Index",
-   "url": "https://www.bball-index.com/lebron-database/",
-   "ours": false,
-   "label": "saved",
-   "source": "BBall Index LEBRON database export saved by us 2026-10-03 (before opening night), 2025-26 final; no Wayback copy of the data",
-   "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1",
-   "players": 582,
-   "coverage": 1.0,
-   "record": {
-    "w": 79,
-    "l": 44
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.1348,
-     "interval": [
-      0.0692,
-      0.2065
-     ],
-     "rank": [
-      5,
-      10
-     ]
-    },
-    "winpct_r": {
-     "value": 0.6094,
-     "interval": [
-      0.4439,
-      0.7477
-     ],
-     "rank": [
-      2,
-      10
-     ]
     },
     "net_rmse": {
-     "value": 8.6131,
+     "value": 8.4484,
      "interval": [
-      6.9625,
-      10.0541
-     ],
-     "rank": [
-      2,
-      9
-     ]
-    }
-   }
-  },
-  {
-   "id": "pulse",
-   "name": "Pulse",
-   "maker": "CourtSignal",
-   "url": "https://courtsignal.net/ratings",
-   "ours": false,
-   "label": "backfill",
-   "source": "CourtSignal Season PULSE 2025-26 (courtshare.net/data/leaderboard-2026.json, pulse_net); our copy saved 2026-10-25, identical on 2026-10-31",
-   "sha256": "0500492433e1a6b0bd677963affe5f4bba4befe34d3925cdfba1c3b721b494f2",
-   "players": 582,
-   "coverage": 1.0,
-   "record": {
-    "w": 78,
-    "l": 45
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.1412,
-     "interval": [
-      0.0716,
-      0.2202
-     ],
-     "rank": [
-      4,
-      10
-     ]
-    },
-    "winpct_r": {
-     "value": 0.6032,
-     "interval": [
-      0.4114,
-      0.7555
-     ],
-     "rank": [
-      2,
-      10
-     ]
-    },
-    "net_rmse": {
-     "value": 8.673,
-     "interval": [
-      7.039,
-      10.0885
-     ],
-     "rank": [
-      2,
-      9
-     ]
-    }
-   }
-  },
-  {
-   "id": "epm",
-   "name": "EPM",
-   "maker": "Taylor Snarr, Dunks & Threes",
-   "url": "https://dunksandthrees.com/epm",
-   "ours": false,
-   "label": "backfill",
-   "source": "dunksandthrees.com date view as of each team's first game (pulled 2026-10-29)",
-   "sha256": "8d24ecda23832b5a148d11521bcd428a93d8dd572639ff53ee2ceaf60a66efe8",
-   "players": 520,
-   "coverage": 0.9984,
-   "record": {
-    "w": 82,
-    "l": 41
-   },
-   "tests": {
-    "margin_r2": {
-     "value": 0.1408,
-     "interval": [
-      0.0788,
-      0.2181
-     ],
-     "rank": [
-      4,
-      10
-     ]
-    },
-    "winpct_r": {
-     "value": 0.6017,
-     "interval": [
-      0.4461,
-      0.7369
-     ],
-     "rank": [
-      2,
-      10
-     ]
-    },
-    "net_rmse": {
-     "value": 8.7253,
-     "interval": [
-      7.2025,
-      9.9814
+      6.8736,
+      9.8042
      ],
      "rank": [
       1,
-      10
+      7
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 8.321,
+     "interval": [
+      6.7857,
+      9.6046
+     ],
+     "rank": [
+      1,
+      8
      ]
     }
    }
@@ -410,6 +252,7 @@
     "w": 82,
     "l": 41
    },
+   "offset": 2.5526,
    "tests": {
     "margin_r2": {
      "value": 0.163,
@@ -443,6 +286,269 @@
       3,
       10
      ]
+    },
+    "net_rmse_centered": {
+     "value": 8.4159,
+     "interval": [
+      6.8445,
+      9.7297
+     ],
+     "rank": [
+      2,
+      8
+     ]
+    }
+   }
+  },
+  {
+   "id": "lebron",
+   "name": "LEBRON",
+   "maker": "BBall Index",
+   "url": "https://www.bball-index.com/lebron-database/",
+   "ours": false,
+   "label": "saved",
+   "source": "BBall Index LEBRON database export saved by us 2026-10-03 (before opening night), 2025-26 final; no Wayback copy of the data",
+   "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1",
+   "players": 582,
+   "coverage": 1.0,
+   "record": {
+    "w": 79,
+    "l": 44
+   },
+   "offset": 0.818,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1348,
+     "interval": [
+      0.0692,
+      0.2065
+     ],
+     "rank": [
+      5,
+      10
+     ]
+    },
+    "winpct_r": {
+     "value": 0.6094,
+     "interval": [
+      0.4439,
+      0.7477
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    },
+    "net_rmse": {
+     "value": 8.6131,
+     "interval": [
+      6.9625,
+      10.0541
+     ],
+     "rank": [
+      2,
+      9
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 8.5741,
+     "interval": [
+      6.9344,
+      9.9818
+     ],
+     "rank": [
+      3,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "id": "openrapm",
+   "name": "OpenRAPM",
+   "maker": "Nathan Walker",
+   "url": "https://openrapm.com/",
+   "ours": false,
+   "label": "archived",
+   "source": "bbstats/openrapm docs/data/ratings.json at commit 8dc207b (2026-10-19 18:50 UTC, last before opening night), 2025-26 total",
+   "sha256": "f85762fa4716f9b97cd4a43eebaca11c1d0ac335dc5275319b988d73a74f843b",
+   "players": 582,
+   "coverage": 1.0,
+   "record": {
+    "w": 82,
+    "l": 41
+   },
+   "offset": 0.2108,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1444,
+     "interval": [
+      0.0792,
+      0.2207
+     ],
+     "rank": [
+      3,
+      10
+     ]
+    },
+    "winpct_r": {
+     "value": 0.6126,
+     "interval": [
+      0.4658,
+      0.74
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    },
+    "net_rmse": {
+     "value": 8.5814,
+     "interval": [
+      6.9174,
+      9.9758
+     ],
+     "rank": [
+      1,
+      10
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 8.5788,
+     "interval": [
+      6.9297,
+      9.9612
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "id": "pulse",
+   "name": "Pulse",
+   "maker": "CourtSignal",
+   "url": "https://courtsignal.net/ratings",
+   "ours": false,
+   "label": "backfill",
+   "source": "CourtSignal Season PULSE 2025-26 (courtshare.net/data/leaderboard-2026.json, pulse_net); our copy saved 2026-10-25, identical on 2026-10-31",
+   "sha256": "0500492433e1a6b0bd677963affe5f4bba4befe34d3925cdfba1c3b721b494f2",
+   "players": 582,
+   "coverage": 1.0,
+   "record": {
+    "w": 78,
+    "l": 45
+   },
+   "offset": 1.125,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1412,
+     "interval": [
+      0.0716,
+      0.2202
+     ],
+     "rank": [
+      4,
+      10
+     ]
+    },
+    "winpct_r": {
+     "value": 0.6032,
+     "interval": [
+      0.4114,
+      0.7555
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    },
+    "net_rmse": {
+     "value": 8.673,
+     "interval": [
+      7.039,
+      10.0885
+     ],
+     "rank": [
+      2,
+      9
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 8.5997,
+     "interval": [
+      7.0158,
+      9.9541
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "id": "epm",
+   "name": "EPM",
+   "maker": "Taylor Snarr, Dunks & Threes",
+   "url": "https://dunksandthrees.com/epm",
+   "ours": false,
+   "label": "backfill",
+   "source": "dunksandthrees.com date view as of each team's first game (pulled 2026-10-29)",
+   "sha256": "8d24ecda23832b5a148d11521bcd428a93d8dd572639ff53ee2ceaf60a66efe8",
+   "players": 520,
+   "coverage": 0.9984,
+   "record": {
+    "w": 82,
+    "l": 41
+   },
+   "offset": 1.0423,
+   "tests": {
+    "margin_r2": {
+     "value": 0.1408,
+     "interval": [
+      0.0788,
+      0.2181
+     ],
+     "rank": [
+      4,
+      10
+     ]
+    },
+    "winpct_r": {
+     "value": 0.6017,
+     "interval": [
+      0.4461,
+      0.7369
+     ],
+     "rank": [
+      2,
+      10
+     ]
+    },
+    "net_rmse": {
+     "value": 8.7253,
+     "interval": [
+      7.2025,
+      9.9814
+     ],
+     "rank": [
+      1,
+      10
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 8.6628,
+     "interval": [
+      7.1586,
+      9.9124
+     ],
+     "rank": [
+      3,
+      10
+     ]
     }
    }
   },
@@ -461,6 +567,7 @@
     "w": 80,
     "l": 43
    },
+   "offset": 1.4132,
    "tests": {
     "margin_r2": {
      "value": 0.1386,
@@ -494,6 +601,17 @@
       2,
       10
      ]
+    },
+    "net_rmse_centered": {
+     "value": 8.7136,
+     "interval": [
+      7.1082,
+      10.0655
+     ],
+     "rank": [
+      3,
+      10
+     ]
     }
    }
   },
@@ -512,6 +630,7 @@
     "w": 85,
     "l": 38
    },
+   "offset": 1.7192,
    "tests": {
     "margin_r2": {
      "value": 0.1504,
@@ -545,6 +664,17 @@
       6,
       10
      ]
+    },
+    "net_rmse_centered": {
+     "value": 8.8399,
+     "interval": [
+      7.3144,
+      10.1169
+     ],
+     "rank": [
+      5,
+      10
+     ]
     }
    }
   }
@@ -554,6 +684,7 @@
    "id": "ceiling_rapm_same_season",
    "name": "Same-season RAPM (ceiling)",
    "description": "Plain RAPM fit on this season's games so far: it has seen the games it is computed on.",
+   "offset": -0.991,
    "tests": {
     "margin_r2": {
      "value": 0.3527,
@@ -575,6 +706,13 @@
       6.662,
       9.4267
      ]
+    },
+    "net_rmse_centered": {
+     "value": 8.0695,
+     "interval": [
+      6.5444,
+      9.397
+     ]
     }
    }
   },
@@ -582,6 +720,7 @@
    "id": "consensus",
    "name": "Consensus of all metrics",
    "description": "Each player's average across the ranked metrics that rate him (equal weights).",
+   "offset": 1.491,
    "tests": {
     "margin_r2": {
      "value": 0.164,
@@ -603,6 +742,13 @@
       6.911,
       9.9264
      ]
+    },
+    "net_rmse_centered": {
+     "value": 8.4,
+     "interval": [
+      6.8234,
+      9.7402
+     ]
     }
    }
   },
@@ -610,6 +756,7 @@
    "id": "rapm_last_season",
    "name": "Last season's RAPM, no prior",
    "description": "Plain RAPM fit on 2025-26 only, carried forward.",
+   "offset": 0.4673,
    "tests": {
     "margin_r2": {
      "value": 0.1258,
@@ -631,6 +778,13 @@
       6.8153,
       9.9739
      ]
+    },
+    "net_rmse_centered": {
+     "value": 8.4994,
+     "interval": [
+      6.8201,
+      9.9332
+     ]
     }
    }
   },
@@ -638,6 +792,7 @@
    "id": "baseline_last_team",
    "name": "Last season's team (floor)",
    "description": "Each player = his main team's opponent-adjusted margin last season / 5.",
+   "offset": -0.6859,
    "tests": {
     "margin_r2": {
      "value": 0.1193,
@@ -659,13 +814,21 @@
       6.9579,
       10.1584
      ]
+    },
+    "net_rmse_centered": {
+     "value": 8.6671,
+     "interval": [
+      6.953,
+      10.1228
+     ]
     }
    }
   },
   {
    "id": "baseline_zero",
    "name": "Everyone 0 (floor)",
-   "description": "Every player 0; only the -2.0 for low-minute players separates teams.",
+   "description": "Every player 0; only the -2.0 for players under 250 minutes in 2025-26 separates teams.",
+   "offset": -1.0745,
    "tests": {
     "margin_r2": {
      "value": 0.0409,
@@ -686,6 +849,13 @@
      "interval": [
       7.4766,
       10.6078
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 9.0838,
+     "interval": [
+      7.3374,
+      10.5995
      ]
     }
    }
@@ -2174,6 +2344,501 @@
    "interval": [
     -1.1511,
     0.3365
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "danny",
+   "diff": 0.424,
+   "interval": [
+    0.0304,
+    0.826
+   ],
+   "separated": true
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "darko",
+   "diff": 0.5189,
+   "interval": [
+    0.0136,
+    1.0551
+   ],
+   "separated": true
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "epm",
+   "diff": 0.1771,
+   "interval": [
+    -0.2905,
+    0.6143
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "lebron",
+   "diff": 0.2658,
+   "interval": [
+    -0.1995,
+    0.796
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "loki",
+   "diff": 0.7179,
+   "interval": [
+    0.1086,
+    1.4068
+   ],
+   "separated": true
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "openrapm",
+   "diff": 0.2611,
+   "interval": [
+    -0.1864,
+    0.761
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "pulse",
+   "diff": 0.2402,
+   "interval": [
+    -0.2151,
+    0.7359
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "xpm",
+   "diff": 0.6229,
+   "interval": [
+    0.038,
+    1.2509
+   ],
+   "separated": true
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "bpm_bbref",
+   "b": "xrapm",
+   "diff": 0.1263,
+   "interval": [
+    -0.3267,
+    0.6139
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "darko",
+   "diff": 0.0949,
+   "interval": [
+    -0.323,
+    0.5286
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "epm",
+   "diff": -0.2469,
+   "interval": [
+    -0.6014,
+    0.0969
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "lebron",
+   "diff": -0.1582,
+   "interval": [
+    -0.5341,
+    0.2568
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "loki",
+   "diff": 0.2939,
+   "interval": [
+    -0.0925,
+    0.764
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "openrapm",
+   "diff": -0.1629,
+   "interval": [
+    -0.5832,
+    0.3064
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "pulse",
+   "diff": -0.1838,
+   "interval": [
+    -0.6684,
+    0.286
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "xpm",
+   "diff": 0.1989,
+   "interval": [
+    -0.2663,
+    0.7198
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "danny",
+   "b": "xrapm",
+   "diff": -0.2976,
+   "interval": [
+    -0.7457,
+    0.1251
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "epm",
+   "diff": -0.3419,
+   "interval": [
+    -0.832,
+    0.1611
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "lebron",
+   "diff": -0.2531,
+   "interval": [
+    -0.6939,
+    0.1726
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "loki",
+   "diff": 0.1989,
+   "interval": [
+    -0.3181,
+    0.7173
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "openrapm",
+   "diff": -0.2578,
+   "interval": [
+    -0.7694,
+    0.2377
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "pulse",
+   "diff": -0.2787,
+   "interval": [
+    -0.8262,
+    0.2243
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "xpm",
+   "diff": 0.104,
+   "interval": [
+    -0.2946,
+    0.5597
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "darko",
+   "b": "xrapm",
+   "diff": -0.3926,
+   "interval": [
+    -0.9775,
+    0.1846
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "lebron",
+   "diff": 0.0887,
+   "interval": [
+    -0.3688,
+    0.6099
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "loki",
+   "diff": 0.5408,
+   "interval": [
+    -0.1105,
+    1.2824
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "openrapm",
+   "diff": 0.084,
+   "interval": [
+    -0.4147,
+    0.651
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "pulse",
+   "diff": 0.0632,
+   "interval": [
+    -0.4783,
+    0.617
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "xpm",
+   "diff": 0.4458,
+   "interval": [
+    -0.2198,
+    1.2004
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "epm",
+   "b": "xrapm",
+   "diff": -0.0507,
+   "interval": [
+    -0.4294,
+    0.3387
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "lebron",
+   "b": "loki",
+   "diff": 0.4521,
+   "interval": [
+    -0.096,
+    1.087
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "lebron",
+   "b": "openrapm",
+   "diff": -0.0047,
+   "interval": [
+    -0.317,
+    0.3155
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "lebron",
+   "b": "pulse",
+   "diff": -0.0256,
+   "interval": [
+    -0.4522,
+    0.3742
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "lebron",
+   "b": "xpm",
+   "diff": 0.3571,
+   "interval": [
+    -0.1109,
+    0.8579
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "lebron",
+   "b": "xrapm",
+   "diff": -0.1394,
+   "interval": [
+    -0.6094,
+    0.3258
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "loki",
+   "b": "openrapm",
+   "diff": -0.4568,
+   "interval": [
+    -1.1437,
+    0.1547
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "loki",
+   "b": "pulse",
+   "diff": -0.4776,
+   "interval": [
+    -1.2217,
+    0.1553
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "loki",
+   "b": "xpm",
+   "diff": -0.095,
+   "interval": [
+    -0.6001,
+    0.4265
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "loki",
+   "b": "xrapm",
+   "diff": -0.5915,
+   "interval": [
+    -1.3999,
+    0.0684
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "openrapm",
+   "b": "pulse",
+   "diff": -0.0209,
+   "interval": [
+    -0.4155,
+    0.3645
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "openrapm",
+   "b": "xpm",
+   "diff": 0.3618,
+   "interval": [
+    -0.1127,
+    0.8528
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "openrapm",
+   "b": "xrapm",
+   "diff": -0.1348,
+   "interval": [
+    -0.6625,
+    0.361
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "pulse",
+   "b": "xpm",
+   "diff": 0.3827,
+   "interval": [
+    -0.105,
+    0.9475
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "pulse",
+   "b": "xrapm",
+   "diff": -0.1139,
+   "interval": [
+    -0.5378,
+    0.308
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse_centered",
+   "a": "xpm",
+   "b": "xrapm",
+   "diff": -0.4966,
+   "interval": [
+    -1.2209,
+    0.1681
    ],
    "separated": false
   }
