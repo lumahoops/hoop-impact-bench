@@ -3,7 +3,7 @@
   python live/code/publish.py frozen | daily              both views of the board
   python live/code/publish.py frozen --history-only       only add this run's rows to the history files
 
-Each board has two views (live/code/paths.py VIEWS; owner 2026-11-06), each with its own files, <stem> below:
+Each board has two views (live/code/paths.py VIEWS), each with its own files, <stem> below:
   frozen   full forecast: frozen_full           established players: frozen (the registered rule, the old name)
   daily    full forecast: daily (the old name)  established players: daily_established
 Reads   <HIB_WORK>/runs/<stem>/ (score.py: also <stem>_with_consensus/; daily_score.py), each with centered.json
@@ -14,7 +14,7 @@ Writes  live/results/<stem>.json         the board: metrics (ranked), reference 
         live/results/<stem>_history.csv  one row per metric per scoring run (appended), for "how the board moved"
 
 Ranks come from the metrics only; the consensus is scored in a second run so it never shifts anyone's rank range.
-Ranked by team net error, centered (owner 2026-11-06; at face value 2026-11-01 to 11-05, still published as
+Ranked by team net error, centered (from 2026-11-06; at face value 2026-11-01 to 11-05, still published as
 net_rmse), shown from the first game; until every team has played NET_MIN_GAMES games the board carries an 'early'
 note. No published field changes meaning: net_rmse stays the face-value error; net_rmse_centered and offset are new.
 """
@@ -28,7 +28,7 @@ from paths import DEFAULT_VIEW, RESULTS as OUT, RUNS, SNAPSHOTS, VIEW_NAMES, VIE
 NET_MIN_GAMES = 20
 TESTS = ["margin_r2", "winpct_r", "net_rmse"]          # from the harness runs; net_rmse_centered from centered.json
 PRIMARY = "net_rmse_centered"
-RULE_NOTE = {   # one line per view (assistant wording)
+RULE_NOTE = {   # one line per view
     "full": "Every player counts at the metric's own rating, rookies and low-minute players included. A player the "
             "metric does not rate counts as -2.0.",
     "established": "A player with fewer than 250 minutes in 2025-26, including every rookie, counts as -2.0 for every "

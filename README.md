@@ -1,5 +1,3 @@
-<!-- Assistant draft (2026-10-29), for Aayo to edit before release. Headings, captions, table notes and the plain-English
-definitions are the assistant's wording. -->
 # Hoop Impact Bench (HIB)
 
 Do last season's impact-metric values predict this season?
@@ -34,7 +32,6 @@ changes meaning between versions (from 2.0.0, `net_rmse` is the raw error and `n
 
 ## News
 
-<!-- 2026-11-06 entry: the "Team net error centered" sub-bullet is the owner's wording; the rest is the assistant's. -->
 - 2026-11-06: version 2.0.0 changes two scoring rules on every board, for 2026-27 and for 2020-21 to 2025-26.
   - Team net error centered. Each metric's team ratings are shifted so its average team is 0 in each season, the same
     as the opponent-adjusted margins they are compared with. The shift is one number per metric per season, computed

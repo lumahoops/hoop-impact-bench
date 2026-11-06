@@ -3,7 +3,7 @@
   python live/code/daily_score.py                         every game so far, both views
   python live/code/daily_score.py --through 2026-11-02    only games through that date (rebuilding a past day's board)
 
-Two views (live/code/paths.py VIEWS; owner 2026-11-06), scored from the same saved files:
+Two views (live/code/paths.py VIEWS), scored from the same saved files:
   <HIB_WORK>/runs/daily/               full forecast: every player at the metric's value as published, rookies included
   <HIB_WORK>/runs/daily_established/   established players: under 250 minutes in 2025-26, rookies included, = -2.0
 Each run also gets centered.json: team net error centered (live/code/centered.py), the ranked test.

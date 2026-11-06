@@ -36,7 +36,7 @@ def day(iso):
 
 
 def main():
-    f = RESULTS / "frozen_full.json"           # the default view (owner 2026-11-06); frozen.json = established players
+    f = RESULTS / "frozen_full.json"           # the default view; frozen.json = established players
     d = json.loads((f if f.exists() else RESULTS / "frozen.json").read_text(encoding="utf-8"))
     img = Image.new("RGB", (W, H), BG)
     g = ImageDraw.Draw(img)

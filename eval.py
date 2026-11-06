@@ -57,14 +57,14 @@ import pandas as pd
 
 HERE = Path(__file__).parent
 VERSION = "2.0.0"
-STANDARD = {"min_minutes": 0.0, "replacement": -2.0}      # the full forecast, the default (owner 2026-11-06)
+STANDARD = {"min_minutes": 0.0, "replacement": -2.0}      # the full forecast, the default
 ESTABLISHED = {"min_minutes": 250, "replacement": -2.0}   # the established-players view: Snarr's 2020 rookie rule
 STANDARD_SEASONS = ["2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"]
 SEED = 7
 TESTS = [("margin_r2", "game margin R2", True),  # (key, label, higher is better)
          ("winpct_r", "team win % r", True),
          ("net_rmse", "team net RMSE, raw", False),
-         ("net_rmse_centered", "team net RMSE, centered", False)]   # the ranked net error (owner 2026-11-06)
+         ("net_rmse_centered", "team net RMSE, centered", False)]   # the ranked net error
 HIGHER = {test: higher for test, _, higher in TESTS}
 BASELINES = {
     "baseline_zero": "every player 0 (with no rookie rule every team is 0: R2 and r are 0, and its net error is the "

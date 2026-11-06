@@ -5,9 +5,9 @@
 Reads live/results/ (both views of each board: frozen_full.json + frozen.json, daily.json + daily_established.json) and
 launch/*.json; fills live/code/page.html. Each board is a table with one line above it; the explanation sits in a drawer
 (a <details> element, so it is in the HTML for search engines and opens without JavaScript). The view switch (Full
-forecast, the default / Established players; owner 2026-11-06) is two radio buttons and CSS, so it works without
+forecast, the default / Established players) is two radio buttons and CSS, so it works without
 JavaScript too; both tables are in the HTML. JavaScript only switches tabs, sorts columns and sets the colour theme.
-Run by the VPS job after publish.py, and committed with the results. Wording is the assistant's, for the owner to edit.
+Run by the VPS job after publish.py, and committed with the results.
 """
 import datetime
 import json
@@ -32,7 +32,7 @@ LINE = {   # the one line above each table
     "frozen": "Every 2026-27 game, computed using each metric's ratings from before opening night (October 20, 2026).",
     "daily": "Each 2026-27 game day, computed using each metric's ratings as published that morning.",
 }
-NET = "net_rmse_centered"   # the ranking test (owner 2026-11-06)
+NET = "net_rmse_centered"   # the ranking test
 ORDER = ["full", "established"]   # the switch: the default first
 VIEW_NOTE = {   # the line under the switch
     "full": "Every player counts at the metric's own rating, rookies and low-minute players included. A player the "

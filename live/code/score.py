@@ -7,7 +7,7 @@ Inputs   live/snapshots/preseason.json (fingerprints), <HIB_RATINGS>/preseason/<
          its fingerprint), live/data/ (2026-27 games and minutes), live/reference/ (2026-27 RAPM reference rows;
          --reference DIR reads that day's copies instead)
 Runs     the HIB v1.1.0 harness (live/code/eval_v1.1.0.py, eval.py of that release byte for byte; sha256 checked) on a
-         scratch copy of the repo's data, for each view (live/code/paths.py VIEWS; owner 2026-11-06):
+         scratch copy of the repo's data, for each view (live/code/paths.py VIEWS):
            <HIB_WORK>/runs/frozen_full/   full forecast: every player at the metric's own value (--min-minutes 0)
            <HIB_WORK>/runs/frozen/        established players: the registered rule, the harness defaults
          each with a twin <run>_with_consensus/ (every metric + the consensus; only the consensus row is used, so it

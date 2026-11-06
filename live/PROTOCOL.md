@@ -1,4 +1,3 @@
-<!-- Assistant draft (2026-10-30), for Aayo to edit. -->
 # Live track, 2026-27
 
 The historical results score past seasons with each metric's current model. A model built after those seasons may fit
@@ -34,13 +33,13 @@ Rules (from 2026-11-06; see the amendment below). Every board has two views, com
   does not rate. It matches the historical tables' Established players view.
 
 Until 2026-11-06 the preseason board used only the registered rule and the dynamic board only the full forecast. (On
-2026-11-01, with 88 games played, both boards were briefly scored without the low-minute rule; the owner then set the
+2026-11-01, with 88 games played, both boards were briefly scored without the low-minute rule; the preseason board was then set
 preseason board back to the registered rule and kept the dynamic board without it.)
 
-ARC (2-year window) stays in the preseason snapshot but is not scored on the preseason board (owner, 2026-11-01): it is
+ARC (2-year window) stays in the preseason snapshot but is not scored on the preseason board (2026-11-01): it is
 a window ending 2025-26, not a forecast, and has no rookies. ARC Live stays on the dynamic board.
 
-Ranking test: team net error, centered (owner, 2026-11-06; at face value from 2026-11-01). It checks whether the
+Ranking test: team net error, centered (from 2026-11-06; at face value from 2026-11-01). It checks whether the
 players' ratings, weighted by the minutes they played, add up to each team's opponent-adjusted net rating, in points per
 100, after each metric's team ratings are shifted so its average team is 0, like the adjusted margins. The face-value
 error is published beside it as "raw", with the offset (the metric's average team). Game margin R² and team win % r are
@@ -55,7 +54,7 @@ Both boards use the HIB v1.1.0 harness, unchanged for the whole season (`live/co
 computed from the harness's own team ratings and its own resamples by `live/code/centered.py`. Early in the season the
 intervals are wide; read the rank ranges, not the order.
 
-## Amendment, 2026-11-06 (owner)
+## Amendment, 2026-11-06
 
 Made after 123 games on the preseason board and 39 on the dynamic board.
 

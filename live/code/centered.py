@@ -1,4 +1,4 @@
-"""Team net error, centered (owner 2026-11-06): the ranking test on both live boards.
+"""Team net error, centered: the ranking test on both live boards.
 
 Each row's team ratings minus its average team in the season, the same zero as the opponent-adjusted margins they are
 compared with, so a metric is not charged for where its zero sits. The shift is one number per row per season, from the

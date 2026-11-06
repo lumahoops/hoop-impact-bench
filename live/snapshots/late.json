@@ -1,5 +1,5 @@
 {
- "note": "Metrics that joined the live 2026-27 track after opening night (owner 2026-11-06). Each one is scored only on games that tip off after its saved_at_utc, and the commit that adds its fingerprint here is the proof of time. They are shown in their own table, next to every other metric scored on the same games. The ratings files are not published; anyone who holds the same file can match its sha256.",
+ "note": "Metrics that joined the live 2026-27 track after opening night. Each one is scored only on games that tip off after its saved_at_utc, and the commit that adds its fingerprint here is the proof of time. They are shown in their own table, next to every other metric scored on the same games. The ratings files are not published; anyone who holds the same file can match its sha256.",
  "metrics": {
   "epoch_xpm": {
    "name": "EPOCH XPM projection",

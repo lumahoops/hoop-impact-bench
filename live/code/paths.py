@@ -20,7 +20,7 @@ RATINGS = Path(os.environ.get("HIB_RATINGS", REPO / "_private_live" / "snapshots
 WORK = Path(os.environ.get("HIB_WORK", REPO / "_private_live"))
 BOX = Path(os.environ.get("HIB_BOX", WORK / "raw" / "box_2627"))
 RUNS = WORK / "runs"
-# Rules (owner 2026-11-06; before that 2026-11-01). Two views of every board, scored from the same saved files:
+# Rules (from 2026-11-06; before that 2026-11-01). Two views of every board, scored from the same saved files:
 #   full          the full forecast, the default on both boards: every player at the metric's own value, rookies
 #                 included; a player the metric does not rate = -2.0
 #   established   established players (Snarr 2020): under 250 minutes in 2025-26, rookies included, or not rated = -2.0
@@ -35,7 +35,7 @@ VIEWS = {   # board -> view -> (run folder under <HIB_WORK>/runs = results file 
 }
 DEFAULT_VIEW = "full"
 VIEW_NAMES = {"full": "Full forecast", "established": "Established players"}
-# Metrics kept in the frozen snapshot (fingerprint committed) but not scored on the frozen board (owner, 2026-11-01).
+# Metrics kept in the frozen snapshot (fingerprint committed) but not scored on the frozen board (2026-11-01).
 FROZEN_DROPPED = {"arc_2yr": "a 2-year window ending 2025-26, not a forecast, with no rookies; ARC Live stays on the daily board"}
 HARNESS = Path(__file__).resolve().parent / "eval_v1.1.0.py"   # eval.py of release v1.1.0, byte for byte: the live
 # track keeps the harness it was registered with, whatever later releases change

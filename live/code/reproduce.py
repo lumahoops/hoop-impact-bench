@@ -52,7 +52,7 @@ def main():
                     ok = False
                     break
             else:
-                for stem in STEMS[board]:              # both views (owner 2026-11-06); a view published later may be absent
+                for stem in STEMS[board]:              # both views; a view published later may be absent
                     if (LIVE / "results" / f"{stem}.json").exists():
                         ok &= compare(stem, Path(tmp) / "results")
     sys.exit(0 if ok else 1)
