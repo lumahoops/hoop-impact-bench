@@ -17,7 +17,7 @@
   "min": 7,
   "max": 10
  },
- "updated_utc": "2026-11-07T09:30:27+00:00",
+ "updated_utc": "2026-11-07T15:00:23+00:00",
  "primary_test": "net_rmse_centered",
  "net_error_shown": true,
  "early": true,
@@ -30,7 +30,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "18e20497d290f076135319e08b76b5994c298d03",
+ "repo_commit": "b718fda1a8190340f648a08a1fd8e19c5421b0c4",
  "snapshot": {
   "file": "live/snapshots/preseason.json",
   "saved_at_utc": "2026-10-31T20:40:22+00:00"
