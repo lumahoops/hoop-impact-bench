@@ -37,10 +37,12 @@
    "saved_at_utc": "2026-11-12T09:30:08+00:00"
   },
   "openrapm": {
-   "status": "empty",
-   "reason": "KeyError: 0",
-   "tries": 1,
-   "last_try_utc": "2026-11-12T09:30:11+00:00"
+   "status": "pulled",
+   "source": "bbstats/openrapm ratings.json at 8e9b969 (Daily update: 2027 through the games of 2026-11-11); 2026-27 value, else 2025-26",
+   "as_of": "2026-11-12",
+   "rows": 600,
+   "sha256": "deedaeafcfde79e9d7fa495d20008cbc9d1f622787ab85e887aa86e299c7bb36",
+   "saved_at_utc": "2026-11-12T15:00:07+00:00"
   },
   "xrapm": {
    "status": "pulled",
