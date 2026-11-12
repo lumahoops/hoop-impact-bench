@@ -17,7 +17,7 @@
   "min": 4,
   "max": 7
  },
- "updated_utc": "2026-11-12T09:30:35+00:00",
+ "updated_utc": "2026-11-12T15:00:31+00:00",
  "primary_test": "net_rmse_centered",
  "net_error_shown": true,
  "early": true,
@@ -30,7 +30,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "50d711188e596ac24253929597c3fb29a927a45f",
+ "repo_commit": "aa9762f0a3ae53364b0b791e540601948dd103f3",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-12",
@@ -727,10 +727,11 @@
    "maker": "Nathan Walker",
    "url": "https://openrapm.com/",
    "ours": false,
-   "label": "empty",
-   "source": null,
-   "sha256": null,
-   "players": null,
+   "label": "pulled",
+   "source": "bbstats/openrapm ratings.json at 8e9b969 (Daily update: 2027 through the games of 2026-11-11); 2026-27 value, else 2025-26",
+   "sha256": "deedaeafcfde79e9d7fa495d20008cbc9d1f622787ab85e887aa86e299c7bb36",
+   "players": 600,
+   "as_of": "2026-11-12",
    "coverage": 1.0,
    "record": {
     "w": 66,
