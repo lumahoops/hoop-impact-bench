@@ -38,7 +38,7 @@ season,nba_id,name
 2026-27,203954,Joel Embiid
 2026-27,203991,Clint Capela
 2026-27,203992,Bogdan Bogdanović
-2026-27,203999,Nikola Jokić
+2026-27,203999,Nikola Jokic
 2026-27,204456,T.J. McConnell
 2026-27,1626145,Tyus Jones
 2026-27,1626157,Karl-Anthony Towns
@@ -110,7 +110,7 @@ season,nba_id,name
 2026-27,1629018,Gary Trent Jr.
 2026-27,1629020,Jarred Vanderbilt
 2026-27,1629021,Moritz Wagner
-2026-27,1629023,P.J. Washington
+2026-27,1629023,P.J. Washington Jr.
 2026-27,1629026,Kenrich Williams
 2026-27,1629027,Trae Young
 2026-27,1629028,Deandre Ayton
@@ -142,7 +142,7 @@ season,nba_id,name
 2026-27,1629655,Daniel Gafford
 2026-27,1629656,Quentin Grimes
 2026-27,1629660,Ty Jerome
-2026-27,1629661,Cameron Johnson
+2026-27,1629661,Cam Johnson
 2026-27,1629673,Jordan Poole
 2026-27,1629674,Neemias Queta
 2026-27,1629675,Naz Reid
@@ -235,7 +235,7 @@ season,nba_id,name
 2026-27,1631104,Blake Wesley
 2026-27,1631105,Jalen Duren
 2026-27,1631106,Tari Eason
-2026-27,1631107,Nikola Jović
+2026-27,1631107,Nikola Jovic
 2026-27,1631108,Max Christie
 2026-27,1631114,Jalen Williams
 2026-27,1631117,Walker Kessler
@@ -264,7 +264,7 @@ season,nba_id,name
 2026-27,1631245,Quenton Jackson
 2026-27,1631248,Baylor Scheierman
 2026-27,1631250,Pete Nance
-2026-27,1631255,Karlo Matković
+2026-27,1631255,Karlo Matkovic
 2026-27,1631260,AJ Green
 2026-27,1631288,Jamal Cain
 2026-27,1631321,Sidy Cissoko
@@ -342,6 +342,7 @@ season,nba_id,name
 2026-27,1642348,Justin Edwards
 2026-27,1642349,Ajay Mitchell
 2026-27,1642350,Trevon Brazile
+2026-27,1642352,Keshad Johnson
 2026-27,1642353,Cam Christie
 2026-27,1642355,Bronny James
 2026-27,1642357,David Jones Garcia
@@ -378,7 +379,7 @@ season,nba_id,name
 2026-27,1642853,Rasheer Fleming
 2026-27,1642854,Asa Newell
 2026-27,1642855,Noa Essengue
-2026-27,1642856,Egor Dëmin
+2026-27,1642856,Egor Demin
 2026-27,1642857,Kasparas Jakučionis
 2026-27,1642859,Jase Richardson
 2026-27,1642860,Will Riley
@@ -459,6 +460,7 @@ season,nba_id,name
 2026-27,1643588,Tobi Lawal
 2026-27,1643590,Felix Okpara
 2026-27,1643591,Tobe Awaka
+2026-27,1643621,Tre Donaldson
 2026-27,1643624,Bryce Hopkins
 2026-27,1643633,Graham Ike
 2026-27,1643637,Jaylin Sellers
