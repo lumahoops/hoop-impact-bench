@@ -1,0 +1,96 @@
+{
+ "board": "daily",
+ "date": "2026-11-16",
+ "season": "2026-27",
+ "saved_at_utc": "2026-11-16T09:30:09+00:00",
+ "metrics": {
+  "loki": {
+   "status": "pulled",
+   "source": "LOKI weekly solve made 2026-11-16, games through 2026-11-15 (private; fingerprint only)",
+   "as_of": "2026-11-16",
+   "rows": 1029,
+   "sha256": "6ef96d6bd3d275ba0ca602ca17ff6555c7261cebf6ef7143f5d743ab0198ace0",
+   "saved_at_utc": "2026-11-16T09:30:05+00:00"
+  },
+  "epm": {
+   "status": "pulled",
+   "source": "dunksandthrees.com/epm (current expected EPM, subscriber view)",
+   "as_of": "2026-11-16",
+   "rows": 534,
+   "sha256": "790ac41c60b7bd1f4d47ecce492010c6dd6f4f94a71c569e0657c710db5f5baa",
+   "saved_at_utc": "2026-11-16T09:30:06+00:00"
+  },
+  "darko": {
+   "status": "pulled",
+   "source": "darko.app as of 2026-11-16 (data through 2026-11-16)",
+   "as_of": "2026-11-16",
+   "rows": 529,
+   "sha256": "e9cf7bfd2dba289a9d9b5ee7bf74a41a59a8de6066cfb48fb82807978a2f4aa0",
+   "saved_at_utc": "2026-11-16T09:30:06+00:00"
+  },
+  "pulse": {
+   "status": "pulled",
+   "source": "courtsignal.net Current PULSE (dynamic prior filter (daily)), row 2026-11-14",
+   "as_of": "2026-11-14",
+   "rows": 659,
+   "sha256": "7727baeaaed1820ea69356ef7e3a86d66e33a727b538ae2f61c935d26237bb9c",
+   "saved_at_utc": "2026-11-16T09:30:06+00:00"
+  },
+  "openrapm": {
+   "status": "pulled",
+   "source": "bbstats/openrapm ratings.json at e1ee9ad (Daily update: 2027 through the games of 2026-11-14); 2026-27 value, else 2025-26",
+   "as_of": "2026-11-15",
+   "rows": 603,
+   "sha256": "842e1387ce5ccc4d11e947161ffe6618f28b6f6f4afc4a8197750e12ec2645bf",
+   "saved_at_utc": "2026-11-16T09:30:07+00:00"
+  },
+  "xrapm": {
+   "status": "pulled",
+   "source": "xrapm.com Total (metrics updated 2026-11-11)",
+   "as_of": "2026-11-11",
+   "rows": 463,
+   "sha256": "e740335c2d06002a6d8032cf173dc387125fc6dd3fb71cd729cc91fe3f75256a",
+   "saved_at_utc": "2026-11-16T09:30:08+00:00"
+  },
+  "xpm": {
+   "status": "carried",
+   "source": "preseason value (VORP.app publishes a preseason forecast only)",
+   "as_of": "preseason",
+   "rows": 608,
+   "sha256": "5e62034575eab2348844508199e232e9709cd4051d607289ef15a8f175a6344a",
+   "saved_at_utc": "2026-11-16T09:30:08+00:00"
+  },
+  "danny": {
+   "status": "carried",
+   "source": "preseason value (Danny's preseason projection; in-season updates not yet included)",
+   "as_of": "preseason",
+   "rows": 679,
+   "sha256": "23b7d01a01dabe11f3d36560fb2826bdd06b10c5c3d126413d04ab15503d8623",
+   "saved_at_utc": "2026-11-16T09:30:08+00:00"
+  },
+  "lebron": {
+   "status": "carried",
+   "source": "no 2026-27 LEBRON published yet; 2025-26 final (export saved 2026-10-03)",
+   "as_of": "2026-04-12",
+   "rows": 582,
+   "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1",
+   "saved_at_utc": "2026-11-16T09:30:08+00:00"
+  },
+  "bpm_bbref": {
+   "status": "pulled",
+   "as_of": "2026-11-16",
+   "source": "basketball-reference.com 2026-27 Advanced, season-to-date BPM (Last Updated: Monday, November 16, 3:06AM); 469 matched, unmatched: none",
+   "rows": 469,
+   "sha256": "90dce8a1faca141d692c693e28b4de0cce920c6f7fb84c8cd1e51c79b8e105e5",
+   "saved_at_utc": "2026-11-16T09:30:08+00:00"
+  },
+  "arc": {
+   "status": "pulled",
+   "source": "lumahoops.org ARC Live (arc-live/2027/2026-11-15.json)",
+   "as_of": "2026-11-15",
+   "rows": 647,
+   "sha256": "b657f1e1132f8d48124e8ce14a77913d07069ba758a5dfd0d80dd76dd80d33bd",
+   "saved_at_utc": "2026-11-16T09:30:09+00:00"
+  }
+ }
+}
