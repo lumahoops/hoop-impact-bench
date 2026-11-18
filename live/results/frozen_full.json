@@ -10,14 +10,14 @@
  "season": "2026-27",
  "title": "The preseason board uses the ratings each metric had published before opening night of the 2026-27 NBA season (October 20, 2026). These ratings stay fixed, and every 2026-27 regular-season game is computed using them.",
  "rule_note": "Every player counts at the metric's own rating, rookies and low-minute players included. A player the metric does not rate counts as -2.0.",
- "scored_through": "2026-11-16",
+ "scored_through": "2026-11-17",
  "first_game": "2026-10-20",
- "games": 205,
+ "games": 210,
  "games_per_team": {
   "min": 12,
   "max": 15
  },
- "updated_utc": "2026-11-17T15:00:27+00:00",
+ "updated_utc": "2026-11-18T09:30:37+00:00",
  "primary_test": "net_rmse_centered",
  "net_error_shown": true,
  "early": true,
@@ -30,7 +30,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "f1926d6697bf0c42d93aa3476abeef1acc7ec79d",
+ "repo_commit": "db01d520fc64854ec44950c7a3c70e4bc09ab94c",
  "snapshot": {
   "file": "live/snapshots/preseason.json",
   "saved_at_utc": "2026-10-31T20:40:22+00:00"
@@ -58,18 +58,18 @@
    "source": "dunksandthrees.com date view as of each team's first game (pulled 2026-10-29)",
    "sha256": "8d24ecda23832b5a148d11521bcd428a93d8dd572639ff53ee2ceaf60a66efe8",
    "players": 520,
-   "coverage": 0.9974,
+   "coverage": 0.9975,
    "record": {
-    "w": 147,
-    "l": 58
+    "w": 148,
+    "l": 62
    },
-   "offset": 0.2848,
+   "offset": 0.2797,
    "tests": {
     "margin_r2": {
-     "value": 0.2598,
+     "value": 0.2431,
      "interval": [
-      0.1906,
-      0.3308
+      0.1754,
+      0.3117
      ],
      "rank": [
       1,
@@ -77,10 +77,10 @@
      ]
     },
     "winpct_r": {
-     "value": 0.8249,
+     "value": 0.8144,
      "interval": [
-      0.7245,
-      0.9038
+      0.7156,
+      0.8961
      ],
      "rank": [
       1,
@@ -88,10 +88,10 @@
      ]
     },
     "net_rmse": {
-     "value": 4.8037,
+     "value": 4.4988,
      "interval": [
-      3.7609,
-      5.7121
+      3.5379,
+      5.3151
      ],
      "rank": [
       1,
@@ -99,10 +99,10 @@
      ]
     },
     "net_rmse_centered": {
-     "value": 4.7953,
+     "value": 4.4901,
      "interval": [
-      3.7282,
-      5.6923
+      3.4978,
+      5.3277
      ],
      "rank": [
       1,
@@ -123,16 +123,16 @@
    "players": 608,
    "coverage": 0.9999,
    "record": {
-    "w": 142,
-    "l": 63
+    "w": 145,
+    "l": 65
    },
-   "offset": 1.8317,
+   "offset": 1.8249,
    "tests": {
     "margin_r2": {
-     "value": 0.2456,
+     "value": 0.233,
      "interval": [
-      0.1677,
-      0.3243
+      0.1573,
+      0.3115
      ],
      "rank": [
       1,
@@ -140,10 +140,10 @@
      ]
     },
     "winpct_r": {
-     "value": 0.8273,
+     "value": 0.8216,
      "interval": [
-      0.7173,
-      0.9092
+      0.7093,
+      0.9054
      ],
      "rank": [
       1,
@@ -151,10 +151,10 @@
      ]
     },
     "net_rmse": {
-     "value": 5.2469,
+     "value": 4.9648,
      "interval": [
-      4.2236,
-      6.169
+      3.9752,
+      5.818
      ],
      "rank": [
       1,
@@ -162,10 +162,10 @@
      ]
     },
     "net_rmse_centered": {
-     "value": 4.9168,
+     "value": 4.6173,
      "interval": [
-      3.9457,
-      5.7426
+      3.6738,
+      5.4091
      ],
      "rank": [
       1,
@@ -175,60 +175,60 @@
    }
   },
   {
-   "id": "loki",
-   "name": "LOKI",
-   "maker": "LUMA Basketball Research",
-   "url": "https://lumahoops.org/loki",
-   "ours": true,
-   "label": "archived",
-   "source": "LOKI v3.3 2026-27 preseason board, frozen 2026-10-12, release sha256 a1f9bad8...",
-   "sha256": "c78ec0deb99f547e460e00bde98e867623ecf14c3f6d8ffaac599595fd5395d7",
-   "players": 687,
-   "coverage": 0.9239,
+   "id": "darko",
+   "name": "DARKO",
+   "maker": "Kostya Medvedovsky",
+   "url": "https://www.darko.app/",
+   "ours": false,
+   "label": "backfill",
+   "source": "darko.app date view as of 2026-10-19 (day before opening night), pulled 2026-10-31; DARKO revises past dates",
+   "sha256": "38d09f71a9d93a9293ac876aa1c1947b757dac7581b22c894c7f340c7e43d257",
+   "players": 547,
+   "coverage": 0.9164,
    "record": {
-    "w": 149,
-    "l": 56
+    "w": 145,
+    "l": 65
    },
-   "offset": 2.4368,
+   "offset": 1.4178,
    "tests": {
     "margin_r2": {
-     "value": 0.2399,
+     "value": 0.2447,
      "interval": [
-      0.1573,
-      0.3327
+      0.1632,
+      0.3279
      ],
      "rank": [
       1,
-      8
+      5
      ]
     },
     "winpct_r": {
-     "value": 0.8137,
+     "value": 0.7957,
      "interval": [
-      0.7013,
-      0.9023
+      0.6703,
+      0.8967
      ],
      "rank": [
       1,
-      8
+      9
      ]
     },
     "net_rmse": {
-     "value": 5.5114,
+     "value": 4.8864,
      "interval": [
-      4.6605,
-      6.2499
+      4.1104,
+      5.5817
      ],
      "rank": [
       2,
-      10
+      7
      ]
     },
     "net_rmse_centered": {
-     "value": 4.9434,
+     "value": 4.6762,
      "interval": [
-      3.8938,
-      5.8693
+      3.7888,
+      5.4557
      ],
      "rank": [
       1,
@@ -247,18 +247,18 @@
    "source": "Danny Harlan's EPM projection model (github.com/dannyharlan05/nba-epm-projections), pred_epm_1y from artifacts/predictions.parquet at commit 97c0817, pushed 2026-10-20 17:03 UTC (GitHub push event), before opening night",
    "sha256": "23b7d01a01dabe11f3d36560fb2826bdd06b10c5c3d126413d04ab15503d8623",
    "players": 679,
-   "coverage": 0.9234,
+   "coverage": 0.9242,
    "record": {
-    "w": 147,
-    "l": 58
+    "w": 150,
+    "l": 60
    },
-   "offset": 2.3368,
+   "offset": 2.3302,
    "tests": {
     "margin_r2": {
-     "value": 0.2435,
+     "value": 0.2268,
      "interval": [
-      0.172,
-      0.3198
+      0.1581,
+      0.2999
      ],
      "rank": [
       2,
@@ -266,21 +266,21 @@
      ]
     },
     "winpct_r": {
-     "value": 0.8279,
+     "value": 0.8175,
      "interval": [
-      0.7272,
-      0.9072
+      0.712,
+      0.9006
      ],
      "rank": [
       1,
-      5
+      6
      ]
     },
     "net_rmse": {
-     "value": 5.4772,
+     "value": 5.2249,
      "interval": [
-      4.4595,
-      6.4042
+      4.3003,
+      6.0553
      ],
      "rank": [
       3,
@@ -288,10 +288,10 @@
      ]
     },
     "net_rmse_centered": {
-     "value": 4.9537,
+     "value": 4.6765,
      "interval": [
-      3.8264,
-      5.8918
+      3.6131,
+      5.5735
      ],
      "rank": [
       2,
@@ -301,64 +301,64 @@
    }
   },
   {
-   "id": "darko",
-   "name": "DARKO",
-   "maker": "Kostya Medvedovsky",
-   "url": "https://www.darko.app/",
-   "ours": false,
-   "label": "backfill",
-   "source": "darko.app date view as of 2026-10-19 (day before opening night), pulled 2026-10-31; DARKO revises past dates",
-   "sha256": "38d09f71a9d93a9293ac876aa1c1947b757dac7581b22c894c7f340c7e43d257",
-   "players": 547,
-   "coverage": 0.916,
+   "id": "loki",
+   "name": "LOKI",
+   "maker": "LUMA Basketball Research",
+   "url": "https://lumahoops.org/loki",
+   "ours": true,
+   "label": "archived",
+   "source": "LOKI v3.3 2026-27 preseason board, frozen 2026-10-12, release sha256 a1f9bad8...",
+   "sha256": "c78ec0deb99f547e460e00bde98e867623ecf14c3f6d8ffaac599595fd5395d7",
+   "players": 687,
+   "coverage": 0.9248,
    "record": {
-    "w": 143,
-    "l": 62
+    "w": 151,
+    "l": 59
    },
-   "offset": 1.4188,
+   "offset": 2.4318,
    "tests": {
     "margin_r2": {
-     "value": 0.2597,
+     "value": 0.2259,
      "interval": [
-      0.1757,
-      0.3446
-     ],
-     "rank": [
-      1,
-      5
-     ]
-    },
-    "winpct_r": {
-     "value": 0.8,
-     "interval": [
-      0.6762,
-      0.8997
-     ],
-     "rank": [
-      1,
-      9
-     ]
-    },
-    "net_rmse": {
-     "value": 5.1616,
-     "interval": [
-      4.3065,
-      5.9422
-     ],
-     "rank": [
-      1,
-      7
-     ]
-    },
-    "net_rmse_centered": {
-     "value": 4.9628,
-     "interval": [
-      4.0035,
-      5.7837
+      0.1446,
+      0.3155
      ],
      "rank": [
       1,
       8
+     ]
+    },
+    "winpct_r": {
+     "value": 0.8103,
+     "interval": [
+      0.6941,
+      0.9046
+     ],
+     "rank": [
+      1,
+      8
+     ]
+    },
+    "net_rmse": {
+     "value": 5.3088,
+     "interval": [
+      4.4646,
+      6.0373
+     ],
+     "rank": [
+      3,
+      10
+     ]
+    },
+    "net_rmse_centered": {
+     "value": 4.7191,
+     "interval": [
+      3.6676,
+      5.6418
+     ],
+     "rank": [
+      1,
+      9
      ]
     }
    }
@@ -373,54 +373,54 @@
    "source": "xrapm.com 2025-26 final (metrics updated 2026-04-12), Wayback capture web.archive.org/web/20260925005234/https://xrapm.com/",
    "sha256": "1af65024cd22eccad3379d60c349c8aaec123cef227173c3cbe3e4a73307c328",
    "players": 582,
-   "coverage": 0.9064,
+   "coverage": 0.907,
    "record": {
-    "w": 141,
-    "l": 64
+    "w": 142,
+    "l": 68
    },
-   "offset": 0.9078,
+   "offset": 0.8933,
    "tests": {
     "margin_r2": {
-     "value": 0.2131,
+     "value": 0.1964,
      "interval": [
-      0.1388,
-      0.2964
+      0.1249,
+      0.2771
      ],
      "rank": [
-      4,
+      5,
       10
      ]
     },
     "winpct_r": {
-     "value": 0.7893,
+     "value": 0.7771,
      "interval": [
-      0.6685,
-      0.8746
+      0.6582,
+      0.8654
      ],
      "rank": [
-      3,
+      4,
       9
      ]
     },
     "net_rmse": {
-     "value": 5.251,
+     "value": 5.0701,
      "interval": [
-      3.9888,
-      6.4144
+      3.9419,
+      6.0929
      ],
      "rank": [
-      1,
-      8
+      2,
+      9
      ]
     },
     "net_rmse_centered": {
-     "value": 5.1719,
+     "value": 4.9908,
      "interval": [
-      3.7674,
-      6.3584
+      3.6951,
+      6.0863
      ],
      "rank": [
-      1,
+      2,
       9
      ]
     }
@@ -436,29 +436,29 @@
    "source": "bbstats/openrapm docs/data/ratings.json at commit 8dc207b (2026-10-19 18:50 UTC, last before opening night), 2025-26 total",
    "sha256": "f85762fa4716f9b97cd4a43eebaca11c1d0ac335dc5275319b988d73a74f843b",
    "players": 582,
-   "coverage": 0.9064,
+   "coverage": 0.907,
    "record": {
-    "w": 140,
-    "l": 65
+    "w": 142,
+    "l": 68
    },
-   "offset": -0.0794,
+   "offset": -0.0766,
    "tests": {
     "margin_r2": {
-     "value": 0.213,
+     "value": 0.2004,
      "interval": [
-      0.1453,
-      0.286
+      0.1356,
+      0.2727
      ],
      "rank": [
-      5,
+      4,
       10
      ]
     },
     "winpct_r": {
-     "value": 0.7555,
+     "value": 0.7486,
      "interval": [
-      0.6269,
-      0.8523
+      0.619,
+      0.8469
      ],
      "rank": [
       6,
@@ -466,25 +466,25 @@
      ]
     },
     "net_rmse": {
-     "value": 5.3129,
+     "value": 5.0156,
      "interval": [
-      4.0127,
-      6.4765
+      3.7681,
+      6.1278
      ],
      "rank": [
       1,
-      9
+      10
      ]
     },
     "net_rmse_centered": {
-     "value": 5.3123,
+     "value": 5.015,
      "interval": [
-      4.0244,
-      6.4759
+      3.7796,
+      6.1159
      ],
      "rank": [
-      3,
-      9
+      2,
+      10
      ]
     }
    }
@@ -499,18 +499,18 @@
    "source": "BBall Index LEBRON database export saved by us 2026-10-03 (before opening night), 2025-26 final; no Wayback copy of the data",
    "sha256": "2ea8ed7dd55cf21f9922d0badc036c3505059478ce81481b6cbb340c5feac0a1",
    "players": 582,
-   "coverage": 0.9064,
+   "coverage": 0.907,
    "record": {
-    "w": 135,
-    "l": 70
+    "w": 137,
+    "l": 73
    },
-   "offset": 0.5676,
+   "offset": 0.5635,
    "tests": {
     "margin_r2": {
-     "value": 0.2002,
+     "value": 0.1916,
      "interval": [
-      0.1263,
-      0.2783
+      0.118,
+      0.2695
      ],
      "rank": [
       6,
@@ -518,21 +518,21 @@
      ]
     },
     "winpct_r": {
-     "value": 0.7487,
+     "value": 0.7465,
      "interval": [
-      0.6188,
-      0.8529
+      0.6114,
+      0.8546
      ],
      "rank": [
-      6,
+      5,
       10
      ]
     },
     "net_rmse": {
-     "value": 5.4605,
+     "value": 5.1096,
      "interval": [
-      4.4187,
-      6.4306
+      4.1085,
+      6.0372
      ],
      "rank": [
       3,
@@ -540,13 +540,13 @@
      ]
     },
     "net_rmse_centered": {
-     "value": 5.4309,
+     "value": 5.0785,
      "interval": [
-      4.3301,
-      6.4482
+      3.9883,
+      6.0743
      ],
      "rank": [
-      5,
+      4,
       10
      ]
     }
@@ -562,18 +562,18 @@
    "source": "CourtSignal Season PULSE 2025-26 (courtshare.net/data/leaderboard-2026.json, pulse_net); our copy saved 2026-10-25, identical on 2026-10-31",
    "sha256": "0500492433e1a6b0bd677963affe5f4bba4befe34d3925cdfba1c3b721b494f2",
    "players": 582,
-   "coverage": 0.9064,
+   "coverage": 0.907,
    "record": {
-    "w": 135,
-    "l": 70
+    "w": 137,
+    "l": 73
    },
-   "offset": 0.7623,
+   "offset": 0.7546,
    "tests": {
     "margin_r2": {
-     "value": 0.2043,
+     "value": 0.1951,
      "interval": [
-      0.1303,
-      0.2851
+      0.1229,
+      0.2742
      ],
      "rank": [
       5,
@@ -581,21 +581,21 @@
      ]
     },
     "winpct_r": {
-     "value": 0.755,
+     "value": 0.7537,
      "interval": [
-      0.613,
-      0.8573
+      0.6082,
+      0.8599
      ],
      "rank": [
-      6,
+      4,
       10
      ]
     },
     "net_rmse": {
-     "value": 5.5583,
+     "value": 5.2216,
      "interval": [
-      4.4208,
-      6.6303
+      4.1798,
+      6.1993
      ],
      "rank": [
       4,
@@ -603,13 +603,13 @@
      ]
     },
     "net_rmse_centered": {
-     "value": 5.5057,
+     "value": 5.1668,
      "interval": [
-      4.34,
-      6.6198
+      4.0626,
+      6.1729
      ],
      "rank": [
-      6,
+      5,
       10
      ]
     }
@@ -625,18 +625,18 @@
    "source": "Basketball-Reference 2025-26 Advanced table, Wayback capture 2026-10-08 (web.archive.org/web/20261008065049/https://www.basketball-reference.com/leagues/NBA_2026_advanced.html), via tools/from_bbref.py",
    "sha256": "8fec8554831ace7c0d623022f9d7b7835f90699e663d9f5d4e2ed2d478bed2c8",
    "players": 581,
-   "coverage": 0.9064,
+   "coverage": 0.907,
    "record": {
-    "w": 144,
-    "l": 61
+    "w": 146,
+    "l": 64
    },
-   "offset": 1.0518,
+   "offset": 1.0428,
    "tests": {
     "margin_r2": {
-     "value": 0.2157,
+     "value": 0.2053,
      "interval": [
-      0.144,
-      0.2929
+      0.1348,
+      0.2831
      ],
      "rank": [
       3,
@@ -644,35 +644,35 @@
      ]
     },
     "winpct_r": {
-     "value": 0.8038,
+     "value": 0.8059,
      "interval": [
-      0.7005,
-      0.8839
+      0.7027,
+      0.888
      ],
      "rank": [
       1,
-      9
+      8
      ]
     },
     "net_rmse": {
-     "value": 5.7039,
+     "value": 5.3661,
      "interval": [
-      4.5579,
-      6.7489
+      4.2801,
+      6.3057
      ],
      "rank": [
-      4,
+      3,
       10
      ]
     },
     "net_rmse_centered": {
-     "value": 5.6061,
+     "value": 5.2639,
      "interval": [
-      4.4125,
-      6.6082
+      4.1021,
+      6.2139
      ],
      "rank": [
-      6,
+      5,
       10
      ]
     }
@@ -684,34 +684,34 @@
    "id": "ceiling_rapm_same_season",
    "name": "Same-season RAPM (ceiling)",
    "description": "Plain RAPM fit on this season's games so far: it has seen the games it is computed on.",
-   "offset": 0.1417,
+   "offset": 0.1438,
    "tests": {
     "margin_r2": {
-     "value": 0.3227,
+     "value": 0.3097,
      "interval": [
-      0.2563,
-      0.3896
+      0.2436,
+      0.3749
      ]
     },
     "winpct_r": {
-     "value": 0.9228,
+     "value": 0.9263,
      "interval": [
-      0.8833,
-      0.9563
+      0.8898,
+      0.9577
      ]
     },
     "net_rmse": {
-     "value": 5.3776,
+     "value": 5.1193,
      "interval": [
-      4.5236,
-      6.1491
+      4.3681,
+      5.7846
      ]
     },
     "net_rmse_centered": {
-     "value": 5.3758,
+     "value": 5.1173,
      "interval": [
-      4.5279,
-      6.1393
+      4.3638,
+      5.7749
      ]
     }
    }
@@ -720,34 +720,34 @@
    "id": "consensus",
    "name": "Consensus of all metrics",
    "description": "Each player's average across the ranked metrics that rate him (equal weights).",
-   "offset": 1.048,
+   "offset": 1.043,
    "tests": {
     "margin_r2": {
-     "value": 0.262,
+     "value": 0.2475,
      "interval": [
-      0.1873,
-      0.3385
+      0.176,
+      0.3221
      ]
     },
     "winpct_r": {
-     "value": 0.8526,
+     "value": 0.8462,
      "interval": [
-      0.7542,
-      0.9216
+      0.7455,
+      0.9185
      ]
     },
     "net_rmse": {
-     "value": 4.8285,
+     "value": 4.5068,
      "interval": [
-      3.801,
-      5.752
+      3.5529,
+      5.3484
      ]
     },
     "net_rmse_centered": {
-     "value": 4.7134,
+     "value": 4.3844,
      "interval": [
-      3.6334,
-      5.6469
+      3.3318,
+      5.3086
      ]
     }
    }
@@ -756,34 +756,34 @@
    "id": "rapm_last_season",
    "name": "Last season's RAPM, no prior",
    "description": "Plain RAPM fit on 2025-26 only, carried forward.",
-   "offset": 0.469,
+   "offset": 0.4708,
    "tests": {
     "margin_r2": {
-     "value": 0.1916,
+     "value": 0.1802,
      "interval": [
-      0.1133,
-      0.2823
+      0.1046,
+      0.2669
      ]
     },
     "winpct_r": {
-     "value": 0.7056,
+     "value": 0.6976,
      "interval": [
-      0.557,
-      0.8203
+      0.549,
+      0.8167
      ]
     },
     "net_rmse": {
-     "value": 5.5893,
+     "value": 5.3027,
      "interval": [
-      4.4341,
-      6.6093
+      4.2838,
+      6.2186
      ]
     },
     "net_rmse_centered": {
-     "value": 5.5696,
+     "value": 5.2818,
      "interval": [
-      4.4127,
-      6.5819
+      4.2506,
+      6.1912
      ]
     }
    }
@@ -792,34 +792,34 @@
    "id": "baseline_last_team",
    "name": "Last season's team (floor)",
    "description": "Each player = his main team's opponent-adjusted margin last season / 5.",
-   "offset": -0.6455,
+   "offset": -0.6445,
    "tests": {
     "margin_r2": {
-     "value": 0.1821,
+     "value": 0.1696,
      "interval": [
-      0.1064,
-      0.2665
+      0.0983,
+      0.2501
      ]
     },
     "winpct_r": {
-     "value": 0.6633,
+     "value": 0.6554,
      "interval": [
-      0.4871,
-      0.8027
+      0.4767,
+      0.7977
      ]
     },
     "net_rmse": {
-     "value": 5.6697,
+     "value": 5.3838,
      "interval": [
-      4.2966,
-      6.7741
+      4.0908,
+      6.4145
      ]
     },
     "net_rmse_centered": {
-     "value": 5.6329,
+     "value": 5.3451,
      "interval": [
-      4.2593,
-      6.7573
+      4.0599,
+      6.3657
      ]
     }
    }
@@ -845,17 +845,17 @@
      ]
     },
     "net_rmse": {
-     "value": 7.1121,
+     "value": 6.8637,
      "interval": [
-      5.9754,
-      8.1128
+      5.8359,
+      7.7604
      ]
     },
     "net_rmse_centered": {
-     "value": 7.1121,
+     "value": 6.8637,
      "interval": [
-      5.9754,
-      8.1128
+      5.8359,
+      7.7604
      ]
     }
    }
@@ -866,10 +866,10 @@
    "test": "margin_r2",
    "a": "bpm_bbref",
    "b": "danny",
-   "diff": -0.0277,
+   "diff": -0.0215,
    "interval": [
-    -0.0622,
-    0.0081
+    -0.0549,
+    0.0137
    ],
    "separated": false
   },
@@ -877,186 +877,186 @@
    "test": "margin_r2",
    "a": "bpm_bbref",
    "b": "darko",
-   "diff": -0.0439,
+   "diff": -0.0394,
    "interval": [
-    -0.0862,
-    -0.0012
+    -0.0796,
+    0.0012
    ],
-   "separated": true
+   "separated": false
   },
   {
    "test": "margin_r2",
    "a": "bpm_bbref",
    "b": "epm",
-   "diff": -0.0441,
+   "diff": -0.0378,
    "interval": [
-    -0.0792,
-    -0.0037
+    -0.0717,
+    0.0005
    ],
-   "separated": true
+   "separated": false
   },
   {
    "test": "margin_r2",
    "a": "bpm_bbref",
    "b": "lebron",
-   "diff": 0.0155,
+   "diff": 0.0137,
    "interval": [
-    -0.026,
+    -0.0255,
+    0.0572
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "loki",
+   "diff": -0.0206,
+   "interval": [
+    -0.0677,
+    0.0253
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "openrapm",
+   "diff": 0.0049,
+   "interval": [
+    -0.0215,
+    0.035
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "pulse",
+   "diff": 0.0102,
+   "interval": [
+    -0.0204,
+    0.0396
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "xpm",
+   "diff": -0.0277,
+   "interval": [
+    -0.0661,
+    0.0138
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "bpm_bbref",
+   "b": "xrapm",
+   "diff": 0.0089,
+   "interval": [
+    -0.0262,
+    0.0428
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "darko",
+   "diff": -0.0179,
+   "interval": [
+    -0.0493,
+    0.0152
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "epm",
+   "diff": -0.0163,
+   "interval": [
+    -0.0313,
+    0.001
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "lebron",
+   "diff": 0.0352,
+   "interval": [
+    0.0001,
+    0.0692
+   ],
+   "separated": true
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "loki",
+   "diff": 0.0009,
+   "interval": [
+    -0.0253,
+    0.0239
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "openrapm",
+   "diff": 0.0264,
+   "interval": [
+    -0.0059,
+    0.0582
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "pulse",
+   "diff": 0.0317,
+   "interval": [
+    -0.0058,
+    0.0663
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "xpm",
+   "diff": -0.0062,
+   "interval": [
+    -0.0338,
+    0.0234
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "danny",
+   "b": "xrapm",
+   "diff": 0.0304,
+   "interval": [
+    -0.0043,
     0.0612
    ],
    "separated": false
   },
   {
    "test": "margin_r2",
-   "a": "bpm_bbref",
-   "b": "loki",
-   "diff": -0.0242,
-   "interval": [
-    -0.0728,
-    0.0243
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "bpm_bbref",
-   "b": "openrapm",
-   "diff": 0.0027,
-   "interval": [
-    -0.0232,
-    0.0323
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "bpm_bbref",
-   "b": "pulse",
-   "diff": 0.0114,
-   "interval": [
-    -0.0209,
-    0.0426
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "bpm_bbref",
-   "b": "xpm",
-   "diff": -0.0299,
-   "interval": [
-    -0.0687,
-    0.0126
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "bpm_bbref",
-   "b": "xrapm",
-   "diff": 0.0026,
-   "interval": [
-    -0.0367,
-    0.0388
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "danny",
-   "b": "darko",
-   "diff": -0.0162,
-   "interval": [
-    -0.0495,
-    0.018
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "danny",
-   "b": "epm",
-   "diff": -0.0164,
-   "interval": [
-    -0.0328,
-    0.0019
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "danny",
-   "b": "lebron",
-   "diff": 0.0433,
-   "interval": [
-    0.0058,
-    0.0789
-   ],
-   "separated": true
-  },
-  {
-   "test": "margin_r2",
-   "a": "danny",
-   "b": "loki",
-   "diff": 0.0035,
-   "interval": [
-    -0.0223,
-    0.0272
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "danny",
-   "b": "openrapm",
-   "diff": 0.0304,
-   "interval": [
-    -0.0042,
-    0.0646
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "danny",
-   "b": "pulse",
-   "diff": 0.0391,
-   "interval": [
-    -0.0011,
-    0.0761
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "danny",
-   "b": "xpm",
-   "diff": -0.0021,
-   "interval": [
-    -0.031,
-    0.0279
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "danny",
-   "b": "xrapm",
-   "diff": 0.0303,
-   "interval": [
-    -0.0069,
-    0.0642
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
    "a": "darko",
    "b": "epm",
-   "diff": -0.0002,
+   "diff": 0.0016,
    "interval": [
-    -0.0347,
-    0.0343
+    -0.0303,
+    0.0347
    ],
    "separated": false
   },
@@ -1064,10 +1064,10 @@
    "test": "margin_r2",
    "a": "darko",
    "b": "lebron",
-   "diff": 0.0595,
+   "diff": 0.0531,
    "interval": [
-    0.0308,
-    0.0903
+    0.0263,
+    0.0816
    ],
    "separated": true
   },
@@ -1075,10 +1075,10 @@
    "test": "margin_r2",
    "a": "darko",
    "b": "loki",
-   "diff": 0.0197,
+   "diff": 0.0188,
    "interval": [
-    -0.0141,
-    0.0518
+    -0.0136,
+    0.049
    ],
    "separated": false
   },
@@ -1086,10 +1086,10 @@
    "test": "margin_r2",
    "a": "darko",
    "b": "openrapm",
-   "diff": 0.0466,
+   "diff": 0.0443,
    "interval": [
-    0.0131,
-    0.0813
+    0.0115,
+    0.078
    ],
    "separated": true
   },
@@ -1097,10 +1097,10 @@
    "test": "margin_r2",
    "a": "darko",
    "b": "pulse",
-   "diff": 0.0553,
+   "diff": 0.0496,
    "interval": [
-    0.024,
-    0.0877
+    0.0207,
+    0.0783
    ],
    "separated": true
   },
@@ -1108,10 +1108,10 @@
    "test": "margin_r2",
    "a": "darko",
    "b": "xpm",
-   "diff": 0.0141,
+   "diff": 0.0117,
    "interval": [
-    -0.019,
-    0.0492
+    -0.0184,
+    0.044
    ],
    "separated": false
   },
@@ -1119,10 +1119,10 @@
    "test": "margin_r2",
    "a": "darko",
    "b": "xrapm",
-   "diff": 0.0466,
+   "diff": 0.0483,
    "interval": [
-    0.0176,
-    0.0743
+    0.0203,
+    0.0746
    ],
    "separated": true
   },
@@ -1130,10 +1130,10 @@
    "test": "margin_r2",
    "a": "epm",
    "b": "lebron",
-   "diff": 0.0596,
+   "diff": 0.0515,
    "interval": [
-    0.0233,
-    0.0932
+    0.0166,
+    0.0822
    ],
    "separated": true
   },
@@ -1141,10 +1141,10 @@
    "test": "margin_r2",
    "a": "epm",
    "b": "loki",
-   "diff": 0.0199,
+   "diff": 0.0172,
    "interval": [
-    -0.0189,
-    0.0541
+    -0.0202,
+    0.05
    ],
    "separated": false
   },
@@ -1152,10 +1152,10 @@
    "test": "margin_r2",
    "a": "epm",
    "b": "openrapm",
-   "diff": 0.0468,
+   "diff": 0.0427,
    "interval": [
-    0.0112,
-    0.0795
+    0.0084,
+    0.0744
    ],
    "separated": true
   },
@@ -1163,10 +1163,10 @@
    "test": "margin_r2",
    "a": "epm",
    "b": "pulse",
-   "diff": 0.0555,
+   "diff": 0.048,
    "interval": [
-    0.0137,
-    0.0912
+    0.0099,
+    0.0816
    ],
    "separated": true
   },
@@ -1174,10 +1174,10 @@
    "test": "margin_r2",
    "a": "epm",
    "b": "xpm",
-   "diff": 0.0142,
+   "diff": 0.0101,
    "interval": [
-    -0.0215,
-    0.0484
+    -0.0237,
+    0.0415
    ],
    "separated": false
   },
@@ -1187,8 +1187,8 @@
    "b": "xrapm",
    "diff": 0.0467,
    "interval": [
-    0.0077,
-    0.0791
+    0.0101,
+    0.0771
    ],
    "separated": true
   },
@@ -1196,10 +1196,10 @@
    "test": "margin_r2",
    "a": "lebron",
    "b": "loki",
-   "diff": -0.0397,
+   "diff": -0.0343,
    "interval": [
-    -0.0779,
-    -0.0061
+    -0.0694,
+    -0.0035
    ],
    "separated": true
   },
@@ -1207,10 +1207,10 @@
    "test": "margin_r2",
    "a": "lebron",
    "b": "openrapm",
-   "diff": -0.0128,
+   "diff": -0.0088,
    "interval": [
-    -0.0468,
-    0.0183
+    -0.042,
+    0.0216
    ],
    "separated": false
   },
@@ -1218,10 +1218,10 @@
    "test": "margin_r2",
    "a": "lebron",
    "b": "pulse",
-   "diff": -0.0041,
+   "diff": -0.0035,
    "interval": [
-    -0.0363,
-    0.0237
+    -0.0337,
+    0.0232
    ],
    "separated": false
   },
@@ -1229,10 +1229,10 @@
    "test": "margin_r2",
    "a": "lebron",
    "b": "xpm",
-   "diff": -0.0454,
+   "diff": -0.0414,
    "interval": [
-    -0.079,
-    -0.0126
+    -0.0739,
+    -0.0101
    ],
    "separated": true
   },
@@ -1240,10 +1240,10 @@
    "test": "margin_r2",
    "a": "lebron",
    "b": "xrapm",
-   "diff": -0.0129,
+   "diff": -0.0048,
    "interval": [
-    -0.0426,
-    0.0121
+    -0.0296,
+    0.0169
    ],
    "separated": false
   },
@@ -1251,10 +1251,10 @@
    "test": "margin_r2",
    "a": "loki",
    "b": "openrapm",
-   "diff": 0.0269,
+   "diff": 0.0255,
    "interval": [
-    -0.0142,
-    0.071
+    -0.0139,
+    0.0681
    ],
    "separated": false
   },
@@ -1262,10 +1262,10 @@
    "test": "margin_r2",
    "a": "loki",
    "b": "pulse",
-   "diff": 0.0356,
+   "diff": 0.0308,
    "interval": [
-    -0.009,
-    0.0831
+    -0.0109,
+    0.0752
    ],
    "separated": false
   },
@@ -1273,10 +1273,10 @@
    "test": "margin_r2",
    "a": "loki",
    "b": "xpm",
-   "diff": -0.0057,
+   "diff": -0.0071,
    "interval": [
-    -0.0361,
-    0.0285
+    -0.0358,
+    0.0241
    ],
    "separated": false
   },
@@ -1284,10 +1284,10 @@
    "test": "margin_r2",
    "a": "loki",
    "b": "xrapm",
-   "diff": 0.0268,
+   "diff": 0.0295,
    "interval": [
-    -0.0091,
-    0.0653
+    -0.0026,
+    0.0651
    ],
    "separated": false
   },
@@ -1295,10 +1295,10 @@
    "test": "margin_r2",
    "a": "openrapm",
    "b": "pulse",
-   "diff": 0.0087,
+   "diff": 0.0053,
    "interval": [
-    -0.0201,
-    0.0361
+    -0.0226,
+    0.0325
    ],
    "separated": false
   },
@@ -1308,470 +1308,470 @@
    "b": "xpm",
    "diff": -0.0326,
    "interval": [
-    -0.0686,
-    0.0045
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "openrapm",
-   "b": "xrapm",
-   "diff": -0.0001,
-   "interval": [
-    -0.0302,
-    0.029
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "pulse",
-   "b": "xpm",
-   "diff": -0.0413,
-   "interval": [
-    -0.0797,
-    0.0003
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "pulse",
-   "b": "xrapm",
-   "diff": -0.0088,
-   "interval": [
-    -0.0394,
-    0.0187
-   ],
-   "separated": false
-  },
-  {
-   "test": "margin_r2",
-   "a": "xpm",
-   "b": "xrapm",
-   "diff": 0.0325,
-   "interval": [
-    -0.0072,
-    0.0687
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "bpm_bbref",
-   "b": "danny",
-   "diff": -0.0241,
-   "interval": [
-    -0.0805,
-    0.0319
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "bpm_bbref",
-   "b": "darko",
-   "diff": 0.0038,
-   "interval": [
-    -0.0693,
-    0.0765
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "bpm_bbref",
-   "b": "epm",
-   "diff": -0.0211,
-   "interval": [
-    -0.0945,
-    0.0515
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "bpm_bbref",
-   "b": "lebron",
-   "diff": 0.0551,
-   "interval": [
-    -0.0194,
-    0.1383
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "bpm_bbref",
-   "b": "loki",
-   "diff": -0.0099,
-   "interval": [
-    -0.0695,
-    0.0487
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "bpm_bbref",
-   "b": "openrapm",
-   "diff": 0.0483,
-   "interval": [
-    -0.0037,
-    0.1097
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "bpm_bbref",
-   "b": "pulse",
-   "diff": 0.0488,
-   "interval": [
-    -0.0126,
-    0.1251
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "bpm_bbref",
-   "b": "xpm",
-   "diff": -0.0234,
-   "interval": [
-    -0.0957,
-    0.0599
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "bpm_bbref",
-   "b": "xrapm",
-   "diff": 0.0145,
-   "interval": [
-    -0.0352,
-    0.077
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "danny",
-   "b": "darko",
-   "diff": 0.0279,
-   "interval": [
-    -0.0281,
-    0.0862
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "danny",
-   "b": "epm",
-   "diff": 0.0029,
-   "interval": [
-    -0.0327,
-    0.0364
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "danny",
-   "b": "lebron",
-   "diff": 0.0792,
-   "interval": [
-    0.0203,
-    0.1426
-   ],
-   "separated": true
-  },
-  {
-   "test": "winpct_r",
-   "a": "danny",
-   "b": "loki",
-   "diff": 0.0142,
-   "interval": [
-    -0.028,
-    0.0567
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "danny",
-   "b": "openrapm",
-   "diff": 0.0723,
-   "interval": [
-    0.014,
-    0.1399
-   ],
-   "separated": true
-  },
-  {
-   "test": "winpct_r",
-   "a": "danny",
-   "b": "pulse",
-   "diff": 0.0728,
-   "interval": [
-    0.0069,
-    0.1577
-   ],
-   "separated": true
-  },
-  {
-   "test": "winpct_r",
-   "a": "danny",
-   "b": "xpm",
-   "diff": 0.0006,
-   "interval": [
-    -0.0611,
-    0.0734
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "danny",
-   "b": "xrapm",
-   "diff": 0.0386,
-   "interval": [
-    -0.0061,
-    0.0943
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "darko",
-   "b": "epm",
-   "diff": -0.025,
-   "interval": [
-    -0.0891,
-    0.0326
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "darko",
-   "b": "lebron",
-   "diff": 0.0513,
-   "interval": [
-    0.001,
-    0.108
-   ],
-   "separated": true
-  },
-  {
-   "test": "winpct_r",
-   "a": "darko",
-   "b": "loki",
-   "diff": -0.0137,
-   "interval": [
-    -0.0822,
-    0.0535
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "darko",
-   "b": "openrapm",
-   "diff": 0.0444,
-   "interval": [
-    -0.0156,
-    0.1153
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "darko",
-   "b": "pulse",
-   "diff": 0.0449,
-   "interval": [
-    -0.0168,
-    0.1226
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "darko",
-   "b": "xpm",
-   "diff": -0.0273,
-   "interval": [
-    -0.0885,
-    0.0448
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "darko",
-   "b": "xrapm",
-   "diff": 0.0107,
-   "interval": [
-    -0.0493,
-    0.084
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "epm",
-   "b": "lebron",
-   "diff": 0.0762,
-   "interval": [
-    0.0174,
-    0.146
-   ],
-   "separated": true
-  },
-  {
-   "test": "winpct_r",
-   "a": "epm",
-   "b": "loki",
-   "diff": 0.0113,
-   "interval": [
-    -0.0581,
-    0.0784
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "epm",
-   "b": "openrapm",
-   "diff": 0.0694,
-   "interval": [
-    -0.0031,
-    0.1506
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "epm",
-   "b": "pulse",
-   "diff": 0.0699,
-   "interval": [
-    -0.0072,
-    0.1588
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "epm",
-   "b": "xpm",
-   "diff": -0.0023,
-   "interval": [
-    -0.0781,
-    0.0822
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "epm",
-   "b": "xrapm",
-   "diff": 0.0356,
-   "interval": [
-    -0.0186,
-    0.1002
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "lebron",
-   "b": "loki",
-   "diff": -0.065,
-   "interval": [
-    -0.1389,
+    -0.0679,
     0.0041
    ],
    "separated": false
   },
   {
-   "test": "winpct_r",
-   "a": "lebron",
-   "b": "openrapm",
-   "diff": -0.0068,
-   "interval": [
-    -0.0616,
-    0.0472
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "lebron",
-   "b": "pulse",
-   "diff": -0.0064,
-   "interval": [
-    -0.0695,
-    0.0628
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "lebron",
-   "b": "xpm",
-   "diff": -0.0786,
-   "interval": [
-    -0.1575,
-    0.0032
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "lebron",
+   "test": "margin_r2",
+   "a": "openrapm",
    "b": "xrapm",
-   "diff": -0.0406,
+   "diff": 0.004,
    "interval": [
-    -0.1,
-    0.0176
+    -0.0242,
+    0.0323
    ],
    "separated": false
   },
   {
-   "test": "winpct_r",
-   "a": "loki",
-   "b": "openrapm",
-   "diff": 0.0581,
-   "interval": [
-    -0.0065,
-    0.1321
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "loki",
-   "b": "pulse",
-   "diff": 0.0586,
-   "interval": [
-    -0.0012,
-    0.145
-   ],
-   "separated": false
-  },
-  {
-   "test": "winpct_r",
-   "a": "loki",
+   "test": "margin_r2",
+   "a": "pulse",
    "b": "xpm",
-   "diff": -0.0136,
+   "diff": -0.0379,
+   "interval": [
+    -0.0745,
+    0.0006
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "pulse",
+   "b": "xrapm",
+   "diff": -0.0013,
+   "interval": [
+    -0.029,
+    0.0236
+   ],
+   "separated": false
+  },
+  {
+   "test": "margin_r2",
+   "a": "xpm",
+   "b": "xrapm",
+   "diff": 0.0366,
+   "interval": [
+    0.0019,
+    0.069
+   ],
+   "separated": true
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "danny",
+   "diff": -0.0116,
    "interval": [
     -0.0727,
-    0.0524
+    0.0479
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "darko",
+   "diff": 0.0102,
+   "interval": [
+    -0.0619,
+    0.0834
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "epm",
+   "diff": -0.0085,
+   "interval": [
+    -0.0833,
+    0.0684
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "lebron",
+   "diff": 0.0594,
+   "interval": [
+    -0.0174,
+    0.1456
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "loki",
+   "diff": -0.0044,
+   "interval": [
+    -0.0718,
+    0.0601
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "openrapm",
+   "diff": 0.0573,
+   "interval": [
+    0.004,
+    0.1175
+   ],
+   "separated": true
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "pulse",
+   "diff": 0.0522,
+   "interval": [
+    -0.0103,
+    0.1304
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "xpm",
+   "diff": -0.0157,
+   "interval": [
+    -0.0883,
+    0.0681
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "bpm_bbref",
+   "b": "xrapm",
+   "diff": 0.0288,
+   "interval": [
+    -0.0252,
+    0.0934
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "darko",
+   "diff": 0.0218,
+   "interval": [
+    -0.0343,
+    0.0831
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "epm",
+   "diff": 0.0031,
+   "interval": [
+    -0.0307,
+    0.0374
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "lebron",
+   "diff": 0.071,
+   "interval": [
+    0.012,
+    0.1373
+   ],
+   "separated": true
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "loki",
+   "diff": 0.0072,
+   "interval": [
+    -0.0379,
+    0.0541
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "openrapm",
+   "diff": 0.0689,
+   "interval": [
+    0.0072,
+    0.1404
+   ],
+   "separated": true
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "pulse",
+   "diff": 0.0638,
+   "interval": [
+    -0.0066,
+    0.1563
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "xpm",
+   "diff": -0.0041,
+   "interval": [
+    -0.0677,
+    0.0721
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "danny",
+   "b": "xrapm",
+   "diff": 0.0404,
+   "interval": [
+    -0.0072,
+    0.0987
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "epm",
+   "diff": -0.0187,
+   "interval": [
+    -0.0856,
+    0.0422
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "lebron",
+   "diff": 0.0493,
+   "interval": [
+    -0.0024,
+    0.1073
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "loki",
+   "diff": -0.0146,
+   "interval": [
+    -0.0862,
+    0.054
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "openrapm",
+   "diff": 0.0471,
+   "interval": [
+    -0.0139,
+    0.1147
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "pulse",
+   "diff": 0.0421,
+   "interval": [
+    -0.0223,
+    0.1229
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "xpm",
+   "diff": -0.0258,
+   "interval": [
+    -0.0868,
+    0.0435
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "darko",
+   "b": "xrapm",
+   "diff": 0.0187,
+   "interval": [
+    -0.0429,
+    0.0926
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "lebron",
+   "diff": 0.0679,
+   "interval": [
+    0.007,
+    0.1394
+   ],
+   "separated": true
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "loki",
+   "diff": 0.0041,
+   "interval": [
+    -0.0691,
+    0.0727
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "openrapm",
+   "diff": 0.0658,
+   "interval": [
+    -0.0101,
+    0.1492
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "pulse",
+   "diff": 0.0607,
+   "interval": [
+    -0.023,
+    0.1555
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "xpm",
+   "diff": -0.0072,
+   "interval": [
+    -0.0852,
+    0.0799
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "epm",
+   "b": "xrapm",
+   "diff": 0.0373,
+   "interval": [
+    -0.0198,
+    0.1011
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "loki",
+   "diff": -0.0639,
+   "interval": [
+    -0.1409,
+    0.0061
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "openrapm",
+   "diff": -0.0022,
+   "interval": [
+    -0.0588,
+    0.0533
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "pulse",
+   "diff": -0.0072,
+   "interval": [
+    -0.0757,
+    0.0672
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "xpm",
+   "diff": -0.0751,
+   "interval": [
+    -0.1553,
+    0.0108
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "lebron",
+   "b": "xrapm",
+   "diff": -0.0306,
+   "interval": [
+    -0.0923,
+    0.0292
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "loki",
+   "b": "openrapm",
+   "diff": 0.0617,
+   "interval": [
+    -0.0056,
+    0.1397
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "loki",
+   "b": "pulse",
+   "diff": 0.0567,
+   "interval": [
+    -0.0088,
+    0.1491
+   ],
+   "separated": false
+  },
+  {
+   "test": "winpct_r",
+   "a": "loki",
+   "b": "xpm",
+   "diff": -0.0112,
+   "interval": [
+    -0.0784,
+    0.06
    ],
    "separated": false
   },
@@ -1779,10 +1779,10 @@
    "test": "winpct_r",
    "a": "loki",
    "b": "xrapm",
-   "diff": 0.0244,
+   "diff": 0.0333,
    "interval": [
-    -0.0277,
-    0.0853
+    -0.0248,
+    0.101
    ],
    "separated": false
   },
@@ -1790,10 +1790,10 @@
    "test": "winpct_r",
    "a": "openrapm",
    "b": "pulse",
-   "diff": 0.0005,
+   "diff": -0.0051,
    "interval": [
-    -0.0542,
-    0.0616
+    -0.0559,
+    0.0544
    ],
    "separated": false
   },
@@ -1801,10 +1801,10 @@
    "test": "winpct_r",
    "a": "openrapm",
    "b": "xpm",
-   "diff": -0.0717,
+   "diff": -0.0729,
    "interval": [
-    -0.1455,
-    -0.0057
+    -0.1481,
+    -0.0063
    ],
    "separated": true
   },
@@ -1812,10 +1812,10 @@
    "test": "winpct_r",
    "a": "openrapm",
    "b": "xrapm",
-   "diff": -0.0338,
+   "diff": -0.0284,
    "interval": [
-    -0.0834,
-    0.0177
+    -0.0767,
+    0.0211
    ],
    "separated": false
   },
@@ -1823,10 +1823,10 @@
    "test": "winpct_r",
    "a": "pulse",
    "b": "xpm",
-   "diff": -0.0722,
+   "diff": -0.0679,
    "interval": [
-    -0.1462,
-    -0.0096
+    -0.1472,
+    -0.0035
    ],
    "separated": true
   },
@@ -1834,10 +1834,10 @@
    "test": "winpct_r",
    "a": "pulse",
    "b": "xrapm",
-   "diff": -0.0342,
+   "diff": -0.0234,
    "interval": [
-    -0.085,
-    0.0105
+    -0.0749,
+    0.0219
    ],
    "separated": false
   },
@@ -1845,10 +1845,10 @@
    "test": "winpct_r",
    "a": "xpm",
    "b": "xrapm",
-   "diff": 0.038,
+   "diff": 0.0445,
    "interval": [
-    -0.0215,
-    0.1004
+    -0.0206,
+    0.1112
    ],
    "separated": false
   },
@@ -1856,9 +1856,75 @@
    "test": "net_rmse",
    "a": "bpm_bbref",
    "b": "danny",
-   "diff": 0.2267,
+   "diff": 0.1413,
    "interval": [
-    -0.3533,
+    -0.4444,
+    0.6647
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "darko",
+   "diff": 0.4797,
+   "interval": [
+    -0.1545,
+    1.0934
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "epm",
+   "diff": 0.8674,
+   "interval": [
+    0.3112,
+    1.453
+   ],
+   "separated": true
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "lebron",
+   "diff": 0.2565,
+   "interval": [
+    -0.438,
+    0.985
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "loki",
+   "diff": 0.0573,
+   "interval": [
+    -0.6921,
+    0.7777
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "openrapm",
+   "diff": 0.3506,
+   "interval": [
+    -0.311,
+    1.13
+   ],
+   "separated": false
+  },
+  {
+   "test": "net_rmse",
+   "a": "bpm_bbref",
+   "b": "pulse",
+   "diff": 0.1445,
+   "interval": [
+    -0.414,
     0.7361
    ],
    "separated": false
@@ -1866,77 +1932,11 @@
   {
    "test": "net_rmse",
    "a": "bpm_bbref",
-   "b": "darko",
-   "diff": 0.5423,
-   "interval": [
-    -0.1149,
-    1.1466
-   ],
-   "separated": false
-  },
-  {
-   "test": "net_rmse",
-   "a": "bpm_bbref",
-   "b": "epm",
-   "diff": 0.9002,
-   "interval": [
-    0.2968,
-    1.5043
-   ],
-   "separated": true
-  },
-  {
-   "test": "net_rmse",
-   "a": "bpm_bbref",
-   "b": "lebron",
-   "diff": 0.2434,
-   "interval": [
-    -0.4471,
-    0.9378
-   ],
-   "separated": false
-  },
-  {
-   "test": "net_rmse",
-   "a": "bpm_bbref",
-   "b": "loki",
-   "diff": 0.1925,
-   "interval": [
-    -0.5665,
-    0.8987
-   ],
-   "separated": false
-  },
-  {
-   "test": "net_rmse",
-   "a": "bpm_bbref",
-   "b": "openrapm",
-   "diff": 0.391,
-   "interval": [
-    -0.2565,
-    1.1405
-   ],
-   "separated": false
-  },
-  {
-   "test": "net_rmse",
-   "a": "bpm_bbref",
-   "b": "pulse",
-   "diff": 0.1456,
-   "interval": [
-    -0.4114,
-    0.7333
-   ],
-   "separated": false
-  },
-  {
-   "test": "net_rmse",
-   "a": "bpm_bbref",
    "b": "xpm",
-   "diff": 0.4571,
+   "diff": 0.4013,
    "interval": [
-    -0.4079,
-    1.2785
+    -0.4699,
+    1.2372
    ],
    "separated": false
   },
@@ -1944,10 +1944,10 @@
    "test": "net_rmse",
    "a": "bpm_bbref",
    "b": "xrapm",
-   "diff": 0.4529,
+   "diff": 0.296,
    "interval": [
-    -0.1004,
-    1.0303
+    -0.2875,
+    0.8718
    ],
    "separated": false
   },
@@ -1955,10 +1955,10 @@
    "test": "net_rmse",
    "a": "danny",
    "b": "darko",
-   "diff": 0.3156,
+   "diff": 0.3384,
    "interval": [
-    -0.1649,
-    0.7604
+    -0.1193,
+    0.7662
    ],
    "separated": false
   },
@@ -1966,10 +1966,10 @@
    "test": "net_rmse",
    "a": "danny",
    "b": "epm",
-   "diff": 0.6734,
+   "diff": 0.7261,
    "interval": [
-    0.0812,
-    1.3045
+    0.1312,
+    1.3616
    ],
    "separated": true
   },
@@ -1977,10 +1977,10 @@
    "test": "net_rmse",
    "a": "danny",
    "b": "lebron",
-   "diff": 0.0167,
+   "diff": 0.1153,
    "interval": [
-    -0.6587,
-    0.7194
+    -0.5646,
+    0.819
    ],
    "separated": false
   },
@@ -1988,10 +1988,10 @@
    "test": "net_rmse",
    "a": "danny",
    "b": "loki",
-   "diff": -0.0342,
+   "diff": -0.0839,
    "interval": [
-    -0.454,
-    0.3946
+    -0.4688,
+    0.3232
    ],
    "separated": false
   },
@@ -1999,10 +1999,10 @@
    "test": "net_rmse",
    "a": "danny",
    "b": "openrapm",
-   "diff": 0.1643,
+   "diff": 0.2093,
    "interval": [
-    -0.6233,
-    1.0135
+    -0.5834,
+    1.0866
    ],
    "separated": false
   },
@@ -2010,10 +2010,10 @@
    "test": "net_rmse",
    "a": "danny",
    "b": "pulse",
-   "diff": -0.0811,
+   "diff": 0.0032,
    "interval": [
-    -0.6551,
-    0.5532
+    -0.5675,
+    0.6327
    ],
    "separated": false
   },
@@ -2021,10 +2021,10 @@
    "test": "net_rmse",
    "a": "danny",
    "b": "xpm",
-   "diff": 0.2303,
+   "diff": 0.2601,
    "interval": [
-    -0.2969,
-    0.7532
+    -0.261,
+    0.7801
    ],
    "separated": false
   },
@@ -2032,10 +2032,10 @@
    "test": "net_rmse",
    "a": "danny",
    "b": "xrapm",
-   "diff": 0.2262,
+   "diff": 0.1548,
    "interval": [
-    -0.4199,
-    0.9684
+    -0.4907,
+    0.8947
    ],
    "separated": false
   },
@@ -2043,10 +2043,10 @@
    "test": "net_rmse",
    "a": "darko",
    "b": "epm",
-   "diff": 0.3579,
+   "diff": 0.3877,
    "interval": [
-    -0.1976,
-    0.96
+    -0.1754,
+    0.9828
    ],
    "separated": false
   },
@@ -2054,10 +2054,10 @@
    "test": "net_rmse",
    "a": "darko",
    "b": "lebron",
-   "diff": -0.2989,
+   "diff": -0.2232,
    "interval": [
-    -0.8047,
-    0.2466
+    -0.744,
+    0.3554
    ],
    "separated": false
   },
@@ -2065,10 +2065,10 @@
    "test": "net_rmse",
    "a": "darko",
    "b": "loki",
-   "diff": -0.3498,
+   "diff": -0.4224,
    "interval": [
-    -0.8543,
-    0.1314
+    -0.9107,
+    0.05
    ],
    "separated": false
   },
@@ -2076,10 +2076,10 @@
    "test": "net_rmse",
    "a": "darko",
    "b": "openrapm",
-   "diff": -0.1513,
+   "diff": -0.1291,
    "interval": [
-    -0.8318,
-    0.6222
+    -0.8247,
+    0.657
    ],
    "separated": false
   },
@@ -2087,10 +2087,10 @@
    "test": "net_rmse",
    "a": "darko",
    "b": "pulse",
-   "diff": -0.3966,
+   "diff": -0.3352,
    "interval": [
-    -0.9102,
-    0.1608
+    -0.841,
+    0.228
    ],
    "separated": false
   },
@@ -2098,10 +2098,10 @@
    "test": "net_rmse",
    "a": "darko",
    "b": "xpm",
-   "diff": -0.0852,
+   "diff": -0.0784,
    "interval": [
-    -0.5859,
-    0.4227
+    -0.5617,
+    0.4414
    ],
    "separated": false
   },
@@ -2109,10 +2109,10 @@
    "test": "net_rmse",
    "a": "darko",
    "b": "xrapm",
-   "diff": -0.0894,
+   "diff": -0.1837,
    "interval": [
-    -0.7706,
-    0.6609
+    -0.8407,
+    0.5358
    ],
    "separated": false
   },
@@ -2120,10 +2120,10 @@
    "test": "net_rmse",
    "a": "epm",
    "b": "lebron",
-   "diff": -0.6568,
+   "diff": -0.6109,
    "interval": [
-    -1.1641,
-    -0.133
+    -1.1222,
+    -0.0789
    ],
    "separated": true
   },
@@ -2131,21 +2131,21 @@
    "test": "net_rmse",
    "a": "epm",
    "b": "loki",
-   "diff": -0.7077,
+   "diff": -0.81,
    "interval": [
-    -1.493,
-    0.0244
+    -1.5701,
+    -0.0932
    ],
-   "separated": false
+   "separated": true
   },
   {
    "test": "net_rmse",
    "a": "epm",
    "b": "openrapm",
-   "diff": -0.5092,
+   "diff": -0.5168,
    "interval": [
-    -1.0713,
-    0.1171
+    -1.0736,
+    0.1016
    ],
    "separated": false
   },
@@ -2153,10 +2153,10 @@
    "test": "net_rmse",
    "a": "epm",
    "b": "pulse",
-   "diff": -0.7545,
+   "diff": -0.7229,
    "interval": [
-    -1.2692,
-    -0.2119
+    -1.2062,
+    -0.2266
    ],
    "separated": true
   },
@@ -2164,10 +2164,10 @@
    "test": "net_rmse",
    "a": "epm",
    "b": "xpm",
-   "diff": -0.4431,
+   "diff": -0.4661,
    "interval": [
-    -1.2896,
-    0.3698
+    -1.2973,
+    0.3671
    ],
    "separated": false
   },
@@ -2175,21 +2175,21 @@
    "test": "net_rmse",
    "a": "epm",
    "b": "xrapm",
-   "diff": -0.4473,
+   "diff": -0.5714,
    "interval": [
-    -0.9786,
-    0.0941
+    -1.0677,
+    -0.0821
    ],
-   "separated": false
+   "separated": true
   },
   {
    "test": "net_rmse",
    "a": "lebron",
    "b": "loki",
-   "diff": -0.0509,
+   "diff": -0.1992,
    "interval": [
-    -0.8369,
-    0.6656
+    -0.99,
+    0.5169
    ],
    "separated": false
   },
@@ -2197,10 +2197,10 @@
    "test": "net_rmse",
    "a": "lebron",
    "b": "openrapm",
-   "diff": 0.1476,
+   "diff": 0.094,
    "interval": [
-    -0.1838,
-    0.574
+    -0.2363,
+    0.5182
    ],
    "separated": false
   },
@@ -2208,10 +2208,10 @@
    "test": "net_rmse",
    "a": "lebron",
    "b": "pulse",
-   "diff": -0.0977,
+   "diff": -0.112,
    "interval": [
-    -0.5147,
-    0.3287
+    -0.5241,
+    0.2971
    ],
    "separated": false
   },
@@ -2219,10 +2219,10 @@
    "test": "net_rmse",
    "a": "lebron",
    "b": "xpm",
-   "diff": 0.2137,
+   "diff": 0.1448,
    "interval": [
-    -0.5471,
-    0.9595
+    -0.6265,
+    0.8957
    ],
    "separated": false
   },
@@ -2230,10 +2230,10 @@
    "test": "net_rmse",
    "a": "lebron",
    "b": "xrapm",
-   "diff": 0.2095,
+   "diff": 0.0395,
    "interval": [
-    -0.3024,
-    0.7834
+    -0.4932,
+    0.5892
    ],
    "separated": false
   },
@@ -2241,10 +2241,10 @@
    "test": "net_rmse",
    "a": "loki",
    "b": "openrapm",
-   "diff": 0.1985,
+   "diff": 0.2932,
    "interval": [
-    -0.6466,
-    1.1716
+    -0.5757,
+    1.2834
    ],
    "separated": false
   },
@@ -2252,10 +2252,10 @@
    "test": "net_rmse",
    "a": "loki",
    "b": "pulse",
-   "diff": -0.0469,
+   "diff": 0.0872,
    "interval": [
-    -0.8085,
-    0.7462
+    -0.663,
+    0.86
    ],
    "separated": false
   },
@@ -2263,10 +2263,10 @@
    "test": "net_rmse",
    "a": "loki",
    "b": "xpm",
-   "diff": 0.2645,
+   "diff": 0.344,
    "interval": [
-    -0.2489,
-    0.8196
+    -0.165,
+    0.8983
    ],
    "separated": false
   },
@@ -2274,10 +2274,10 @@
    "test": "net_rmse",
    "a": "loki",
    "b": "xrapm",
-   "diff": 0.2604,
+   "diff": 0.2387,
    "interval": [
-    -0.6342,
-    1.2068
+    -0.6373,
+    1.1423
    ],
    "separated": false
   },
@@ -2285,10 +2285,10 @@
    "test": "net_rmse",
    "a": "openrapm",
    "b": "pulse",
-   "diff": -0.2454,
+   "diff": -0.2061,
    "interval": [
-    -0.7587,
-    0.2231
+    -0.7173,
+    0.2561
    ],
    "separated": false
   },
@@ -2296,10 +2296,10 @@
    "test": "net_rmse",
    "a": "openrapm",
    "b": "xpm",
-   "diff": 0.0661,
+   "diff": 0.0508,
    "interval": [
-    -0.8679,
-    0.9159
+    -0.9008,
+    0.9245
    ],
    "separated": false
   },
@@ -2307,10 +2307,10 @@
    "test": "net_rmse",
    "a": "openrapm",
    "b": "xrapm",
-   "diff": 0.0619,
+   "diff": -0.0545,
    "interval": [
-    -0.4529,
-    0.6055
+    -0.5873,
+    0.4779
    ],
    "separated": false
   },
@@ -2318,10 +2318,10 @@
    "test": "net_rmse",
    "a": "pulse",
    "b": "xpm",
-   "diff": 0.3114,
+   "diff": 0.2568,
    "interval": [
-    -0.4163,
-    0.9864
+    -0.4639,
+    0.942
    ],
    "separated": false
   },
@@ -2329,10 +2329,10 @@
    "test": "net_rmse",
    "a": "pulse",
    "b": "xrapm",
-   "diff": 0.3073,
+   "diff": 0.1515,
    "interval": [
-    -0.0586,
-    0.7419
+    -0.2116,
+    0.5539
    ],
    "separated": false
   },
@@ -2340,10 +2340,10 @@
    "test": "net_rmse",
    "a": "xpm",
    "b": "xrapm",
-   "diff": -0.0041,
+   "diff": -0.1053,
    "interval": [
-    -0.8364,
-    0.9604
+    -0.9625,
+    0.8145
    ],
    "separated": false
   },
@@ -2351,10 +2351,10 @@
    "test": "net_rmse_centered",
    "a": "bpm_bbref",
    "b": "danny",
-   "diff": 0.6524,
+   "diff": 0.5874,
    "interval": [
-    0.1618,
-    1.1645
+    0.1374,
+    1.0916
    ],
    "separated": true
   },
@@ -2362,10 +2362,10 @@
    "test": "net_rmse_centered",
    "a": "bpm_bbref",
    "b": "darko",
-   "diff": 0.6433,
+   "diff": 0.5876,
    "interval": [
-    -0.0157,
-    1.2672
+    -0.0008,
+    1.1734
    ],
    "separated": false
   },
@@ -2373,10 +2373,10 @@
    "test": "net_rmse_centered",
    "a": "bpm_bbref",
    "b": "epm",
-   "diff": 0.8108,
+   "diff": 0.7738,
    "interval": [
-    0.2586,
-    1.3483
+    0.2871,
+    1.275
    ],
    "separated": true
   },
@@ -2384,10 +2384,10 @@
    "test": "net_rmse_centered",
    "a": "bpm_bbref",
    "b": "lebron",
-   "diff": 0.1751,
+   "diff": 0.1854,
    "interval": [
-    -0.428,
-    0.7909
+    -0.4072,
+    0.8222
    ],
    "separated": false
   },
@@ -2395,10 +2395,10 @@
    "test": "net_rmse_centered",
    "a": "bpm_bbref",
    "b": "loki",
-   "diff": 0.6627,
+   "diff": 0.5448,
    "interval": [
-    -0.022,
-    1.4306
+    -0.0987,
+    1.2695
    ],
    "separated": false
   },
@@ -2406,10 +2406,10 @@
    "test": "net_rmse_centered",
    "a": "bpm_bbref",
    "b": "openrapm",
-   "diff": 0.2938,
+   "diff": 0.2488,
    "interval": [
-    -0.1972,
-    0.8886
+    -0.2254,
+    0.8654
    ],
    "separated": false
   },
@@ -2417,10 +2417,10 @@
    "test": "net_rmse_centered",
    "a": "bpm_bbref",
    "b": "pulse",
-   "diff": 0.1003,
+   "diff": 0.097,
    "interval": [
-    -0.411,
-    0.6485
+    -0.3946,
+    0.6242
    ],
    "separated": false
   },
@@ -2428,10 +2428,10 @@
    "test": "net_rmse_centered",
    "a": "bpm_bbref",
    "b": "xpm",
-   "diff": 0.6893,
+   "diff": 0.6466,
    "interval": [
-    -0.0009,
-    1.3645
+    -0.0178,
+    1.3261
    ],
    "separated": false
   },
@@ -2439,10 +2439,10 @@
    "test": "net_rmse_centered",
    "a": "bpm_bbref",
    "b": "xrapm",
-   "diff": 0.4342,
+   "diff": 0.273,
    "interval": [
-    -0.0357,
-    0.9626
+    -0.1815,
+    0.7839
    ],
    "separated": false
   },
@@ -2450,10 +2450,10 @@
    "test": "net_rmse_centered",
    "a": "danny",
    "b": "darko",
-   "diff": -0.0091,
+   "diff": 0.0002,
    "interval": [
-    -0.4895,
-    0.4204
+    -0.4564,
+    0.4158
    ],
    "separated": false
   },
@@ -2461,10 +2461,10 @@
    "test": "net_rmse_centered",
    "a": "danny",
    "b": "epm",
-   "diff": 0.1584,
+   "diff": 0.1864,
    "interval": [
-    -0.1464,
-    0.4565
+    -0.1259,
+    0.4908
    ],
    "separated": false
   },
@@ -2472,21 +2472,21 @@
    "test": "net_rmse_centered",
    "a": "danny",
    "b": "lebron",
-   "diff": -0.4773,
+   "diff": -0.402,
    "interval": [
-    -0.9392,
-    -0.0084
+    -0.8786,
+    0.0906
    ],
-   "separated": true
+   "separated": false
   },
   {
    "test": "net_rmse_centered",
    "a": "danny",
    "b": "loki",
-   "diff": 0.0103,
+   "diff": -0.0426,
    "interval": [
-    -0.3729,
-    0.4236
+    -0.3816,
+    0.3448
    ],
    "separated": false
   },
@@ -2494,10 +2494,10 @@
    "test": "net_rmse_centered",
    "a": "danny",
    "b": "openrapm",
-   "diff": -0.3586,
+   "diff": -0.3385,
    "interval": [
-    -0.8281,
-    0.1449
+    -0.8089,
+    0.1703
    ],
    "separated": false
   },
@@ -2505,10 +2505,10 @@
    "test": "net_rmse_centered",
    "a": "danny",
    "b": "pulse",
-   "diff": -0.5521,
+   "diff": -0.4904,
    "interval": [
-    -1.0641,
-    -0.0534
+    -0.9851,
+    -0.0221
    ],
    "separated": true
   },
@@ -2516,10 +2516,10 @@
    "test": "net_rmse_centered",
    "a": "danny",
    "b": "xpm",
-   "diff": 0.0369,
+   "diff": 0.0592,
    "interval": [
-    -0.4501,
-    0.4967
+    -0.4184,
+    0.5002
    ],
    "separated": false
   },
@@ -2527,10 +2527,10 @@
    "test": "net_rmse_centered",
    "a": "danny",
    "b": "xrapm",
-   "diff": -0.2183,
+   "diff": -0.3143,
    "interval": [
-    -0.7206,
-    0.3172
+    -0.7893,
+    0.1792
    ],
    "separated": false
   },
@@ -2538,10 +2538,10 @@
    "test": "net_rmse_centered",
    "a": "darko",
    "b": "epm",
-   "diff": 0.1675,
+   "diff": 0.1862,
    "interval": [
-    -0.3011,
-    0.6935
+    -0.2549,
+    0.6798
    ],
    "separated": false
   },
@@ -2549,21 +2549,21 @@
    "test": "net_rmse_centered",
    "a": "darko",
    "b": "lebron",
-   "diff": -0.4681,
+   "diff": -0.4022,
    "interval": [
-    -0.9054,
-    -0.0054
+    -0.8494,
+    0.0708
    ],
-   "separated": true
+   "separated": false
   },
   {
    "test": "net_rmse_centered",
    "a": "darko",
    "b": "loki",
-   "diff": 0.0194,
+   "diff": -0.0428,
    "interval": [
-    -0.4822,
-    0.5521
+    -0.5311,
+    0.4943
    ],
    "separated": false
   },
@@ -2571,10 +2571,10 @@
    "test": "net_rmse_centered",
    "a": "darko",
    "b": "openrapm",
-   "diff": -0.3495,
+   "diff": -0.3388,
    "interval": [
-    -0.9374,
-    0.3083
+    -0.899,
+    0.2789
    ],
    "separated": false
   },
@@ -2582,21 +2582,21 @@
    "test": "net_rmse_centered",
    "a": "darko",
    "b": "pulse",
-   "diff": -0.5429,
+   "diff": -0.4906,
    "interval": [
-    -1.0517,
-    -0.0279
+    -0.9896,
+    0.0015
    ],
-   "separated": true
+   "separated": false
   },
   {
    "test": "net_rmse_centered",
    "a": "darko",
    "b": "xpm",
-   "diff": 0.046,
+   "diff": 0.059,
    "interval": [
-    -0.3839,
-    0.4731
+    -0.3637,
+    0.4831
    ],
    "separated": false
   },
@@ -2604,10 +2604,10 @@
    "test": "net_rmse_centered",
    "a": "darko",
    "b": "xrapm",
-   "diff": -0.2091,
+   "diff": -0.3146,
    "interval": [
-    -0.8566,
-    0.5316
+    -0.9088,
+    0.357
    ],
    "separated": false
   },
@@ -2615,10 +2615,10 @@
    "test": "net_rmse_centered",
    "a": "epm",
    "b": "lebron",
-   "diff": -0.6356,
+   "diff": -0.5884,
    "interval": [
-    -1.1574,
-    -0.1019
+    -1.1068,
+    -0.0394
    ],
    "separated": true
   },
@@ -2626,10 +2626,10 @@
    "test": "net_rmse_centered",
    "a": "epm",
    "b": "loki",
-   "diff": -0.1481,
+   "diff": -0.229,
    "interval": [
-    -0.7158,
-    0.4859
+    -0.7562,
+    0.3788
    ],
    "separated": false
   },
@@ -2637,10 +2637,10 @@
    "test": "net_rmse_centered",
    "a": "epm",
    "b": "openrapm",
-   "diff": -0.517,
+   "diff": -0.5249,
    "interval": [
-    -1.073,
-    0.0857
+    -1.0796,
+    0.0809
    ],
    "separated": false
   },
@@ -2648,10 +2648,10 @@
    "test": "net_rmse_centered",
    "a": "epm",
    "b": "pulse",
-   "diff": -0.7105,
+   "diff": -0.6768,
    "interval": [
-    -1.187,
-    -0.2001
+    -1.1183,
+    -0.2132
    ],
    "separated": true
   },
@@ -2659,10 +2659,10 @@
    "test": "net_rmse_centered",
    "a": "epm",
    "b": "xpm",
-   "diff": -0.1215,
+   "diff": -0.1272,
    "interval": [
-    -0.7227,
-    0.4602
+    -0.7166,
+    0.43
    ],
    "separated": false
   },
@@ -2670,10 +2670,10 @@
    "test": "net_rmse_centered",
    "a": "epm",
    "b": "xrapm",
-   "diff": -0.3766,
+   "diff": -0.5007,
    "interval": [
-    -0.8781,
-    0.1847
+    -0.9613,
+    0.0117
    ],
    "separated": false
   },
@@ -2681,10 +2681,10 @@
    "test": "net_rmse_centered",
    "a": "lebron",
    "b": "loki",
-   "diff": 0.4875,
+   "diff": 0.3594,
    "interval": [
-    -0.0859,
-    1.1092
+    -0.2128,
+    0.9653
    ],
    "separated": false
   },
@@ -2692,10 +2692,10 @@
    "test": "net_rmse_centered",
    "a": "lebron",
    "b": "openrapm",
-   "diff": 0.1186,
+   "diff": 0.0635,
    "interval": [
-    -0.2166,
-    0.5054
+    -0.2668,
+    0.4359
    ],
    "separated": false
   },
@@ -2703,10 +2703,10 @@
    "test": "net_rmse_centered",
    "a": "lebron",
    "b": "pulse",
-   "diff": -0.0748,
+   "diff": -0.0884,
    "interval": [
-    -0.4604,
-    0.3134
+    -0.4652,
+    0.2819
    ],
    "separated": false
   },
@@ -2714,10 +2714,10 @@
    "test": "net_rmse_centered",
    "a": "lebron",
    "b": "xpm",
-   "diff": 0.5142,
+   "diff": 0.4612,
    "interval": [
-    -0.0249,
-    1.0033
+    -0.0669,
+    0.9481
    ],
    "separated": false
   },
@@ -2725,10 +2725,10 @@
    "test": "net_rmse_centered",
    "a": "lebron",
    "b": "xrapm",
-   "diff": 0.259,
+   "diff": 0.0877,
    "interval": [
-    -0.2538,
-    0.8468
+    -0.4147,
+    0.6489
    ],
    "separated": false
   },
@@ -2736,10 +2736,10 @@
    "test": "net_rmse_centered",
    "a": "loki",
    "b": "openrapm",
-   "diff": -0.3689,
+   "diff": -0.2959,
    "interval": [
-    -1.1084,
-    0.3028
+    -1.006,
+    0.3561
    ],
    "separated": false
   },
@@ -2747,10 +2747,10 @@
    "test": "net_rmse_centered",
    "a": "loki",
    "b": "pulse",
-   "diff": -0.5623,
+   "diff": -0.4477,
    "interval": [
-    -1.3578,
-    0.0804
+    -1.2221,
+    0.1728
    ],
    "separated": false
   },
@@ -2758,10 +2758,10 @@
    "test": "net_rmse_centered",
    "a": "loki",
    "b": "xpm",
-   "diff": 0.0267,
+   "diff": 0.1018,
    "interval": [
-    -0.5343,
-    0.5682
+    -0.4585,
+    0.6427
    ],
    "separated": false
   },
@@ -2769,10 +2769,10 @@
    "test": "net_rmse_centered",
    "a": "loki",
    "b": "xrapm",
-   "diff": -0.2285,
+   "diff": -0.2717,
    "interval": [
-    -1.036,
-    0.5419
+    -1.051,
+    0.4069
    ],
    "separated": false
   },
@@ -2780,10 +2780,10 @@
    "test": "net_rmse_centered",
    "a": "openrapm",
    "b": "pulse",
-   "diff": -0.1934,
+   "diff": -0.1518,
    "interval": [
-    -0.5856,
-    0.158
+    -0.5292,
+    0.1735
    ],
    "separated": false
   },
@@ -2791,10 +2791,10 @@
    "test": "net_rmse_centered",
    "a": "openrapm",
    "b": "xpm",
-   "diff": 0.3956,
+   "diff": 0.3977,
    "interval": [
-    -0.206,
-    0.9005
+    -0.1817,
+    0.8938
    ],
    "separated": false
   },
@@ -2802,10 +2802,10 @@
    "test": "net_rmse_centered",
    "a": "openrapm",
    "b": "xrapm",
-   "diff": 0.1404,
+   "diff": 0.0242,
    "interval": [
-    -0.2986,
-    0.61
+    -0.4394,
+    0.4986
    ],
    "separated": false
   },
@@ -2813,10 +2813,10 @@
    "test": "net_rmse_centered",
    "a": "pulse",
    "b": "xpm",
-   "diff": 0.589,
+   "diff": 0.5496,
    "interval": [
-    -0.0037,
-    1.1216
+    -0.0375,
+    1.0875
    ],
    "separated": false
   },
@@ -2824,10 +2824,10 @@
    "test": "net_rmse_centered",
    "a": "pulse",
    "b": "xrapm",
-   "diff": 0.3338,
+   "diff": 0.176,
    "interval": [
-    -0.0532,
-    0.8112
+    -0.1831,
+    0.5986
    ],
    "separated": false
   },
@@ -2835,10 +2835,10 @@
    "test": "net_rmse_centered",
    "a": "xpm",
    "b": "xrapm",
-   "diff": -0.2552,
+   "diff": -0.3735,
    "interval": [
-    -0.9286,
-    0.5413
+    -1.0243,
+    0.3607
    ],
    "separated": false
   }
