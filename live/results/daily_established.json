@@ -17,7 +17,7 @@
   "min": 8,
   "max": 12
  },
- "updated_utc": "2026-11-21T09:30:32+00:00",
+ "updated_utc": "2026-11-21T15:00:32+00:00",
  "primary_test": "net_rmse_centered",
  "net_error_shown": true,
  "early": true,
@@ -30,7 +30,7 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "3795103648d1438490ece54374015702703ff39d",
+ "repo_commit": "a021d2ca222f1a49fbdcf4b7eac37ab1a620fd01",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
   "latest": "2026-11-21",
