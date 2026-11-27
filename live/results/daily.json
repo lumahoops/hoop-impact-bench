@@ -17,7 +17,7 @@
   "min": 10,
   "max": 14
  },
- "updated_utc": "2026-11-26T15:00:28+00:00",
+ "updated_utc": "2026-11-27T09:30:31+00:00",
  "primary_test": "net_rmse_centered",
  "net_error_shown": true,
  "early": true,
@@ -30,11 +30,11 @@
  "confidence": 0.9,
  "resamples": 2000,
  "harness_sha256": "cfde3f922e88298361c51bf293b959e8a93626fde51fe4db2c7bedc2f5d11b4a",
- "repo_commit": "1fcac034858a752af4119ed9c99cedd3356f3adc",
+ "repo_commit": "7c88b9acc522fef7eade8527fa84b81906c3db8a",
  "snapshot": {
   "files": "live/snapshots/daily/<date>.json",
-  "latest": "2026-11-26",
-  "latest_saved_at_utc": "2026-11-26T09:30:09+00:00",
+  "latest": "2026-11-27",
+  "latest_saved_at_utc": "2026-11-27T09:30:08+00:00",
   "days": [
    "2026-10-31",
    "2026-11-01",
@@ -62,7 +62,8 @@
    "2026-11-23",
    "2026-11-24",
    "2026-11-25",
-   "2026-11-26"
+   "2026-11-26",
+   "2026-11-27"
   ],
   "excluded_games": [
    {
@@ -103,8 +104,8 @@
    "ours": false,
    "label": "pulled",
    "source": "dunksandthrees.com/epm (current expected EPM, subscriber view)",
-   "sha256": "e64f0a708ffd1b04c8bfd5bb8e3df60b8bfff1ff289a90246d10ebb4959144e4",
-   "players": 538,
+   "sha256": "fddbc2af32f6a4228b0571b659bf04eefc39eff112d17ccae2e0ef3f49c7c637",
+   "players": 539,
    "as_of": "2026-11-27",
    "coverage": 1.0,
    "record": {
@@ -166,10 +167,10 @@
    "url": "https://xrapm.com/",
    "ours": false,
    "label": "pulled",
-   "source": "xrapm.com Total (metrics updated 2026-11-22)",
-   "sha256": "29aa14ce1490159a00ea5ee8d64931070734ac4cf381fdfd9edee717a9f7902c",
-   "players": 474,
-   "as_of": "2026-11-22",
+   "source": "xrapm.com Total (metrics updated 2026-11-25)",
+   "sha256": "00d52207f69aa77f4d299d06fbd59b95307361b08cf40dc695459d8c6c6dab8d",
+   "players": 482,
+   "as_of": "2026-11-25",
    "coverage": 0.9657,
    "record": {
     "w": 127,
@@ -294,7 +295,7 @@
    "url": "https://www.darko.app/",
    "ours": false,
    "label": "pulled",
-   "source": "darko.app as of 2026-11-26 (data through 2026-11-24)",
+   "source": "darko.app as of 2026-11-27 (data through 2026-11-24)",
    "sha256": "096de945685e1731df8bf8892ef47401d80edf75ea07fa0c1bc01ed2c5318508",
    "players": 530,
    "as_of": "2026-11-24",
@@ -358,10 +359,10 @@
    "url": "https://www.basketball-reference.com/leagues/NBA_2027_advanced.html",
    "ours": false,
    "label": "pulled",
-   "source": "basketball-reference.com 2026-27 Advanced, season-to-date BPM (Last Updated: Thursday, November 26, 3:04AM); 481 matched, unmatched: none",
-   "sha256": "8c386374a339d36d81c3d02e5cf63a6238af0dbd92507282ab89ac617d461109",
-   "players": 481,
-   "as_of": "2026-11-26",
+   "source": "basketball-reference.com 2026-27 Advanced, season-to-date BPM (Last Updated: Friday, November 27, 3:05AM); 482 matched, unmatched: none",
+   "sha256": "a4724a734662274f0b7fc96581019469371a8cc81bed1a4fba2cc4ef3359274a",
+   "players": 482,
+   "as_of": "2026-11-27",
    "coverage": 0.9913,
    "record": {
     "w": 131,
@@ -678,10 +679,10 @@
    "url": "https://openrapm.com/",
    "ours": false,
    "label": "pulled",
-   "source": "bbstats/openrapm ratings.json at 662ca5f (Daily update: 2027 through the games of 2026-11-24); 2026-27 value, else 2025-26",
-   "sha256": "aada0413d24a611195fe3b77aaa491b0c037d7613e796df431e3cb99753f08eb",
+   "source": "bbstats/openrapm ratings.json at 8659404 (Site data: the ratings' standard errors, every season\n\nCo-Au); 2026-27 value, else 2025-26",
+   "sha256": "7bddf9213c53886f4f55f7ee6c06bd72e4d10bf0de77caec92b45eb81bee665c",
    "players": 608,
-   "as_of": "2026-11-25",
+   "as_of": "2026-11-27",
    "coverage": 0.9929,
    "record": {
     "w": 128,
